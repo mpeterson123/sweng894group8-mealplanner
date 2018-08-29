@@ -11,6 +11,8 @@ items, recipes, and costs.
               
 This is meant to be fully supported by both desktop and mobile browsers.
 
+Please check the coding guidelines [here](CONTRIBUTING.md).
+
 # Capstone Experience
 
 This is intended to be the final project for Group 8's SWENG 894 class.
