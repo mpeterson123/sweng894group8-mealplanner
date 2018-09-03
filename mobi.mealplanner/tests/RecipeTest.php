@@ -2,7 +2,7 @@
 
 namespace App\Test;
 
-require_once dirname(dirname(__FILE__)).'/recipes/index.php';
+require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 
