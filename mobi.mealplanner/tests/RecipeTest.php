@@ -1,16 +1,18 @@
 <?php
+
 namespace App\Test;
 
-require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
+require_once dirname(dirname(__FILE__)).'/recipes/index.php';
 
 use PHPUnit\Framework\TestCase;
+
 // Add the classes you are testing
-Example: use App\Recipe;
+use App\Recipe;
 
 
 class RecipeTest extends TestCase {
     // Variables to be reused
-    // Example: private $classYouAreTesting
+    private $recipe;
 
 
     /**
@@ -24,7 +26,7 @@ class RecipeTest extends TestCase {
      * Unset any variables you've created
      */
     public function tearDown(){
-      $this->recipe;
+      unset($this->recipe);
     }
 
     /**
@@ -60,4 +62,18 @@ class RecipeTest extends TestCase {
       $this->recipe->complete();
       $this->assertTrue($this->recipe->isComplete(), 'Recipe must be completed.');
     }
+
+  	public function testNewRecipe(){
+  		$newId = $recipe->addRecipe(name, 'NewRecipe');
+  		$this->assertEquals($recipe->getRecipe($newId)->getName(),'NewRecipe');
+  	}
+
+  	public function testEditIngredient(){
+  		$editId = 1;
+  		$recipe->getRecipe($editId)->getIngredient('flour')->editQuantity('5');
+  		$this->assertEquals($recipe->getRecipe($editId)->getIngredientQuantity('flour'), '5');
+  	}
+
 }
+?>
+>>>>>>> e5f8b178da8c943428c7fffce9fca3aeb71e9e0a

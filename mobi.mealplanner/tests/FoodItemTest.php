@@ -9,8 +9,9 @@ use App\FoodItem;
 
 
 class FoodItemTest extends TestCase {
-	// Variables to be reused
-	private $foodItem;
+    // Variables to be reused
+    private $foodItem;
+
 
     /**
      * Create instances or whatever you need to reuse in several tests here
@@ -26,10 +27,13 @@ class FoodItemTest extends TestCase {
       unset($this->foodItem);
     }
 
-	public function testCreateFoodItem(){
-		$this->assertInstanceOf(App\FoodItem, new FoodItem(), 'Object must be instance of FoodItem');
-	}
+    public function testCreateFoodItem(){
+    	$this->assertInstanceOf(App\FoodItem, new FoodItem(), 'Object must be instance of FoodItem');
+    }
 
-
+    public function testChangeItemStock(){
+      $foodItem->editItemStock('2');
+      $this->assertEquals($foodItem->getItemStock(),'2');
+    }
 
 }
