@@ -58,6 +58,9 @@ if ($EditItem)
     }
 }
 
+// PHPUnit check (should be placed after any regular errors are detected)
+PHPUnitCheck($Errors);
+
 // Retrieve Food (needs to be done AFTER update)
 $Food = sqlRequestArrayByID('food', $FoodID, '*');
 
