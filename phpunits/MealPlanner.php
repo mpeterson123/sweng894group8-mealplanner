@@ -1,0 +1,48 @@
+<?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner.php                             Penn State (@) Capstone Group 8
+///////////////////////////////////////////////////////////////////////////////
+//    Wrapper for Object layer abstraction of Meal Planner web-app framework.  
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+// $_SERVER (Mimic Environment) 
+///////////////////////////////////////////////////////////////////////////////
+//    Necessary for testing Web-Application code
+///////////////////////////////////////////////////////////////////////////////
+$_SERVER['DOCUMENT_ROOT'] = '../mobi.mealplanner/';
+
+$_REQUEST = array();
+$_REQUEST['userid'] = 1;               // Default to UserID 1 for testing
+
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner class
+///////////////////////////////////////////////////////////////////////////////
+class MealPlanner
+{
+    var $objectLayer;
+
+    function __construct($script, $arguments = NULL)
+    {
+        $this->objectLayer = ($_SERVER['DOCUMENT_ROOT'] . $script . 'index.php');
+
+        if ($arguments)
+        {
+            $this->setVariables($arguments);
+        }
+    }
+
+    function execute()
+    {
+        ob_start();
+        require_once($this->objectLayer);
+        ob_end_clean();
+    }
+
+    function setVariables($arguments)
+    {
+        $_REQUEST = $arguments;
+    }
+}
+
+?>
