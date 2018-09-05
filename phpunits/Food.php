@@ -21,6 +21,11 @@ define( '__LOCATION__' , '/foods/food/' );
 ///////////////////////////////////////////////////////////////////////////////
 class Food extends MealPlanner
 {
+    function __construct()
+    {
+        $this->setLocation(__LOCATION__);
+    }
+
     function updateFood($foodID, $name, $cost)
     {
         // Assign $_REQUEST environment variable options
@@ -36,7 +41,7 @@ class Food extends MealPlanner
 ///////////////////////////////////////////////////////////////////////////////
 // Testing Code Below
 ///////////////////////////////////////////////////////////////////////////////
-//$food = new Food(__LOCATION__);
+//$food = new Food();
 //$food->updateFood(1, '', '');
 
 ?>
