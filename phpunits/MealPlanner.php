@@ -20,28 +20,27 @@ $_REQUEST['userid'] = 1;               // Default to UserID 1 for testing
 ///////////////////////////////////////////////////////////////////////////////
 class MealPlanner
 {
-    var $objectLayer;
+    var $location;
 
-    function __construct($script, $arguments = NULL)
+    function __construct()
     {
-        $this->objectLayer = ($_SERVER['DOCUMENT_ROOT'] . $script . 'index.php');
-
-        if ($arguments)
-        {
-            $this->setVariables($arguments);
-        }
     }
 
-    function execute()
+    function setLocation($location)
     {
-        ob_start();
-        require_once($this->objectLayer);
-        ob_end_clean();
+        $this->location = $_SERVER['DOCUMENT_ROOT'] . $location . 'index.php';
     }
 
     function setVariables($arguments)
     {
         $_REQUEST = $arguments;
+    }
+
+    function execute()
+    {
+        ob_start();
+        require_once($this->location);
+        ob_end_clean();
     }
 }
 
