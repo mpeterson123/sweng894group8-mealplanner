@@ -16,6 +16,11 @@ define( '__LOCATION__' , '/foods/' );
 ///////////////////////////////////////////////////////////////////////////////
 class Foods extends MealPlanner
 {
+    function __construct()
+    {
+        $this->setLocation(__LOCATION__);
+    }
+
     function listFoods()
     {
         $this->execute();
@@ -25,7 +30,7 @@ class Foods extends MealPlanner
 ///////////////////////////////////////////////////////////////////////////////
 // Testing Code Below
 ///////////////////////////////////////////////////////////////////////////////
-//$food = new Foods(__LOCATION__);
+//$food = new Foods();
 //$food->listFoods();
 
 ?>
