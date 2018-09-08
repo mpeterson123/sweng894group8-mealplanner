@@ -1,2 +1,0 @@
-# components
-The JavaScript components 

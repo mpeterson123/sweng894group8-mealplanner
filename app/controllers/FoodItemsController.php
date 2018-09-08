@@ -1,0 +1,23 @@
+<?php
+namespace App\Controllers;
+
+////////////////////////////////////////////////////////////
+// Import dependencies. Can be replaced by autoload later //
+////////////////////////////////////////////////////////////
+require_once('../core/Controller.php');
+
+
+/////////////////////////////////////////////////////////////////////
+// Load dependencies into current scope. Not the same as importing //
+/////////////////////////////////////////////////////////////////////
+use App\Core\Controller;
+
+
+class FoodItemsController{
+
+    public function __construct()
+    {
+        parent::__construct(...func_get_args());
+    }
+
+}
