@@ -9,35 +9,35 @@
         Required JS Files
     =============================== -->
     <!-- ===== jQuery ===== -->
-    <script src="/plugins/components/jquery/dist/jquery.min.js"></script>
+    <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <!-- ===== Bootstrap JavaScript ===== -->
-    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 <?php if ($PLUGIN_SIDEBARMENU) { ?>
     <!-- ===== Menu Plugin JavaScript ===== -->
-    <script src="/js/sidebarmenu.js"></script>
+    <script src="/vendor/sidebarmenu.js"></script>
 <?php } ?>
 <?php if ($PLUGIN_SLIMSCROLL) { ?>
     <!-- ===== Slimscroll JavaScript ===== -->
-    <script src="/js/jquery.slimscroll.js"></script>
+    <script src="/vendor/jquery.slimscroll.js"></script>
 <?php } ?>
 <?php if ($PLUGIN_WAVES) { ?>
     <!-- ===== Wave Effects JavaScript ===== -->
-    <script src="/js/waves.js"></script>
+    <script src="/vendor/waves.js"></script>
 <?php } ?>
     <!-- ===== Custom JavaScript ===== -->
-    <script src="/js/custom.js"></script>
+    <script src="/vendor/custom.js"></script>
     <!-- ===== Plugin JS ===== -->
 <?php if ($PLUGIN_CHARTIST) { ?>
-    <script src="/plugins/components/chartist-js/dist/chartist.min.js"></script>
-    <script src="/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="/plugins/components/sparkline/jquery.sparkline.min.js"></script>
-    <script src="/plugins/components/sparkline/jquery.charts-sparkline.js"></script>
-    <script src="/plugins/components/knob/jquery.knob.js"></script>
-    <script src="/plugins/components/easypiechart/dist/jquery.easypiechart.min.js"></script>
-    <script src="/js/db1.js"></script>
+    <script src="/vendor/chartist-js/dist/chartist.min.js"></script>
+    <script src="/vendor/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="/vendor/sparkline/jquery.sparkline.min.js"></script>
+    <script src="/vendor/sparkline/jquery.charts-sparkline.js"></script>
+    <script src="/vendor/knob/jquery.knob.js"></script>
+    <script src="/vendor/easypiechart/dist/jquery.easypiechart.min.js"></script>
+    <script src="/vendor/db1.js"></script>
 <?php } ?>
 <?php if ($PLUGIN_DATATABLES) { ?>
-    <script src="/plugins/components/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
 <?php } ?>
 <?php if ($PLUGIN_EXPORT) { ?>
     <!-- start - This is for export functionality only -->
@@ -60,4 +60,4 @@
     </script>
 <?php } ?>
     <!-- ===== Style Switcher JS ===== -->
-    <script src="/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="/vendor/styleswitcher/jQuery.style.switcher.js"></script>

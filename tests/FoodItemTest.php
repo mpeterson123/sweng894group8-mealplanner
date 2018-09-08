@@ -1,11 +1,11 @@
 <?php
-namespace App\Test;
+namespace Base\Test;
 
 require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 // Add the classes you are testing
-use App\FoodItem;
+use Base\FoodItem;
 
 
 class FoodItemTest extends TestCase {
@@ -28,7 +28,7 @@ class FoodItemTest extends TestCase {
     }
 
     public function testCreateFoodItem(){
-    	$this->assertInstanceOf(App\FoodItem, new FoodItem(), 'Object must be instance of FoodItem');
+    	$this->assertInstanceOf(Base\FoodItem, new FoodItem(), 'Object must be instance of FoodItem');
     }
 
     public function testChangeItemStock(){

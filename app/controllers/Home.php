@@ -1,16 +1,16 @@
 <?php
-namespace App\Controllers;
+namespace Base\Controllers;
 
 ////////////////////////////////////////////////////////////
 // Import dependencies. Can be replaced by autoload later //
 ////////////////////////////////////////////////////////////
-require_once('../core/Controller.php');
+require_once __DIR__.'/../core/Controller.php';
 
 
 /////////////////////////////////////////////////////////////////////
 // Load dependencies into current scope. Not the same as importing //
 /////////////////////////////////////////////////////////////////////
-use App\Core\Controller;
+use Base\Core\Controller;
 
 class Home extends Controller{
 
@@ -18,7 +18,7 @@ class Home extends Controller{
     {
         parent::__construct(...func_get_args());
     }
-	
+
 	public function index($name=''){
 		$user = $this->model('User');
 		$user->name = $name;

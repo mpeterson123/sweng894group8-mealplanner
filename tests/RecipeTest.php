@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Test;
+namespace Base\Test;
 
 require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 
 // Add the classes you are testing
-use App\Recipe;
+use Base\Recipe;
 
 
 class RecipeTest extends TestCase {

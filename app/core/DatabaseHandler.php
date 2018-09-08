@@ -1,5 +1,5 @@
 <?php
-namespace App\Core;
+namespace Base\Core;
 
 date_default_timezone_set('America/New_York');
 /**
@@ -46,6 +46,8 @@ class DatabaseHandler
 
     public function __destruct()
     {
-        $this->disconnect();
+        if(self::$instance && self::$instance->ping()){
+            $this->disconnect();
+        };
     }
 }

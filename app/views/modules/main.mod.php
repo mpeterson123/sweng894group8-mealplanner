@@ -11,16 +11,16 @@ define( '__REDIRECT__' , '/dashboard/' );
 define( '__COPYRITE__' , '2018 © Penn State - Cohort 19 &amp; 20 - Group 8.' );
 
 // Modules
-define( '__HEADER__' , $_SERVER['DOCUMENT_ROOT'] . '/modules/header.mod.php');
-define( '__FOOTER__' , $_SERVER['DOCUMENT_ROOT'] . '/modules/footer.mod.php');
-define( '__NAVBAR__' , $_SERVER['DOCUMENT_ROOT'] . '/modules/navbar.mod.php');
-define( '__SPANEL__' , $_SERVER['DOCUMENT_ROOT'] . '/modules/spanel.mod.php');
-define( '__SIDEBAR__', $_SERVER['DOCUMENT_ROOT'] . '/modules/sidebar.mod.php');
+define( '__HEADER__' , __DIR__.'/header.mod.php');
+define( '__FOOTER__' , __DIR__.'/footer.mod.php');
+define( '__NAVBAR__' , __DIR__.'/navbar.mod.php');
+define( '__SPANEL__' , __DIR__.'/spanel.mod.php');
+define( '__SIDEBAR__', __DIR__.'/sidebar.mod.php');
 // Non-HTML modules
-define( '__SQL__'    , $_SERVER['DOCUMENT_ROOT'] . '/modules/sql.mod.php');
-define( '__CRYPT__'  , $_SERVER['DOCUMENT_ROOT'] . '/modules/crypt.mod.php');
-define( '__SESSIONS__',$_SERVER['DOCUMENT_ROOT'] . '/modules/sessions.mod.php');
-define( '__PHPUNIT__', $_SERVER['DOCUMENT_ROOT'] . '/modules/phpunit.mod.php');
+define( '__SQL__'    , __DIR__.'/sql.mod.php');
+define( '__CRYPT__'  , __DIR__.'/crypt.mod.php');
+define( '__SESSIONS__',__DIR__.'/sessions.mod.php');
+define( '__PHPUNIT__', __DIR__.'/phpunit.mod.php');
 
 // Plugins (should contain every plugin that will be used in multiple scripts)
 $PLUGIN_SLIMSCROLL = FALSE;

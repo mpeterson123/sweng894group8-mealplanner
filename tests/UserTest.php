@@ -1,11 +1,11 @@
 <?php
-namespace App\Test;
+namespace Base\Test;
 
 require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 // Add the classes you are testing
-use App\User;
+use Base\User;
 
 
 class UserTest extends TestCase {

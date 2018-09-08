@@ -19,7 +19,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
     <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/favicon.png">
     <title><?php echo __SITENAME__; ?> - 403 Forbidden</title>
     <!-- ===== Bootstrap CSS ===== -->
-    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- ===== Plugin CSS ===== -->
     <!-- ===== Animation CSS ===== -->
     <link href="/css/animate.css" rel="stylesheet">
@@ -51,9 +51,9 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
         </div>
     </section>
     <!-- jQuery -->
-    <script src="/plugins/components/jquery/dist/jquery.min.js"></script>
+    <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript">
     $(function() {
         $(".preloader").fadeOut();

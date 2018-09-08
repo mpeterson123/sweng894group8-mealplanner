@@ -1,16 +1,16 @@
 <?php
-namespace App\Controllers;
+namespace Base\Core;
 
 ////////////////////////////////////////////////////////////
 // Import dependencies. Can be replaced by autoload later //
 ////////////////////////////////////////////////////////////
-require_once('../core/DatabaseHandler.php');
+require_once('DatabaseHandler.php');
 
 
 /////////////////////////////////////////////////////////////////////
 // Load dependencies into current scope. Not the same as importing //
 /////////////////////////////////////////////////////////////////////
-use App\Core\DatabaseHandler;
+use Base\Core\DatabaseHandler;
 
 /**
  * Super class that handles all incoming requests
@@ -20,18 +20,18 @@ class Controller{
 
 	/**
 	 * Inject DatabaseHandler on instance creation
-	 * @param App\Core\DatabaseHandler $dbh handler for database connection
+	 * @param Base\Core\DatabaseHandler $dbh handler for database connection
 	 */
-	public function __construct(App\Core\DatabaseHandler $dbh){
-		$this->$dbh = $dbh;
+	public function __construct(DatabaseHandler $dbh){
+		$this->dbh = $dbh;
 	}
 
 	public function model($model){
-		require_once '../models/'.$model.'.php';
+		require_once __DIR__.'/../models/'.$model.'.php';
 		return new $model();
 	}
 	public function view($view,$data = []){
-		require_once '../views/'.$view.'.php';
+		require_once __DIR__.'/../views/'.$view.'.php';
 	}
 }
 ?>

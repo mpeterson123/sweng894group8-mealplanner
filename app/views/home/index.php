@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Login
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/mvc/app/modules/main.mod.php' );
+require_once __DIR__.'/../modules/main.mod.php';
 
 // Sub Title
 $SUBTITLE = 'Login';
@@ -86,7 +86,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
             </div>
         </div>
     </section>
-    
+
 <?php require_once( __FOOTER__ ); ?>
 
 </body>

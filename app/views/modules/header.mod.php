@@ -15,17 +15,17 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
     <title><?php echo __SITENAME__; if (isset($SUBTITLE)) { echo " {$SUBTITLE}"; } ?></title>
     <!-- ===== Bootstrap CSS ===== -->
-    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- ===== Plugin CSS ===== -->
 <?php if ($PLUGIN_CHARTIST) { ?>
-    <link href="/plugins/components/chartist-js/dist/chartist.min.css" rel="stylesheet">
-    <link href="/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="/vendor/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="/vendor/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
 <?php } ?>
 <?php if ($PLUGIN_DATATABLES) { ?>
-    <link href="/plugins/components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="/vendor/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 <?php } ?>
     <!-- ===== Animation CSS ===== -->
