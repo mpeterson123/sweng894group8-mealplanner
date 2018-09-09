@@ -19,11 +19,10 @@ class Home extends Controller{
         parent::__construct(...func_get_args());
     }
 
-	public function index($name=''){
-		$user = $this->model('User');
-		$user->name = $name;
+	public function index(){
+		$user = $this->model('User', array('bilbobaggins'));
 
-		$this->view('home/index', ['name' => $user->name]);
+		$this->view('home/index', ['name' => $user->getUsername()]);
 	}
 }
 ?>
