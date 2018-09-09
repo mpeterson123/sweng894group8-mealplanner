@@ -26,9 +26,10 @@ class Controller{
 		$this->dbh = $dbh;
 	}
 
-	public function model($model){
+	public function model($model, $params = NULL){
 		require_once __DIR__.'/../models/'.$model.'.php';
-		return new $model();
+		$namespacedModel = "Base\Models\\".$model;
+		return new $namespacedModel(...$params);
 	}
 	public function view($view,$data = []){
 		require_once __DIR__.'/../views/'.$view.'.php';
