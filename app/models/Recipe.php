@@ -1,4 +1,6 @@
 <?php
+namespace Base\Models;
+
 class Recipe{
 	private $name;
 	private $description;
@@ -16,7 +18,7 @@ class Recipe{
 		$this->notes = $theNotes;
 	}
 	public function addIngredient($anIngredient){
-		$this->ingredient[] = $anIngredient;	
+		$this->ingredient[] = $anIngredient;
 	}
 	public function removeIngredient($anIngredient){
 		for($i=0;$i<$this->ingredients;$i++){

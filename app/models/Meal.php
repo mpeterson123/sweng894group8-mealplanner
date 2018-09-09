@@ -1,4 +1,6 @@
 <?php
+namespace Base\Models;
+
 class Meal{
 	private $recipe;
 	private $date;
@@ -17,13 +19,13 @@ class Meal{
 		$this->scale = $newScale;
 	}
 	public function isComplete(){
-		return $this->isComplete;	
+		return $this->isComplete;
 	}
 	public function markComplete(){
-		$this->isComplete = true;	
+		$this->isComplete = true;
 	}
 	public function markIncomplete(){
-		$this->isComplete = false;	
+		$this->isComplete = false;
 	}
 }
 ?>
