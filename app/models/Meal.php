@@ -8,11 +8,11 @@ class Meal{
 	private $addedDate;
 	private $scale;
 
-	public __construct($r,$d,$s){
+	public function __construct($r,$d,$s){
 		$this->recipe = $r;
 		$this->date = $d;
 		$this->isComplete = false;
-		$this-scale = $s;
+		$this->scale = $s;
 		$this->addedDate = date('Y-m-d');
 	}
 	public function setScale($newScale){
