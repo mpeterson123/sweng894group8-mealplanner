@@ -15,17 +15,26 @@ class Meal{
 		$this->scale = $s;
 		$this->addedDate = date('Y-m-d');
 	}
-	public function setScale($newScale){
+	public function scale($newScale){
 		$this->scale = $newScale;
 	}
 	public function isComplete(){
 		return $this->isComplete;
 	}
-	public function markComplete(){
+	public function complete(){
 		$this->isComplete = true;
 	}
 	public function markIncomplete(){
 		$this->isComplete = false;
+	}
+	public function getIngredientQuantity($anIngredientName){
+				return $this->recipe->getIngredientByName($anIngredientName)->getQuantity() * $this->scale;
+	}
+	public function getRecipe(){
+		return $this->recipe;
+	}
+	public function setRecipe($aRecipe){
+		$this->recipe = aRecipe;
 	}
 }
 ?>

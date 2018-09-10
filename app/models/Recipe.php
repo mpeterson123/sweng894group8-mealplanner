@@ -4,25 +4,25 @@ namespace Base\Models;
 class Recipe{
 	private $name;
 	private $description;
-	private $yield;
+	private $servings;
 	private $ingredients;
 	private $source;
 	private $notes;
 
-	public __construct($theName,$theDescription,$theYield,$theSource,$theNotes){
+	public function __construct($theName,$theDescription='',$theServings,$theSource='',$theNotes=''){
 		$this->name = $theName;
 		$this->description = $theDescription;
-		$this->yield = $theYield;
+		$this->servings = $theServings;
 		$this->ingredients = array();
 		$this->source = $theSource;
 		$this->notes = $theNotes;
 	}
 	public function addIngredient($anIngredient){
-		$this->ingredient[] = $anIngredient;
+		$this->ingredients[] = $anIngredient;
 	}
-	public function removeIngredient($anIngredient){
-		for($i=0;$i<$this->ingredients;$i++){
-			if($this->ingredients[$i] == $anIngredient)  // Or use equality method
+	public function removeIngredient($anIngredientName){
+		for($i=0;$i<count($this->ingredients);$i++){
+			if($this->ingredients[$i]->getName() == $anIngredientName)
 				unset($this->ingredients[$i]);
 		}
 	}
@@ -30,4 +30,17 @@ class Recipe{
 		removeIngredient($old);
 		addIngredient($new);
 	}
+	public function getIngredientByName($anIngredientName){
+		for($i=0;$i<count($this->ingredients);$i++){
+			if($this->ingredients[$i]->getFood()->getName() == $anIngredientName)
+				return $this->ingredients[$i];
+		}
+	}
+	public function getServings(){
+		return $this->servings;
+	}
+	public function getIngredientQuantity($anIngredientName){
+		return $this->getIngredientByName($anIngredientName)->getQuantity();
+	}
+}
 ?>
