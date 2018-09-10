@@ -29,11 +29,6 @@ class UserTest extends TestCase {
       unset($this->user);
     }
 
-	public function testUpdateEmailAddress(){
-		$this->user->updateEmail('test@domain.com');
-		$this->assertEquals($this->user->getEmail(),'test@domain.com', 'Email must match supplied value');
-	}
-
 	///////////////////
 	// Instatiation //
 	//////////////////
@@ -146,6 +141,23 @@ class UserTest extends TestCase {
 	// 	$this->user->resetPassword();
 	// 	$this->assertNotEquals($password, $this->user->getPassword(), 'Current password must not match previous password');
 	// }
+	//
+	//
+	////////////
+	// Email //
+	////////////
+
+	public function testSetEmail(){
+		$email = 'example@example.com';
+        $this->user->setEmail($email);
+        $this->assertEquals($this->user->getEmail(), $email);
+    }
+
+	// public function testRejectInvalidEmail(){
+	// 	$email = '%^yug3yir7!g';
+	// 	$this->expectException(\Exception::class);
+    //     $this->user->setEmail($email);
+    // }
 
 	////////////////////////////////////////////////////////////////////////////
 	// Actions
