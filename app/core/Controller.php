@@ -29,7 +29,12 @@ class Controller{
 	public function model($model, $params = NULL){
 		require_once __DIR__.'/../models/'.$model.'.php';
 		$namespacedModel = "Base\Models\\".$model;
-		return new $namespacedModel(...$params);
+
+		if($params){
+			return new $namespacedModel(...$params);
+		}
+		return new $namespacedModel();
+
 	}
 	public function view($view,$data = []){
 		require_once __DIR__.'/../views/'.$view.'.php';

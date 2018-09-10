@@ -20,7 +20,7 @@ class Home extends Controller{
     }
 
 	public function index(){
-		$user = $this->model('User', array('bilbobaggins'));
+		$user = $this->model('User');
 
 		$this->view('home/index', ['name' => $user->getUsername()]);
 	}

@@ -6,6 +6,7 @@ require_once dirname(dirname(__FILE__)).'/app/models/User.php';
 
 
 use PHPUnit\Framework\TestCase;
+
 // Add the classes you are testing
 use Base\Models\User;
 
@@ -18,8 +19,7 @@ class UserTest extends TestCase {
      * Create instances or whatever you need to reuse in several tests here
      */
     public function setUp(){
-		$username = 'janedoe';
-		$this->user = new User($username);
+		$this->user = new User();
     }
 
     /**
@@ -34,59 +34,20 @@ class UserTest extends TestCase {
 		$this->assertEquals($this->user->getEmail(),'test@domain.com', 'Email must match supplied value');
 	}
 
-	public function testRegisterUser(){
-		$this->user->register('John','Smith','test@domain.com','jsmith','password123');
-		$this->assertEquals($this->user->getFirstUsername(),'John', 'Username must be John');
-		$this->assertEquals($this->user->getEmail(),'test@domain.com', 'Email must be test@domain.com');
-	}
-
-	public function testLogin(){
-		$this->user->login('jsmith','password123');
-		$this->assertTrue($this->user->isLoggedIn(), 'User must be logged in');
-	}
-
-	public function testLogout(){
-		$this->user->logout();
-		$this->assertFalse($this->user->isLoggedIn(), 'User must not be logged in.');
-	}
-
-	public function testDeleteUser(){
-		$this->user->delete();
-		$this->assertNull($this->user->getFirstUsername(), 'User cannot exist.');
-	}
-
-	public function testUpdatePassword(){
-		$newPassword = 'mynewpass';
-		$this->user->updatePassword($newPassword);
-		$this->assertEquals($newPassword, $this->user->getPassword(), 'New password must match supplied password');
-	}
-
-	public function testResetPassword(){
-		$password = $this->user->getPassword();
-		$this->user->resetPassword();
-		$this->assertNotEquals($password, $this->user->getPassword(), 'Current password must not match previous password');
-	}
-
-	//////////////
-	// Actions //
-	//////////////
+	///////////////////
+	// Instatiation //
+	//////////////////
 
 	public function testCreateUser(){
-        $username = 'newuser';
-
     	$this->assertInstanceOf(
             'Base\Models\User',
-            new User($username),
+            new User(),
             'Object must be an instance of User');
     }
 
-    //////////
+    ///////////////
     // Username //
-    //////////
-
-    public function testGetUsername(){
-        $this->assertEquals($this->user->getUsername(), 'janedoe');
-    }
+    //////////////
 
     public function testSetUsername(){
         $this->user->setUsername('anotherusername');
@@ -113,21 +74,101 @@ class UserTest extends TestCase {
             'Username must be trimmed.');
     }
 
-	public function testInvalidUsernameIsRejected(){
+	public function testNonAlphanumericUsernameIsRejected(){
 		$invalidUsername = 'A *bad*_username!';
 		$this->expectException(\Exception::class);
         $this->user->setUsername($invalidUsername);
 	}
 
-	public function testUsernameIsAlphanumeric(){
-		$alphanumUsername = 'Agoodusername';
-		$this->assertRegExp('/[a-z0-9]+/i', $this->user->setUsername($alphanumUsername));
-	}
-
-
-
     public function testUsernameMustBeUnique(){
 
     }
 
+	///////////
+	// Name //
+	///////////
+
+    public function testSetFirstName(){
+        $this->user->setFirstName('Samwise');
+        $this->assertEquals($this->user->getFirstName(), 'Samwise');
+    }
+
+    public function testFirstNameCannotBeEmpty(){
+        $this->expectException(\Exception::class);
+        $this->user->setFirstName('');
+    }
+
+    public function testFirstNameCannotBeLongerThan65Chars(){
+        $longFirstName =
+			'ThisIsAVeryLongFirstNameWithLoooooooooooooooooooooootsOfCharacters';
+        $this->expectException(\Exception::class);
+        $this->user->setFirstName($longFirstName);
+    }
+
+    public function testFirstNameCannotHaveExtraWhitespace(){
+        $userNameWithWhitespace = '       Aragorn   ';
+        $expectedFirstName =  'Aragorn';
+        $this->user->setFirstName($userNameWithWhitespace);
+
+        $this->assertEquals($this->user->getFirstName(), $expectedFirstName,
+            'FirstName must be trimmed.');
+    }
+
+	public function testRejectFirstNameWithInvalidCharacters(){
+		$invalidFirstName = 'A name with spaces and *symbols*';
+		$this->expectException(\Exception::class);
+        $this->user->setFirstName($invalidFirstName);
+	}
+
+	///////////////
+	// Password //
+	///////////////
+
+    public function testSetPassword(){
+		$password = 'P4$$w0rd';
+        $this->user->setPassword($password);
+        $this->assertEquals($this->user->getPassword(), $password);
+    }
+
+    public function testPasswordCannotBeEmpty(){
+        $this->expectException(\Exception::class);
+        $this->user->setPassword('');
+    }
+
+    public function testPasswordCannotBeShorterThan8Chars(){
+        $shortPassword = '1234567';
+        $this->expectException(\Exception::class);
+        $this->user->setPassword($shortPassword);
+    }
+
+	// public function testResetPassword(){
+	// 	$password = $this->user->setPassword('Mypassword');
+	// 	$this->user->resetPassword();
+	// 	$this->assertNotEquals($password, $this->user->getPassword(), 'Current password must not match previous password');
+	// }
+
+	////////////////////////////////////////////////////////////////////////////
+	// Actions
+	////////////////////////////////////////////////////////////////////////////
+
+	public function testRegisterUser(){
+		$this->user->register('John','Smith','test@domain.com','jsmith','password123');
+		$this->assertEquals($this->user->getFirstUsername(),'John', 'Username must be John');
+		$this->assertEquals($this->user->getEmail(),'test@domain.com', 'Email must be test@domain.com');
+	}
+
+	public function testLogin(){
+		$this->user->login('jsmith','password123');
+		$this->assertTrue($this->user->isLoggedIn(), 'User must be logged in');
+	}
+
+	public function testLogout(){
+		$this->user->logout();
+		$this->assertFalse($this->user->isLoggedIn(), 'User must not be logged in.');
+	}
+
+	public function testDeleteUser(){
+		$this->user->delete();
+		$this->assertNull($this->user->getFirstUsername(), 'User cannot exist.');
+	}
 }
