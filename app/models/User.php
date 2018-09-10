@@ -14,6 +14,8 @@ class User{
 	///////////////
 
     public function setUsername($username){
+		$username = trim($username);
+
         if($username == ''){
             throw new \Exception(
                 "Username cannot be empty", 1);
@@ -24,13 +26,13 @@ class User{
                 "Username cannot be longer than 20 characters", 1);
         }
 
-		if(!preg_match('/[a-z0-9]/i', $username))
+		if(!preg_match('/^[a-z0-9]+$/i', $username))
 		{
 			throw new \Exception(
-                "First Name cannot be longer than 20 characters", 1);
+				"First Name cannot be longer than 20 characters", 1);
 		}
 
-        $this->username = trim($username);
+        $this->username = $username;
     }
 
     public function getUsername(){
@@ -79,6 +81,19 @@ class User{
 
     public function getPassword(){
         return $this->password;
+    }
+
+
+	////////////
+	// Email //
+	////////////
+
+	public function setEmail($email){
+        $this->email = trim($email);
+    }
+
+	public function getEmail(){
+        return $this->email;
     }
 
 }
