@@ -3,18 +3,19 @@
 namespace Base\Models;
 
 class GroceryList {
-  private $name,
-    $item;
+  private $groceryitemarray
 
-    public function __construct($n, $itm) {
-      $this->name = $fi;
-      $this->item = $itm;
+    public function __construct() {
+		$this->groceryitemarray = array();
     }
 
-    public function setName($n) {
-      $this->name = $n;
+	public function populateList() {
+		// Read all grocery items and quantities from GroceryItem model
     }
 	
+    public function getEntireList() {
+		return this->groceryitemarray;
+    }
 }
 
 ?>
