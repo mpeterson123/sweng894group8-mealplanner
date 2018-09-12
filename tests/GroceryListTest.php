@@ -18,9 +18,7 @@ class GroceryListTest extends TestCase {
      * Create instances or whatever you need to reuse in several tests here
      */
     public function setUp(){
-
-        $name = 'Name';
-        $this->grocerylist = new GroceryList($name);
+      $this->grocerylist = new GroceryList();
     }
 
     /**
@@ -30,18 +28,25 @@ class GroceryListTest extends TestCase {
       unset($this->grocerylist);
     }
 
-    public function testCreateGroceryList(){
-        $name = 'Name';
-		
-    	$this->assertInstanceOf(
-            'Base\Models\GroceryList',
-            new GroceryList($name),
-            'Object must be instance of GroceryList');
+
+    public function populateList() {
+		    // Read all grocery items and quantities from GroceryItem model
     }
 
+    public function getEntireList() {
+		    return this->groceryitemarray;
+    }
 
-    public function testGetName(){
-        $this->assertEquals($this->grocerylist->getName(), 'Banana');
+    // Fill the grocery list with an array
+    public function testPopulate(){
+        $array = array("Butter","Egg","Flour");
+        
+        $this->grocerlist->populate($array);
+    }
+
+    // Return the entire grocery list
+    public function testGetEntireList(){
+        return $this->grocerlist->getEntireList();
     }
 
 }
