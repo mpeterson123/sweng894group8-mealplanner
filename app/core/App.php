@@ -4,7 +4,6 @@ namespace Base\Core;
 ////////////////////////////////////////////////////////////
 // Import dependencies. Can be replaced by autoload later //
 ////////////////////////////////////////////////////////////
-require_once('DatabaseHandler.php');
 
 
 /////////////////////////////////////////////////////////////////////
@@ -29,30 +28,34 @@ class App {
 		// set timezone
 		date_default_timezone_set('America/New_York');
 
-		$dbh = new DatabaseHandler();
+		$dbh = DatabaseHandler::getInstance();
 		$url = $this->parseUrl();
 
-		// Get and set controller
+		// If controller file exists, set it and remove the name from the URL
 		if(file_exists(__DIR__.'/../controllers/'.$url[0].'.php')){
 			$this->controller = $url[0];
 			unset($url[0]);
 		}
 
+		// Require controller file
 		$path = __DIR__.'/../controllers/'.$this->controller.'.php';
 		require_once($path);
 
+		// Instantiate controller
 		$namespacedController = "Base\Controllers\\".$this->controller;
 		$this->controller = new $namespacedController($dbh);
 
-		// Get and set method
+		// If method exists, set it and remove the name from the URL
 		if(isset($url[1])){
 			if(method_exists($this->controller,$url[1])){
 				$this->method = $url[1];
 				unset($url[1]);
 			}
 		}
+		// Get params if any
 		$this->params = $url ? array_values($url) : [];
 
+		// Invoke controller method with parameters
 		call_user_func_array([$this->controller,$this->method],$this->params);
 	}
 
