@@ -86,7 +86,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
             </div>
         </div>
     </section>
-    
+
 <?php require_once( __FOOTER__ ); ?>
 
 </body>
