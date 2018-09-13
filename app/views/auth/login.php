@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Login
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
+require_once(__DIR__ . '/../modules/main.mod.php' );
 
 // Sub Title
 $SUBTITLE = 'Login';
@@ -24,16 +24,16 @@ $PLUGIN_SIDEBARMENU= TRUE;
     <section id="wrapper" class="login-register">
         <div class="login-box">
             <div class="white-box">
-                <form class="form-horizontal form-material" id="loginform" action="/dashboard/">
+                <form class="form-horizontal form-material" id="loginform" action="/dashboard/" method="POST">
                     <h3 class="box-title m-b-20">Sign In</h3>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Username">
+                            <input class="form-control" type="text" name="login_username" required="" placeholder="Username">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input class="form-control" type="password" required="" placeholder="Password">
+                            <input class="form-control" type="password" name="login_password" required="" placeholder="Password">
                         </div>
                     </div>
                     <div class="form-group">

@@ -3,11 +3,13 @@ namespace Base\Models;
 
 class User{
 	private $username,
-		$password;
+		$password,
+		$loggedIn;
 
 
 	public function __construct(){
-    }
+		$this->loggedIn = false;
+  }
 
 	///////////////
 	// Username //
@@ -95,6 +97,11 @@ class User{
 	public function getEmail(){
         return $this->email;
     }
-
+	public function login(){
+		$this->loggedIn = true;
+	}
+	public function isLoggedIn(){
+		return $this->loggedIn;
+	}
 }
 ?>

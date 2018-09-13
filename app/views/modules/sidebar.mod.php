@@ -27,7 +27,7 @@
                                 <li><a href=""><i class="fa fa-power-off"></i> Logout</a></li>
                             </ul>
                         </div>
-                        <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"> Prof. Sangwan</a></p>
+                        <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"><?php echo $_SESSION['name'];?></a></p>
                     </div>
                 </div>
                 <nav class="sidebar-nav">
