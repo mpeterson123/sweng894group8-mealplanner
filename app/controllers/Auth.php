@@ -14,7 +14,7 @@ use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\repositories\UserRepository;
 
-class Home extends Controller{
+class Auth extends Controller{
 	private $userRepo;
 	public function __construct()
     {
@@ -23,7 +23,7 @@ class Home extends Controller{
 				$this->userRepo = new UserRepository($dbh->getDB());
     }
 
-	public function index(){
+	public function login(){
 		session_start();
 		$user = $this->model('User');
 		// Submitted login form
@@ -43,6 +43,12 @@ class Home extends Controller{
 			$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName()]);
 		else
 			$this->view('auth/login');
+	}
+	public function logout(){
+		session_start();
+		//$user->logout();
+		unset($_SESSION['username']);
+		$this->view('auth/logout');
 	}
 }
 ?>

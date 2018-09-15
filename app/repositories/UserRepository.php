@@ -22,12 +22,13 @@ class UserRepository extends Repository {
       return $row;
 	  }
 
-    public function find($id){
-        $query = $this->db->prepare('SELECT * FROM users WHERE id = ?');
-        $query->bind_param(array(
-            'id' => $food->id
-        ));
-        return $query->execute() || NULL;
+    public function find($username){
+        $query = $this->db->prepare('SELECT * FROM users WHERE username = ?');
+        $query->bind_param("s",$username);
+        $query->execute();
+        $result = $query->get_result();
+        $row = $result->fetch_assoc();
+        return $row;
     }
 
     public function save($user){
