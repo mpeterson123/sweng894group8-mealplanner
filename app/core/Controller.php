@@ -5,11 +5,13 @@ namespace Base\Core;
 // Import dependencies. Can be replaced by autoload later //
 ////////////////////////////////////////////////////////////
 require_once('DatabaseHandler.php');
+require_once(__DIR__ . '/../repositories/UserRepository.php');
 
 /////////////////////////////////////////////////////////////////////
 // Load dependencies into current scope. Not the same as importing //
 /////////////////////////////////////////////////////////////////////
 use Base\Core\DatabaseHandler;
+use Base\Repositories\UserRepository;
 
 /**
  * Super class that handles all incoming requests
@@ -23,6 +25,7 @@ class Controller{
 	 */
 	public function __construct(DatabaseHandler $dbh){
 		$this->dbh = $dbh;
+
 	}
 
 	public function model($model, $params = NULL){
@@ -36,7 +39,17 @@ class Controller{
 
 	}
 	public function view($view,$data = []){
-		require_once __DIR__.'/../views/'.$view.'.php';
+		session_start();		
+
+		if(isset($_SESSION['username'])){
+			$user = $userRepository->find($_SESSION['username']);
+			$data['user'] = $user;
+			require_once __DIR__.'/../views/'.$view.'.php';
+		}
+		else {
+			require_once __DIR__.'/../views/auth/login.php';
+		}
+
 	}
 }
 ?>
