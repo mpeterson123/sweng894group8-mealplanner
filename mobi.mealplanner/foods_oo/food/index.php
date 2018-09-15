@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // View/Edit Food
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
 
 // Externals
 $FoodID   = $_REQUEST['foodid'] ?? substr($_SERVER['REDIRECT_URL'], strrpos($_SERVER['REDIRECT_URL'], '/')+1) ?? 0;

@@ -25,7 +25,6 @@ class Controller{
 	 */
 	public function __construct(DatabaseHandler $dbh){
 		$this->dbh = $dbh;
-
 	}
 
 	public function model($model, $params = NULL){
@@ -39,7 +38,9 @@ class Controller{
 
 	}
 	public function view($view,$data = []){
-		session_start();		
+		// session_start();
+
+		$userRepository = new UserRepository($this->dbh->getDB());
 
 		if(isset($_SESSION['username'])){
 			$user = $userRepository->find($_SESSION['username']);

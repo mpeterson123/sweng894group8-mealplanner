@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // For handling 503 server errors
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <title><?php echo __SITENAME__; ?> - 503 Service Unavailable</title>
     <!-- ===== Bootstrap CSS ===== -->
     <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">

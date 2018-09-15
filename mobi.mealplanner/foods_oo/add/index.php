@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Add Food
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
 require_once('../classes/DatabaseHandler.class.php');
 require_once('../classes/FoodItemRepo.class.php');
 require_once('../classes/FoodItem.class.php');

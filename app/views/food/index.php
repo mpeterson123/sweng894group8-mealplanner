@@ -4,10 +4,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Food (listing)
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
 
 // Sub Title
-$SUBTITLE = 'Food';
+$SUBTITLE = 'Food Directory';
+
 
 // Plugins
 $PLUGIN_SLIMSCROLL  = TRUE;
@@ -16,9 +17,7 @@ $PLUGIN_DATATABLES  = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
 $PLUGIN_EXPORT      = TRUE;
 
-// Food
-$User['id'] = 1;  // Default to 1 for testing purposes
-$Foods = sqlRequestWhere('food', 'userid', $User['id']);
+// echo "<pre>".print_r($data)."</pre>";
 
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -59,12 +58,17 @@ $Foods = sqlRequestWhere('food', 'userid', $User['id']);
                                         </tr>
                                     </tfoot>
                                     <tbody>
-<?php foreach ($Foods as $food) { ?>
-                                        <tr>
-                                            <td><a href="/foods/food/<?php echo $food['id']; ?>"><?php echo $food['name']; ?></a></td>
-                                            <td>$<?php echo $food['unitcost']; ?></td>
-                                        </tr>
-<?php } ?>
+                                        <?php
+                                            if($data['foods']){
+                                                foreach ($data['foods'] as $food) { ?>
+                                                <tr>
+                                                    <td><a href="/foods/food/<?php echo $food['id']; ?>"><?php echo $food['name']; ?></a></td>
+                                                    <td>$<?php echo $food['unitcost']; ?></td>
+                                                </tr>
+                                                <?php
+                                                }
+                                            } 
+                                            ?>
                                     </tbody>
                                 </table>
                             </div>

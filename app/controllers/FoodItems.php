@@ -35,8 +35,10 @@ class FoodItems extends Controller {
     }
 
     public function index(){
-        echo "In ".__CLASS__."@".__FUNCTION__;
+        // session_start();
+        // echo "In ".__CLASS__."@".__FUNCTION__;
+        $foods = $this->foodItemRepository->allForUser($_SESSION['username']);
 
-        var_dump($this->foodItemRepository->all());
+        $this->view('food/index', compact('foods'));
     }
 }

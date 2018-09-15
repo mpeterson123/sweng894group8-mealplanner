@@ -48,22 +48,22 @@
                             <ul class="m-t-20 chatonline">
                                 <li><b>Chat option</b></li>
                                 <li>
-                                    <a href="javascript:void(0)"><img src="/plugins/images/users/avatar1.jpg" alt="user-img" class="img-circle"> <span>Belisarius Smith <small class="text-success">online</small></span></a>
+                                    <a href="javascript:void(0)"><img src="/images/users/avatar1.jpg" alt="user-img" class="img-circle"> <span>Belisarius Smith <small class="text-success">online</small></span></a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)"><img src="/plugins/images/users/avatar2.jpg" alt="user-img" class="img-circle"> <span>Camila Perez <small class="text-warning">Away</small></span></a>
+                                    <a href="javascript:void(0)"><img src="/images/users/avatar2.jpg" alt="user-img" class="img-circle"> <span>Camila Perez <small class="text-warning">Away</small></span></a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)"><img src="/plugins/images/users/avatar3.jpg" alt="user-img" class="img-circle"> <span>Melissa Peterson <small class="text-danger">Busy</small></span></a>
+                                    <a href="javascript:void(0)"><img src="/images/users/avatar3.jpg" alt="user-img" class="img-circle"> <span>Melissa Peterson <small class="text-danger">Busy</small></span></a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)"><img src="/plugins/images/users/avatar5.jpg" alt="user-img" class="img-circle"> <span>Andrew Drake <small class="text-muted">Offline</small></span></a>
+                                    <a href="javascript:void(0)"><img src="/images/users/avatar5.jpg" alt="user-img" class="img-circle"> <span>Andrew Drake <small class="text-muted">Offline</small></span></a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)"><img src="/plugins/images/users/avatar4.jpg" alt="user-img" class="img-circle"> <span>Lawrence Sell <small class="text-success">online</small></span></a>
+                                    <a href="javascript:void(0)"><img src="/images/users/avatar4.jpg" alt="user-img" class="img-circle"> <span>Lawrence Sell <small class="text-success">online</small></span></a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)"><img src="/plugins/images/users/avatar6.jpg" alt="user-img" class="img-circle"> <span>Prof. Sangwan<small class="text-success">online</small></span></a>
+                                    <a href="javascript:void(0)"><img src="/images/users/avatar6.jpg" alt="user-img" class="img-circle"> <span>Prof. Sangwan<small class="text-success">online</small></span></a>
                                 </li>
                             </ul>
                         </div>

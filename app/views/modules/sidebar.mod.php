@@ -12,7 +12,7 @@
                 <div class="user-profile">
                     <div class="dropdown user-pro-body">
                         <div class="profile-image">
-                            <img src="/plugins/images/users/avatar6.jpg" alt="user-img" class="img-circle">
+                            <img src="/images/users/avatar6.jpg" alt="user-img" class="img-circle">
                             <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <span class="badge badge-danger">
                                     <i class="fa fa-angle-down"></i>
@@ -27,7 +27,7 @@
                                 <li><a href="Account/logout"><i class="fa fa-power-off"></i> Logout</a></li>
                             </ul>
                         </div>
-                        <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"><?php echo $data['name'];?></a></p>
+                        <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"><?php echo $data['user']['namefirst']; echo ' ' . $data['user']['namelast'] ?></a></p>
                     </div>
                 </div>
                 <nav class="sidebar-nav">
@@ -43,8 +43,8 @@
                         <li>
                             <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-cup fa-fw"></i> <span class="hide-menu"> Food<span class="label label-rounded label-success pull-right">2</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="/foods/">View Food</a></li>
-                                <li><a href="/foods/add/">Add Food Item</a></li>
+                                <li><a href="/FoodItems/">All Foods</a></li>
+                                <li><a href="/FoodItems/create">Add Food Item</a></li>
                             </ul>
                         </li>
                         <li>

@@ -24,6 +24,7 @@ class App {
 	protected $params = [];
 
 	public function __construct(){
+		session_start();
 
 		// set timezone
 		date_default_timezone_set('America/New_York');
