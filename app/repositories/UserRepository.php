@@ -52,15 +52,12 @@ class UserRepository extends Repository {
     }
 
     protected function insert($object){
+        $today = date('Y-m-d');
         $query = $this->db
-            ->prepare('INSERT INTO food
-                (name, unitcost, userid)
-                VALUES(?,?,?)');
-        $query->bind_param(array(
-            'name' => $food->name,
-            'name' => $food->unitCost,
-            'name' => $food->user_id,
-        ));
+            ->prepare('INSERT INTO user
+                (username, password, email, joined, namefirst, namelast)
+                VALUES(?,?,?,?,?,?)');
+        $query->bind_param("ssssss",$object['username'],$object['password'],$object['email'],$today,$object['namefirst'],$object['namelast']);
         $query->execute();
     }
 

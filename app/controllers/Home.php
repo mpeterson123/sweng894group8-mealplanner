@@ -44,5 +44,11 @@ class Home extends Controller{
 		else
 			$this->view('auth/login');
 	}
+	public function logout(){
+		session_start();
+		//$user->logout();
+		unset($_SESSION['username']);
+		$this->view('auth/logout');
+	}
 }
 ?>

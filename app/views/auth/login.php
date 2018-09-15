@@ -15,6 +15,10 @@ $PLUGIN_WAVES      = TRUE;
 $PLUGIN_SIDEBARMENU= TRUE;
 ?>
 <?php require_once( __HEADER__ ); ?>
+<?php
+  if(!empty($data))
+    echo $data['message'];
+?>
 
 <body class="mini-sidebar">
     <!-- Preloader -->
@@ -61,7 +65,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                 -->
                     <div class="form-group m-b-0">
                         <div class="col-sm-12 text-center">
-                            <p>Don't have an account? <a href="/register/" class="text-primary m-l-5"><b>Sign Up</b></a></p>
+                            <p>Don't have an account? <a href="Account/register/" class="text-primary m-l-5"><b>Sign Up</b></a></p>
                         </div>
                     </div>
                 </form>
