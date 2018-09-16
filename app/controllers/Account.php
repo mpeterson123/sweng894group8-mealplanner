@@ -40,9 +40,9 @@ class Account extends Controller{
 			if(empty($error)){
 					$user['password'] = $this->pass_hash($user['password']);
 					$email = new Email();
-					$email->send($user['email'],'Please confirm your email', 'Please click this link to confirm your email address <INSERT LINK HERE>');
+					$email->sendEmailAddrConfirm($user['email']);
 					$this->userRepo->insert($user);
-					$this->view('auth/login',array('message'=>'Account has been created. Please Login.'));
+					$this->view('auth/login',array('message'=>'Account has been created. A confirmation link has been sent to you. Please confirm your email address to enable your account.'));
 			}
 			else
 					$this->view('auth/register',$error);
@@ -55,9 +55,18 @@ class Account extends Controller{
 		unset($_SESSION['username']);
 		$this->view('auth/logout');
 	}
-	function pass_hash($password){
+	public function pass_hash($password){
 		for($i = 0; $i < 1000; $i++) $password = hash('sha256',trim(addslashes($password)));
 		return $password;
+	}
+	public function confirmEmail($email,$code){
+		// Handle circumvention of email confirmation
+		$salt = 'QM8z7AnkXUKQzwtK7UcA';
+		if(hash('sha256',$email.$salt) != $code)	die("This link is invalid");
+
+		// set as confirmed in the db HERE
+
+		$this->view('auth/login',['message'=>'Your email address has been confirmed. Please Login.']);
 	}
 }
 ?>
