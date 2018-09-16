@@ -3,6 +3,10 @@
         "phpunit/phpunit": "^7"
     },
     "require": {
+        "zendframework/zend-i18n": "^2.9",
+        "dompdf/dompdf": "dev-master@dev",
         "swiftmailer/swiftmailer": "^6.0"
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

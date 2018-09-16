@@ -48,13 +48,17 @@ $PLUGIN_EXPORT      = TRUE;
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Unit Cost</th>
+                                            <th>Category</th>
+                                            <th>Stock</th>
+                                            <th>Unit</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Unit Cost</th>
+                                            <th>Category</th>
+                                            <th>Stock</th>
+                                            <th>Unit</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -62,12 +66,14 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['foods']){
                                                 foreach ($data['foods'] as $food) { ?>
                                                 <tr>
-                                                    <td><a href="/foods/food/<?php echo $food['id']; ?>"><?php echo $food['name']; ?></a></td>
-                                                    <td>$<?php echo $food['unitcost']; ?></td>
+                                                    <td><a href="/FoodItems/edit/<?php echo $food['id']; ?>"><?php echo $food['name']; ?></a></td>
+                                                    <td><?php echo $food['category']; ?></td>
+                                                    <td><?php echo $food['stock']; ?></td>
+                                                    <td><?php echo $food['unit']; ?></td>
                                                 </tr>
                                                 <?php
                                                 }
-                                            } 
+                                            }
                                             ?>
                                     </tbody>
                                 </table>

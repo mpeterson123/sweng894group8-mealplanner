@@ -7,7 +7,7 @@
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
 
 // Externals
-$foodID   = $_REQUEST['foodid'] ?? substr($_SERVER['REDIRECT_URL'], strrpos($_SERVER['REDIRECT_URL'], '/')+1) ?? 0;
+$FoodID   = $_REQUEST['foodid'] ?? substr($_SERVER['REDIRECT_URL'], strrpos($_SERVER['REDIRECT_URL'], '/')+1) ?? 0;
 $EditItem = $_REQUEST['edit'] ?? FALSE;
 $EditName = $_REQUEST['name'] ?? NULL;
 $EditCost = $_REQUEST['cost'] ?? NULL;
@@ -16,7 +16,7 @@ $EditCost = $_REQUEST['cost'] ?? NULL;
 $Success = FALSE;
 
 // Check for valid Food Item
-if (!$foodID)
+if (!$FoodID)
 {
 ?>
 <script>document.location='/foods/';</script>
@@ -53,18 +53,16 @@ if ($EditItem)
     // Are we good to go?
     if (count($Errors) == 0)
     {
-        sqlQuery("UPDATE food SET name = '{$EditName}', unitcost = {$EditCost} WHERE id = {$foodID}");
+        sqlQuery("UPDATE food SET name = '{$EditName}', unitcost = {$EditCost} WHERE id = {$FoodID}");
         $Success = TRUE;
     }
 }
 
-// // Retrieve Food (needs to be done AFTER update)
-// $food = sqlRequestArrayByID('food', $foodID, '*');
-//
-var_dump($data);
+// Retrieve Food (needs to be done AFTER update)
+$Food = sqlRequestArrayByID('food', $FoodID, '*');
 
 // Sub Title
-$SUBTITLE = "Viewing Food {$data['food']['name']}";
+$SUBTITLE = "Viewing Food {$Food['name']}";
 
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -88,7 +86,7 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0"><?php echo $data['food']['name']; ?></h3>
+                            <h3 class="box-title m-b-0"><?php echo $Food['name']; ?></h3>
 <?php if (isset($Errors)) { ?>
                             <p class="text-danger m-b-30 font-13">
 <?php     foreach($Errors as $error) { ?>
@@ -96,32 +94,31 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
 <?php     } ?>
                             </p>
 <?php } ?>
-
+<?php if ($Success) { ?>
+                            <p class="text-success m-b-30 font-13"> Update successful
+                            <a href="/foods/">&laquo; Return to foods</a>
+                            </p>
+<?php } else { ?>
                             <p class="text-muted m-b-30 font-13"> Food Item Properties
                             <a href="/foods/">&laquo; Return to foods</a>
                             </p>
+<?php } ?>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
                                     <form method="post" action="/foods/food/">
                                         <input type="hidden" name="edit" value="1">
-                                        <input type="hidden" name="foodid" value="<?php echo $data['food']['id']; ?>">
+                                        <input type="hidden" name="foodid" value="<?php echo $Food['id']; ?>">
                                         <div class="form-group">
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo $data['food']['name']; ?>"> </div>
+                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo $Food['name']; ?>"> </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputStock">Stock</label>
+                                            <label for="inputUnitCost">Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="text" class="form-control" id="inputStock" placeholder="Enter Cost (e.g. 2.99)" name="stock" value="<?php echo $data['food']['unit_cost']; ?>"> </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputUnitCost">Unit Cost</label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="text" class="form-control" id="inputUnitCost" placeholder="Enter Cost (e.g. 2.99)" name="unitCost" value="<?php echo $data['food']['unit_cost']; ?>"> </div>
+                                                <input type="text" class="form-control" id="inputUnitCost" placeholder="Enter Cost (e.g. 2.99)" name="cost" value="<?php echo $Food['unitcost']; ?>"> </div>
                                         </div>
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
                                     </form>
@@ -132,7 +129,7 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
                     <div class="col-sm-2">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
-                            <a href="/foods/food/?foodid=<?php echo $data['food']['id']; ?>&delete=1" class="btn btn-danger m-t-15">Remove Item</a>
+                            <a href="/foods/food/?foodid=<?php echo $Food['id']; ?>&delete=1" class="btn btn-danger m-t-15">Remove Item</a>
                         </div>
                     </div>
                 </div>
