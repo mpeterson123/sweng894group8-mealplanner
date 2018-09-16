@@ -62,7 +62,7 @@ class Account extends Controller{
 	public function confirmEmail($email,$code){
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
-		if(hash('sha256',$email.$salt) != $code)	die("This link is invalid");
+		if(urlencode(hash('sha256',$email.$salt) != $code))	die("This link is invalid");
 
 		// set as confirmed in the db HERE
 

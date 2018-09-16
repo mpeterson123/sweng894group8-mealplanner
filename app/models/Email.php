@@ -37,7 +37,7 @@ class Email{
 
   public function sendEmailAddrConfirm($to){
     $salt = 'QM8z7AnkXUKQzwtK7UcA';
-    $code = hash('sha256',$to.$salt);
+    $code = urlencode(hash('sha256',$to.$salt));
     $subject = 'Please confirm your email';
     $body = 'Please click this link to confirm your email address:<p>
               localhost/Account/ConfirmEmail/'.$to.'/'.$code.'<p>';
