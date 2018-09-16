@@ -16,9 +16,8 @@ $PLUGIN_SIDEBARMENU= FALSE;
 ?>
 <?php require_once( __HEADER__ ); ?>
 <?php
-echo 'HERE';
   foreach($data as $d){
-    echo 'ERROR:'.$d.'<br>';
+    echo $d.'<br>';
   }
  ?>
 <body class="mini-sidebar">
@@ -29,7 +28,7 @@ echo 'HERE';
     <section id="wrapper" >
         <div class="login-box">
             <div class="white-box">
-                <form class="form-horizontal form-material" id="registerform" action="/register/" method="POST">
+                <form class="form-horizontal form-material" id="registerform" action="Account/register/" method="POST">
                     <h3 class="box-title m-b-20">Register</h3>
                     <div class="form-group ">
                         <div class="col-xs-12">

@@ -6,6 +6,7 @@ namespace Base\Controllers;
 require_once __DIR__.'/../core/Controller.php';
 require_once __DIR__.'/../core/DatabaseHandler.php';
 require_once __DIR__.'/../repositories/UserRepository.php';
+require_once __DIR__.'/../models/Email.php';
 
 /////////////////////////////////////////////////////////////////////
 // Load dependencies into current scope. Not the same as importing //
@@ -13,6 +14,7 @@ require_once __DIR__.'/../repositories/UserRepository.php';
 use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\repositories\UserRepository;
+use Base\models\Email;
 
 class Account extends Controller{
 	private $userRepo;
@@ -32,10 +34,13 @@ class Account extends Controller{
 					$error[] = 'All fields are required';
 				}
 			}
-			if($_POST['password'] != $_POST['password2']){
+			if($_POST['reg_password'] != $_POST['reg_password2']){
 				$error[] = 'Passwords don\'t match';
 			}
 			if(empty($error)){
+					$user['password'] = $this->pass_hash($user['password']);
+					$email = new Email();
+					$email->send($user['email'],'Please confirm your email', 'Please click this link to confirm your email address <INSERT LINK HERE>');
 					$this->userRepo->insert($user);
 					$this->view('auth/login',array('message'=>'Account has been created. Please Login.'));
 			}
@@ -46,10 +51,13 @@ class Account extends Controller{
 			$this->view('auth/register');
 	}
 	public function logout(){
-		session_start();
 		//$user->logout();
 		unset($_SESSION['username']);
 		$this->view('auth/logout');
+	}
+	function pass_hash($password){
+		for($i = 0; $i < 1000; $i++) $password = hash('sha256',trim(addslashes($password)));
+		return $password;
 	}
 }
 ?>

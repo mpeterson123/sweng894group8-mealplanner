@@ -24,31 +24,35 @@ class Home extends Controller{
     }
 
 	public function index(){
-		session_start();
 		$user = $this->model('User');
+		$message = '';
 		// Submitted login form
 		if(isset($_POST['login_username'])){
-			$u = $this->userRepo->checkUser($_POST['login_username'],$_POST['login_password']);
-			if(!$u);
+			$pwd = $this->pass_hash($_POST['login_password']);
+			$u = $this->userRepo->checkUser($_POST['login_username'],$pwd);
+			if(!$u)	$message = 'Incorrect Username or Password';
 			else{
 				$user->login($u);
 			}
 		}
 		// Active session
-		if(isset($_SESSION['username'])){
+		else if(isset($_SESSION['username'])){
 			$u = $this->userRepo->find($_SESSION['username']);
 			$user->login($u);
 		}
 		if($user->isLoggedIn())
 			$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName()]);
 		else
-			$this->view('auth/login');
+			$this->view('auth/login',['message' => $message]);
 	}
 	public function logout(){
-		session_start();
 		//$user->logout();
 		unset($_SESSION['username']);
 		$this->view('auth/logout');
+	}
+	function pass_hash($password){
+		for($i = 0; $i < 1000; $i++) $password = hash('sha256',trim(addslashes($password)));
+		return $password;
 	}
 }
 ?>
