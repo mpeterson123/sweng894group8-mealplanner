@@ -41,10 +41,14 @@ class Controller{
 		// session_start();
 
 		$userRepository = new UserRepository($this->dbh->getDB());
+		$notLoggedInPages =  array('auth/login','auth/register');
 
 		if(isset($_SESSION['username'])){
 			$user = $userRepository->find($_SESSION['username']);
 			$data['user'] = $user;
+			require_once __DIR__.'/../views/'.$view.'.php';
+		}
+		else if(in_array($view,$notLoggedInPages)){
 			require_once __DIR__.'/../views/'.$view.'.php';
 		}
 		else {

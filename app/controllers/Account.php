@@ -32,10 +32,11 @@ class Account extends Controller{
 					$error[] = 'All fields are required';
 				}
 			}
-			if($_POST['password'] != $_POST['password2']){
+			if($_POST['reg_password'] != $_POST['reg_password2']){
 				$error[] = 'Passwords don\'t match';
 			}
 			if(empty($error)){
+					$user['password'] = $this->pass_hash($user['password']);
 					$this->userRepo->insert($user);
 					$this->view('auth/login',array('message'=>'Account has been created. Please Login.'));
 			}
@@ -46,10 +47,13 @@ class Account extends Controller{
 			$this->view('auth/register');
 	}
 	public function logout(){
-		session_start();
 		//$user->logout();
 		unset($_SESSION['username']);
 		$this->view('auth/logout');
+	}
+	function pass_hash($password){
+		for($i = 0; $i < 1000; $i++) $password = hash('sha256',trim(addslashes($password)));
+		return $password;
 	}
 }
 ?>

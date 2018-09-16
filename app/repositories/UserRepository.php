@@ -51,10 +51,9 @@ class UserRepository extends Repository {
         ));
     }
 
-    protected function insert($object){
+    public function insert($object){
         $today = date('Y-m-d');
-        $query = $this->db
-            ->prepare('INSERT INTO user
+        $query = $this->db->prepare('INSERT INTO users
                 (username, password, email, joined, namefirst, namelast)
                 VALUES(?,?,?,?,?,?)');
         $query->bind_param("ssssss",$object['username'],$object['password'],$object['email'],$today,$object['namefirst'],$object['namelast']);
