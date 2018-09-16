@@ -15,11 +15,12 @@ class FoodItemRepository extends Repository {
     }
 
     public function find($id){
-        $query = $this->db->prepare('SELECT * FROM food WHERE id = ?');
-        $query->bind_param(array(
-            'id' => $food->id
-        ));
-        return $query->execute() || NULL;
+
+        $query = $this->db->prepare('SELECT * FROM foods WHERE id = ?');
+        $query->bind_param("s", $id);
+        $query->execute();
+        $result = $query->get_result();
+        return $result->fetch_assoc();
     }
 
     public function save($foodItem){
@@ -37,7 +38,7 @@ class FoodItemRepository extends Repository {
      * @return array Associative array of food items
      */
     public function all(){
-        return $this->db->query('SELECT * FROM food')->fetch_all(MYSQLI_ASSOC);
+        return $this->db->query('SELECT * FROM foods')->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
@@ -45,7 +46,7 @@ class FoodItemRepository extends Repository {
      * @return array Associative array of food items
      */
     public function allForUser($username){
-        $query = $this->db->prepare('SELECT * FROM food JOIN users on food.userid = users.id AND username = ?');
+        $query = $this->db->prepare('SELECT * FROM VIEW_foods WHERE username = ?');
         $query->bind_param("s", $username);
         $query->execute();
 
@@ -65,8 +66,8 @@ class FoodItemRepository extends Repository {
 
     protected function insert($object){
         $query = $this->db
-            ->prepare('INSERT INTO food
-                (name, unitcost, userid)
+            ->prepare('INSERT INTO foods
+                (name, unit_cost, user_id)
                 VALUES(?,?,?)');
         $query->bind_param(array(
             'name' => $food->name,
@@ -78,8 +79,8 @@ class FoodItemRepository extends Repository {
 
     protected function update($object){
         $query = $this->db
-            ->prepare('UPDATE food
-                SET name = ?, unitcost =?)
+            ->prepare('UPDATE foods
+                SET name = ?, unit_cost =?)
                 VALUES(?,?)');
         $query->bind_param(array(
             'name' => $food->name,
