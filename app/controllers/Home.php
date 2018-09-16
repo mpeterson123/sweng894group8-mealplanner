@@ -25,6 +25,7 @@ class Home extends Controller{
 
 	public function index(){
 		$user = $this->model('User');
+		$message = '';
 		// Submitted login form
 		if(isset($_POST['login_username'])){
 			$pwd = $this->pass_hash($_POST['login_password']);
