@@ -1,0 +1,41 @@
+<?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                              Penn State - Cohorts 19 & 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// Preference Class
+///////////////////////////////////////////////////////////////////////////////
+namespace Base\Models;
+
+class Preference
+{
+    private $name;
+    private $value;
+
+    public function __construct($theName, $theValue = NULL)
+    {
+        $this->name    = $theName;
+        $this->value   = $theValue;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($theName)
+    {
+        $this->name   = $theName;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function setValue($theValue)
+    {
+        $this->value   = $theValue;
+    }
+}
+
+?>
