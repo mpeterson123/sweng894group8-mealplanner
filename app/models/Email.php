@@ -29,10 +29,19 @@ class Email{
     $message = (new \Swift_Message($subject))
       ->setFrom(['mealplanner18@gmail.com' => 'MealPlanner'])
       ->setTo([$to])
-      ->setBody($body);
+      ->setBody($body,'text/html');
 
     // Send the message
     $result = $this->mailer->send($message);
+  }
+
+  public function sendEmailAddrConfirm($to){
+    $salt = 'QM8z7AnkXUKQzwtK7UcA';
+    $code = urlencode(hash('sha256',$to.$salt));
+    $subject = 'Please confirm your email';
+    $body = 'Please click this link to confirm your email address:<p>
+              localhost/Account/ConfirmEmail/'.$to.'/'.$code.'<p>';
+    $this->send($to,$subject,$body);
   }
 }
 ?>
