@@ -1,0 +1,2656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project title="API Documentation" version="2.8.5">
+  <partials/>
+  <file path="models/Recipe.php" generated-path="models.Recipe.html" hash="6b8192f49d95673d422025df80aef2e5" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="Base\Models" line="4" package="Default">
+      <extends/>
+      <name>Recipe</name>
+      <full_name>\Base\Models\Recipe</full_name>
+      <docblock line="4">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="4" description="Default"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Models" line="5" package="Default">
+        <name>$name</name>
+        <full_name>\Base\Models\Recipe::name</full_name>
+        <default></default>
+        <docblock line="5">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="6" package="Default">
+        <name>$description</name>
+        <full_name>\Base\Models\Recipe::description</full_name>
+        <default></default>
+        <docblock line="6">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="7" package="Default">
+        <name>$servings</name>
+        <full_name>\Base\Models\Recipe::servings</full_name>
+        <default></default>
+        <docblock line="7">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="8" package="Default">
+        <name>$ingredients</name>
+        <full_name>\Base\Models\Recipe::ingredients</full_name>
+        <default></default>
+        <docblock line="8">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="9" package="Default">
+        <name>$source</name>
+        <full_name>\Base\Models\Recipe::source</full_name>
+        <default></default>
+        <docblock line="9">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="10" package="Default">
+        <name>$notes</name>
+        <full_name>\Base\Models\Recipe::notes</full_name>
+        <default></default>
+        <docblock line="10">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="12" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Models\Recipe::__construct()</full_name>
+        <docblock line="12">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$theName</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$theDescription</name>
+          <default>''</default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$theServings</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$theSource</name>
+          <default>''</default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$theNotes</name>
+          <default>''</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="20" package="Default">
+        <name>addIngredient</name>
+        <full_name>\Base\Models\Recipe::addIngredient()</full_name>
+        <docblock line="20">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$anIngredient</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="23" package="Default">
+        <name>removeIngredient</name>
+        <full_name>\Base\Models\Recipe::removeIngredient()</full_name>
+        <docblock line="23">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$anIngredientName</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="29" package="Default">
+        <name>swapIngredient</name>
+        <full_name>\Base\Models\Recipe::swapIngredient()</full_name>
+        <docblock line="29">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$old</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$new</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="33" package="Default">
+        <name>getIngredientByName</name>
+        <full_name>\Base\Models\Recipe::getIngredientByName()</full_name>
+        <docblock line="33">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$anIngredientName</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="39" package="Default">
+        <name>getServings</name>
+        <full_name>\Base\Models\Recipe::getServings()</full_name>
+        <docblock line="39">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="42" package="Default">
+        <name>getIngredientQuantity</name>
+        <full_name>\Base\Models\Recipe::getIngredientQuantity()</full_name>
+        <docblock line="42">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$anIngredientName</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="4" code="PPC:ERR-50005">No summary for class \Base\Models\Recipe</error>
+      <error line="12" code="PPC:ERR-50015">Argument $theName is missing from the Docblock of __construct</error>
+      <error line="12" code="PPC:ERR-50015">Argument $theDescription is missing from the Docblock of __construct</error>
+      <error line="12" code="PPC:ERR-50015">Argument $theServings is missing from the Docblock of __construct</error>
+      <error line="12" code="PPC:ERR-50015">Argument $theSource is missing from the Docblock of __construct</error>
+      <error line="12" code="PPC:ERR-50015">Argument $theNotes is missing from the Docblock of __construct</error>
+      <error line="12" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="20" code="PPC:ERR-50015">Argument $anIngredient is missing from the Docblock of addIngredient</error>
+      <error line="20" code="PPC:ERR-50008">No summary for method addIngredient()</error>
+      <error line="23" code="PPC:ERR-50015">Argument $anIngredientName is missing from the Docblock of removeIngredient</error>
+      <error line="23" code="PPC:ERR-50008">No summary for method removeIngredient()</error>
+      <error line="29" code="PPC:ERR-50015">Argument $old is missing from the Docblock of swapIngredient</error>
+      <error line="29" code="PPC:ERR-50015">Argument $new is missing from the Docblock of swapIngredient</error>
+      <error line="29" code="PPC:ERR-50008">No summary for method swapIngredient()</error>
+      <error line="33" code="PPC:ERR-50015">Argument $anIngredientName is missing from the Docblock of getIngredientByName</error>
+      <error line="33" code="PPC:ERR-50008">No summary for method getIngredientByName()</error>
+      <error line="39" code="PPC:ERR-50008">No summary for method getServings()</error>
+      <error line="42" code="PPC:ERR-50015">Argument $anIngredientName is missing from the Docblock of getIngredientQuantity</error>
+      <error line="42" code="PPC:ERR-50008">No summary for method getIngredientQuantity()</error>
+      <error line="5" code="PPC:ERR-50007">No summary for property $name</error>
+      <error line="6" code="PPC:ERR-50007">No summary for property $description</error>
+      <error line="7" code="PPC:ERR-50007">No summary for property $servings</error>
+      <error line="8" code="PPC:ERR-50007">No summary for property $ingredients</error>
+      <error line="9" code="PPC:ERR-50007">No summary for property $source</error>
+      <error line="10" code="PPC:ERR-50007">No summary for property $notes</error>
+    </parse_markers>
+    <source>eJy9U8GKwjAUPLdfkUPBFhX2XqsgsrCHFXY9uiLZ9KmBmpQkVWTx3zeJjU21sp721vfeZN7MJB1Nyl0ZMrwHWWICaIolfL3zHAqZhiEpsJToEwgt4ScMSkEPWAGKDD716hwkEbRUlDO/LUEcKNtKv6drATkFplptyStBWpyMKzAagrL6LihBm4oRswCt14QzqURFVBypHcy1mIH5mDUqsl7Ptha1gkthd7jR3PDrItHGAt2gcjg2vlCGHGvaTDyHNWDW8uxwznINWjQJOIQXgAZhIfApTnwGq9Kdd7FcFRrVTuIloeB8nxHO87frnjjCrKl8v56W5cqw+sBuZgF7foBH5CY1u2DDRRzR7CWN6IjwitmrulmZ6GG/b+EB3XQAlhFdDcdbsLRxgrIbhXabOR1UTELXCsNgwz13mpFHXPpWeJEPIgZHq+neqR5bspt0zYHusLT0Bjg9WRv/kdcr53mcPBedAFUJhrrZHkenqd3jjuu4fB7v1/8rl48KM0XV6UEybd7nErW4K+/lcs7hZBz+AqC8p/4=</source>
+  </file>
+  <file path="controllers/Home.php" generated-path="controllers.Home.html" hash="50679791139ce220a396e2b3ea84840a" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <namespace-alias name="Controller">\Base\Core\Controller</namespace-alias>
+    <class final="false" abstract="false" namespace="Base\Controllers" line="15" package="Default">
+      <extends>\Base\Core\Controller</extends>
+      <name>Home</name>
+      <full_name>\Base\Controllers\Home</full_name>
+      <docblock line="15">
+        <description>Super class that handles all incoming requests</description>
+        <long-description></long-description>
+        <tag name="package" line="15" description="Default"/>
+        <tag name="inherited_from" description="\Base\Core\Controller" refers="\Base\Core\Controller" link="/classes/Base.Core.Controller.html"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Controllers" line="19" package="Default">
+        <name>$dbh</name>
+        <full_name>\Base\Core\Controller::dbh</full_name>
+        <default></default>
+        <docblock line="19">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="17" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Controllers\Home::__construct()</full_name>
+        <docblock line="17">
+          <description>Inject DatabaseHandler on instance creation</description>
+          <long-description></long-description>
+          <tag name="inherited_from" description="\Base\Core\Controller::__construct()" refers="\Base\Core\Controller::__construct()" link="/classes/Base.Core.Controller.html#method___construct"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="22" package="Default">
+        <name>index</name>
+        <full_name>\Base\Controllers\Home::index()</full_name>
+        <docblock line="22">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="25" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Core\Controller::__construct()</full_name>
+        <docblock line="25">
+          <description>Inject DatabaseHandler on instance creation</description>
+          <long-description></long-description>
+          <tag name="param" line="25" description="&lt;p&gt;handler for database connection&lt;/p&gt;" type="\Base\Core\Base\Core\DatabaseHandler" variable="$dbh">
+            <type>\Base\Core\Base\Core\DatabaseHandler</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$dbh</name>
+          <default></default>
+          <type>\Base\Core\Base\Core\DatabaseHandler</type>
+        </argument>
+        <inherited_from>\Base\Core\Controller</inherited_from>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="29" package="Default">
+        <name>model</name>
+        <full_name>\Base\Core\Controller::model()</full_name>
+        <docblock line="29">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$model</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$params</name>
+          <default>NULL</default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Core\Controller</inherited_from>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="39" package="Default">
+        <name>view</name>
+        <full_name>\Base\Core\Controller::view()</full_name>
+        <docblock line="39">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$view</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$data</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Core\Controller</inherited_from>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="15" code="PPC:ERR-50005">No summary for class \Base\Controllers\Home</error>
+      <error line="17" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="22" code="PPC:ERR-50008">No summary for method index()</error>
+    </parse_markers>
+    <source>eJylkjFPwzAQhef6V9xQyYlEnb2lqUQZqIQYkJgARa5zNJZc29gOFFX975yDRIvElhsy2Pfu3fec65XvPLNyj9FLhXAjI76snU3BGYMhLhirRhSJYbP3LiRo0aNt0SqNUcBaWtgiBPSGbFvYfoHskzNOtmBkwgCDeIRzwPdeB2ycJaymud08No3glRCVcgGrM6OgBDhxjrL7Q3yfKS55QdvkQPUhoE0QlfMo4MElSB1CpPBBUs+Qk7a7sejnXfr4+6Lh8lmJVhkZI9w58sZDok0jnO+PjE18vzVawVtvVdLOUoTK2ZhCr1JRMqA6Dt9cXmaw+fyyRwiRtc0OUyPDLhZluRgEp3+Ga0rqUJRHNplMaekAS5imTsdZvXctmoI/0SGnAbnh5+JD42fBOwKoBjW/gmeef2QOyxqGKbOazLMyHxflK+knJ3Ziq5p9A+Rg00c=</source>
+  </file>
+  <file path="models/User.php" generated-path="models.User.html" hash="47225753371a83e2fe8d8a505b46fac9" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="Base\Models" line="4" package="Default">
+      <extends/>
+      <name>User</name>
+      <full_name>\Base\Models\User</full_name>
+      <docblock line="4">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="4" description="Default"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Models" line="5" package="Default">
+        <name>$username</name>
+        <full_name>\Base\Models\User::username</full_name>
+        <default></default>
+        <docblock line="5">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="6" package="Default">
+        <name>$password</name>
+        <full_name>\Base\Models\User::password</full_name>
+        <default></default>
+        <docblock line="6">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="9" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Models\User::__construct()</full_name>
+        <docblock line="9">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="16" package="Default">
+        <name>setUsername</name>
+        <full_name>\Base\Models\User::setUsername()</full_name>
+        <docblock line="16">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$username</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="38" package="Default">
+        <name>getUsername</name>
+        <full_name>\Base\Models\User::getUsername()</full_name>
+        <docblock line="38">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="46" package="Default">
+        <name>setFirstName</name>
+        <full_name>\Base\Models\User::setFirstName()</full_name>
+        <docblock line="46">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$firstName</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="60" package="Default">
+        <name>getFirstName</name>
+        <full_name>\Base\Models\User::getFirstName()</full_name>
+        <docblock line="60">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="68" package="Default">
+        <name>setPassword</name>
+        <full_name>\Base\Models\User::setPassword()</full_name>
+        <docblock line="68">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$password</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="82" package="Default">
+        <name>getPassword</name>
+        <full_name>\Base\Models\User::getPassword()</full_name>
+        <docblock line="82">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="91" package="Default">
+        <name>setEmail</name>
+        <full_name>\Base\Models\User::setEmail()</full_name>
+        <docblock line="91">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$email</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="95" package="Default">
+        <name>getEmail</name>
+        <full_name>\Base\Models\User::getEmail()</full_name>
+        <docblock line="95">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="4" code="PPC:ERR-50005">No summary for class \Base\Models\User</error>
+      <error line="9" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="16" code="PPC:ERR-50015">Argument $username is missing from the Docblock of setUsername</error>
+      <error line="16" code="PPC:ERR-50008">No summary for method setUsername()</error>
+      <error line="38" code="PPC:ERR-50008">No summary for method getUsername()</error>
+      <error line="46" code="PPC:ERR-50015">Argument $firstName is missing from the Docblock of setFirstName</error>
+      <error line="46" code="PPC:ERR-50008">No summary for method setFirstName()</error>
+      <error line="60" code="PPC:ERR-50008">No summary for method getFirstName()</error>
+      <error line="68" code="PPC:ERR-50015">Argument $password is missing from the Docblock of setPassword</error>
+      <error line="68" code="PPC:ERR-50008">No summary for method setPassword()</error>
+      <error line="82" code="PPC:ERR-50008">No summary for method getPassword()</error>
+      <error line="91" code="PPC:ERR-50015">Argument $email is missing from the Docblock of setEmail</error>
+      <error line="91" code="PPC:ERR-50008">No summary for method setEmail()</error>
+      <error line="95" code="PPC:ERR-50008">No summary for method getEmail()</error>
+      <error line="5" code="PPC:ERR-50007">No summary for property $username</error>
+      <error line="6" code="PPC:ERR-50007">No summary for property $password</error>
+    </parse_markers>
+    <source>eJytVU1P4zAUPDu/4lFFaipaFfYEKhRpJfa2aC+cgK2McRtLiRPZznZ3Uf87dhI7TnHER/ElsTOeN34zdS+uyrSMOM6pLDGh8B1Lev+zeKKZXEQRybCUcCupeI5QKdgfrCjElZ6bHdMIobjUiG0hnjRaQ6rHjBFYV5woVnBYrUjBpRIVUcnkOQI9dho27w+zUBcxpNDM+4B65z65pMpuSpwmXUWLsjO4BCVY7n1eNFxmsHXiAS9hPG4l2qFSUWyB0y3cX/8ltDRVkx7CjJFTTjDnhYJHCjQv1b/RFE51PYvb9SrrpmSUe8JgCd9OvkxAVvANFZoAc00LJMUCE0WFfC0KIS3nqBR0s8qxImkynv++w7P/J7Pzh+N4zsbTzvHJRMNNh1FYmv6ARj+YkApuPiYIIa8/sUqZnC09F52ChQ1RKBEbLxFeKwVVleD7rIuhODZ5rE9xMxDIeSDrOo5uTxKv7aunwwTOrR+SuGCH35+5TtsBofuUywFdrSteX9qfbKfyLc+7tg+a7sgGXa9N/9VeZuFLKGS53ZG4i3DPcLt8iN9O1mfcdrrgAs6+rL5MC6Gs1WcfcbprSGu0E/iWz67XgzZ3f0YtU9/F2uPrHLPslcFhd2tsElPz8Iq21epld4wG1OUrcICGblB9zeAIdtHVMnoBhB0dlw==</source>
+  </file>
+  <file path="views/food/index.php" generated-path="views.food.index.html" hash="cd62b8f96d9e78c077c005d713445f96" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJzlV21v4kYQ/s6vmFq0JGo2hstVahXDlYDTIhGwDCStTpW1eDfxSsb2eddHoqr//WZtk/CaGCntlzoCYc8zz848s56dWJ+SIKmZ73shH9xwGjohjSKewmuXw6MIJooqDgR6cRCnSkLrF/gBPjThV/xq/fxvhHcdxwxOQiGViB5O332FlH/JRMq9OPL5CdS9ie3e2u7nRn/cm93Yo6nnjsfTxl9wDg1zEbMs5NJcUBGd4805VqQBp5c1Heckm8NUqJDX6pPZ1XQwHdrQhoYOv1EgnDB7EJGs1Z3h7LfByJsMBzeTnjseDgGRU3dmXz7b7rq39qQUftvW707x72qoAdu2yaBvX3VdjHy2Y7P/cMbudJNzpXCtPpM8/dwQDHNtQ+sSAC19fk+zUIGKoQX3cQqK52WAJEuTWHLMRTtL9JBfQhelRPtdwFN+0rjXiZ9BI0NeoX+traAl+9SpWXpLw2YFPO93u9u3Xc9DYQFBNWsesyfwQypl21iISBApGJ/T1OjUdCrWd4RAW19wg4UhdylNEtzLxSNCShQTX0GwtrEszKXzs6nkT1IexpRt2LcxvpQaQ2TCOUM1yDLgPDQ6lomgNdri9kCWo+4t1mkty72ospwvsGfyl6Qd+sBJL44Uj9RW0jvZaeiLAJsZ7mFEOXeE3KvICkvuw0ywLe220Wm83IPY5QyJXJCPB6Db8GUgFCfz+PEVfO4TXKxcEEyUfmNhQeakaXTyVtNH/X0Vp0+WGVy8wZWsqBR/VGSRKc5yrgsksx8T7JDAqKL6/enFydMZ9Ca3Z2A/+jw8A6d/jb3TSUWkLDN5Y6W1TBWdh5ykXCZxJMVX/kbCuXvuk29/nodF8gfGipIJmYT0CaJYbw58zMNQJtTHzd02mgYsBVNB22g1m99XWK1YMeCUVcMW+LQ6uFygM6ILbpn442jPWSQUlkSq49wRXTFMzVtZAEths1T/a7GqC2ApfR6sDg88lDj1AzgpDyIqoa5PnlP4W/fLyrEeryjrWBSClN+3DVOvKPNvswiL+0FcBFIceLp54wGxY4uwKIXVMil+1BGvzCqM+i5thhXzsWAr6mNoi7IVnP9U1RCdiqpUAOrO80a32zxIjzC/Zto9Wz78h2fLOFEC+3WFQ2VrV1HGzOdGPVcR4IfIzPe5lEiuSOsno/MjdBkrRuWB4gu9md5RvtUkc2hIcboje7g7oxxgPDhoEDtia8PGppNuEDiLlDqUd4pQ4u+bNl7eCM/rjZ0/3cHU9rzL7e1smQXRztD2Wqw4Zu2LdM3zwES67bVfzWv8f2Nj/DXLfmcGahF2at8AV200Mw==</source>
+  </file>
+  <file path="views/errors/400.php" generated-path="views.errors.400.html" hash="5d0032854b51effe1d217a5faf509739" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJy1VmFP40YQ/Z5fMViogFTbycFdubs4FIIPqI6EJqEtQija2ON4wd51vetAWvW/dzY2waGBUulqCda7O/N2dubNc9oHWZw13G/7EB6cI0suEiYE5vDac4FCwFAzjWBDV8Yy1wpaH+E7eNeEH+lfa///CO+LzCFmIky4mMJeswkK8xmFinkuc/XNT8zx94LnOJYiwG3YHA/9wS/+4HrruN+9PPd7o/Gg3x9t3YADW24qwyJB5aaMC4cmDlVoC3Y+Nw46jfYGeYyuLnyIdZrQ3AxAaZ56Fgqr06AVZGGnYVLbTlEzCGKWK9SeVejI3rfqW7HWmW0im3nWb/blod2VacY0nyRoQSCFRkF+Z76H4RRXPAVL0bNmHO8zKljN+J6HOvZCnPEA7cXke+CCa84SWwUsQa+1BugO5/cyD1UNaI1ViCrIeaa5FK8bskITj9bYULXvIMfEs3hgQPQ8I3Oesim6mZhaoPgfqDyr9eGh9cGCOMfIs9wsKaZcKHdhp9yIzYy3YxwqXM11gp226SXAIJYwHg/PRn7v8Nwfjz/DQYe4bUh2xEIYUMJR6bZbOpUAG7YNnnngSEqtdM4y6A6H1Zpt1+OvopqhCGXuTh7t3ZAr7QZKPS05KTGIVqzyzkrPiVcxorb+cezF4o7rznyyORSUAZP9fwvNBMEWxvjG47uF0jJ9C+4C5a2oMqE2fwNoYAyVG2LEikSX6Dz0LB1jiq8edDo6//oehjFPgdSEiqsyKULnVsGZvw+qyEx/gIwqQ0wIUJDCGeMUQ86A2JBzVKsJ//Vw0DvrnXyqA4YSldjSQJ1yBzyCuSzAdCBQlJARNWnGIOIJfiKBq8Ndk3WiKSL4eFOtlp0EKg88y8iAIh+plJOyhyAk0sjUTfhEuUZf3quYz9xd5wen+TSniKxO2y1x/iNovryU23L2nHfLBcPXNbgb18R1Ht2YO7XdUuAa7YkM5xAkTFHDkiO3FQ9xwvJ6eS6odJKFJOzLfIR89uiVPe5WLs/3iQdm31YZUqnE1L6n8icmPDKq4GqvCoNFdxjm3FP7ZWg0qIRafFdsU6UXzioNJvKhtv+SDd1b44O2A6LSSvBLp7jVIb2hXLXWbe4+Ai5QChNowBRFZvQpL/UJNsh7d413tuKcFhqJyba2d5s0TGiwOlf9Sxj6/jmM+nDkw+ll72RwBYe9Y+j2e18uh/4xfPVHQzjpw2n/3G+7WQfarGrIFRUd+MdnA787Go/ByOgynRMtgP5sLiK5eMllIUKK5J7NUNkYRVSLapLwaawXse01zRWDO9ASYpli22WdegWXd4xIQYkz1WHVbCXlK1F2+xdXA9L7UutXodzSu1b0OnkqytQYe/sz6cH8ia71nnrU/FujGfNS8Mv3FzuHEGtfFJkj/MRmbFiCvnrIsw/L7fPvysv9X35VTbrcWzqsXK1YurkdFWJx5+0d+HOZlM1ty3nqxh0norFf6G361WO2/6rGp/ParmkDIwNu+Uvob7aLIUI=</source>
+  </file>
+  <file path="views/modules/spanel.mod.php" generated-path="views.modules.spanel.mod.html" hash="6527b8a56c77aee779cdd59939bf45e9" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJzlWN9v2zYQfu9fcdNDsQFjFKc/1hayuzbdsIdkDeCHPQx7oMSzxJomBZKK7f71PUqWHCe2Y3dVCqQCbIhH3n3Hj7zjUcnbsiifxN/2IXtwiVxdKa41Wtj3XKHWMPbcIzA4N4Wx3sHgNTyFs1P4nf4Gr/pwb/wv2muZ4X9wxTUquDSiUtgH0t/Go3sT3lbPuDCVEpAilIpnKGAufSE1+ALJmRzZudGeSyLuV+C+FqMO4yfG4spOECaxkNej0OfqtsPMS6NPvvkk3o6e3F615CfGYBgeGDdEsobHRsbYFhXyFjLFnRtGVuaFZ04KTLmN7o69Pd4pOXOZNUrVmjs07qCUwSXmpVcYjVpHVwueOOodJbIdLDOjWaaMQ1h7x7zJc4XkYhJL+tU6K+IPc4E1PqRGLPd4XatVqtUqpBCo2cLdo1KrKXIsHV3wpak8fCzDFnBJnJK31HOQ+r2Dbs8qKzCbpmYB7QsTXOe4ayW3mpO6JH+loNkiF7WhCPyyxLX5qMWbLApxlHHFU1piipeb1kfwp1zAX9SmlETshDEHzn3/gq+HPSDjc2611PnXUR729n2Uu6+mfG29oXzcxPl34jyJq3sgQ+QFViiJzjAzyljX8TBjnp2dHh6H/1Auh4uQQGCV3o6LxYRDYXEyjD7xa04pT5b+zbWR4ufTXyIQ3HNWezmMBE54pXzn6KrddMPc2Gm9OwZJzPuAzy2i7sDrVtMVjc56glyiUmbeYTbNFvRZT6AWRYdI7y3c857gysqWdFi1iE2zBX3RE2hKZci0w6xbLeTLoyC7vZhGXSx84Hb6MKFAh5Cd3omHIGxn81ufwbAJvxa14K96DYtN9BuyFv51fwGyid0KWuDBaa+xsgl+Q9bh95UCm0DZgF+LOvQDs+Fhp9TGoUS1APdGK7opHH4+nZMOmLpK7KNI3MMd1dqzHJzNhlFcqiqX2sVyRvcdF1cOrYtJxXM7OPlU5hFw5YdRkDPS6vild5ZJm9X1fFPBv0clHbeycjCehYSTuBlXHVUeF1TKV1mGjqrphi2q48OQtp4PC/Tgtd3/J+rsSKLO+UwqTvdti5+3kdQVlO/mfPk4KHp2JEWXYS+5wJEnI0Zvo6m96byv3CNh6cWRLL3TwuIcPlg+xW0MzSpPRdPo42TyeILt+ZEcXfC5RZ0hjOkk/mFS0ssjWbqyZnICY4qoOdffi6T9J++ea+iOrl3iHV/M2B9a3Phq9gVxhG/B</source>
+  </file>
+  <file path="views/errors/500.php" generated-path="views.errors.500.html" hash="ce2714217b32d3f5e6ac78efe7fa7ed7" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJy1Vm1v2zYQ/u5fcRWCJQEmKW6aLm0tZ6nrbh6WxLPdbUUQGLR0sphIpEpSTrxh/31HSbHlzMkyoBNgUyTvnnt4b1TnJE/ylv91H8KDM2TpMGVCoIKnniEKAWPDDIILPZlIZTS038A38PIAvqe/9vH/Qe+jVJAwEaVczOHo4AA0qgVRRaWk0l/dosIvBVc4lSLEPdiZjvujX/ujy90PF71PZ/3zyXR0cTHZvQIPdv1MRkWK2s8YFx5NPIrQLuy/a510W50XpDH5POxDYrKU5nYAcvM8cFA43RatIIu6LevaToaGQZgwpdEETmFi99hpbiXG5K5ltgic391Pp25PZjkzfJaiA6EUBgXpDfoBRnPc0BQsw8BZcLzNKWAN4VsemSSIcMFDdMvJt8AFN5ylrg5ZikF7C9ANLm+linQDaItUhDpUPDdciqcFWWEoj7bIULRvQGEaODy0IGaZkzjP2Bz9XMwd0PwP1IHTfn3Xfu1AojAOHD9PizkX2i/ltB+zhdX2rEKNa7hJsduxtQQYJhKm0/Fg0j8/PetPp+/gpEu5PSAuSrAUxlWm9W2mdfxKtYJ54boQ2AfeS2m0USyH3nhcr7lu8xQ1twWKSCp/di/vR1wbP9R6veRllEe04lQn12ZJ2ZUgGucfZoflSbfZXMucCvKDjcG/UbMkWCmMzzTfK7SR2XNwS5TnosqUiv0ZoKEV1H6EMStSU6HzKHBMghk+aejHydnPRzBOeAbUU2CEOpci8q41DPrHoIvcVgnIuBbElAAF9TkrnGHEGXwpUHHUmw7/7XR0Pjj/4W0TMJKoxa4Bqpcb4DEsZQG2DoFYQk4JSjMGMU/xLbW5JtwlSaeGGMGbq3q1qifQKgwc2ww06UitvYzdhREljcz8lM+0b7vMkU74wj/0vvMO1nNi5HQ7foXzH0HV6lB+23vlvVwt2HzdgvviknKdx1f2TB2/anOtzkxGSwhTpqlsSZG7mkc4Y6oZniGFTrKIim7lj4gv7rXy+91a5eE+5YHdd3WOFCoxd28p/KmlR0I1XONVY1hWh82cWyq/HG0nqqDK28W1UXrEViUwk3eN/cdk6NwG74wbou0sDxRKpaTdpauNfNXetnl4D1iiFJZoyDQx29qpPII53AKTb6BkhUFKade4hwc0zGhwusMUCReMWgKLCRq0zGjKM+z4+RZIVhflRj8d9T8MRv3epOqnK4/OjAD6uVzEsnxRshARcbhlC9QuxjGFo56kfJ6YktUrYvWehTdgJCTS8mDdZhBXVGJqokS4NlbPNry+QbJ3Mfw8osZfkez4lUIj1M2UqROlkafXv1AXWK6TtFlJ953+2naKZdXmq/dH64UQG/eIVAg/sQUbV6BPGnlwnVw/vE0er/rqRrUe8q/JWLVa5+bOXlyI8sx7+/Dnyik7e463rsF9L6bxojB79MVjt/+qx7W9jm+T3xa/X30F/Q0T8CW4</source>
+  </file>
+  <file path="views/modules/footer.mod.php" generated-path="views.modules.footer.mod.html" hash="766de98d2c0ccc062a452e98e45080e2" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJy1VvFP2kAU/p2/4s2ZoYlthcTEOdQB4sSAMopzybKYo73aw+vd2buizPi/71ooAhZCNy2EHu/6vu+7d++9a+VY+KJgve2l8aCNEe1QxBgOYdXVwYyBrZDCYECd+zxUEkqf4ROUd+Gr/intv4e8s167BaecKy2vzd2I4jdnOT4qxAusfDAMOFx5FdJgdPF9RELswrkNp4Rimcysdj4Ew1hkgsH3CIcjWJiXTkiEAhk6hxvWEDOXh9bgPn7ScolUk7EZEGYO5MZRxRo7vEKv6bhJFSIB52iI7DHqGlz91G9CJ18sGaSVODWBeLC12WldfWte3NjNk0at2m03Lq624QleBVgnHYugQ6NbwnJKk8TFfRQGGiBTxnPMlqGo1Wzb9e5lq5UtyKYk0ECc0px6Jlshp/55VF1XfzTsbEHXaIih4XnY0WWWT9KDdpXLZSwQ1SOpeJCTwkmcVidfur32DODrENTPqt1e0+7NRiGT0Ueh0slo6GRMkjI1LKuClSAi0WYozqkiwgiQ1P1lHnfhmTw0UqDwjhKGp9mRGv4LJVEmjRewNYHuGO+nGPF4XT+M5EgQnNDO9Z3ZiTwrcvulPNVxUu3pT601XyKZwEifS6iv+3AqMbb0EsvShrWEtfGzc9ntLRalVHqt+uDr+USC/no8BPwo9CEIXsQcRThDlKgRcEZH2bXjKyXkgWU5LjNfBJsMK6sfKcWZtEpm2SzH7XZG/mRunTjnYUhhPYqknxN8IE2H8sjVviE2HR5YaIAeLUr6Ov7yDxFW2dwzd8fjvMJD9HBLVILaFygQkeNbwvUCdIetXbNklva1dkLd1Phu+ENP3nicqcVW+iZh91VA995rT0VI2NLCjLNZV82/5vJRIfm3uVX8OPYxEkXFbfMkzdmtp+l7ksuDAyjWPN1RRXFnap4IPYBfU1N8FR0uRsUdfZfD+IYfHUzjgd6f5Bavqzh1+Z2Mnre/jPWtcdbZakQx2A9EOb5+n5w7mpb34dhJTnys8QubmRjN1LoQ57+lcIfF</source>
+  </file>
+  <file path="views/home/index.php" generated-path="views.home.index.html" hash="46ee27eb2ed4fb1d40a88134927eaff5" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJzNV19v4jgQf6/U7zAbna67DyZtVyfdXYFed0v3kOgWQbl7RE5iEl8dO2c70N6nv7HTsEAphRXdXSTAiWfGM7/56+Z5kRWHB+F+P04gXDMq+oJKyTRs+vSZlDC01DIg8FFlSlsDJ7/Bz3B6DH/gz8mvr6NgT6VcvoJozf4tuWZjJWMG4/FldzAeN47CRiPMVVIKZsKcctnAhwaCf3R2eODVGZYR3HIr2OHBT8PRh9vuba8DLTjyas6p+qLER4M0/d7oU/fzeNjrXg8/Dm56PSS+HYw6Z1/2/r74qzOsUH6yN+xedj5cDK47n0fzvfP24UHTRQQs2vAWjfizc3HZQTvg3Rk4KqSLVPIAsaDGtIKcS04MT1hEdYDb7sTmG0Kgr5lQNMEQIKR+n/BpzVfU2zXTKkFsjCMgpmAs4TIls4wxEbSbIRLVAhfXhsWWKwk8aQUzTYsCZdfChEOSaJZyY58/sqKK1P0iwSrRLOOWrSPyhBOl85rSrQkGNf9PSUsF+Occo11zKgKvpz/RvQ+Aeu1bQZhQk0WK6iRcd4I/JXtfn4F6EOtCB3ISkdPjoD3kqYSubIbZ++fYF6zxOqValQU8d9oTxyhB7g05Od3E4Jm4LEq7dFKMSGiFxtuHgrUCy+5tUEccwhFAIWjMMiUwMFrByDAtac42arYQAjvtrQXhO2BQ4M5M6WQDDv2a5IfEIU+2wWGRKWPxHQYu1AtSaJ5T/QBFKQQRbGKhIJYcvyTUC64Adsk0F2cwBdCGR4Dr11tJEzRiPlOfimvDgOUsj7Ci5Qwx9aQvmb0B+TkNhUyzSSv4h06piTUv7O9TxZO3x++qImEVVq5YTRfqmUscklB9V0GmeZpZLI187kkKE0qEiu+wLmjyiyubvA1XSqcKwZ0l582QtvccNOC1ipm0DiJ04OlGD35dPkWltVjk6/JnJeCXuCLqFyL1f5E33etTukYQU8NgRqfMEDaZYKN4fBAeuMdAMWWUc4QR264voNVRr5Fz2B9fBlar2c7wgVuZvF751PSuODle9M4u2WpU7NrVNsmzKZAXHOY9NMH6Fil1F0BCLSVWpalwHUEpYbnLXdfUWoEfgWDGbQZXNQfGLQeKTZRkPEkY9kyrSxYsx/5cfhX5Ltz3Z4EzIFUKNS5EabY34ZPn2c6ASj7xB2xrw0vl5msCdj69PWFYXwTcHLJT3lfhukt0Fu1LJY8sZJjDQCWOTrEqpT3/4r+wHvXC5ZJZN5qcCF8Uo2pcGhWY7W2HbzMs9oxfM3Tg7DgrVoX/seqvzId+Znx+NvxWwx2Ol4NKP6jnkw0z55ytWPJHXlqGY03Ht4wHVWro4A1JoFMTwLsOpoW32mD6CAERA4MRAlY52jewf2etwvFDj8ceqm83E37H9l6n7b46/IAZZl+pwa/N91Xi5Uvs4821ulyvvYRf3dzcrlzCQ3cLd7f2MLO5m0P/B/2dcjQ=</source>
+  </file>
+  <file path="controllers/FoodItems.php" generated-path="controllers.FoodItems.html" hash="4ced185d49d8a496893956325b5fa6bb" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <namespace-alias name="Controller">\Base\Core\Controller</namespace-alias>
+    <namespace-alias name="DatabaseHandler">\Base\Core\DatabaseHandler</namespace-alias>
+    <namespace-alias name="FoodItemRepository">\Base\Repositories\FoodItemRepository</namespace-alias>
+    <class final="false" abstract="false" namespace="Base\Controllers" line="22" package="Default">
+      <extends>\Base\Core\Controller</extends>
+      <name>FoodItems</name>
+      <full_name>\Base\Controllers\FoodItems</full_name>
+      <docblock line="22">
+        <description>Super class that handles all incoming requests</description>
+        <long-description></long-description>
+        <tag name="package" line="22" description="Default"/>
+        <tag name="inherited_from" description="\Base\Core\Controller" refers="\Base\Core\Controller" link="/classes/Base.Core.Controller.html"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Controllers" line="24" package="Default">
+        <name>$foodItemRepository</name>
+        <full_name>\Base\Controllers\FoodItems::foodItemRepository</full_name>
+        <default></default>
+        <docblock line="24">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Controllers" line="19" package="Default">
+        <name>$dbh</name>
+        <full_name>\Base\Core\Controller::dbh</full_name>
+        <default></default>
+        <docblock line="19">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="26" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Controllers\FoodItems::__construct()</full_name>
+        <docblock line="26">
+          <description>Inject DatabaseHandler on instance creation</description>
+          <long-description></long-description>
+          <tag name="inherited_from" description="\Base\Core\Controller::__construct()" refers="\Base\Core\Controller::__construct()" link="/classes/Base.Core.Controller.html#method___construct"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="38" package="Default">
+        <name>index</name>
+        <full_name>\Base\Controllers\FoodItems::index()</full_name>
+        <docblock line="38">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="25" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Core\Controller::__construct()</full_name>
+        <docblock line="25">
+          <description>Inject DatabaseHandler on instance creation</description>
+          <long-description></long-description>
+          <tag name="param" line="25" description="&lt;p&gt;handler for database connection&lt;/p&gt;" type="\Base\Core\Base\Core\DatabaseHandler" variable="$dbh">
+            <type>\Base\Core\Base\Core\DatabaseHandler</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$dbh</name>
+          <default></default>
+          <type>\Base\Core\Base\Core\DatabaseHandler</type>
+        </argument>
+        <inherited_from>\Base\Core\Controller</inherited_from>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="29" package="Default">
+        <name>model</name>
+        <full_name>\Base\Core\Controller::model()</full_name>
+        <docblock line="29">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$model</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$params</name>
+          <default>NULL</default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Core\Controller</inherited_from>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Controllers" line="39" package="Default">
+        <name>view</name>
+        <full_name>\Base\Core\Controller::view()</full_name>
+        <docblock line="39">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$view</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$data</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Core\Controller</inherited_from>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="22" code="PPC:ERR-50005">No summary for class \Base\Controllers\FoodItems</error>
+      <error line="26" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="38" code="PPC:ERR-50008">No summary for method index()</error>
+      <error line="24" code="PPC:ERR-50007">No summary for property $foodItemRepository</error>
+    </parse_markers>
+    <source>eJylU9Fq20AQfNdXLCEQOWDp3W7dNjamgmCDnb4FjvNpbV2Rb9W7VRIT8u9dicRWbZcWfCAh6WZnb2ZWn75URRU5vcVQaYNwpwM+jsmxp7JEH4ZRlF6wpBiybUWeIccKXY7OWAwJjLWDFYLHqpS2Oax2oGumknQOpWb00BZf0Nnjr9p6VOREllKTbKFUcpMmSWrIY3rQmIgDN8N/4Sea9UrM+a5d/j9FooyCZfIiN50S5RnjdvHxcfdeH11m7x8+3zfedV0G65jA1N6jYwiGKkxgRgxcIASJHLRg2nSs21xq+OEsddjPke8O0/Bo58jSzvaiY97jqXmtb6bUIcDHZgB8YVEe4NAPXqMIZFXePslIwfX6HFOLqFelNbCunWFLTpI05AL72nDcaxGv7b3F6sbOwaCLSZKkqVUbZKX9JsS93jtzsySbJTKc6jggbuFhPpnD1LocNDzrHUhy1v1Ew2AZ6tAE1MS270keYrlIPnrYIheUh96eEG6lOjDKRNAajEfdRixUAscOLN0/X+erAj7DUSiDgWjKhErLhMeiag/nwob+6NRS4XD4fEZt3HToj4Rvctca1NC8nQ9AfMCXuHdwHU1BcJU5uEqUGt9/Wy7lR7v62rxNf8zGD9l8plTH8yftVV5vq/iv5+yPdFl2zvEW/QbRX34y</source>
+  </file>
+  <file path="models/Ingredient.php" generated-path="models.Ingredient.html" hash="6fedd3a0776489ca9595042d755e2fc0" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="Base\Models" line="5" package="Default">
+      <extends/>
+      <name>Ingredient</name>
+      <full_name>\Base\Models\Ingredient</full_name>
+      <docblock line="5">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="5" description="Default"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Models" line="6" package="Default">
+        <name>$food</name>
+        <full_name>\Base\Models\Ingredient::food</full_name>
+        <default></default>
+        <docblock line="6">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="7" package="Default">
+        <name>$quantity</name>
+        <full_name>\Base\Models\Ingredient::quantity</full_name>
+        <default></default>
+        <docblock line="7">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="9" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Models\Ingredient::__construct()</full_name>
+        <docblock line="9">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$fi</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$qty</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="14" package="Default">
+        <name>setFood</name>
+        <full_name>\Base\Models\Ingredient::setFood()</full_name>
+        <docblock line="14">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$fi</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="18" package="Default">
+        <name>getFood</name>
+        <full_name>\Base\Models\Ingredient::getFood()</full_name>
+        <docblock line="18">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="22" package="Default">
+        <name>setQuantity</name>
+        <full_name>\Base\Models\Ingredient::setQuantity()</full_name>
+        <docblock line="22">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$qty</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="26" package="Default">
+        <name>getQuantity</name>
+        <full_name>\Base\Models\Ingredient::getQuantity()</full_name>
+        <docblock line="26">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="5" code="PPC:ERR-50005">No summary for class \Base\Models\Ingredient</error>
+      <error line="9" code="PPC:ERR-50015">Argument $fi is missing from the Docblock of __construct</error>
+      <error line="9" code="PPC:ERR-50015">Argument $qty is missing from the Docblock of __construct</error>
+      <error line="9" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="14" code="PPC:ERR-50015">Argument $fi is missing from the Docblock of setFood</error>
+      <error line="14" code="PPC:ERR-50008">No summary for method setFood()</error>
+      <error line="18" code="PPC:ERR-50008">No summary for method getFood()</error>
+      <error line="22" code="PPC:ERR-50015">Argument $qty is missing from the Docblock of setQuantity</error>
+      <error line="22" code="PPC:ERR-50008">No summary for method setQuantity()</error>
+      <error line="26" code="PPC:ERR-50008">No summary for method getQuantity()</error>
+      <error line="6" code="PPC:ERR-50007">No summary for property $food</error>
+      <error line="7" code="PPC:ERR-50007">No summary for property $quantity</error>
+    </parse_markers>
+    <source>eJyVkM0KwjAQhO95ij30UKE+gX/gQfDgwbsgMd3WhZrEZCMU8d1N/MEKleJxd5hvZne6sEcrhJYn9FYqhKX0uNuYEhs/EUI10ntY69phSagZrgLAOrpIRsgqY8oiLgCyc5CaidvoSbMNh4YUVEErJqNhv1dGe3ZBcZ5VVEQDt6MH7WHnI/nxPPFgFrk0+Rbe9CSeU0jSbv1RHnkVOSlmMOAHon4hPn6HHJzuYoY6bF+V895L/zmo7sB+Nfq8/wmKqMVc3AEEaI+m</source>
+  </file>
+  <file path="views/modules/main.mod.php" generated-path="views.modules.main.mod.html" hash="144d517995136ed6bc751b9c4f41068e" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <constant namespace="" line="9" package="Default">
+      <name>__SITENAME__</name>
+      <full_name>\__SITENAME__</full_name>
+      <value>'MealPlanner - Capstone Project'</value>
+      <docblock line="9">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="9" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="10" package="Default">
+      <name>__REDIRECT__</name>
+      <full_name>\__REDIRECT__</full_name>
+      <value>'/dashboard/'</value>
+      <docblock line="10">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="10" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="11" package="Default">
+      <name>__COPYRITE__</name>
+      <full_name>\__COPYRITE__</full_name>
+      <value>'2018 © Penn State - Cohort 19 &amp;amp; 20 - Group 8.'</value>
+      <docblock line="11">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="11" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="14" package="Default">
+      <name>__HEADER__</name>
+      <full_name>\__HEADER__</full_name>
+      <value>__DIR__ . '/header.mod.php'</value>
+      <docblock line="14">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="14" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="15" package="Default">
+      <name>__FOOTER__</name>
+      <full_name>\__FOOTER__</full_name>
+      <value>__DIR__ . '/footer.mod.php'</value>
+      <docblock line="15">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="15" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="16" package="Default">
+      <name>__NAVBAR__</name>
+      <full_name>\__NAVBAR__</full_name>
+      <value>__DIR__ . '/navbar.mod.php'</value>
+      <docblock line="16">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="16" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="17" package="Default">
+      <name>__SPANEL__</name>
+      <full_name>\__SPANEL__</full_name>
+      <value>__DIR__ . '/spanel.mod.php'</value>
+      <docblock line="17">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="17" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="18" package="Default">
+      <name>__SIDEBAR__</name>
+      <full_name>\__SIDEBAR__</full_name>
+      <value>__DIR__ . '/sidebar.mod.php'</value>
+      <docblock line="18">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="18" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="20" package="Default">
+      <name>__SQL__</name>
+      <full_name>\__SQL__</full_name>
+      <value>__DIR__ . '/sql.mod.php'</value>
+      <docblock line="20">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="20" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="21" package="Default">
+      <name>__CRYPT__</name>
+      <full_name>\__CRYPT__</full_name>
+      <value>__DIR__ . '/crypt.mod.php'</value>
+      <docblock line="21">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="21" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="22" package="Default">
+      <name>__SESSIONS__</name>
+      <full_name>\__SESSIONS__</full_name>
+      <value>__DIR__ . '/sessions.mod.php'</value>
+      <docblock line="22">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="22" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="23" package="Default">
+      <name>__PHPUNIT__</name>
+      <full_name>\__PHPUNIT__</full_name>
+      <value>__DIR__ . '/phpunit.mod.php'</value>
+      <docblock line="23">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="23" description="Default"/>
+      </docblock>
+    </constant>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJy1VN1umzAUvs9TnItptFKbrLtq1W0dJU6DRAgD0q6aJuSAUzwRm2LTrY+019iT7QRoBqHpVWckhLC/n/PnDxd5mg9Gr7uQD2aMZl5GhWAFvLQ8JgQEmmoGx2DJVBZawckZvIX37+Azvk5O/4c9r+BrWjzCCCayFAnVXAqYyaTM2KvLbfQsKZSmQqtBwlZcsAMwoiiwQ+KaMxJFBhyB0U4Z5oLmSkvB0Kr8wWJtwOF5G+yTse0TK2zAo4SqdClpkYx2T1pz79ZHqebkJqXw5/dzma8ST9f5+Sb5x3BVyDKH02FFWBW1SlAnhikxx8SvqaMILUXR0BiljCasGK5lMsT+Mrp+JvN52IespNR7Ia55fWn2III+LOk+SOCZLnF2ISqngmX7IPaY1DIdCE/YjgymwpXieBrOHFj3cxJ8qXRxdXju9+la/q1X1bFzPi4ec73PKQkCe+4GG6stBaYU9rHaA/Km3sK1w53w8FwpeEeoGpCsvONCwYFKZZklEEuhKRfAHhiOTV7tgk6php88y2DJoFQsAfy5LjPN84yBiguea3U4eOM5iyvbjQLHngWWP3cc+AgT0wnI+XbvxrwmQX0l9PaausyIu3ja+3eBoFdToCN6x2o/KVX4gfJ13UAwlmz+cNXY3vJaU9MP7SBsaXZ4b1ImMCwu7iBOKV5MR20aKNh9yQuWbPnGZojPpYOBPMs3kQUcjKmmhxDS5aZpnpDkqzf3w070PeQG2ODqQGOK5fiV49xWFbvK5JJmyInd4V8T/5vRlDaSq5XxHYlDf0Hq6i4Exzoqmm1HugkmkiLGbtn2JE4+dJwEdTvkBYtZwgBbvZmAHkM1BV38swxN0+6l2bZ6iwtp/PqcallATi6LHsO279tmXmS4+DT4C9uqAVE=</source>
+  </file>
+  <file path="views/errors/503.php" generated-path="views.errors.503.html" hash="298f670867daeab693833e0e62d9db7e" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJy1Vm1v2zYQ/u5fcRGCJQEmKW6aLm0tZ6nrbhmWxLOdbUUQGLR0suhIpEpSdrxh/31HS7HlzMkyoBNgUyTvnnt4b1TrNE/yhv91H8KDC2RpL2VCoILnnh4KAQPDDIILHZlIZTQ038I38OoQvqe/5sn/Qe+TVJAwEaVcTOD48Ag0qhlRRaWk0l/dosIvBVc4kiLEfdgdDbr9X7v9m72PV53ri+7lcNS/uhru3YIHe34moyJF7WeMC48mHkVoDw7eN07bjdYOaQw/97qQmCyluR2A3DwJHBROu0EryKJ2w7q2laFhECZMaTSBU5jYPXHqW4kxuWuZzQLnd/f6zO3ILGeGj1N0IJTCoCC9826A0QQ3NAXLMHBmHOc5BawmPOeRSYIIZzxEdzn5FrjghrPU1SFLMWhuAbrDxVyqSNeAtkhFqEPFc8OleF6QFYbyaIsMRfsOFKaBw0MLYhY5ifOMTdDPxcQBzf9AHTjNN/fNNw4kCuPA8fO0mHCh/aWc9mM2s9qeVahwDTcptlu2lgDDRMJoNDgfdi/PLrqj0Xs4bVNu2yQbUJKRY+BasBnjKSNHt/xSuQTacV0I7AMfpDTaKJZDZzCo1ly3fo6K3QxFJJU/fpD3I66NH2q9XvIyyiRaccqza7Og/EoQjfMPs73lWbfZXMucCfKEjcK/UbMk2FIYX2i+U2gjs5fgLlFeiipTKvcXgIZWUPsRxqxITYnOo8AxCWb4rKEfhxc/H8Mg4RlQV4E+6lyKyJtqOO+egC5yWycg40oQUwIU1OmscIYRZ/ClQMVRbzr8t7P+5fnlD+/qgJFELfYMUMXcAY9hIQuwlQjEEnJKUZoxiHmK76jR1eFuSDo1xAje3larZUWBVmHg2HagSUdq7WXsPowoaWTmp3ysfdtnjnXCZ/6R9513uJ4TI6fd8kuc/wiqVofym95r79VqwebrFtydG8p1Ht/aM7X8stE1WmMZLSBMmabCJUXuah7hmKl6eHoUOskiavArf0R89qCVP+xWKo/3KQ/svqtzpFCJiTun8KeWHglVcLVXjeGyOmzmzKn8crS9qIRa3i+ujdITtkqBsbyv7T8lQ+c2eG/ckFJpg/xKKWm2qe+Qr5rbNo8eAJcohSUaMk3MhgnX1AvpTqZxgsbYW5JBkVMvh5hSjfxcUFET8NEW4HwDNyNJSnLXuEeHNIxpcNq9FMkSGLUAFhN50DKjKc+oIeZbIFlVphs9tt/9eN7vdoZlj135eGwE0M/lIpbLFyULERGHOZuhdjGOKUDVJOWTxCxZvSZWH1h4B0ZCIi0P1q6HdUUlprZKhCtj1WwjDhskO1e9z326DEqSLb9UqAW/nkRV6tQyd/oL9YXFOm3rtfXQ+6e2dyzKxl++P1lBhFi7WaRC+ImuokEJ+qyRRxfM9PH98nQfKG9Z6yF/SsbK1Spbd/fjQizPvH8Af66csrvveOuqPPBiGq8Ks09fQXb7r2pc22v5thxsO/DLL6O/Af7aK9s=</source>
+  </file>
+  <file path="init.php" generated-path="init.html" hash="16d19f5dff1ed5220a6b1e95d4786b67" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJyzsS/IKOAqSi0szSxKjc/PS05VUE/OL0rVdywo0ANKqVtjk3TOzyspys/JSS3CrcYlsSQxKbE41SMxLwWh0N6OCwBUtihz</source>
+  </file>
+  <file path="views/food/edit.php" generated-path="views.food.edit.html" hash="add6a1fe4adfacbb9448bcc32095f0f3" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJzVV21v2kgQ/h4p/2FrRQXuzjg0d9JVAXKUOC0SCdRAq6qq0GIv2Drb63rXSbgo//1m1i+8E1K1PZ2loNg788zOszOzM/WLyI2Oj4zv+yAguWbU7/s0DFlM9j19FoZkIKlkRCdt7vJYClJ7TV6SV6fkL/ip/fljNvjBY3eG6XiSXHHu/AAbMfuaeDEb89BmZXIyHpjWB9P6XLrstUfX5s1wbPV6w9IXUiUlI+BO4jNhBNQLq/BShXMpkcr58ZHaq3kvWRxSXxwfneBuO5fAXAMwLfP9yBwMP5em8NVzAO3igohkImRcXli0zMuOZbaH45HVLX35jcBqHHGxR6JklCq/1iqIdgqbOEGeOpIFq0YZfE1NXrW6AzMXvKEBWxUM4UsqeDPqdnO5NhdyVc6GLytyyvu3Pp+kvg8S22ZCgFJuUAm0XWb/TaY8JrfU9xx1oAS3e3zkTUn5RcZZ5fjo4fjoonl8VBd27EWy6XA7CVgoqz63qfR42CgZyKQwSud1IxMC8TRNgHN278nyKZ7L44ptyYlgjIC1kYCAt2mo3qXrCYKApDww2yOrM/xEbFSoKN1qtZqh9P1k5oXoYr87etu5GQ+6netB2+p1u3jQQ2uk2M0WP7Y+mIMsfzYWB51L803LgggbLRaVkVHkYJpJly0YukgpKg445QiBT8w45jFyTeOYzstpMOIKZrcnhBfOyJXHfEekn1Oq8wCopB8zsCXAz18AspQDYGRUS+ep1GNuYQGFMXIglIfxiRG0iQc7HtDQk94/6pRJmVVnVRLMxVd/HEOhGjNh04iNITEAqbKk1ooZuWNkhnzBIc/4xWKHNk9CWc72UiGNBjnd3CqYeJ+weF7WRv3L1tBMw2FgDpXruP+HgrPH0m8kgW3aaWI8FAw8ko/vTMskENv4OQ3nR61yvkTJIjeyM88YyAO1/64/Auw0/khZuDzxHTJhJPKpzRxCp1BjCA3nJGazxKcxYWkAUKDAYZLZkjngX4aj4r5wPg8xiwGD7DYLsHLImCOQNzDj8JCR1tXQtEiiArGSFTPYMZBkQbVkQrYw1t7MO5dlVdKAkMxbqEm/lAo7g2RChp70GRaF0ZthZ9g1AUfDoq7iEnFTovLq86gp5Ys8n8lqfR6P35mtS9Maj6HsEpQCuQl35sT2qRANLfBCTxeewyY01popvfUXug7nDg+5hsqtf4xpFAGL6Sddz8Uc7xbOrqHdpeu5erGWmYhi5nPqrAqsC9lCoJAuIiAXfNXvXMZ8rVk3QGgZOHvf5e5N6wOUiRV3t8pl9WRZsDCxcL9PZ0xv81BCNV13f8NNlF2iYs3XLaDA7SarW8nJhfWpn3jOOo/r4jG/2yayierrgaP/TvAfEei1V7u01jXvXKhK+oTf71NQSu5ZrgPSusTYJoE+0U/hZNW5MNvlZCWi8TjqhntWRDQWJSiGbFGUKuRBndle01FuWbJ7qTs0nAHZaPvsFKpVKPXamVbYwAduWkZtN7dCqCAnqlgcZG7JG6Wk3JjExoqJx6dxjKjQSKUXJOTF8BvcF1kZXfc/vz2z9WniPwFLiRuzaUPLGgqt+dKnXxN+jjUyiUOsimqlbtBnecp8wZ7vVpBA9d50qugDSD/mkI7SY+I/8utJhw7L210qReqqJL4XTyTxCgzEe0ACJl0ONRwaZ6kRaqt2MWcBf41D8RSmF0aJJHIesYbmeo7DQk11BA0Nu2oNO9kEXmrfCTSdDwrYzZKCwwNm4rPsLfGLHOmzmCfRcxAUik8nzMei0tCUA9gKaU38rRtq7bmAS9tSgN+2rz1QOnWgnYHK7BXuUzKlOiYW3sTexm18sMHlI8TM1VYIxvst5r6muokFWWkP53IfeoeGpuYvPk2TG4aitzG3oQNVeZ7HQ6jUdkbD4oKBIvFcX54t/2PCSHWpmKxN/P2/hVIA7fL8J8dSwdhqPJkhTgZqWk8Hp1fV168reSTZSmFnJOXzzM+LpkkiJcx4qdsimQTewvGJDAn8Fbf8Hb1lQmfTKUw32YvvzVwJN2Ws16D3Sm/9upGCHnphGEjwIRfUAb49JbNvfe/a5uX4c9vaXoRXqMg62L0oaz2Hum0v0iutsfsqe+kwH+bWRm3j+IseF9qgP7SmxQIOMyvWx/1dy7dw/dQcNui3bszutvFqF+rOCUk3Q2d5SlpTA8IwkYsaoN6kTnV765y04HU8bvf6n6zO0ByPzzcaNYx2hFodDden0e2j4vYdLyvvGLE3Fbeze9XrDdeGegOnemw8DVcGeCH8CzsysDE=</source>
+  </file>
+  <file path="views/modules/phpunit.mod.php" generated-path="views.modules.phpunit.mod.html" hash="50ed5e91b6b50b4fc6989ba635ab4717" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <function namespace="" line="9" package="Default">
+      <name>PHPUnitCheck</name>
+      <full_name>\PHPUnitCheck()</full_name>
+      <docblock line="9">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="9" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$errors</name>
+        <default></default>
+        <type/>
+      </argument>
+    </function>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="9" code="PPC:ERR-50015">Argument $errors is missing from the Docblock of PHPUnitCheck</error>
+      <error line="9" code="PPC:ERR-50011">No summary for function \PHPUnitCheck()</error>
+    </parse_markers>
+    <source>eJy1Uc9LwzAYveeveIdi24O6eVKmqzJSPDgsK3oRGbX7uhbDl5IlVBD/d9O66fDgab5DIC95P/i+y6StW3F6WHg/zKlQmSqYyeAvZMSM3BaWcIyZrrWxG4wvcISzEa79MT7/j3rZbfbAjcVcr5yigycEW//7NMUVgmUuF49y8RT6YTtPL3VVhc9IEqQ3d7mcCFE5Lm2jeVdsVlP5GgVkjDabWLyLflZrpV8KhT1zr+wfmgrRHhsP5JemhyHrDE+G+8ePotSO7XcGphj9Ftra6A5MHeRbSW1fMArl8B8dGcKa/H797lYnYbzz9wnJVHwCVDWNzQ==</source>
+  </file>
+  <file path="models/GroceryList.php" generated-path="models.GroceryList.html" hash="cdfd24c1415a59b652c5b0f38e935114" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJxtj8FKA0EQRM87X1GHHJKD5AOiCQgSBL14FkI720kGZmfG7h4hiP/ubNyAhJz6UF2vqu435VicSzSwFvKMR1J+f809R1055yOpYivZs5xeghq+HVAkfJExZoc/IRgPJEIn18Qm148YPPY1eQs5YbfzOalJ9TZfNEDXzewY9G59bccDzne+WJ1BP85117CSS40tfCwz0ZZLvDH1oBgxITEyFZR6fFZKFiywYi95uIx5bg8Yxp1TVHez+4Htqdnlf56wVUm4veHSvHXfrN0voil02Q==</source>
+  </file>
+  <file path="views/modules/navbar.mod.php" generated-path="views.modules.navbar.mod.html" hash="a75c747364b842ccbbf6dffdd0c5d417" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJztWk1z2zYQvedXbDjTNjnAlB3H46SS0kzSgztNJzNJDz2uSJBCDAIcAJSs/vouKZKiZJESbSkT19bBpvCxWOzuewusOHyXTtNn/mE/JA8+cZSfJSrFDXR9PnOl4ItDx4HBBz3Vxlk4fQM/w9kAfqM/p5fHUO8vnE3QwAun05fwSYeZ5Adf5tm78bNqm8PnjMEo/8BXnTJaXsTohFZlI2ONsQpnEEi0duSppZ7LfyzkEWbSVV8tmU0EjPYACZuwgbeSUcgJxYYcNuUYcrMxrhiLGyOdjmPJIdLKMfLEVIQhV8wm1VMSVk8yBg+mhkcj7xvO0AZGpO7tTIvwxeClByE6LKWNvEBLianlVTOamLuRd1IuWnffVrBQUlRKRggRMppivfHQF1v24+OWxoZByGhM8sixFI1rW682itSxrjbph2inE40m9FvmFXMn7X3LvSQxWBOQvFRmsVDWFwnG3Pr5Wiepij1ASbaZ6oTM5Xes5HcsNbQpqvtowhy/cRvqpNTrVaYJ0VyzpX06lWxXZLuvfHLWluZMNgIV6mAlZwp1bauG3LNVfN7YNvfKLYFTd2JHTJcaWBFyWm0Z3KbGyhxn3DIeRTxw5Rcp4ilF2SqARaAVQ2P0fBmFgTCB5Mtg3mqPpU3aNO7eSqRNAkbnALQcTTCtd4BpypZNO61VS1vfA0WKEpHISWUrENenqjRz4BYpaZLHlQepxIBPtSRWGnlfCk1OTk5q/XLNiRWUI+27wObnA/sYbehn8s7RZXJvQppJuXxsj68aJEanoZ6rrj3g5uCKg9viqQq4DY6t12oN4F/7udimnFPM7OHfHOPV1AmGMYfiLwVV+RCiivNQuejig6V/WjBQdK7cVNsq4SqDBIWc6BtARQzmeAgTnamAX6mP3bYvhHZBqB7UyCD50swJl8P2H53BlDwD56D4HBJubc6gLSS2vtFd6/ZWrFydBVy5rcl+q4B2vtsVLm16ZJYbRsmlx/RCRGs+ygVan/Sjc8P5ybe0ykl5e00ZNLtm037rNqM3NToSkhdHrMyCVkQAfA3yuyL4lvjdsbA2vOlQCuuCBRVv45pWMdPX4z9xbjjBAL5wKYc+tdzdLoUqIbeBN/4jsw4s5+CmHJIFYJgI9byvWW6t4ASdd8Zv3r4awPtPRzRyJ8OsDXxgyDj7rsiYZHbxQHHxARMhkW6ghv97OFhc/UJpwGYqBgRO9zN6sFrFzwl9HBaUJ9AdDCOnTxi5JWIvjLzeByNdYY9zfKhh/16Fhs4oHw1e8wOGPWBCEZ+K4HqRxz03h0sFg8unMN8U8SMekqLo6ZT0nU9Jg7MfABrf8ZpTX5Lz8kF1w7k3KIfWGcrR4zxFo5SgtBORCIoCLV3iyt79RG3UKOnCSwip0bDPHneZvNuW2ysb3fP+L5WKACVX4X61qL1rFa+OU6tY2Q7ttV2VLKwUIb9Sf6cHqVfcP2EN+xFy2pfUltj6SkaA035QW8lo5qQ6+UBBEUlGRvXG54Of4INOUskd70+XPTbVzEiUH2PDrYXqgTIluYCcjIETs965d4vo/DcQaH5hNgsCevbKgm/VR110EDAC2QxlxpWej7zzQbOJ8tLIW2/Bm5F3OqA26xa5sLkI3fQtkDF7ql6o33STNUwruVh3DLwolX95p/zY8+jQJwnuNfSexF2MaBCxmImSyg6VOh8QFZwdjwrOHg0VCBXpfXjg7I48cHZAHriPVwqpT+jvHPSg0P/qeOi/eDTon6NRIv/dfjcBXNyRAC4OSAAXaweBUvmng8Bjp4Lz41HB5aOhgvIquwcTXN6RCS4PyASXa0yw1P2JCI5CBMcupr2XEnIYP7IiWqEpy18PK2tde1XTbs0y7QW1CTNssCqrtb6q1qt8ZrnLf69se6dyZYJe76fdtuUGeoa+wubXtldl2e8qbLwu+x/VbvNM</source>
+  </file>
+  <file path="core/App.php" generated-path="core.App.html" hash="16c9092e9e06788ad9e4e291790fa761" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <namespace-alias name="DatabaseHandler">\Base\Core\DatabaseHandler</namespace-alias>
+    <class final="false" abstract="false" namespace="Base\Core" line="21" package="Default">
+      <extends/>
+      <name>App</name>
+      <full_name>\Base\Core\App</full_name>
+      <docblock line="21">
+        <description>Entry point to the application</description>
+        <long-description>This class receives all requests and calls the appropriate controller methods
+to handle them.</long-description>
+        <tag name="package" line="21" description="Default"/>
+      </docblock>
+      <property static="false" visibility="protected" namespace="Base\Core" line="22" package="Default">
+        <name>$controller</name>
+        <full_name>\Base\Core\App::controller</full_name>
+        <default>'Home'</default>
+        <docblock line="22">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="Base\Core" line="23" package="Default">
+        <name>$method</name>
+        <full_name>\Base\Core\App::method</full_name>
+        <default>'index'</default>
+        <docblock line="23">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="Base\Core" line="24" package="Default">
+        <name>$params</name>
+        <full_name>\Base\Core\App::params</full_name>
+        <default>array()</default>
+        <docblock line="24">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Core" line="26" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Core\App::__construct()</full_name>
+        <docblock line="26">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Core" line="62" package="Default">
+        <name>parseUrl</name>
+        <full_name>\Base\Core\App::parseUrl()</full_name>
+        <docblock line="62">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="26" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="62" code="PPC:ERR-50008">No summary for method parseUrl()</error>
+      <error line="22" code="PPC:ERR-50007">No summary for property $controller</error>
+      <error line="23" code="PPC:ERR-50007">No summary for property $method</error>
+      <error line="24" code="PPC:ERR-50007">No summary for property $params</error>
+    </parse_markers>
+    <source>eJylVM9P2zAUPjd/xRNCSoq6dFxhAzHooBLi0JXD1laWm7xSi8T2bKfQIf73PSdpm5ZqhxWVg53n730//PzlUs91IHmOVvME4Ru3OL5WBs+DoHvAHx2Gfq6VcZCiRpmiTATaGK65hCmCQZ1RvxSmS+CFU5niKWTcoYHy8AGdDyO+peDes2ryByGdgqQwBqUDmyiNMTwoB26OYMlF4FRT6hby6VApGy6FbUQzvuGOT2l1x2WaoTn3kk9OAjiBnnRmCVoRTSCinhXXOhMJd0JJqvBFw7mwkGTcWoohQbEgXTzLaPG7QOtoIVNIaMeuAIzSRlA4kChqoDJqCjm6uUqtB6RO85KKr89j2uoGFf6V1vAWtAjAYeIo7uMGwlcI71SO4flWQYXrPwpy/XXnq+aG55a+jiYku6WLKYmDWSETLxAYI3zrTJG4qP1GBS1K0SKZIXL8oyTSTkpCWIozXmSOrfYZFUXhVY6GvOo+4Av7qcxz2PZNWsfpdE4td2w/O3tC16duXCYYUSUVFiajwmNHDn+6IK4WH00WVSh+ImZNB2eCHMNXQZZ3SpLCldYbzNWi9BL8YMLMqLxcPQ7uCUfMIn+SVScjxm76A8bisBvH3Q267YaxpzP6PInDmIY8bJMhLeJYkdvKoS70ElqF9FbUO6Wq95r9gO6HMLgrwevW3HmH/sVlt23NyjcwFTBT3sgSa+NY6a/buXy+5frNSq+bUo7qMVn3Ho+PPjYvw9pjhMQX2Isc+TvQzLG+pv8Vn7Bri08ndSy0XUGucv1Ar7N9YMV/PS/15zLEZoqnVYoUY/VP/G+JbT1JYkaklxs71gNW3uVL4MbwJVvwjJ6GEq8NZ/XwVfks1POedwFeBN2IEgzpUbdU7V8URg+ZYX5cWQkcjfbIbOqadLZ4eSXve+Z+M2pvWxaz295wFBLrcGWbQVcYCfWk4qvOVIpR2A07dJeJKUk1kXFG5FunO1TR7nzv3w97A/bj6qE/7P/qMUq0XY8I/d6Dy4vgLzTuOeE=</source>
+  </file>
+  <file path="models/Meal.php" generated-path="models.Meal.html" hash="1277a9d7fc9f45d07a6541ecde2e75d2" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="Base\Models" line="4" package="Default">
+      <extends/>
+      <name>Meal</name>
+      <full_name>\Base\Models\Meal</full_name>
+      <docblock line="4">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="4" description="Default"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Models" line="5" package="Default">
+        <name>$recipe</name>
+        <full_name>\Base\Models\Meal::recipe</full_name>
+        <default></default>
+        <docblock line="5">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="6" package="Default">
+        <name>$date</name>
+        <full_name>\Base\Models\Meal::date</full_name>
+        <default></default>
+        <docblock line="6">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="7" package="Default">
+        <name>$isComplete</name>
+        <full_name>\Base\Models\Meal::isComplete</full_name>
+        <default></default>
+        <docblock line="7">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="8" package="Default">
+        <name>$addedDate</name>
+        <full_name>\Base\Models\Meal::addedDate</full_name>
+        <default></default>
+        <docblock line="8">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="9" package="Default">
+        <name>$scale</name>
+        <full_name>\Base\Models\Meal::scale</full_name>
+        <default></default>
+        <docblock line="9">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="11" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Models\Meal::__construct()</full_name>
+        <docblock line="11">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$r</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$d</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$s</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="18" package="Default">
+        <name>scale</name>
+        <full_name>\Base\Models\Meal::scale()</full_name>
+        <docblock line="18">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$newScale</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="21" package="Default">
+        <name>isComplete</name>
+        <full_name>\Base\Models\Meal::isComplete()</full_name>
+        <docblock line="21">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="24" package="Default">
+        <name>complete</name>
+        <full_name>\Base\Models\Meal::complete()</full_name>
+        <docblock line="24">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="27" package="Default">
+        <name>markIncomplete</name>
+        <full_name>\Base\Models\Meal::markIncomplete()</full_name>
+        <docblock line="27">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="30" package="Default">
+        <name>getIngredientQuantity</name>
+        <full_name>\Base\Models\Meal::getIngredientQuantity()</full_name>
+        <docblock line="30">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$anIngredientName</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="33" package="Default">
+        <name>getRecipe</name>
+        <full_name>\Base\Models\Meal::getRecipe()</full_name>
+        <docblock line="33">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="36" package="Default">
+        <name>setRecipe</name>
+        <full_name>\Base\Models\Meal::setRecipe()</full_name>
+        <docblock line="36">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$aRecipe</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="4" code="PPC:ERR-50005">No summary for class \Base\Models\Meal</error>
+      <error line="11" code="PPC:ERR-50015">Argument $r is missing from the Docblock of __construct</error>
+      <error line="11" code="PPC:ERR-50015">Argument $d is missing from the Docblock of __construct</error>
+      <error line="11" code="PPC:ERR-50015">Argument $s is missing from the Docblock of __construct</error>
+      <error line="11" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="18" code="PPC:ERR-50015">Argument $newScale is missing from the Docblock of scale</error>
+      <error line="18" code="PPC:ERR-50008">No summary for method scale()</error>
+      <error line="21" code="PPC:ERR-50008">No summary for method isComplete()</error>
+      <error line="24" code="PPC:ERR-50008">No summary for method complete()</error>
+      <error line="27" code="PPC:ERR-50008">No summary for method markIncomplete()</error>
+      <error line="30" code="PPC:ERR-50015">Argument $anIngredientName is missing from the Docblock of getIngredientQuantity</error>
+      <error line="30" code="PPC:ERR-50008">No summary for method getIngredientQuantity()</error>
+      <error line="33" code="PPC:ERR-50008">No summary for method getRecipe()</error>
+      <error line="36" code="PPC:ERR-50015">Argument $aRecipe is missing from the Docblock of setRecipe</error>
+      <error line="36" code="PPC:ERR-50008">No summary for method setRecipe()</error>
+      <error line="5" code="PPC:ERR-50007">No summary for property $recipe</error>
+      <error line="6" code="PPC:ERR-50007">No summary for property $date</error>
+      <error line="7" code="PPC:ERR-50007">No summary for property $isComplete</error>
+      <error line="8" code="PPC:ERR-50007">No summary for property $addedDate</error>
+      <error line="9" code="PPC:ERR-50007">No summary for property $scale</error>
+    </parse_markers>
+    <source>eJyFUsFqwzAMPTdf4YOhyWi+IFsK3S49dLDtNBgUzVZbM8cJtrNRRv99jrMmbuvSi7Gf9J6eZN3Pm12TKKjQNMCQLMDgx6rmKE2RJEyCMWSFIH+TSaPFN1gkVCMTDRYBwt0ZvoV5rKtG4ikKnCN/Oks1DKQDHNJ+SsHIplXMilqR9ZrVyljdMptSPaN8Rk3mbEyo3QmTl70L8uD8FCPaOekwHmCjGxfZgDQYBH39jmECcHDqAp1iOn3Pq5xPM5dzuLTqNVKq8Oetu4UuB/ljMK4wWkw9W6NttSIXDcTZ7IQb69qN8Qq3Av21VLcVjnOLSGzRLtVWIxeo7EsLygq7TymoEX12C+alz1vrfzEvTzQW+y4/ouDzhgoZuSPhmK+6e/VFYpMdVjn2qwORQn+Jrt9/zGscknmZ/AHGkBed</source>
+  </file>
+  <file path="views/modules/sessions.mod.php" generated-path="views.modules.sessions.mod.html" hash="922d4006a1b951b731234efb6b4c0ab2" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJyzsS/IKODSpy4Amqfgm5qYE5CTmJeXWqSADwSk5uUpBJcklqQq6Co452fkF5UUKxhaKqgpGBkoOAAJQwtaOC84tbg4Mz+vWME3P6U0J5UWVrjlFylkJOal5GTmpSuUFgPDISc/PTNPoRhqNdXt5LK34wIA0xNhyA==</source>
+  </file>
+  <file path="views/modules/template.mod.php" generated-path="views.modules.template.mod.html" hash="79419af7587bc22ab575edff16b1cafe" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJyzsS/IKODSpy4Amqfgm5qYE5CTmJeXWqSADwSk5uUpBJcklqQq6Co452fkF5UUKxhaKqgpGBkoOAAJQwtaOC/E1TfAxzHEVcE3P6U0J5XqVnDZ23EBACbMRX8=</source>
+  </file>
+  <file path="repositories/FoodItemRepository.php" generated-path="repositories.FoodItemRepository.html" hash="e18b2cca396a49b53f6cc50c41030a24" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <namespace-alias name="Repository">\Base\Repositories\Repository</namespace-alias>
+    <class final="false" abstract="false" namespace="Base\Repositories" line="10" package="Default">
+      <extends>\Base\Repositories\Repository</extends>
+      <name>FoodItemRepository</name>
+      <full_name>\Base\Repositories\FoodItemRepository</full_name>
+      <docblock line="10">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="10" description="Default"/>
+        <tag name="inherited_from" description="\Base\Repositories\Repository" refers="\Base\Repositories\Repository" link="/classes/Base.Repositories.Repository.html"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Repositories" line="11" package="Default">
+        <name>$db</name>
+        <full_name>\Base\Repositories\FoodItemRepository::db</full_name>
+        <default></default>
+        <docblock line="11">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Repositories" line="6" package="Default">
+        <name>$dbh</name>
+        <full_name>\Base\Repositories\Repository::dbh</full_name>
+        <default></default>
+        <docblock line="6">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Repositories" line="13" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Repositories\FoodItemRepository::__construct()</full_name>
+        <docblock line="13">
+          <description></description>
+          <long-description></long-description>
+          <tag name="inherited_from" description="\Base\Repositories\Repository::__construct()" refers="\Base\Repositories\Repository::__construct()" link="/classes/Base.Repositories.Repository.html#method___construct"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$db</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Repositories" line="17" package="Default">
+        <name>find</name>
+        <full_name>\Base\Repositories\FoodItemRepository::find()</full_name>
+        <docblock line="17">
+          <description></description>
+          <long-description></long-description>
+          <tag name="inherited_from" description="\Base\Repositories\Repository::find()" refers="\Base\Repositories\Repository::find()" link="/classes/Base.Repositories.Repository.html#method_find"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Repositories" line="25" package="Default">
+        <name>save</name>
+        <full_name>\Base\Repositories\FoodItemRepository::save()</full_name>
+        <docblock line="25">
+          <description></description>
+          <long-description></long-description>
+          <tag name="inherited_from" description="\Base\Repositories\Repository::save()" refers="\Base\Repositories\Repository::save()" link="/classes/Base.Repositories.Repository.html#method_save"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$foodItem</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Repositories" line="34" package="Default">
+        <name>all</name>
+        <full_name>\Base\Repositories\FoodItemRepository::all()</full_name>
+        <docblock line="34">
+          <description></description>
+          <long-description></long-description>
+          <tag name="inherited_from" description="\Base\Repositories\Repository::all()" refers="\Base\Repositories\Repository::all()" link="/classes/Base.Repositories.Repository.html#method_all"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Repositories" line="37" package="Default">
+        <name>remove</name>
+        <full_name>\Base\Repositories\FoodItemRepository::remove()</full_name>
+        <docblock line="37">
+          <description></description>
+          <long-description></long-description>
+          <tag name="inherited_from" description="\Base\Repositories\Repository::remove()" refers="\Base\Repositories\Repository::remove()" link="/classes/Base.Repositories.Repository.html#method_remove"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="Base\Repositories" line="44" package="Default">
+        <name>insert</name>
+        <full_name>\Base\Repositories\FoodItemRepository::insert()</full_name>
+        <docblock line="44">
+          <description></description>
+          <long-description></long-description>
+          <tag name="inherited_from" description="\Base\Repositories\Repository::insert()" refers="\Base\Repositories\Repository::insert()" link="/classes/Base.Repositories.Repository.html#method_insert"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="Base\Repositories" line="57" package="Default">
+        <name>update</name>
+        <full_name>\Base\Repositories\FoodItemRepository::update()</full_name>
+        <docblock line="57">
+          <description></description>
+          <long-description></long-description>
+          <tag name="inherited_from" description="\Base\Repositories\Repository::update()" refers="\Base\Repositories\Repository::update()" link="/classes/Base.Repositories.Repository.html#method_update"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Repositories" line="8" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Repositories\Repository::__construct()</full_name>
+        <docblock line="8">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$dbh</name>
+          <default></default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Repositories\Repository</inherited_from>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="Base\Repositories" line="12" package="Default">
+        <name>find</name>
+        <full_name>\Base\Repositories\Repository::find()</full_name>
+        <docblock line="12">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Repositories\Repository</inherited_from>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="Base\Repositories" line="13" package="Default">
+        <name>save</name>
+        <full_name>\Base\Repositories\Repository::save()</full_name>
+        <docblock line="13">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Repositories\Repository</inherited_from>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="Base\Repositories" line="14" package="Default">
+        <name>all</name>
+        <full_name>\Base\Repositories\Repository::all()</full_name>
+        <docblock line="14">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <inherited_from>\Base\Repositories\Repository</inherited_from>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="Base\Repositories" line="15" package="Default">
+        <name>remove</name>
+        <full_name>\Base\Repositories\Repository::remove()</full_name>
+        <docblock line="15">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Repositories\Repository</inherited_from>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="protected" namespace="Base\Repositories" line="16" package="Default">
+        <name>insert</name>
+        <full_name>\Base\Repositories\Repository::insert()</full_name>
+        <docblock line="16">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Repositories\Repository</inherited_from>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="protected" namespace="Base\Repositories" line="17" package="Default">
+        <name>update</name>
+        <full_name>\Base\Repositories\Repository::update()</full_name>
+        <docblock line="17">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+        <inherited_from>\Base\Repositories\Repository</inherited_from>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="10" code="PPC:ERR-50005">No summary for class \Base\Repositories\FoodItemRepository</error>
+      <error line="13" code="PPC:ERR-50015">Argument $db is missing from the Docblock of __construct</error>
+      <error line="13" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="17" code="PPC:ERR-50015">Argument $id is missing from the Docblock of find</error>
+      <error line="17" code="PPC:ERR-50008">No summary for method find()</error>
+      <error line="25" code="PPC:ERR-50015">Argument $foodItem is missing from the Docblock of save</error>
+      <error line="25" code="PPC:ERR-50008">No summary for method save()</error>
+      <error line="34" code="PPC:ERR-50008">No summary for method all()</error>
+      <error line="37" code="PPC:ERR-50015">Argument $object is missing from the Docblock of remove</error>
+      <error line="37" code="PPC:ERR-50008">No summary for method remove()</error>
+      <error line="44" code="PPC:ERR-50015">Argument $object is missing from the Docblock of insert</error>
+      <error line="44" code="PPC:ERR-50008">No summary for method insert()</error>
+      <error line="57" code="PPC:ERR-50015">Argument $object is missing from the Docblock of update</error>
+      <error line="57" code="PPC:ERR-50008">No summary for method update()</error>
+      <error line="11" code="PPC:ERR-50007">No summary for property $db</error>
+    </parse_markers>
+    <source>eJzFVMtu2zAQvOsr9mBEVOHHB7i2kcYKasB1Cj/aSwGBFtcwC1tUSCpIkPjfs5SrhxvBMVqgXV0kcmd2Z7jUx1G6Tb2E79GkPEb4xA3+mGOqjLRKSzR9z9N4n0mNkUooIYrGk3kUdf1et9vTtcReiXrqEqdPQC8zDYzVx5PLiXfcGLhVSkws7qs9wEeLiTBQW3r2gCLV8oFbhJZYE0G+kq13MoZNlsRWqoSajFVirM5iyygrOOJctOxWms5QrGFwxLvFQzPLRiaCtaSow+8zpD4GFU9nmJILXCPzF+E0vFnCB7id332BDSmC75/DeQhSEGLkB/3feDrDNZWICM33jGvNn1iZ4cKXwofBEFqOqzOUotwNalwabaaTkhIfMc4ssgBeXmC2mk7PajT8AVnO79yvKZUbJo1B8u+olGyAq6tC99GaApbvBiX0+UTEL0SWCjqzWqlKwKF8wx0NTCNcJga1PQM/NMrjux2riSqsqg4vN63p6PyAVKKNt1HO0T9TRONeORfV+ifG9tJpGVPJZfgPZ6WYAK0stYmiElCYe4GAk5o1NZPZIpwvYTJb3uVqTvJcMPePaUOWSBsrY+mNatLYvEn8dj1dhQs2atMT/IEPrk7dibzu+RTX1I1r6p006jiSot14C99cv/dMLy7EX5i++jq+phFq9HsRLsEJcNNU2Q6D0TnH/5vfFzl58F4B+fbU6g==</source>
+  </file>
+  <file path="views/food/create.php" generated-path="views.food.create.html" hash="4d8bbfb6defee2cde622ed7d1fbdb8c3" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJzVV21v2kgQ/s6vmFpRAV0Xh+Y+XBVejqZOi0QI5SXVqaqsxV6wdbbX2V2X5KL895s1NhgChJzaSmcpxPbOPDvz7Ly50Y69uGT+2Avx4IrRYBDQKGICDl0DFkUwUlQxIHDBPS6UhPo7eA1vT+FP/Kn/8TPM67guXHLu/nBswW4TXzCbRw6rwIk9soY31vBr+cP1xeTK6o/t4fX1uPwNalA2Q+4mAZNmSP2ohg81PIsyVM9L2kLrTjER0UCWTtDYrmIhNBFvaH2eWKPx1zJ1XYRpt+Gy0xtZ56lUn4ZsUyrCN0ux/qTXW0pdcKk2pRx8U5TS+4+SKYx9FbDSyWjyftwd9yxUKufElZdSgyCZ+xHaOOhNPnb79qjXvRpdDK97PUDp8XCiLcvWvnRurFF27Ntro+4H631niAxNVmvFcwJNQLvkz6CS01EtPZQ01IklBBcS1agQ9L6i+dPvdRD6UvrRHC59FrgyfasRXuVcVdNXS5gC1Ndv2tNcWVNYQ3e1wGNpE0RTeRSIr89P07yFpImmka/8f6jyeQQVVpvXILyXt4EtMIVsJh0aM1sqgTDVlVJHMFgwmGtqFMf/7ZVhDk8iVcmsqEKzCafbJiL654SJ+4rR7WOAjqHbH1/DTINVtLtvIEGbtLl4J5nw3SrcdHoYLJXyQ07eY/kNPOQkPL6BetWonq+2QBv7fAGCqURE2kSNLqEiPZ4ELrgcKDhUOZ5eczzm/K2Nx1BiQsGCSpCJ4zApZ0lQLbVbpYZ0hB+rlsudJGSRqgXcSSlrls0U2iyfN8xMqNRIy9qSZ2S6nb2Bzey07U9W54M1tG1MOkChUmPK3XtwAipl0wj9yCfSd9mUCqOVojVeEYKM4gVXmLTki6BxjBVu+YqQTMr1v4PvNo3FcjlTXi1l+LFgAafuxvq2jCOlliEyZszFCCALj7HAaDVMFCrALh/3eNnv3GBuFbzcKZWl4FpsBb52ekDnjFzwSOEJbDn9xDstuiZg08MdiEjnEyJ3MpLLklmQ+O4Wd9vSgi92SDzFDEjokt9B38iQ1N/uUdpWXHiY2GTK7w7IpzreWa6CwkTpugohmZJTo6VLHIU+W6wLXcP0zvKQ1SmNRYStU7oKD/p8Du4X59spdqeIS6M5kqs3PDvFTIwUqZ8Z+Q76mnGsNo6X7wGYgCdM3x6zWYrCHI9nOjp8GlNhFjd4fBbFjHP552XjVoOCJ9isaWTZb7ReB/Q24ecw3Cw5DZO2UuyDgEeFzD6NVdSk8XMnD8fPBgryHkLIlMexXMRYSA2gTlrWcsewz5tHoqWIfhQnCtR9zJqG57sui4y0hTUNRDLgOw0SvK+/BLLgqraXzAVP4hcApCABnbJAx1nTSE3ULcRo6d+Gma69EK9gVIr3n6w6gESQLh5hpfVXvlOYUaKzR9dff7sGH71f8YR0ehob5Or6JnhgpA1kzRTEAXWYxwPsF00jHfT4bFkxuICPgjvYz9PikR93lKpl513M0ax/6yw1WvBCL14q/lNiZ4LTiZ46jJb+/X/FT8gjdv9rA2hF12YQWdjGBaRfA8ux823t3btqHj5OqrA7fLTOrwmfaaIUjsVLX2UyDf21t1MVAf6RbFLEqfE7k4TNZsxR2UPgzz2FfU+QOnba39LPiWWDXQIfWaVNTewRPeF5554RObC8Z+nw5DcadPpW7+lItwdw71xGrMgtzGabStindCCtYjB9UoQSZ9dwto4k2764Hvw17I4t2z7fbvmacw1UnEO3Zt7dY+kuUwuaeyb4ba3ddF7it/vG54KpvxdwbDE9FWIB+heMmEuQ</source>
+  </file>
+  <file path="models/MealPlan.php" generated-path="models.MealPlan.html" hash="01280ad0823cde16bf93334281a40932" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="Base\Models" line="5" package="Default">
+      <extends/>
+      <name>MealPlan</name>
+      <full_name>\Base\Models\MealPlan</full_name>
+      <docblock line="5">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="5" description="Default"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Models" line="6" package="Default">
+        <name>$startDate</name>
+        <full_name>\Base\Models\MealPlan::startDate</full_name>
+        <default></default>
+        <docblock line="6">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="7" package="Default">
+        <name>$endDate</name>
+        <full_name>\Base\Models\MealPlan::endDate</full_name>
+        <default></default>
+        <docblock line="7">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="10" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Models\MealPlan::__construct()</full_name>
+        <docblock line="10">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$startDate</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$endDate</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="15" package="Default">
+        <name>addMeal</name>
+        <full_name>\Base\Models\MealPlan::addMeal()</full_name>
+        <docblock line="15">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$meal</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="19" package="Default">
+        <name>removeMeal</name>
+        <full_name>\Base\Models\MealPlan::removeMeal()</full_name>
+        <docblock line="19">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$meal</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="23" package="Default">
+        <name>setStartDate</name>
+        <full_name>\Base\Models\MealPlan::setStartDate()</full_name>
+        <docblock line="23">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$startDate</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="27" package="Default">
+        <name>setEndDate</name>
+        <full_name>\Base\Models\MealPlan::setEndDate()</full_name>
+        <docblock line="27">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$endDate</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="31" package="Default">
+        <name>getStartDate</name>
+        <full_name>\Base\Models\MealPlan::getStartDate()</full_name>
+        <docblock line="31">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="35" package="Default">
+        <name>getEndDate</name>
+        <full_name>\Base\Models\MealPlan::getEndDate()</full_name>
+        <docblock line="35">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="5" code="PPC:ERR-50005">No summary for class \Base\Models\MealPlan</error>
+      <error line="10" code="PPC:ERR-50015">Argument $startDate is missing from the Docblock of __construct</error>
+      <error line="10" code="PPC:ERR-50015">Argument $endDate is missing from the Docblock of __construct</error>
+      <error line="10" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="15" code="PPC:ERR-50015">Argument $meal is missing from the Docblock of addMeal</error>
+      <error line="15" code="PPC:ERR-50008">No summary for method addMeal()</error>
+      <error line="19" code="PPC:ERR-50015">Argument $meal is missing from the Docblock of removeMeal</error>
+      <error line="19" code="PPC:ERR-50008">No summary for method removeMeal()</error>
+      <error line="23" code="PPC:ERR-50015">Argument $startDate is missing from the Docblock of setStartDate</error>
+      <error line="23" code="PPC:ERR-50008">No summary for method setStartDate()</error>
+      <error line="27" code="PPC:ERR-50015">Argument $endDate is missing from the Docblock of setEndDate</error>
+      <error line="27" code="PPC:ERR-50008">No summary for method setEndDate()</error>
+      <error line="31" code="PPC:ERR-50008">No summary for method getStartDate()</error>
+      <error line="35" code="PPC:ERR-50008">No summary for method getEndDate()</error>
+      <error line="6" code="PPC:ERR-50007">No summary for property $startDate</error>
+      <error line="7" code="PPC:ERR-50007">No summary for property $endDate</error>
+    </parse_markers>
+    <source>eJyVkEsKwjAQhvc5xSy6qKAn8AWiy4LgVpAxHbWQpiUzdSPe3URtiWhFN6EJ3//qZF6faqUslsQ1aoIFMm2zKifDY6W0QWbICM3aoIWLAqhdcUYhSFjQydJ/Dv0rQEI2DzevClSzN4WGQ2O1FJWF3U5XlsU1WtJI2akGd2/vIqeCR7OOgGkUNI6RpzAAXTLA9VM45nmYkCalP0NSH+iorM70G8skm7ZYNOnnIX2mq8eYtOfP/DH7GDdsbRxJ4+xbvW8mbaPPFi8trmo+UzfN9r16</source>
+  </file>
+  <file path="models/FoodItem.php" generated-path="models.FoodItem.html" hash="96826aed3842492279e494782f0ab8d0" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="Base\Models" line="4" package="Default">
+      <extends/>
+      <name>FoodItem</name>
+      <full_name>\Base\Models\FoodItem</full_name>
+      <docblock line="4">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="4" description="Default"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Models" line="5" package="Default">
+        <name>$name</name>
+        <full_name>\Base\Models\FoodItem::name</full_name>
+        <default></default>
+        <docblock line="5">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="6" package="Default">
+        <name>$cost</name>
+        <full_name>\Base\Models\FoodItem::cost</full_name>
+        <default></default>
+        <docblock line="6">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="8" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Models\FoodItem::__construct()</full_name>
+        <docblock line="8">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$category</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$unit</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$stock</name>
+          <default>0</default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$cost</name>
+          <default>0.0</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="16" package="Default">
+        <name>setName</name>
+        <full_name>\Base\Models\FoodItem::setName()</full_name>
+        <docblock line="16">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="30" package="Default">
+        <name>getName</name>
+        <full_name>\Base\Models\FoodItem::getName()</full_name>
+        <docblock line="30">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="34" package="Default">
+        <name>setStock</name>
+        <full_name>\Base\Models\FoodItem::setStock()</full_name>
+        <docblock line="34">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$stock</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="43" package="Default">
+        <name>getStock</name>
+        <full_name>\Base\Models\FoodItem::getStock()</full_name>
+        <docblock line="43">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="4" code="PPC:ERR-50005">No summary for class \Base\Models\FoodItem</error>
+      <error line="8" code="PPC:ERR-50015">Argument $name is missing from the Docblock of __construct</error>
+      <error line="8" code="PPC:ERR-50015">Argument $category is missing from the Docblock of __construct</error>
+      <error line="8" code="PPC:ERR-50015">Argument $unit is missing from the Docblock of __construct</error>
+      <error line="8" code="PPC:ERR-50015">Argument $stock is missing from the Docblock of __construct</error>
+      <error line="8" code="PPC:ERR-50015">Argument $cost is missing from the Docblock of __construct</error>
+      <error line="8" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="16" code="PPC:ERR-50015">Argument $name is missing from the Docblock of setName</error>
+      <error line="16" code="PPC:ERR-50008">No summary for method setName()</error>
+      <error line="30" code="PPC:ERR-50008">No summary for method getName()</error>
+      <error line="34" code="PPC:ERR-50015">Argument $stock is missing from the Docblock of setStock</error>
+      <error line="34" code="PPC:ERR-50008">No summary for method setStock()</error>
+      <error line="43" code="PPC:ERR-50008">No summary for method getStock()</error>
+      <error line="5" code="PPC:ERR-50007">No summary for property $name</error>
+      <error line="6" code="PPC:ERR-50007">No summary for property $cost</error>
+    </parse_markers>
+    <source>eJytUlFrwjAQfu+vOESwQje6vWodDDbYw/ayV0FiPNuwNinJVSfif1/SdFpb3WDsXhJyd999932ZPpRZGUhWoCkZR3hkBuevaoW5mQQBz5kx8KzU6oWwgH0ANkotNowQhq4rqp9cDLkyZHvqkmqZCw7rSnISSsJiwZU0pCtOoW+z5RYjVXoH9l5JQfYwpPgHJBBHHs1db+N4vD8NoUyYm5mDsMkaatJNHoGT05BekZvoCtzZS37z8IT6Azy1ZmGXOFxe2yC9WYZ+5dYWYu2fIElgNGolXFCm1RYkbmH+9MmxdEjhWYWLgTMFaldqJM6kVARLBCxK2g0iuBufiDf8mtnWiBxlwwpmcB//M4VcyRS1hWHSggPPmGacUJvrtM6NJS2Kht+PAqeNwC3+GqnSso33m0XvzuTQe90xyX+EKcTj4/OflKpHtARitiVlJDYIsiqWqHvCdHS59COva+I3uirKGcYh+AIa0RuD</source>
+  </file>
+  <file path="views/modules/header.mod.php" generated-path="views.modules.header.mod.html" hash="ab45434e6e6172e7a53bf2e735face9c" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJy1VX9v2zYQ/T+f4iIUXQtUYp2tXdpazhzXaAwkmREr6IaiMBjpbDGhSFU8OfGKfvcdLbd2UufHhlYGbPD89O7d8fHY3ivzckv82If54AilHmppDFZw1zNEY2BEkhBC6NncVuSg9Qoew85z+IO/Wrs/Q95BcnQIBygzlndks1rjD8+y19lqb7/9s5f8PexDToXmtf8B7so0DtAEnS2OsIbOlu9Eu0CSkOayckhxUNMk3A3W/8qJyhA/1WoWB3+Fp92wZ4tSkjrTGEBqDaHh9wb9GLMpXnvTyALjYKbwsuT+roEvVUZ5nOFMpRguFs9AGUVK6tClUmPc2kB0gfNLW2VujWgDKkOXVqokZc3dQFkTb/sGjFbmAirUcaBST0LzkuGqkFMUpZkG4NQ/6OKg9fKq9TKAvMJJHAjpuH9OLGBOTOTMvxx5/JKWFGnstL3zAdPcwng8GiT94+5Rfzx+A2oCT5TnePJodLqfDJLD/tOn8LmBBvD5W/RL8Aa+wF6nLRrGhn07DCH2D+xbS44qWUJvNFrGwnC9tqXiGZrMVuLsK15kypFInVuFokKZiCNB0w9Hc40uR6Tgu7RDXU+VuZGzqdaX9mh4ePpucDzuHXRPksEo8aXt3S7K+5FYTnjulrKWgXsV3UVWLjSGZK0mVYaFdITVdf4bmNtSNYX5bdhQ49tuwp/9w/7oniozyRNI8kFy4vxTjdU88pFkEbm90KUhCa8WuxWA+D6DP7TutRBpZqJVlsggibOayBonWtFOtNNsdxP538nXmnHDFF3D58Efxfu86GXIBRgf6Lde7cgWD+FdsDyU1WpbPYQ09UD2Jk5kralhVxk3JscC70zk74AXMMpVAdJkcIKutCaLzh0M+rvg6tIPS7CTJRA1Exq+nTy4wExJ8FZR6FbiPO377snx4Pjd63XCzKIzvxDw2LzwDp3bGvw4BlYJJQ8qXkmYKI1slWt0HxitiRXBq4/LaDNWwVXpyl7WsVXklXdZaguh1ZkT/rJ54XI1E79Gv0fPV2tWFPDUanj+I2n1rSj27W/s268Bb9QNvNsf+ISpycfFEBLNbfcvpX2EQA==</source>
+  </file>
+  <file path="core/DatabaseHandler.php" generated-path="core.DatabaseHandler.html" hash="613bd9b6fcbfc92923ebf0fde180ad9e" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="Base\Core" line="8" package="Default">
+      <extends/>
+      <name>DatabaseHandler</name>
+      <full_name>\Base\Core\DatabaseHandler</full_name>
+      <docblock line="8">
+        <description>Handle database connection</description>
+        <long-description></long-description>
+        <tag name="package" line="8" description="Default"/>
+      </docblock>
+      <property static="true" visibility="private" namespace="Base\Core" line="10" package="Default">
+        <name>$host</name>
+        <full_name>\Base\Core\DatabaseHandler::host</full_name>
+        <default>'localhost'</default>
+        <docblock line="10">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="true" visibility="private" namespace="Base\Core" line="11" package="Default">
+        <name>$dbName</name>
+        <full_name>\Base\Core\DatabaseHandler::dbName</full_name>
+        <default>'capstone'</default>
+        <docblock line="11">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="true" visibility="private" namespace="Base\Core" line="12" package="Default">
+        <name>$user</name>
+        <full_name>\Base\Core\DatabaseHandler::user</full_name>
+        <default>'capstone'</default>
+        <docblock line="12">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="true" visibility="private" namespace="Base\Core" line="13" package="Default">
+        <name>$pass</name>
+        <full_name>\Base\Core\DatabaseHandler::pass</full_name>
+        <default>'CmklPrew!'</default>
+        <docblock line="13">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="true" visibility="private" namespace="Base\Core" line="14" package="Default">
+        <name>$charset</name>
+        <full_name>\Base\Core\DatabaseHandler::charset</full_name>
+        <default>'utf8'</default>
+        <docblock line="14">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="true" visibility="private" namespace="Base\Core" line="16" package="Default">
+        <name>$instance</name>
+        <full_name>\Base\Core\DatabaseHandler::instance</full_name>
+        <default>NULL</default>
+        <docblock line="16">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Core" line="17" package="Default">
+        <name>$db</name>
+        <full_name>\Base\Core\DatabaseHandler::db</full_name>
+        <default></default>
+        <docblock line="17">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="Base\Core" line="22" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Core\DatabaseHandler::__construct()</full_name>
+        <docblock line="22">
+          <description>Private constructor to prevent outside use</description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="Base\Core" line="28" package="Default">
+        <name>getInstance</name>
+        <full_name>\Base\Core\DatabaseHandler::getInstance()</full_name>
+        <docblock line="28">
+          <description>Return an instance of itself, creating it if necessary</description>
+          <long-description></long-description>
+          <tag name="return" line="28" description="Instance of itself" type="\Base\Core\Base\Core\DatabaseHandler">
+            <type>\Base\Core\Base\Core\DatabaseHandler</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="Base\Core" line="41" package="Default">
+        <name>connect</name>
+        <full_name>\Base\Core\DatabaseHandler::connect()</full_name>
+        <docblock line="41">
+          <description>Connect to the database</description>
+          <long-description></long-description>
+          <tag name="return" line="41" description="Whether connection was successful" type="boolean">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Core" line="55" package="Default">
+        <name>getDB</name>
+        <full_name>\Base\Core\DatabaseHandler::getDB()</full_name>
+        <docblock line="55">
+          <description>Return instance of database connection object</description>
+          <long-description></long-description>
+          <tag name="return" line="55" description="[description]" type="\Base\Core\[type]">
+            <type>\Base\Core\[type]</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Core" line="63" package="Default">
+        <name>disconnect</name>
+        <full_name>\Base\Core\DatabaseHandler::disconnect()</full_name>
+        <docblock line="63">
+          <description>Disconnect from database</description>
+          <long-description></long-description>
+          <tag name="return" line="63" description="[description]" type="\Base\Core\[type]">
+            <type>\Base\Core\[type]</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Core" line="68" package="Default">
+        <name>__destruct</name>
+        <full_name>\Base\Core\DatabaseHandler::__destruct()</full_name>
+        <docblock line="68">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="68" code="PPC:ERR-50008">No summary for method __destruct()</error>
+      <error line="10" code="PPC:ERR-50007">No summary for property $host</error>
+      <error line="11" code="PPC:ERR-50007">No summary for property $dbName</error>
+      <error line="12" code="PPC:ERR-50007">No summary for property $user</error>
+      <error line="13" code="PPC:ERR-50007">No summary for property $pass</error>
+      <error line="14" code="PPC:ERR-50007">No summary for property $charset</error>
+      <error line="16" code="PPC:ERR-50007">No summary for property $instance</error>
+      <error line="17" code="PPC:ERR-50007">No summary for property $db</error>
+    </parse_markers>
+    <source>eJyVVNFq2zAUffdX3EJp4tCSPY5mzbYmDxuUUAZjjKYYWb6utSqSJ8kNWcm/77qWVcdJyqYn2zr3+NxzrvThY1mUkWIrtCXjCNfM4nKmDU6iKGMOkwxzVkmXOLHCP1phYtENB59XaARn4wWuk5/aPA7iSTQejSIYwRemMolAxSwlMuBaKeROaEW744hLZi3M/W4DNtFzBLRKI57on2Adc4LDaaGtgysYSM2ZrF8Gk4O4LF1QA7RBWM5K60jnEWhl0fwDrKxFEmy2epS3BtcnR3C8YIYMqaGVy98T6iBMKHpSZO8VLL7f3OxykXxf9uJgvUZw6zfJPetMxZ024DTV4BMqB7pyVmQI1I6vGO9w5pV6sRySJDAM4+ft3n++oauMAqYgaNQ5CGdR5ufADVID6oE+gMiBckRrmdm01Z9MUx6mZtkLFr7use7qrVJJBnmfguoHdG0hqW4qaIl8eFJTXF4GR+Ow+QqrVw9Gxitc98duGE/eKrqY+tnt4rbhyffeK2qQ+0bPGqo6RFe8Ho++k6nWEimNHwUSzHROD6yZBVvxOoK8km/HHoRHu9acukLYi2mWekOWq439LcWwc8TO247qoxJe6gMRXprzFvup9ckE6mBbgsYoDVN4F++G43vNmbTYcXbSt5bG9qiffnC7U3vgygGd/qKnvst3blPiPdxlaLkRZY28PzSX3YGcX3dH0ROFpo/JnAvr1UBu9Opo7v+tKAvEx0OmJKS22I6vV9dnSuiOb2+IHlM3Vjg76zKXdC0M416w7X5H216+22gb/QUSmuwt</source>
+  </file>
+  <file path="core/Controller.php" generated-path="core.Controller.html" hash="f04ef719f610136811f1de565ddffa58" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <namespace-alias name="DatabaseHandler">\Base\Core\DatabaseHandler</namespace-alias>
+    <class final="false" abstract="false" namespace="Base\Core" line="18" package="Default">
+      <extends/>
+      <name>Controller</name>
+      <full_name>\Base\Core\Controller</full_name>
+      <docblock line="18">
+        <description>Super class that handles all incoming requests</description>
+        <long-description></long-description>
+        <tag name="package" line="18" description="Default"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Core" line="19" package="Default">
+        <name>$dbh</name>
+        <full_name>\Base\Core\Controller::dbh</full_name>
+        <default></default>
+        <docblock line="19">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Core" line="25" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Core\Controller::__construct()</full_name>
+        <docblock line="25">
+          <description>Inject DatabaseHandler on instance creation</description>
+          <long-description></long-description>
+          <tag name="param" line="25" description="&lt;p&gt;handler for database connection&lt;/p&gt;" type="\Base\Core\Base\Core\DatabaseHandler" variable="$dbh">
+            <type>\Base\Core\Base\Core\DatabaseHandler</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$dbh</name>
+          <default></default>
+          <type>\Base\Core\Base\Core\DatabaseHandler</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Core" line="29" package="Default">
+        <name>model</name>
+        <full_name>\Base\Core\Controller::model()</full_name>
+        <docblock line="29">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$model</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$params</name>
+          <default>NULL</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Core" line="39" package="Default">
+        <name>view</name>
+        <full_name>\Base\Core\Controller::view()</full_name>
+        <docblock line="39">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$view</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$data</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="29" code="PPC:ERR-50015">Argument $model is missing from the Docblock of model</error>
+      <error line="29" code="PPC:ERR-50015">Argument $params is missing from the Docblock of model</error>
+      <error line="29" code="PPC:ERR-50008">No summary for method model()</error>
+      <error line="39" code="PPC:ERR-50015">Argument $view is missing from the Docblock of view</error>
+      <error line="39" code="PPC:ERR-50015">Argument $data is missing from the Docblock of view</error>
+      <error line="39" code="PPC:ERR-50008">No summary for method view()</error>
+      <error line="19" code="PPC:ERR-50007">No summary for property $dbh</error>
+    </parse_markers>
+    <source>eJylU81u1DAQPsdPMaoiJV0V5wFKf8T2wEpLDyBObBU5ziwxcmxjO60Q2ndn7Aa6XQo9bA6Jk3zz/czYb6/c4JgRIwYnJMI7EXCztB7PGWuOuKgYVqOzPkKPDk2PRioMHJbCQIfg0WnS66H7AWKKVlvRgxYRPeTiI5Q9fp+Ux9YaiXV1I6LoKNR7YXqNnlPc6pTCHaXxLOY6Wd8PCcpEC3LyHk2EIK1DDrc2QhwQArUaBGFyc5T5emzeJy9T2Jvf5iB4mudiwWABnyZHXZZahECORIQhIwIIrcm6tGNylbqIIQaqaNgjeGlN9FYT2U9WOK/uaVxQ9t1A3EUiL4h9Zb6hjHCgDtYQdYiCZgLSo4jKmoy/dsKL8d++s8Bs0cPWeuhnAEhrDGnNTA15mjqtJGwnk79C2xIkRD/JWL9Ee0o5ijIOKry5TCoXc5pix/4mG22Pui7z4wzKbDtQye3n9ToT7e87kr5ZfWxbXjWcN7kmNBV/rOZV3oXnSfzPyes/pF/Ed5Jbkd/CZnMy16QWF2pbz7pZkBTj5A0YfIBDoppz/hubhHbs//B0JBLoMPW9woe6TPezMjWeDH65eyVuQue0afEUdsd27OqS/QJygk5W</source>
+  </file>
+  <file path="models/GroceryItem.php" generated-path="models.GroceryItem.html" hash="c94d34c6dff4709b726b5dfc84a1ada7" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="Base\Models" line="5" package="Default">
+      <extends/>
+      <name>GroceryItem</name>
+      <full_name>\Base\Models\GroceryItem</full_name>
+      <docblock line="5">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="5" description="Default"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Models" line="6" package="Default">
+        <name>$fooditem</name>
+        <full_name>\Base\Models\GroceryItem::fooditem</full_name>
+        <default></default>
+        <docblock line="6">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="Base\Models" line="7" package="Default">
+        <name>$quantity</name>
+        <full_name>\Base\Models\GroceryItem::quantity</full_name>
+        <default></default>
+        <docblock line="7">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="9" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Models\GroceryItem::__construct()</full_name>
+        <docblock line="9">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$f</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$q</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="21" package="Default">
+        <name>getQuantity</name>
+        <full_name>\Base\Models\GroceryItem::getQuantity()</full_name>
+        <docblock line="21">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$f</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="25" package="Default">
+        <name>setQuantity</name>
+        <full_name>\Base\Models\GroceryItem::setQuantity()</full_name>
+        <docblock line="25">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$q</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Models" line="33" package="Default">
+        <name>purchase</name>
+        <full_name>\Base\Models\GroceryItem::purchase()</full_name>
+        <docblock line="33">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$n</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$q</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="5" code="PPC:ERR-50005">No summary for class \Base\Models\GroceryItem</error>
+      <error line="9" code="PPC:ERR-50015">Argument $f is missing from the Docblock of __construct</error>
+      <error line="9" code="PPC:ERR-50015">Argument $q is missing from the Docblock of __construct</error>
+      <error line="9" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="21" code="PPC:ERR-50015">Argument $f is missing from the Docblock of getQuantity</error>
+      <error line="21" code="PPC:ERR-50008">No summary for method getQuantity()</error>
+      <error line="25" code="PPC:ERR-50015">Argument $q is missing from the Docblock of setQuantity</error>
+      <error line="25" code="PPC:ERR-50008">No summary for method setQuantity()</error>
+      <error line="33" code="PPC:ERR-50015">Argument $n is missing from the Docblock of purchase</error>
+      <error line="33" code="PPC:ERR-50015">Argument $q is missing from the Docblock of purchase</error>
+      <error line="33" code="PPC:ERR-50008">No summary for method purchase()</error>
+      <error line="6" code="PPC:ERR-50007">No summary for property $fooditem</error>
+      <error line="7" code="PPC:ERR-50007">No summary for property $quantity</error>
+    </parse_markers>
+    <source>eJy9ksFqwzAMhs/xU4gSaAMpdOc2LQy2scMOgx0LxXWVxZDYrq2sC6XvPqVdQuly6WXCYCRLn6QfL1aucEIYWWFwUiE8yoDrN7vDMsyFUKUMAV68VeibV8IKjiJyXn9JQohza3eag6kAtnhfS0OaGq5rfVdvS60gr40ibQ1sNsqaQL5WNInzlPOTlhbpnF3IMhiPk+O58mJUeHsAgwdYP30rdC1kMnrmnnCeREljLMEWAStHzSiFh2Te159E1F4tfA+LDGZ3sbtVoETenwppwHpADpdAFmZ/m0V8Yip0mC47WSCDD68r3o5T+9cenbECF8RpWLBPpPff5JZxFssj1d7ADavD8BC3kHANuVL8v0UZXHtgXld7VfAfnMQm7eYdQNxEpldQVnO1FD/ZFdd3</source>
+  </file>
+  <file path="views/modules/sql.mod.php" generated-path="views.modules.sql.mod.html" hash="3424ba912ebf9e3c1d160973b87f406a" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <constant namespace="" line="23" package="Default">
+      <name>__SQL_HN__</name>
+      <full_name>\__SQL_HN__</full_name>
+      <value>'localhost'</value>
+      <docblock line="23">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="23" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="24" package="Default">
+      <name>__SQL_DB__</name>
+      <full_name>\__SQL_DB__</full_name>
+      <value>'capstone'</value>
+      <docblock line="24">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="24" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="25" package="Default">
+      <name>__SQL_UN__</name>
+      <full_name>\__SQL_UN__</full_name>
+      <value>'capstone'</value>
+      <docblock line="25">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="25" description="Default"/>
+      </docblock>
+    </constant>
+    <constant namespace="" line="26" package="Default">
+      <name>__SQL_PW__</name>
+      <full_name>\__SQL_PW__</full_name>
+      <value>'CmklPrew!'</value>
+      <docblock line="26">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="26" description="Default"/>
+      </docblock>
+    </constant>
+    <function namespace="" line="44" package="Default">
+      <name>sqlQuery</name>
+      <full_name>\sqlQuery()</full_name>
+      <docblock line="44">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="44" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$query</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$returnID</name>
+        <default>FALSE</default>
+        <type/>
+      </argument>
+    </function>
+    <function namespace="" line="108" package="Default">
+      <name>sqlRequest</name>
+      <full_name>\sqlRequest()</full_name>
+      <docblock line="108">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="108" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$query</name>
+        <default></default>
+        <type/>
+      </argument>
+    </function>
+    <function namespace="" line="154" package="Default">
+      <name>sqlRequestByID</name>
+      <full_name>\sqlRequestByID()</full_name>
+      <docblock line="154">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="154" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$table</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$id</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$var</name>
+        <default></default>
+        <type/>
+      </argument>
+    </function>
+    <function namespace="" line="197" package="Default">
+      <name>sqlRequestArrayByID</name>
+      <full_name>\sqlRequestArrayByID()</full_name>
+      <docblock line="197">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="197" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$table</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$id</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$vars</name>
+        <default></default>
+        <type/>
+      </argument>
+    </function>
+    <function namespace="" line="236" package="Default">
+      <name>sqlRequestWhere</name>
+      <full_name>\sqlRequestWhere()</full_name>
+      <docblock line="236">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="236" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$table</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$var</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$match</name>
+        <default></default>
+        <type/>
+      </argument>
+    </function>
+    <function namespace="" line="269" package="Default">
+      <name>sqlRequestArray</name>
+      <full_name>\sqlRequestArray()</full_name>
+      <docblock line="269">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="269" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$table</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$array</name>
+        <default></default>
+        <type/>
+      </argument>
+    </function>
+    <function namespace="" line="299" package="Default">
+      <name>sqlArrayQuery</name>
+      <full_name>\sqlArrayQuery()</full_name>
+      <docblock line="299">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="299" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$queryResource</name>
+        <default></default>
+        <type/>
+      </argument>
+    </function>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="44" code="PPC:ERR-50015">Argument $query is missing from the Docblock of sqlQuery</error>
+      <error line="44" code="PPC:ERR-50015">Argument $returnID is missing from the Docblock of sqlQuery</error>
+      <error line="44" code="PPC:ERR-50011">No summary for function \sqlQuery()</error>
+      <error line="108" code="PPC:ERR-50015">Argument $query is missing from the Docblock of sqlRequest</error>
+      <error line="108" code="PPC:ERR-50011">No summary for function \sqlRequest()</error>
+      <error line="154" code="PPC:ERR-50015">Argument $table is missing from the Docblock of sqlRequestByID</error>
+      <error line="154" code="PPC:ERR-50015">Argument $id is missing from the Docblock of sqlRequestByID</error>
+      <error line="154" code="PPC:ERR-50015">Argument $var is missing from the Docblock of sqlRequestByID</error>
+      <error line="154" code="PPC:ERR-50011">No summary for function \sqlRequestByID()</error>
+      <error line="197" code="PPC:ERR-50015">Argument $table is missing from the Docblock of sqlRequestArrayByID</error>
+      <error line="197" code="PPC:ERR-50015">Argument $id is missing from the Docblock of sqlRequestArrayByID</error>
+      <error line="197" code="PPC:ERR-50015">Argument $vars is missing from the Docblock of sqlRequestArrayByID</error>
+      <error line="197" code="PPC:ERR-50011">No summary for function \sqlRequestArrayByID()</error>
+      <error line="236" code="PPC:ERR-50015">Argument $table is missing from the Docblock of sqlRequestWhere</error>
+      <error line="236" code="PPC:ERR-50015">Argument $var is missing from the Docblock of sqlRequestWhere</error>
+      <error line="236" code="PPC:ERR-50015">Argument $match is missing from the Docblock of sqlRequestWhere</error>
+      <error line="236" code="PPC:ERR-50011">No summary for function \sqlRequestWhere()</error>
+      <error line="269" code="PPC:ERR-50015">Argument $table is missing from the Docblock of sqlRequestArray</error>
+      <error line="269" code="PPC:ERR-50015">Argument $array is missing from the Docblock of sqlRequestArray</error>
+      <error line="269" code="PPC:ERR-50011">No summary for function \sqlRequestArray()</error>
+      <error line="299" code="PPC:ERR-50015">Argument $queryResource is missing from the Docblock of sqlArrayQuery</error>
+      <error line="299" code="PPC:ERR-50011">No summary for function \sqlArrayQuery()</error>
+    </parse_markers>
+    <source>eJzlWlFv2zgSfvevmN0EZ/vg9bW7+7CXXm/PTdxrgMRN4/SCIggCRqJjIrLoklK8RpH/fjNDipJsJ3u92N5gKxSBK3GGQ3Lm+2ZI/uPX6Xja+Nt6H9QHx1IkJ4lIU2ngsedEpikMM5FJ+AH29VibzMLLv8Nf4McX8C/88/KXTZg3/HAExzrOE7kp7UNp7nDsKh1pMxGZ0imINIaZEdMpvh/laUQvLeB3FvicS6Ok3YQ99nPyAbXPW+3Vi4BNDgfD/umZ7cDHk4PeWR9/yCzqeuFTicbZbLU4jbd/1N8/s/XWb+aHB8sS2OQtDtjIDAd7p9IbsPgnkXAnEpTqQKozEMaI+YK6Hr1b0rmszsk6PTXVdXXnY2lkq72ijyWbl/uY5Emmpqi5ZihL+3nexCoOdCbtHv3iwBFGTGRGrsQOBtl8qiKRJHN8kSR6ZiEbS0ixEegR/87ENdo8UsZmHXqRki76cHgALTUC9MwEVWCjNn/mb3fCKHrVsm24lrxgUphoLGPquLv2gZJN+xgXmUgz24jlSKWyBc2rK4yRq3eDq6smdKCZaBzqWNus2X7lluiY7Dx4A/SSBr0oevDGi0ZiajOdyiYsisYCZ0hYN2mL8h8HvyufW2lWiZ6ce9H9yW1yYuTsuyWrSRSmwtqZNnFjE97z9uNg/+zw/WAvoAG9fYLCA2kjo6YEYuSUhV+ejZUN6AY3WlrQOXqnZm8ioAvTTHgof5NRjn4NggFw3kUFzjEx3nKTOi8OIkZanZtIwvUccJYFBmIXDtF1fXP0ZOzeuHCGluzeMIY5dKt4dSpnpIviGD1axbDj5EgHerZC/5Mi7rpxPWXaKWj34KNFpWhyBf0Z/J+o/NRN0V45LYxTNCyM6Z0nah9KCb3E6r21u2Nwj0BMu7z4HdgNy/ga3vaOhv1240vDg/AaOi74KpNT2Hm5V/5fmCzEIqJPKtm+Nfe8G1+XunGAkzmOX11F7l2rhLgOlJhT/CYQadP6xkq2vKQ0RptWTW27/arBnfkmVib44Sq+rjcrtBIqfo3WDSzDj2EZ+g4LOEDZH8BSYjiRabb2zp3DnbpYCUvx2TljfaZc0zBLzWNqC+y3F82u+9ptXja7j84fWU+pXiyv85sbRB3nEl9tRrkQ+2MZ3QLy9kw2jQSbT6eacAah1kURAixR+8joCf9kEHQzyzpQtBUCrs2vXLD5Dj4hLM8oyZFdghrKfmRAT4XoWLTddZjDUeuHgAgqTXal4oWJeMVC9xvzpp+CN+0nOBts7sYCughg6mlpnJsa4c9hhA7+eYie8Zi6QsGxZgt+z10q5jgHgchIQTY96IH0eF8NPlTzkOJjJUxeNe43nyD5gmAjKZLPkCJOASjtyH3UUv7HGdIHVwriVBqd34xBYf40FlQXSUyYpuhiMubcPUQ6JUgu3fHFWLsL5+gWeeEePj9gNSW+ujm36DSkTqWocKGQwZcIfDHmLPjtRmZwLRB0KN1K2MdE4oogAooIl9jZ4xMnGLw/6/uK5QfaEkgzxkBXR+T1pMgW7VAIjvu9wRm3LYjAoIh19seaqzvXVZF30gx0sYzpIlg5P+vA/mkfa9kOnPZPjnr7fVfTPqU2W0i66lOwxnSLR7RYSi+/9/Xq8oeyul3rU0vcik0Bz0vbyNOqCcKHACJrTNDqbLyQnW4lB3KkTnGI7qBGtVj1xYnVWPePMRw61MDqDiQya9pCA+MBIgZHM0Yk+2Z37VzQqk5Wu0wFlqawgiY1kc3N5k+rGNL1atfc5x/MTwQM6+eoryzhE61vGbzzqd8xSvKw51RsH8Fc547gSC4G7VZFxSuoAjnAg2xtB6+yN9glzyeNM6IUEUjAcxGSSk6SfnPLbXYR30B1p2LhWbnV+PQNgEAX1aFsjioepInnzCFs2y5vT2Kdo2L8g36zFUqp1TXk1uumFIcQ/+GYeF1dqO9daQ5faKz3Lkf+4ibhHmY0+ZRCv8Z3Kr7/fivkM5QYzpzglXE8o39oC0U5hRRt+sJQpZEspGaUk80oyYykwplkBTycSiLt2yKwFJTUcechEm5TPfM1rE6TebWQLcTG4o4+Et5YtMYHNMpOxC1VvqaS2dJ0FnJuCFamPm8lXCPDqB3vg0Nr50UbcCGqmwzKYVNt6TzsnI9VNAY71nmCM+W8howuRJ2NMzG362bcskwKRl28uLyg0V5uk3ICmDwP3qmRjvWs0+Cld8RjA/N0/i/qcYzCzOM64f3mwD3ssaIG7kQ0ezWSWZHJh+7eD44+QQ+Gh4N/H/Whd3raw/8enfc+DTtU6FAxRMTl+Y5KLAwOq4hSOSr8cPmpFnXkxeGcyju4LVyby0XPlf5Mx4dINyg7dHvgPJqVfLEuYrwoC6nLrVVSa31WcVpJukvEZr8lZrPPg9ro+Tp6W+S1QtNjNPe/8Fuhp7pfG/jNB+qGCK4I/8rKFYo8v7UeIjjPbHOitvZWqG2bpMa57vMhNIbnkUoySbte7pTe7QSS3Pm7/mkfokTkXq44KSWHlXzpJEPpNLY1gkP/95tokZ5MkR0t3T5JpfNAXGqZ8kY2+qzKsCcV3SJlGslXCia0d1fhtIlGj6TtOZVm8ga7rOhkL0LvLUIKB+QOInacDytbUUTESmfmMTRV3OyA/E1MkLH2wGg9UfE6eWZ7+3VfVWdtj5JcRRfoCGEE/05EFo2/EUL660oq8gUY0RFPxh9SbHHIryCjzUPt1ouH54OzIQ2gy01l6UCv7VRGaqSiFXXEo2UEDJAo/zSg9dCm0Rb3hhxuBtDiSfjTwZV9KIHm4S5k0N8WPFnGp40DVHlKsY1rceWttzTc/aXjA3dIW83pqietjZCne8VPMDNcHw03SndrRjxR/Sbwa3VnVchYddTEoykAY7c0h9ti2AmXl628VoNUQqcLcz5tIzpBOEhhanQkrd/go0sR3y12Rh/KqxGlU9f6XrwJ845Ci/sM2b4UER3+y0n9EN/7BgvOxiqR0NrF6s7My+s3I4mJzBWSlY4Wp2LFzY2eterG0ZnTw1Wvhz8+R0RRvtRROUxcNZ8Xl2iCs2VxeOeyicqmiYiQO7GmCL3RRQfug174ytnSCT8VzWXRXbtbsuhV3cajE41W/PrPxn8BO7mxdQ==</source>
+  </file>
+  <file path="views/modules/sidebar.mod.php" generated-path="views.modules.sidebar.mod.html" hash="f0bb39e335949768f8ad278034f8c717" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJzNV99v2zYQfs9fcdPDsD0wSjqs2DrbXdBtWIAWCBagwJ6GE3mS2NAkQVJ2+t/3JEt241q2MiRoBViyqPvx3fHjHTl77Wt/lj/txfbgHaG5MWgtBTh23ZC1cJswEQh442oXUoTLX+F7eHEBv/Pt8pfngHerFRUY4J1TjaEn93D2enE2RDj7TgiYtxe8pTKJwfVmSIjPJDHyN5AGY5xncSOX7b53MkqvthIyOGPEYcF94SZSED64Uhs6ILovroLzyq0tDHqicOrjiOK+cu9G6CVWY862enpZQQxynuXeNJW2Me/UYt56jjmuMGF4ef7BVxmgSX0krJUN7vi/kDrI0cB2CYY6UDnPPrBVzp726dXKafXDxY+/ZfuRi+SqyhA0YpuLRPdJFKahDBSj6iV2KhnwhPB70aTk+A2DRlFj9M43fp6l0Gp2g3Tv0SpS86xEE0/h7rBH1hgwFqgqgu4uFNqKDs3+4WwPJkqEEgXr8jx12BezXE+Akbc4TqQ5xxMCjfki20uyDaDluU+koDTaX9t/p+TF6MXReV3sx9zyZxMt3GyI2gKe5WZK+I/2pm3h7nt31+3/RznrCRXJY8Dkwo6lesXLvovjeXBLV/Wor6R0jU1wSylpW8WvH8CXaL1bc1FwZdljfusq16RpSGd5Y47UtZyRHvns94teWyRgKZK4/BlKZ/n5MjuR+46H53DLq3GNdoPaj9Tow3DGhi2u9vqJ4KGx+s/LUquNZLcej5X7k1nFwTHKpFcEa1xRFFSWJFN2rA4fLpC7GdfSWcFaRFYoinfJ+ZYC5bqf+weVst7FAn9grAuHQT0UMViQge4uAjOdvfZv2pYOfMM9NuiqTtnisi9/28eEQncwnMG35AaOfloDMG1sA49yNQSTZwvexVCw8J77pXYdf2D6qhrvii013xjC57F8ZdF8TFqieaT5U+v1mP4jaPu0fJXNRJL+5ZyaSM/YSEkxPmDoi6/M0B1BSw4kMjnfa1pvovp/XbY3hKpl+pVSnS24TrR8mvL+TdKlcO5OOE92Gmn+Iak9xYm82ewYH9Dm4luhzcH+2FFoiPEJ92otmzZmn5dKh/VmObfi44c2L366GGvWI1wYhzekok7Jx1d5vl6vz2VTaJlqWtJ5hXn3Juq0NHkGfOqqiI9b/xV8jL/bTmyRLPCPO2+JjRl2OtnibzIeck5nSYGspFEKjZ0gDmxh9obYZLs1OXm0Fn9a9dnx+hPS0kVo</source>
+  </file>
+  <file path="views/errors/404.php" generated-path="views.errors.404.html" hash="ea202afc6874dacc0764fb3a59fa4d98" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJy1VmFT20YQ/e5fsWiYAjORhANJSWI5BaMkdILt2qYtwzCes7SyDqQ7RXeycTv9792zhJGpoXQm1Qyc7m737bvb3Se3PmZx1nC/70N4cI4s6SdMCMzhuaePQsBQM41gQ0fGMtcKmu/gB3i9Dz/Rv+bR/0Hvk8whZiJMuJjC4f4hKMxnRBXzXObqu0fM8VvBcxxLEeAubI+H/uBXf3C1c9rrXJz73dF40OuNdq7BgR03lWGRoHJTxoVDE4cytAN7HxqNj+1Ga4tcRpd9H2KdJjQ3A9A9Tz0LhdVu0AqysN0wd9tKUTMIYpYr1J5V6Mg+supbsdaZbajNPOt3++LY7sg0Y5pPErQgkEKjIL8z38NwimuegqXoWTOO84wyVjOe81DHXogzHqC9nLwCLrjmLLFVwBL0mhuAbnExl3moakAbrEJUQc4zzaV43pAVmgppgw2l+xZyTDyLBwZELzIy5ymbopuJqQWK/4HKs5pv75pvLYhzjDzLzZJiyoVyl3bKjdjMeDvGocLVXCfYbplmAgxiCePx8Gzkd4/P/fH4A3xsU3GbKutKDZEsRNhyS5fSfcu2wTMPnEiplc5ZBp3hsFqz7Tr7itMMRShzd3Jv74ZcaTdQ6mHJSamAaMUqT6z0gsoqRtTWP8L2lyfcFPPB5ljQ+c3d/xs1Q4ItjfGF4TuF0jJ9Ce4S5aWoMqEufwFoYAyVG2LEikSX6Dz0LB1jis8G+jI6//oGhjFPgcQEBqgyKULnRsGZfwSqyEx3gIwqQ0wIUJDAGeMUQ87gW4E5R7V+4b8dD7pn3c/v64ChRCV2NFCf3AKPYCELMP0HxBIyKkyaMYh4gu9J3+pwV2SdaGIE766r1bKPQOWBZxkRUOQjlXJSdheEVDQydRM+Ua5Rlzcq5jP3wPnR2X+YEyOr3XJLnP8Imq8O5TadQ+f1asHU6wbcrSuqdR5dmzO13FLeGq2JDBcQJExRu5IjtxUPccLyenr6lDrJQtL11X2EfHbvld3vVi6P96kOzL6tMqRUiak9p/Qnhh4ZVXC1V4XBsjtM5cyp/TI0ClRCLT8rtsnSE7FKg4m8q+0/ZUPn1nin7YBKaY38yilutklt6K6amzYP7gGXKIUhGjBFzPqmioxEfTISBVsEcLABIFvzTwuNVMy2tg/2aZjQYLUvexcw9P1zGPXgxIcvF93Pg0s47p7C195w9Ar6vd4ATo5PLltutiECq7pzTVAH/unZwO+MSkFdXe1EC6A/m4tILl9yQ54ozdkMlY1RRHmpJgmfxnpJ8pBInrDgFrSEWKbYclm7ns0VlYjUlOqnClbN1q5/jWSn178ckPKXJFtu6VDLeb12qoqpFezNLyQHi4dqrbfUveTfGMlYlHpfvj/ZOIRY+6DIHOFnNmPDEvTZII++KzePPytPt3/5STU35N5QsHK1KtLt3agQyzPv7sGfq0vZ3rWch2bccyIae4Xepd88ZvuvanyI13JNFxgVcMufQX8DLx0gDQ==</source>
+  </file>
+  <file path="views/auth/login.php" generated-path="views.auth.login.html" hash="9663be35fd3a0cd5c4f85c1572107b97" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJzNV21v2zYQ/h4g/+EqFHP7gVGSYsC22s7SROkCOLXhl+7DMBiUREtcKFEjKTvZr9+RslzbSRy7cNoasE2Jd8e7517ZPCvS4vDA3+/HCoQbRkVP0DxnCjZ9eizPYWCoYUDgQqZSGQ0nv8JPcHoMv+PPyS8vo2BHJjx/AdGK/VtyxcYyj9gbeD0eBP3PQf+vxmX3YnQTfBqO+93usPE3HEHDz2RcCqb9jPL8CB+O0B0NePv+8MCpOChDGHIj2OHB68How/B62AmgBQ2neqOm6okSHzXS9Dqjj9efxoPO9c3got/tdJB42B8F77/s/Xn+ORhUyD/YG1xfBh/O+6jkaLF31j48aNoogVW7xuM/gvPLoD8eo7pgqZAulPE9RIJq3fIynnOiecxCqjzctic2XxECPcWEpDGGBSH1+5hPa76i3q6Z1gkirS0B0QVjMc8TMksZE1676SNRLXB5rVlkuMyBxy1vpmhRoOxamLBIEsUSrs3TR1ZUobxbJlgnmqXcsMeIHOFEqqymtGuCgc7/k7mhAtxzhhmgOBWe09OdaN97QJ32Lc+PqU5DSVXsP3aCOyV9V5+BehBjQwcyEpLTY6894EkO13nTT989xb5kjdMpUbIs4KnTHjhGCnKnycnpJgbHxPOiNCsnRYiEkmi8uS9YyzPsznh1xCEcHhSCRiyVAgOj5Y00UznN2EbNlkJgp71HQfgOGBS4M5Mq3oBDryb5IXHI4m1wWGZKWXSLgQv1ghSKZ1TdQ1EKQQSbGCiIIcfPCXWCK4BtMi3EaUwBtGEOcP16K2mChsxl6kNxbeizjGUhVrSMIaaO9DmzNyC/oKGQKjZpef/QKdWR4oX5bSp5/Ob4bVUkjMTKFcnpUj2ziUNiqm4ryBRPUoOlkS88SWFCiZDRLdYFRX62ZZO34UqqRCK4s/is6dP2noMGnFYRy42FCB14utGDX5dPYWkMFvm6/Jkc8EtsEXULkbi/0Jnu9CltI4ioZjCjU6YJm0ywUcwfhANuHii6DDOOMGLbdQW0Ouolcg774/PAKjnbGT6wK53VK5eazhUnx8ve2SVbtYxsu9omeTYF8pLDnIcmWN9CKW89iKmhxMgkEbYjSCkMt7lrm1rLcyMQzLhJ4armwLjlQLGJkpTHMcOeaVTJvNXYX8ivIt+G+/4ssAYkUqLGhSj19iZ8dDzbGVDJJ+6AbW14rtx8TcAuprcHDI8XATuH7JT3VbjuEp1F+1LmDQMp5jDQHEenSJa5OfviP78e9fzVklk3mowIVxTDalwaFZjtbYtv0y/2jF/Tt+DsOCtWhX9e9dfmQzczPj0bfqvhDsfLfqUf1PPJhplzwVas+CMrDcOxJnAt416WCgK8Iwl0agx418G0cFZrTB8hIGSgMULASEv7CvbvrHU4fujx2EH17WbC79je67TdV4fvM83MCzX4R/N9nXj1Eju/uc6fn7qIX3W7w7WLuG9v4vbm7qcms7Po/6x8d+E=</source>
+  </file>
+  <file path="views/auth/logout.php" generated-path="views.auth.logout.html" hash="da3c471578ad3d612d9edff15da35828" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJyzsS/IKODSpy4Amqfgm5qYE5CTmJeXWqSADwSk5uUpBJcklqQq6Co452fkF5UUKxhaKqgpGBkoOAAJQwtaOM8nPz2/tITqJhelFpZmFqXG5+clp2ooqMQHuwaFuQZFq7v4O4f6uvqFxAf5+4eoxyroKajr5+anlOakFuvnJmbm6QE5esCYUFfQtObisrfjAgDiPFjs</source>
+  </file>
+  <file path="views/template.php" generated-path="views.template.html" hash="815e35ebc16fbefc65f5e1a1d3f33f95" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJy1VVuPmkAUfudXnBqztg8j1fVhjZetl2nXxAsBdNM0DUGZlUlghgWs9t93UFBBvLSx80BmON/5+M43w5nms2d7knzfIfhgRExHcUzGiA+XhkIYAy00QwIIetzmfhhApQ4PUP0MX8Sj8vQ/5OnE9Rzx0btz++R9RX1icLYgH6FoaFidYfVHqT/pTUd4rBvqZKKXfkIZSrLLrZVDAtk1KSuLRVnsRQk+NaRIobaag05Dh0hFbdrVB/oQQwtKifDSDqU4qyVlgZgWleH022Bs9F46qj7Q9MjcFujqFDeOotpwMNJ66mQ4zIu+dmZYizcmie4zB33c7aiihuk+Jj23pWZ0giBdtmG84E4fq4YhqgEBkppzbv2GhWMGQavgUkZRQC0yN/1CW4q+1vyAELSiASPhBnr1Tc8TR2f3CqEYZdFfQK1WYb0Lx8n7UMzv+cThppWKZzGLIIgwKPAIsShborVNiFNoN2UBOqLdLc9UOe7MhCVHVeaiYucOsD35oWjFXBLU4ywkLMwUfVJdBD0YkK4wh1HYeWJkriMJFr05K2plvMuifb7OQZxyOsi10BNEk8BFleqZpGzi2qYhQXO+gUD0BrSm1pKEF3Jvl3dF6mMi9fGG/C2HXUsohFwURr9soZ38poA3ppgR6PJNU7ZrN2hKH8C/kF5PpNdvkP7A5oHXuIeaK5AL4Uuh0/Jq/36Irh2cm7cQqtc38e5+XO5BmtIZ4+FpczlDeLZDIMysoy6RTnrjPBRNJDYpXoXIRIu8NrHVSRY2F/J6E+W7OtCxYWzlpdXtiI47Yqb75jfIPKlHmWfukmxWvp1fxfWcurjk6OYS15xsh67Tlv4AS6spTg==</source>
+  </file>
+  <file path="views/modules/crypt.mod.php" generated-path="views.modules.crypt.mod.html" hash="e124d2a1d4981bd3a994055843482bd0" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <constant namespace="" line="14" package="Default">
+      <name>__CRYPT_KEY__</name>
+      <full_name>\__CRYPT_KEY__</full_name>
+      <value>'Capstone'</value>
+      <docblock line="14">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="14" description="Default"/>
+      </docblock>
+    </constant>
+    <function namespace="" line="23" package="Default">
+      <name>encrypt</name>
+      <full_name>\encrypt()</full_name>
+      <docblock line="23">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="23" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$stringData</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$Key</name>
+        <default>__CRYPT_KEY__</default>
+        <type/>
+      </argument>
+    </function>
+    <function namespace="" line="45" package="Default">
+      <name>decrypt</name>
+      <full_name>\decrypt()</full_name>
+      <docblock line="45">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="45" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$stringData</name>
+        <default></default>
+        <type/>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$Key</name>
+        <default>__CRYPT_KEY__</default>
+        <type/>
+      </argument>
+    </function>
+    <function namespace="" line="68" package="Default">
+      <name>encodeBase64</name>
+      <full_name>\encodeBase64()</full_name>
+      <docblock line="68">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="68" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$stringData</name>
+        <default></default>
+        <type/>
+      </argument>
+    </function>
+    <function namespace="" line="82" package="Default">
+      <name>decodeBase64</name>
+      <full_name>\decodeBase64()</full_name>
+      <docblock line="82">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="82" description="Default"/>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$stringData</name>
+        <default></default>
+        <type/>
+      </argument>
+    </function>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="23" code="PPC:ERR-50015">Argument $stringData is missing from the Docblock of encrypt</error>
+      <error line="23" code="PPC:ERR-50015">Argument $Key is missing from the Docblock of encrypt</error>
+      <error line="23" code="PPC:ERR-50011">No summary for function \encrypt()</error>
+      <error line="45" code="PPC:ERR-50015">Argument $stringData is missing from the Docblock of decrypt</error>
+      <error line="45" code="PPC:ERR-50015">Argument $Key is missing from the Docblock of decrypt</error>
+      <error line="45" code="PPC:ERR-50011">No summary for function \decrypt()</error>
+      <error line="68" code="PPC:ERR-50015">Argument $stringData is missing from the Docblock of encodeBase64</error>
+      <error line="68" code="PPC:ERR-50011">No summary for function \encodeBase64()</error>
+      <error line="82" code="PPC:ERR-50015">Argument $stringData is missing from the Docblock of decodeBase64</error>
+      <error line="82" code="PPC:ERR-50011">No summary for function \decodeBase64()</error>
+    </parse_markers>
+    <source>eJzdVlFr2zAQfvevuEI2WyRZm1HKtjTrNidsUNqGri+lFKPal8XMk4wkP4TS/76T5SR21g4GdmH1gxOddPedTt938vFJvsy9/XYfigdnyLN5xoVABX975igEfDfcIAwhlEupjIbRe3gNbw/gE71G77pI7wbFbahWublJpbiFM5kUGXYBhCK2MAGzgwRrA5qRCX7hGo8ON9NNS7vZWIhQCm24MNpLcJEKDMCPovDyen4Vnc6uo8iHAfghz7WRAn1g4/KQyHF6AecXVxB++3z+dbYHQSEy1BpiVIanYo95XRev9eAzF1wDB21UKn5AKoyEu7L8a5MdJSAFLTrFVRdpXKIplNAfSAQWsXWIRSFiQyTfFLPntjblhg+gR7uaNBjAvHvPnnlPoS4yAxPw/bFXmhZSBb2ULAdjoN9jW6QMRT0iszP9PivXu0BlsHjJFY8NNYMJ6OKOHHbySAcwYuOtw09cheRDf7cOlOsAbAavNshkYow6x2jHvY4XL1UgVRJsjQz6UFoqFFZ3rfYN8GZSi+MWPLhCqPLMmgqu/CjSQydaqPeO1oNPcaOFiv9UmaEjf8UbotB/Tf91/f6R/lAy0EqgtG6dydro1w0RvDi9DNvQS7W0K4X8caG2jjArEXZvDA45VyaNi4zqX8nHrPJOPiee87Z4nNtrfbiNujSING4YObfHxFBxgCYsNeve9MXR3/fpPYz8Ltvnc5NjoeSvl0mOJxvfE+SoDr3ewOxhu4PfIUhFJAfRJIojh3fy0fsN8ioLjg==</source>
+  </file>
+  <file path="views/errors/403.php" generated-path="views.errors.403.html" hash="798f2a098b32ce25a3b20aecca656751" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+    </parse_markers>
+    <source>eJy1VmFT4zYQ/c6vWDxMgZnaJgd35e7sUC6Xa+kUSJNcW4ZhMoq1jgW25LPkhLTT/95VbBKHBkpnrp4BW9Lu2yft21WCkzzJt/yv+xAenCNLeymTEgt47umhlDAwzCC40FGJKoyG1lv4Bl4dwPf0r3X8f9D7pApImOSpkBM4OjgEjcWUqGJRqEJ/9YgFfilFgSMlI9yDndGg2/+127/e/XjZ+XzevRiO+peXw90b8GDXzxQvU9R+xoT0aOBRhnZh//3WSXsr2CaP4VWvC4nJUhrbF9AxT0IHpdPeohlkvL1ljzbI0DCIElZoNKFTmtg9dppLiTG5a5lNQ+d39/Op21FZzowYp+hApKRBSX5n3RD5BNc8JcswdKYCZzklrGE8E9wkIcepiNBdDL4FIYURLHV1xFIMWxuA7nA+UwXXDaANVhx1VIjcCCWfN2SlIR1tsKFs30GBaeiIyIKYeU7mImMT9HM5cUCLP1CHTuvNfeuNA0mBcej4eVpOhNT+wk77MZtab8861LhGmBTbga0lwChRMBoNzobdi9Pz7mj0Hk7apG0rMlLdWHCOMvArl8p923UhtA98UMpoU7AcOoNBPee6TfY1pylKrgp//GDvc6GNH2m9mvIy0g/NONWOtZmTqhJE4/wjbG+xw00xVzankvZvz/7fqFkSbGGMLwzfKbVR2UtwFygvRVUpFfkLQCNrqH2OMStTU6ELHjomwQyfDfTj8Pzn1zBIRAbUS6CPOleSe7cazrrHoMvcVgeouDbElAAl9TdrnCEXDL6UWAjU6wf+22n/4uzih3dNQK5Qy10DVCd3IGKYqxJs/QGxhJyESSMGsUjxHbW3Jtw1WaeGGMHbm3q2qiPQRRQ6tglo8lFaexm7jziJRmV+Ksbat93ltU7E1D/0vvMOVmNi5LQDv8L5j6DFclN+yzvyXi0nrF434G5fk9ZFfGP3FPhVe9sKxorPIUqZpnIlR+FqwXHMimZ6epQ6xTi19eV5cDF98MofVmuXx+ukA7vu6hwpVXLizij9qaVHRjVc41NjtKgOq5wZlV+OtgNVUItbxbVZeiJWZTBW9431p2xo3wbvjRuRlNbIL52SVpu6DZ1Va9Pi4QPgAqW0RCOmidmyO0HXhiL/ww3++Zp7VhokLbvGPTyg19i+HuNekVS5suJN2JTEikUmtLZnZRSwKEKtwQ4Soetr2Av8fENoVlftWqPtdz+e9budYdVol0c+NhLozxUyVouPQpWSE9cZcdAuxjHlqx6kYpKYBfujA6f9gUV3llmiMgx81m5meUklpi5LuqqD1aO1tKyR7Fz2rvp0I1QkA79yaGihqalaSQ0h3/5CbWK+UnGz1B6uglvbSubVPVB9P1lQhNi4aFSB8BObskEF+myQR/fN7ePr5um2UF219oT8WwpWzdbi3dmLS7nY894+/Lk8lJ09x1sV6b4X0/uyNHv0U8gu/1W/V/EC31aH7Q5+9fPob/jKLm4=</source>
+  </file>
+  <file path="repositories/Repository.php" generated-path="repositories.Repository.html" hash="c50e9ce3bf91babbc113b2d6f20aedd8" package="Default">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+      <tag name="package" line="0" description="Default"/>
+    </docblock>
+    <class final="false" abstract="true" namespace="Base\Repositories" line="5" package="Default">
+      <extends/>
+      <name>Repository</name>
+      <full_name>\Base\Repositories\Repository</full_name>
+      <docblock line="5">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="5" description="Default"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="Base\Repositories" line="6" package="Default">
+        <name>$dbh</name>
+        <full_name>\Base\Repositories\Repository::dbh</full_name>
+        <default></default>
+        <docblock line="6">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Base\Repositories" line="8" package="Default">
+        <name>__construct</name>
+        <full_name>\Base\Repositories\Repository::__construct()</full_name>
+        <docblock line="8">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$dbh</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="Base\Repositories" line="12" package="Default">
+        <name>find</name>
+        <full_name>\Base\Repositories\Repository::find()</full_name>
+        <docblock line="12">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="Base\Repositories" line="13" package="Default">
+        <name>save</name>
+        <full_name>\Base\Repositories\Repository::save()</full_name>
+        <docblock line="13">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="Base\Repositories" line="14" package="Default">
+        <name>all</name>
+        <full_name>\Base\Repositories\Repository::all()</full_name>
+        <docblock line="14">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="Base\Repositories" line="15" package="Default">
+        <name>remove</name>
+        <full_name>\Base\Repositories\Repository::remove()</full_name>
+        <docblock line="15">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="protected" namespace="Base\Repositories" line="16" package="Default">
+        <name>insert</name>
+        <full_name>\Base\Repositories\Repository::insert()</full_name>
+        <docblock line="16">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="protected" namespace="Base\Repositories" line="17" package="Default">
+        <name>update</name>
+        <full_name>\Base\Repositories\Repository::update()</full_name>
+        <docblock line="17">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$object</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="5" code="PPC:ERR-50005">No summary for class \Base\Repositories\Repository</error>
+      <error line="8" code="PPC:ERR-50015">Argument $dbh is missing from the Docblock of __construct</error>
+      <error line="8" code="PPC:ERR-50008">No summary for method __construct()</error>
+      <error line="12" code="PPC:ERR-50015">Argument $id is missing from the Docblock of find</error>
+      <error line="12" code="PPC:ERR-50008">No summary for method find()</error>
+      <error line="13" code="PPC:ERR-50015">Argument $object is missing from the Docblock of save</error>
+      <error line="13" code="PPC:ERR-50008">No summary for method save()</error>
+      <error line="14" code="PPC:ERR-50008">No summary for method all()</error>
+      <error line="15" code="PPC:ERR-50015">Argument $object is missing from the Docblock of remove</error>
+      <error line="15" code="PPC:ERR-50008">No summary for method remove()</error>
+      <error line="16" code="PPC:ERR-50015">Argument $object is missing from the Docblock of insert</error>
+      <error line="16" code="PPC:ERR-50008">No summary for method insert()</error>
+      <error line="17" code="PPC:ERR-50015">Argument $object is missing from the Docblock of update</error>
+      <error line="17" code="PPC:ERR-50008">No summary for method update()</error>
+      <error line="6" code="PPC:ERR-50007">No summary for property $dbh</error>
+    </parse_markers>
+    <source>eJyVkE0KwkAMRvdziiy6qAtPUH/AI7gWSjoTaaTODJO0INK7O7Wi4kIxyy/ve4GstrGNxng8k0S0BDsUOuwpBmENiUkqY7ARTWgVbIci8Nxe4GogT0w8oBIUrmkzfo/6pmMLx95b5eChrm3w2dJbLSdsMTenKbRlWW5yCOuHYorHWfS8/Wk8sndlwW5RfecEByqL0JzI6i8Wu678xSQ6hy/GFDTH5F4F9kJJ/yj00eVvvhVGcwPuxIxr</source>
+  </file>
+  <package name="Default" full_name="Default"/>
+  <package name="global" full_name="global"/>
+  <namespace name="global" full_name="global"/>
+  <namespace name="Base" full_name="Base">
+    <namespace name="Controllers" full_name="Base\Controllers"/>
+    <namespace name="Core" full_name="Base\Core"/>
+    <namespace name="Models" full_name="Base\Models"/>
+    <namespace name="Repositories" full_name="Base\Repositories"/>
+  </namespace>
+  <deprecated count="0"/>
+</project>

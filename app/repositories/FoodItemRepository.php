@@ -38,16 +38,16 @@ class FoodItemRepository extends Repository {
      * @return array Associative array of food items
      */
     public function all(){
-        return $this->db->query('SELECT * FROM foods')->fetch_all(MYSQLI_ASSOC);
+        return $this->db->query('SELECT * FROM foods ORDER by name')->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
      * Get all food items added by a user
      * @return array Associative array of food items
      */
-    public function allForUser($username){
-        $query = $this->db->prepare('SELECT * FROM VIEW_foods WHERE username = ?');
-        $query->bind_param("s", $username);
+    public function allForUser($userId){
+        $query = $this->db->prepare('SELECT * FROM VIEW_foods WHERE user_id = ? ORDER by name');
+        $query->bind_param("s", $userId);
         $query->execute();
 
         $result = $query->get_result();
@@ -57,7 +57,7 @@ class FoodItemRepository extends Repository {
     }
 
     public function remove($object){
-        $query = $this->db->prepare('DELETE FROM food WHERE id = ?');
+        $query = $this->db->prepare('DELETE FROM food WHERE id = ? ORDER by name');
         $query->bind_param(array(
             'id' => $food->id
         ));

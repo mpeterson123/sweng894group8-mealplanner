@@ -58,10 +58,7 @@ if ($EditItem)
     }
 }
 
-// // Retrieve Food (needs to be done AFTER update)
-// $food = sqlRequestArrayByID('food', $foodID, '*');
-//
-var_dump($data);
+// var_dump($data);
 
 // Sub Title
 $SUBTITLE = "Viewing Food {$data['food']['name']}";
@@ -114,8 +111,42 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
                                         <div class="form-group">
                                             <label for="inputStock">Stock</label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="text" class="form-control" id="inputStock" placeholder="Enter Cost (e.g. 2.99)" name="stock" value="<?php echo $data['food']['unit_cost']; ?>"> </div>
+                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
+                                                <input type="text" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo $data['food']['unit_cost']; ?>"> </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputUnit">Unit</label>
+                                            <select class="form-control" id="inputUnit">
+                                                <option value="0">Select one</option>
+                                                <?php
+                                                    foreach($data['units'] as $unit){
+                                                        echo '<option ';
+
+                                                        if($data['food']['unit_id'] == $unit['id']){
+                                                            echo 'selected ';
+                                                        }
+
+                                                        echo '"value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputCategory">Category</label>
+                                            <select class="form-control" id="inputCategory">
+                                                <option value="0">Select one</option>
+                                                <?php
+                                                    foreach($data['categories'] as $category){
+                                                        echo '<option ';
+
+                                                        if($data['food']['category_id'] == $category['id']){
+                                                            echo 'selected ';
+                                                        }
+
+                                                        echo '"value="'.$category['id'].'">'.$category['name'].'</option>';
+                                                    }
+                                                ?>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputUnitCost">Unit Cost</label>

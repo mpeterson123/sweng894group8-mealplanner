@@ -119,6 +119,7 @@ class User{
 		public function login($userArray){
 			$this->setAll($userArray);
 			$_SESSION['username'] = $this->username;
+			$_SESSION['id'] = $userArray['id'];
 			$this->loggedIn = true;
 		}
 		public function isLoggedIn(){
