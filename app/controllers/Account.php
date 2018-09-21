@@ -64,8 +64,10 @@ class Account extends Controller{
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt) != $code))	die("This link is invalid");
 
-		// set as confirmed in the db HERE
+		// set as confirmed in the db
+		$this->userRepo->confirmEmail($email);
 
+		// Redirect to login
 		$this->view('auth/login',['message'=>'Your email address has been confirmed. Please Login.']);
 	}
 }

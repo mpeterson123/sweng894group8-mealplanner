@@ -31,6 +31,7 @@ class Home extends Controller{
 			$pwd = $this->pass_hash($_POST['login_password']);
 			$u = $this->userRepo->checkUser($_POST['login_username'],$pwd);
 			if(!$u)	$message = 'Incorrect Username or Password';
+			else if(!$u['activated'])	$message = 'Please confirm email before you can log in.';
 			else{
 				$user->login($u);
 			}

@@ -31,6 +31,12 @@ class UserRepository extends Repository {
         return $row;
     }
 
+    public function confirmEmail($email){
+      $query = $this->db->prepare('UPDATE users SET activated = 1 WHERE email = ?');
+			$query->bind_param("s",$email);
+      $query->execute();
+    }
+
     public function save($user){
         if(isset($this->id) && $this->find($user->id))
         {
