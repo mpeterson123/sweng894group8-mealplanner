@@ -30,10 +30,28 @@ class UserRepository extends Repository {
         $row = $result->fetch_assoc();
         return $row;
     }
+    public function get($field,$value){
+      $query = $this->db->prepare('SELECT * FROM users WHERE '.$field.' = ?');
+      $query->bind_param("s",$value);
+      $query->execute();
+      $result = $query->get_result();
+      $row = $result->fetch_assoc();
+      return $row;
+    }
 
     public function confirmEmail($email){
       $query = $this->db->prepare('UPDATE users SET activated = 1 WHERE email = ?');
 			$query->bind_param("s",$email);
+      $query->execute();
+    }
+    public function setPassTemp($email,$pass){
+      $query = $this->db->prepare('UPDATE users SET passTemp = ? WHERE email = ?');
+			$query->bind_param("ss",$pass,$email);
+      $query->execute();
+    }
+    public function setValue($vField,$value,$idField,$id){
+      $query = $this->db->prepare('UPDATE users SET '.$vField.' = ? WHERE '.$idField.' = ?');
+			$query->bind_param("ss",$value,$id);
       $query->execute();
     }
 

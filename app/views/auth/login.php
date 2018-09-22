@@ -69,7 +69,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                         </div>
                     </div>
                 </form>
-                <form class="form-horizontal" id="recoverform" action="/login/">
+                <form class="form-horizontal" id="recoverform" action="/Account/forgotPassword/" method="POST">
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <h3>Recover Password</h3>
@@ -78,7 +78,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Email">
+                            <input class="form-control" type="text" name="email" required="" placeholder="Email">
                         </div>
                     </div>
                     <div class="form-group text-center m-t-20">

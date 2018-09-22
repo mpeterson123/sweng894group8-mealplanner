@@ -41,7 +41,7 @@ class Controller{
 		// session_start();
 
 		$userRepository = new UserRepository($this->dbh->getDB());
-		$notLoggedInPages =  array('auth/login','auth/register');
+		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword');
 
 		if(isset($_SESSION['username'])){
 			$user = $userRepository->find($_SESSION['username']);

@@ -36,11 +36,19 @@ class Email{
   }
 
   public function sendEmailAddrConfirm($to){
+    // Hash makes it harder to circumvent email (need code to confirm)
     $salt = 'QM8z7AnkXUKQzwtK7UcA';
     $code = urlencode(hash('sha256',$to.$salt));
     $subject = 'Please confirm your email';
     $body = 'Please click this link to confirm your email address:<p>
               localhost/Account/ConfirmEmail/'.$to.'/'.$code.'<p>';
+    $this->send($to,$subject,$body);
+  }
+  public function sendPasswordReset($to,$code){
+
+    $subject = 'Password Reset';
+    $body = 'Please click this link to reset your password:<p>
+              localhost/Account/ResetPassword/'.$to.'/'.$code.'<p>';
     $this->send($to,$subject,$body);
   }
 }

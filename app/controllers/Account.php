@@ -70,5 +70,53 @@ class Account extends Controller{
 		// Redirect to login
 		$this->view('auth/login',['message'=>'Your email address has been confirmed. Please Login.']);
 	}
+	public function forgotPassword(){
+		// Get temp pass and email
+		$code = urlencode(hash('sha256',rand(1000000000,10000000000)));
+		$email = addslashes(trim($_POST['email']));
+
+		// Check if email exists in db
+		$u = $this->userRepo->get('email',$email);
+		if($email == '')
+			$this->view('auth/login',['message'=>'No email has been supplied.']);
+		else if(!$u)
+			$this->view('auth/login',['message'=>'Not Found. An email has been sent with instruction to reset your password.']);
+		else{
+			$this->userRepo->setPassTemp($email,$code);
+			// send Email
+			$emailHandler = new Email();
+			$emailHandler->sendPasswordReset($email,$code);
+
+			// Redirect to login
+			$this->view('auth/login',['message'=>'An email has been sent with instruction to reset your password.']);
+		}
+	}
+	public function resetPassword($email,$code){
+		// Check if email exists in db
+		$u = $this->userRepo->get('email',$email);
+		if(!$u)
+			$this->view('auth/login',['message'=>'An error has occured. Please try again. Email.']);
+		// Check if reset code has been set
+		else if($u['passTemp'] == '')
+			$this->view('auth/login',['message'=>'An error has occured. Please try again. tempPass not set.']);
+		// Check if code matches db
+		else if($u['passTemp'] != $code)
+			$this->view('auth/login',['message'=>'An error has occured. Please try again. Code.']);
+		else{
+			// Reset page has been submitted
+			if(isset($_POST['rst_password'])){
+				// Reset password
+				$this->userRepo->setValue('password',$this->pass_hash($_POST['rst_password']),'email',$email);
+				// Reset temp pass
+				$this->userRepo->setValue('passTemp','','email',$email);
+				// Redirect to login
+				$this->view('auth/login',['message'=>'Password has been reset. Please login.']);
+			}
+			else{
+				// Direct to reset pass view
+				$this->view('auth/resetPassword',['email'=>$email,'code'=>$code]);
+			}
+		}
+	}
 }
 ?>
