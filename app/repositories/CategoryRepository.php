@@ -1,9 +1,11 @@
 <?php
 namespace Base\Repositories;
 
+require_once __DIR__.'/../models/Category.php';
 require_once __DIR__.'/../repositories/Repository.php';
 
 
+use Base\Models\Category;
 use Base\Repositories\Repository;
 
 
@@ -15,9 +17,9 @@ class CategoryRepository extends Repository {
     }
 
     /**
-     * Search for a unit using its id
-     * @param  string $id   the unit's id
-     * @return array        unit's details
+     * Search for a category using its id
+     * @param  string $id   the category's id
+     * @return array        category's details
      */
     public function find($id){
 
@@ -25,12 +27,18 @@ class CategoryRepository extends Repository {
         $query->bind_param("s", $id);
         $query->execute();
         $result = $query->get_result();
-        return $result->fetch_assoc();
+        $categoryRow = $result->fetch_assoc();
+
+        $category = new Category();
+        $category->setId($categoryRow['id']);
+        $category->setName($categoryRow['name']);
+
+        return $category;
     }
 
     /**
-     * Get all food items added by a user
-     * @return array Associative array of food items
+     * Get all categories added by a user
+     * @return array Associative array of categories
      */
     public function all(){
         return $this->db->query('SELECT * FROM categories')->fetch_all(MYSQLI_ASSOC);
