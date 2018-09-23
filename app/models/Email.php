@@ -45,10 +45,18 @@ class Email{
     $this->send($to,$subject,$body);
   }
   public function sendPasswordReset($to,$code){
-
     $subject = 'Password Reset';
     $body = 'Please click this link to reset your password:<p>
               localhost/Account/ResetPassword/'.$to.'/'.$code.'<p>';
+    $this->send($to,$subject,$body);
+  }
+  public function sendEmailUpdateConfirm($to,$old_email){
+    // Hash makes it harder to circumvent email (need code to confirm)
+    $salt = 'QM8z7AnkXUKQzwtK7UcA';
+    $code = urlencode(hash('sha256',$to.$salt.$old_email));
+    $subject = 'Please confirm your email';
+    $body = 'Please click this link to confirm your email address:<p>
+              localhost/Account/ConfirmNewEmail/'.$to.'/'.$old_email.'/'.$code.'<p>';
     $this->send($to,$subject,$body);
   }
 }

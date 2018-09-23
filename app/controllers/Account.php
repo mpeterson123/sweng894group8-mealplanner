@@ -7,6 +7,7 @@ require_once __DIR__.'/../core/Controller.php';
 require_once __DIR__.'/../core/DatabaseHandler.php';
 require_once __DIR__.'/../repositories/UserRepository.php';
 require_once __DIR__.'/../models/Email.php';
+require_once __DIR__.'/../models/User.php';
 
 /////////////////////////////////////////////////////////////////////
 // Load dependencies into current scope. Not the same as importing //
@@ -15,6 +16,7 @@ use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\repositories\UserRepository;
 use Base\models\Email;
+use Base\models\User;
 
 class Account extends Controller{
 	private $userRepo;
@@ -117,6 +119,59 @@ class Account extends Controller{
 				$this->view('auth/resetPassword',['email'=>$email,'code'=>$code]);
 			}
 		}
+	}
+	public function settings(){
+		$user = new User();
+		$u = $this->userRepo->find($_SESSION['username']);
+		$user->setAll($u);
+		$this->view('auth/settings', $u);
+	}
+	public function update(){
+		$user = new User();
+		$u = $this->userRepo->find($_SESSION['username']);
+		$user->setAll($u);
+		// Check for blank fields
+		$fields = array('namefirst','namelast','email');
+		foreach($fields as $f){
+			if(!isset($_POST[$f])){
+				die('All fields are required');
+			}
+		}
+		// Handle password update
+		if(isset($_POST['password'])){
+			if($_POST['password'] != $_POST['password2']){
+				die('Passwords don\'t match');
+			}
+			$this->userRepo->setValue('password',$this->pass_hash($_POST['password']),'username',$_SESSION['username']);
+		}
+		// Handle name updated
+		if($_POST['namefirst'].' '.$_POST['namelast'] != $u['namefirst'].' '.$u['namelast']){
+			$this->userRepo->setValue('namefirst',$_POST['namefirst'],'username',$_SESSION['username']);
+			$this->userRepo->setValue('namelast',$_POST['namelast'],'username',$_SESSION['username']);
+		}
+		// Handle email updated
+		if($_POST['email'] != $u['email']){
+			// send Email
+			$emailHandler = new Email();
+			$emailHandler->sendEmailUpdateConfirm($_POST['email'],$u['email']);
+			$u['message'] = 'A confirmation email has been sent to '.$_POST['email'].'. Please confirm to update.';
+			$this->view('auth/settings', $u);
+		}
+		else{
+			$u['message'] = 'Your account has been updated. Return to <a href="/Dashboard/">Dashboard</a>.';
+			$this->view('auth/settings', $u);
+		}
+	}
+	public function confirmNewEmail($email,$old_email,$code){
+		// Handle circumvention of email confirmation
+		$salt = 'QM8z7AnkXUKQzwtK7UcA';
+		if(urlencode(hash('sha256',$email.$salt.$old_email) != $code))	die("This link is invalid");
+
+		// update in the db
+		$this->userRepo->setValue('email',$email,'email',$old_email);
+
+		// Redirect to login
+		$this->view('auth/settings',['message'=>'Your email address has been updated. Return to <a href="/Dashboard/">Dashboard</a>.']);
 	}
 }
 ?>

@@ -22,7 +22,7 @@
                                 <li><a href="javascript:void(0);"><i class="fa fa-user"></i> Profile</a></li>
                                 <li><a href="javascript:void(0);"><i class="fa fa-inbox"></i> Inbox</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="javascript:void(0);"><i class="fa fa-cog"></i> Account Settings</a></li>
+                                <li><a href="/Account/settings"><i class="fa fa-cog"></i> Account Settings</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="Account/logout"><i class="fa fa-power-off"></i> Logout</a></li>
                             </ul>

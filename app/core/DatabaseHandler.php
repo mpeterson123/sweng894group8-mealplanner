@@ -8,6 +8,8 @@ date_default_timezone_set('America/New_York');
 class DatabaseHandler
 {
     private static $host = 'localhost';
+    //private static $host = 'https://belisariussmith.com';
+    //private static $host = '34.207.226.165';
     private static $dbName   = 'capstone';
     private static $user = 'capstone';
     private static $pass = 'CmklPrew!';
@@ -40,7 +42,7 @@ class DatabaseHandler
      */
     private function connect()
     {
-        $this->db = new \mysqli('localhost', self::$user, self::$pass, self::$dbName);
+        $this->db = new \mysqli(self::$host, self::$user, self::$pass, self::$dbName);
 
         if($this->db->connect_errno > 0){
             return false;
