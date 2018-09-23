@@ -11,7 +11,7 @@ class DatabaseHandler
     //private static $host = 'https://belisariussmith.com';
     //private static $host = '34.207.226.165';
     private static $dbName   = 'capstone';
-    private static $user = 'capstone';
+    private static $user = 'capstone_remote';
     private static $pass = 'CmklPrew!';
     private static $charset = 'utf8';
 

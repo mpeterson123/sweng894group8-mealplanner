@@ -2,15 +2,23 @@
 namespace Base\Models;
 
 class FoodItem {
-    private $name,
-        $cost;
+    private
+        $id,
+        $name,
+        $stock,
+        $unit,
+        $category,
+        $unitsInContainer,
+        $containerCost,
+        $unitCost;
 
-    public function __construct($name, $category , $unit, $stock = 0, $cost = 0.00){
-        $this->name = $name;
-        $this->category = $category;
-        $this->unit = $unit;
-        $this->stock = $stock;
-        $this->cost = $cost;
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId(){
+        return $this->id;
     }
 
     public function setName($name){
@@ -43,4 +51,50 @@ class FoodItem {
     public function getStock(){
         return $this->stock;
     }
+
+    public function setUnit($unit)
+    {
+        $this->unit = $unit;
+    }
+
+    public function getUnit(){
+        return $this->unit;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    public function getCategory(){
+        return $this->category;
+    }
+
+    public function setUnitsInContainer($unitsInContainer)
+    {
+        $this->unitsInContainer = trim($unitsInContainer);
+    }
+
+    public function getUnitsInContainer(){
+        return $this->unitsInContainer;
+    }
+
+    public function setContainerCost($containerCost)
+    {
+        $this->containerCost = trim($containerCost);
+    }
+
+    public function getContainerCost(){
+        return $this->containerCost;
+    }
+
+    public function setUnitCost()
+    {
+        $this->unitCost = $this->containerCost/$this->unitsInContainer;
+    }
+
+    public function getUnitCost(){
+        return $this->unitCost;
+    }
+
 }

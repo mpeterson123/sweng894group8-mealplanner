@@ -1,9 +1,11 @@
 <?php
 namespace Base\Repositories;
 
+require_once __DIR__.'/../models/Unit.php';
 require_once __DIR__.'/../repositories/Repository.php';
 
 
+use Base\Models\Unit;
 use Base\Repositories\Repository;
 
 
@@ -21,11 +23,17 @@ class UnitRepository extends Repository {
      */
     public function find($id){
 
-        $query = $this->db->prepare('SELECT * FROM units WHERE id = ? ORDER by name');
+        $query = $this->db->prepare('SELECT * FROM units WHERE id = ? ORDER BY name');
         $query->bind_param("s", $id);
         $query->execute();
         $result = $query->get_result();
-        return $result->fetch_assoc();
+        $unitRow = $result->fetch_assoc();
+
+        $unit = new Unit();
+        $unit->setId($unitRow['id']);
+        $unit->setName($unitRow['name']);
+
+        return $unit;
     }
 
     /**

@@ -5,6 +5,8 @@
 // Food (listing)
 ///////////////////////////////////////////////////////////////////////////////
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/helpers/Session.php' );
+use Base\Helpers\Session;
 
 // Sub Title
 $SUBTITLE = 'Food Directory';
@@ -38,6 +40,9 @@ $PLUGIN_EXPORT      = TRUE;
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
+
+                <?php Session::renderMessage(); ?>
+
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="white-box">
