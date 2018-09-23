@@ -18,8 +18,9 @@ $PLUGIN_EXPORT      = TRUE;
 
 // Food
 $User['id'] = 1;  // Default to 1 for testing purposes
-$Foods = sqlRequestWhere('food', 'userid', $User['id']);
 $Recipes = sqlRequestWhere('recipe', 'userid', $User['id']);
+$Ingredents = sqlRequestWhere('ingredent', 'recipeid', $Recipes['id']);
+$Foods = sqlRequestWhere('food', 'foodid', $Ingredents['id']);
 
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -66,17 +67,15 @@ $Recipes = sqlRequestWhere('recipe', 'userid', $User['id']);
                                     <tbody>
 
 <?php
-foreach ($Recipes as $recipe) {
-    if ($food['stock'] < $recipe['']) {
-      $b = $a;
+foreach ($Ingredents as $ingredent) {
+    if ($ingredent['quantity'] > $food['stock']) {
+      echo $food['id'];
+      echo $food['unitcost'];
+      echo $food['name'];
+    }
 }
 ?>
-                                        <tr>
-                                            <td><a href="/foods/food/<?php echo $food['id']; ?>"><?php echo $food['name']; ?></a></td>
-                                            <td>$<?php echo $food['unitcost']; ?></td>
-                                        </tr>
 
-<?php } ?>
                                     </tbody>
                                 </table>
                             </div>
