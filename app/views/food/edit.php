@@ -5,58 +5,13 @@
 // View/Edit Food
 ///////////////////////////////////////////////////////////////////////////////
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
-
-// Externals
-$foodID   = $_REQUEST['foodid'] ?? substr($_SERVER['REDIRECT_URL'], strrpos($_SERVER['REDIRECT_URL'], '/')+1) ?? 0;
-$EditItem = $_REQUEST['edit'] ?? FALSE;
-$EditName = $_REQUEST['name'] ?? NULL;
-$EditCost = $_REQUEST['cost'] ?? NULL;
-
-// Globals
-$Success = FALSE;
-
-// Check for valid Food Item
-if (!$foodID)
-{
-?>
-<script>document.location='/foods/';</script>
-<?php
-   exit(0);
-}
-
-// Check to see if User can see this food (SECURITY check)
-// ...
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/helpers/Session.php' );
+use Base\Helpers\Session;
 
 // Plugins
 $PLUGIN_SLIMSCROLL  = TRUE;
 $PLUGIN_WAVES       = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
-
-// Update the Food Item?
-if ($EditItem)
-{
-    $Errors = array();
-
-    // Missing Fields
-    if (!$EditName)
-    {
-        $Errors[] = 'Missing name.';
-    }
-
-    if (!$EditCost)
-    {
-        $Errors[] = 'Missing item cost.';
-    }
-
-    // Sanitization (e.g. mysql_real_escape_string)
-
-    // Are we good to go?
-    if (count($Errors) == 0)
-    {
-        sqlQuery("UPDATE food SET name = '{$EditName}', unitcost = {$EditCost} WHERE id = {$foodID}");
-        $Success = TRUE;
-    }
-}
 
 
 // Sub Title
@@ -102,6 +57,8 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
+                <?php Session::renderMessage(); ?>
+
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box">
@@ -119,8 +76,7 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
                             </p>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
-                                    <form method="post" action="/foods/food/">
-                                        <input type="hidden" name="edit" value="1">
+                                    <form method="post" action="/FoodItems/update/<?php echo $data['food']['id']; ?>">
                                         <input type="hidden" name="foodid" value="<?php echo $data['food']['id']; ?>">
                                         <div class="form-group">
                                             <label for="inputName">Name</label>
@@ -129,50 +85,70 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
                                                 <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo $data['food']['name']; ?>"> </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputStock">Stock</label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo $data['food']['unit_cost']; ?>"> </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputUnit">Unit</label>
-                                            <select class="form-control" id="inputUnit">
-                                                <option value="0">Select one</option>
-                                                <?php
-                                                    foreach($data['units'] as $unit){
-                                                        echo '<option ';
-
-                                                        if($data['food']['unit_id'] == $unit['id']){
-                                                            echo 'selected ';
-                                                        }
-
-                                                        echo '"value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
-                                                    }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="inputCategory">Category</label>
-                                            <select class="form-control" id="inputCategory">
+                                            <select class="form-control" id="inputCategory" name="category_id">
                                                 <option value="0">Select one</option>
                                                 <?php
                                                     foreach($data['categories'] as $category){
                                                         echo '<option ';
 
                                                         if($data['food']['category_id'] == $category['id']){
-                                                            echo 'selected ';
+                                                            echo 'selected="selected"';
                                                         }
 
-                                                        echo '"value="'.$category['id'].'">'.$category['name'].'</option>';
+                                                        echo 'value="'.$category['id'].'">'.$category['name'].'</option>';
                                                     }
                                                 ?>
                                             </select>
                                         </div>
+
                                         <div class="form-group">
-                                            <label for="inputUnitCost">Unit Cost</label>
+                                            <label for="inputUnit">Unit</label>
+                                            <select class="form-control" id="inputUnit" name="unit_id">
+                                                <option value="0">Select one</option>
+                                                <?php
+                                                    foreach($data['units'] as $unit){
+                                                        echo '<option ';
+
+                                                        if($data['food']['unit_id'] == $unit['id']){
+                                                            echo 'selected="selected" ';
+                                                        }
+
+                                                        echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputUnitsInContainer">Number of Units in Container</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="1" name="units_in_container" value="<?php echo $data['food']['units_in_container']; ?>">
+                                            </div>
+                                            <p class="help-block"></p>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="text" class="form-control" id="inputUnitCost" placeholder="Enter Cost (e.g. 2.99)" name="unitCost" value="<?php echo $data['food']['unit_cost']; ?>"> </div>
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="1" name="container_cost" value="<?php echo $data['food']['container_cost']; ?>">
+                                            </div>
+                                            <p class="help-block"></p>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputStock">Number of Units in Stock</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo $data['food']['stock']; ?>"> </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="inputUnitCost">Unit Cost</label>
+                                            <p class="form-control-static" id="inputUnitCost" name="unit_cost">$<?php echo $data['food']['unit_cost']; ?></p>
                                         </div>
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
                                     </form>
@@ -213,5 +189,21 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
 
 <?php require_once( __FOOTER__ ); ?>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+        function calculateUnitCost(){
+            let containerCost = parseFloat($('#inputContainerCost').val());
+            let unitsInContainer = parseFloat($('#inputUnitsInContainer').val());
+
+            $('#inputUnitCost').text('$'+Number(containerCost/unitsInContainer).toFixed(2));
+        }
+
+        calculateUnitCost();
+
+        $('#inputUnitsInContainer, #inputContainerCost').on('change', function(){
+            calculateUnitCost();
+        });
+    });
+</script>
 </body>
 </html>

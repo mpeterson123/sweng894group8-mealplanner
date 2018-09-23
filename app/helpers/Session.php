@@ -13,6 +13,8 @@ class Session{
         if(self::get('status') && self::get('message')){
             $html = '<div class="alert alert-dismissable alert-'.self::get('status').'" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.self::get('message').'</div>';
             echo $html;
+            self::remove('status');
+            self::remove('message');
         }
     }
 

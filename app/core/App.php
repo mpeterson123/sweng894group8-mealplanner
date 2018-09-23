@@ -25,40 +25,46 @@ class App {
 	protected $params = [];
 
 	public function __construct(){
-		session_start();
+		try {
+			session_start();
+			// set timezone
+			date_default_timezone_set('America/New_York');
 
-		// set timezone
-		date_default_timezone_set('America/New_York');
+			$dbh = DatabaseHandler::getInstance();
+			$url = $this->parseUrl();
 
-		$dbh = DatabaseHandler::getInstance();
-		$url = $this->parseUrl();
-
-		// If controller file exists, set it and remove the name from the URL
-		if(file_exists(__DIR__.'/../controllers/'.$url[0].'.php')){
-			$this->controller = $url[0];
-			unset($url[0]);
-		}
-
-		// Require controller file
-		$path = __DIR__.'/../controllers/'.$this->controller.'.php';
-		require_once($path);
-
-		// Instantiate controller
-		$namespacedController = "Base\Controllers\\".$this->controller;
-		$this->controller = new $namespacedController($dbh);
-
-		// If method exists, set it and remove the name from the URL
-		if(isset($url[1])){
-			if(method_exists($this->controller,$url[1])){
-				$this->method = $url[1];
-				unset($url[1]);
+			// If controller file exists, set it and remove the name from the URL
+			if(file_exists(__DIR__.'/../controllers/'.$url[0].'.php')){
+				$this->controller = $url[0];
+				unset($url[0]);
 			}
-		}
-		// Get params if any
-		$this->params = $url ? array_values($url) : [];
 
-		// Invoke controller method with parameters
-		call_user_func_array([$this->controller,$this->method],$this->params);
+			// Require controller file
+			$path = __DIR__.'/../controllers/'.$this->controller.'.php';
+			require_once($path);
+
+			// Instantiate controller
+			$namespacedController = "Base\Controllers\\".$this->controller;
+			$this->controller = new $namespacedController($dbh);
+
+			// If method exists, set it and remove the name from the URL
+			if(isset($url[1])){
+				if(method_exists($this->controller,$url[1])){
+					$this->method = $url[1];
+					unset($url[1]);
+				}
+			}
+			// Get params if any
+			$this->params = $url ? array_values($url) : [];
+
+			// Invoke controller method with parameters
+			call_user_func_array([$this->controller,$this->method],$this->params);
+		}
+		catch(Exception $e)
+		{
+			echo "Exception caught";
+			die($e->getMessage());
+		}
 	}
 
 	public function parseUrl(){

@@ -41,16 +41,7 @@ $PLUGIN_EXPORT      = TRUE;
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
 
-                <?php
-                echo "hey";
-                    try {
-                        Session::flashMessage('success', 'Yay');
-                        Session::renderMessage();
-                    } catch (\Exception $e) {
-                        die($e->getMessage());
-                    }
-
-                ?>
+                <?php Session::renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-sm-4">

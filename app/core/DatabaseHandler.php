@@ -9,7 +9,7 @@ class DatabaseHandler
 {
     private static $host = 'localhost';
     private static $dbName   = 'capstone';
-    private static $user = 'capstone';
+    private static $user = 'capstone_remote';
     private static $pass = 'CmklPrew!';
     private static $charset = 'utf8';
 
