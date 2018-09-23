@@ -72,6 +72,7 @@ foreach ($Ingredents as $ingredent) {
       echo $food['id'];
       echo $food['unitcost'];
       echo $food['name'];
+      echo ($food['unitcost'] * ($ingredent['quantity']) - $food['stock']);
     }
 }
 ?>
