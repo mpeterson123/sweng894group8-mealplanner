@@ -40,7 +40,7 @@ class DatabaseHandler
      */
     private function connect()
     {
-        $this->db = new \mysqli('localhost', self::$user, self::$pass, self::$dbName);
+        $this->db = new \mysqli(self::$host, self::$user, self::$pass, self::$dbName);
 
         if($this->db->connect_errno > 0){
             return false;

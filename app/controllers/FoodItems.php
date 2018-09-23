@@ -5,6 +5,7 @@ namespace Base\Controllers;
 ////////////////////////////////////////////////////////////
 require_once __DIR__.'/../core/Controller.php';
 require_once __DIR__.'/../core/DatabaseHandler.php';
+require_once __DIR__.'/../helpers/Session.php';
 require_once __DIR__.'/../repositories/FoodItemRepository.php';
 require_once __DIR__.'/../repositories/UnitRepository.php';
 require_once __DIR__.'/../repositories/CategoryRepository.php';
@@ -16,6 +17,7 @@ require_once __DIR__.'/../repositories/CategoryRepository.php';
 /////////////////////////////////////////////////////////////////////
 use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
+use Base\Helpers\Session;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
 use Base\Repositories\CategoryRepository;
@@ -59,5 +61,39 @@ class FoodItems extends Controller {
         $units = $unitRepository->all();
 
         $this->view('food/edit', compact('food', 'categories', 'units'));
+    }
+
+    public function delete($id){
+
+        try{
+            $db = $this->dbh->getDB();
+
+            $food = $this->foodItemRepository->find($id);
+
+            // If food doesn't belong to user, do not delete
+            if(!$food){
+                $this->view('errors/404');
+                return;
+            }
+
+            // If food doesn't belong to user, do not delete
+            if(!$this->foodItemRepository->foodBelongsToUser($id, $_SESSION['id'])){
+                $this->view('errors/403');
+                return;
+            }
+
+            $this->foodItemRepository->remove($id);
+
+            Session::flashMessage('success', $food['name'].' was removed from your items.');
+
+            // Redirect to list after deleting
+            $this->index();
+            return;
+        }
+        catch(Exception $e)
+        {
+            $this->view('errors/500');
+            return;
+        }
     }
 }

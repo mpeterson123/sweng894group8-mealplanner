@@ -58,7 +58,6 @@ if ($EditItem)
     }
 }
 
-// var_dump($data);
 
 // Sub Title
 $SUBTITLE = "Viewing Food {$data['food']['name']}";
@@ -67,6 +66,27 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
 <?php require_once( __HEADER__ ); ?>
 
 <body class="mini-sidebar">
+    <!-- Confirm deletion modal -->
+    <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Food Item Deletion</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this food item? Doing so will <strong>remove it from all of your recipes</strong>. This cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <form class="" action="/FoodItems/delete/<?php echo $data['food']['id'];?>" method="post">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
         <div class="preloader">
@@ -163,7 +183,15 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
                     <div class="col-sm-2">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
-                            <a href="/foods/food/?foodid=<?php echo $data['food']['id']; ?>&delete=1" class="btn btn-danger m-t-15">Remove Item</a>
+
+                            <!-- Button trigger modal -->
+                            <button
+                                type="button"
+                                class="btn btn-danger m-t-15"
+                                data-toggle="modal"
+                                data-target="#confirm-delete-modal">
+                                Remove Item
+                            </button>
                         </div>
                     </div>
                 </div>

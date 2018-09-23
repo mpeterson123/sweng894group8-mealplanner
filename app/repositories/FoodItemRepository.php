@@ -56,11 +56,9 @@ class FoodItemRepository extends Repository {
 
     }
 
-    public function remove($object){
-        $query = $this->db->prepare('DELETE FROM food WHERE id = ? ORDER by name');
-        $query->bind_param(array(
-            'id' => $food->id
-        ));
+    public function remove($id){
+        $query = $this->db->prepare('DELETE FROM foods WHERE id = ?');
+        $query->bind_param("s", $id);
         return $query->execute();
     }
 
@@ -88,4 +86,18 @@ class FoodItemRepository extends Repository {
         ));
         $query->execute();
     }
+
+    public function foodBelongsToUser($foodId, $userId)
+    {
+        $query = $this->db->prepare('SELECT * FROM foods WHERE id = ? AND user_id = ?');
+        $query->bind_param("si", $foodId, $userId);
+        $query->execute();
+
+        $result = $query->get_result();
+        if($result->num_rows > 0){
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -10,6 +10,7 @@ namespace Base\Core;
 // Load dependencies into current scope. Not the same as importing //
 /////////////////////////////////////////////////////////////////////
 use Base\Core\DatabaseHandler;
+use Base\Helpers\Session;
 
 
 /**

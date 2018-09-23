@@ -6,6 +6,7 @@ class FoodItem {
         $cost;
 
     public function __construct($name, $category , $unit, $stock = 0, $cost = 0.00){
+
         $this->name = $name;
         $this->category = $category;
         $this->unit = $unit;
