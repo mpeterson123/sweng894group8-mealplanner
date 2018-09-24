@@ -54,14 +54,26 @@ class FoodItems extends Controller {
         $categoryRepository = new CategoryRepository($db);
         $unitRepository = new UnitRepository($db);
 
-        // Get food details
-        $food = $this->foodItemRepository->find($id);
-
-        // Get user's categories
+        // Get user's categories, and list of units
         $categories = $categoryRepository->allForUser($_SESSION['id']);
         $units = $unitRepository->all();
 
+        // Get food details
+        $food = $this->foodItemRepository->find($id);
+
         $this->view('food/edit', compact('food', 'categories', 'units'));
+    }
+
+    public function create(){
+        $db = $this->dbh->getDB();
+        $categoryRepository = new CategoryRepository($db);
+        $unitRepository = new UnitRepository($db);
+
+        // Get user's categories, and list of units
+        $categories = $categoryRepository->allForUser($_SESSION['id']);
+        $units = $unitRepository->all();
+
+        $this->view('food/create', compact('categories', 'units'));
     }
 
     public function delete($id){

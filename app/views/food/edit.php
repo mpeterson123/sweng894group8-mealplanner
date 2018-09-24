@@ -15,7 +15,7 @@ $PLUGIN_SIDEBARMENU = TRUE;
 
 
 // Sub Title
-$SUBTITLE = "Viewing Food {$data['food']['name']}";
+$SUBTITLE = "Edit Food {$data['food']['name']}";
 
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -71,8 +71,8 @@ $SUBTITLE = "Viewing Food {$data['food']['name']}";
                             </p>
 <?php } ?>
 
-                            <p class="text-muted m-b-30 font-13"> Food Item Properties
-                            <a href="/foods/">&laquo; Return to foods</a>
+                            <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
+                            <a href="/FoodItems/">&laquo; Return to foods</a>
                             </p>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
