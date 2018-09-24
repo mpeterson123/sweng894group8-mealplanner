@@ -7,9 +7,9 @@ date_default_timezone_set('America/New_York');
  */
 class DatabaseHandler
 {
-    private static $host = 'localhost';
+    //private static $host = 'localhost';
     //private static $host = 'https://belisariussmith.com';
-    //private static $host = '34.207.226.165';
+    private static $host = '34.207.226.165';
     private static $dbName   = 'capstone';
     private static $user = 'capstone_remote';
     private static $pass = 'CmklPrew!';
