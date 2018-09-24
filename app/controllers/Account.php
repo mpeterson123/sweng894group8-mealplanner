@@ -173,5 +173,21 @@ class Account extends Controller{
 		// Redirect to login
 		$this->view('auth/settings',['message'=>'Your email address has been updated. Return to <a href="/Dashboard/">Dashboard</a>.']);
 	}
+	public function delete($confirmed = 0){
+		// Confirm
+		if(!$confirmed){
+				$this->view('auth/settings', ['message'=>'Are you sure you want to delete? This cannot be undone. <a href="/Account/delete/1">Yes</a><br><a href="/Home/">Back to dashboard.</a>']);
+		}
+		// Delete User and all related info
+		else{
+			$this->userRepo->remove($_SESSION['id']);
+			// !!!!
+ 			// Remove data from other repos here
+			// !!!!
+			unset($_SESSION['id']);
+			unset($_SESSION['username']);
+			$this->view('auth/login',['message'=>'Your account has been deleted.']);
+		}
+	}
 }
 ?>

@@ -68,11 +68,10 @@ class UserRepository extends Repository {
         return $this->db->query('SELECT * FROM users')->fetch_all();
     }
     // Not Implemented yet
-    public function remove($object){
+    public function remove($id){
         $query = $this->db->prepare('DELETE FROM users WHERE id = ?');
-        $query->bind_param(array(
-            'id' => $food->id
-        ));
+        $query->bind_param("s",$id);
+        $query->execute();
     }
 
     public function insert($object){
