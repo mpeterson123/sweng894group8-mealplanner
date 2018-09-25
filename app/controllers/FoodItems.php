@@ -6,6 +6,7 @@ namespace Base\Controllers;
 require_once __DIR__.'/../core/Controller.php';
 require_once __DIR__.'/../core/DatabaseHandler.php';
 require_once __DIR__.'/../helpers/Session.php';
+require_once __DIR__.'/../helpers/Redirect.php';
 require_once __DIR__.'/../models/FoodItem.php';
 require_once __DIR__.'/../repositories/FoodItemRepository.php';
 require_once __DIR__.'/../repositories/UnitRepository.php';
@@ -18,6 +19,7 @@ require_once __DIR__.'/../repositories/CategoryRepository.php';
 use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
+use Base\Helpers\Redirect;
 use Base\models\FoodItem;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
@@ -76,6 +78,38 @@ class FoodItems extends Controller {
         $this->view('food/create', compact('categories', 'units'));
     }
 
+    public function store(){
+
+        $input = $_POST;
+
+        // Find unit and category
+        $db = $this->dbh->getDB();
+        $categoryRepository = new CategoryRepository($db);
+        $unitRepository = new UnitRepository($db);
+
+        // Get user's categories
+        $category = $categoryRepository->find($input['category_id']);
+        $unit = $unitRepository->find($input['unit_id']);
+
+        $food = new FoodItem();
+        $food->setName($input['name']);
+        $food->setStock($input['stock']);
+        $food->setCategory($category);
+        $food->setUnit($unit);
+        $food->setUnitsInContainer($input['units_in_container']);
+        $food->setContainerCost($input['container_cost']);
+        $food->setUnitCost();
+
+        $this->foodItemRepository->save($food);
+
+        // Flash success message
+        Session::flashMessage('success', strtoupper($food->getName()).' was added to your list.');
+
+        // Redirect back after updating
+        Redirect::toControllerMethod('FoodItems', 'index');
+        return;
+    }
+
     public function delete($id){
 
         try{
@@ -111,11 +145,7 @@ class FoodItems extends Controller {
     public function update($id){
         $foodArray = $this->foodItemRepository->find($id);
 
-        // If food doesn't belong to user, do not delete
-        if(!$this->foodItemRepository->foodBelongsToUser($id, $_SESSION['id'])){
-            $this->view('errors/403');
-            return;
-        }
+        $this->checkFoodBelongsToUser($id);
 
         $input = $_POST;
 
@@ -140,18 +170,19 @@ class FoodItems extends Controller {
 
         $this->foodItemRepository->save($food);
 
+        // Flash success message
         Session::flashMessage('success', strtoupper($food->getName()).' was updated.');
 
-        // Redirect to list after deleting
-        header('Location: /FoodItems/edit/'.$food->getId());
+        // Redirect back after updating
+        Redirect::toControllerMethod('FoodItems', 'edit', array('foodId' => $food->getId()));
         return;
+    }
 
-        // Validate input
-
-        // Update db
-
-        // Prepare message
-
-        // Return with message
+    public function checkFoodBelongsToUser($id){
+        // If food doesn't belong to user, show forbidden error
+        if(!$this->foodItemRepository->foodBelongsToUser($id, $_SESSION['id'])){
+            Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
+            return;
+        }
     }
 }

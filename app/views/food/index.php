@@ -88,7 +88,7 @@ $PLUGIN_EXPORT      = TRUE;
                     <div class="col-sm-2">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
-                            <a href="/foods/add/" class="btn btn-success m-t-15">+ Add Food Item</a>
+                            <a href="/FoodItems/create" class="btn btn-success m-t-15">+ Add Food Item</a>
                         </div>
                     </div>
                 </div>

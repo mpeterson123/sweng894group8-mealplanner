@@ -61,7 +61,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php Session::getOldInput('name') ?>"> </div>
+                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo Session::getOldInput('name') ?>"> </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputCategory">Category</label>
@@ -71,7 +71,7 @@ $SUBTITLE = "Add Food Item";
                                                     foreach($data['categories'] as $category){
                                                         echo '<option ';
 
-                                                        if($data['input']['category_id'] == $category['id']){
+                                                        if(Session::getOldInput('category_id') == $category['id']){
                                                             echo 'selected="selected"';
                                                         }
 
@@ -89,7 +89,7 @@ $SUBTITLE = "Add Food Item";
                                                     foreach($data['units'] as $unit){
                                                         echo '<option ';
 
-                                                        if($data['input']['unit_id'] == $unit['id']){
+                                                        if(Session::getOldInput('unit_id') == $unit['id']){
                                                             echo 'selected="selected" ';
                                                         }
 
@@ -103,7 +103,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputUnitsInContainer">Number of Units in Container</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="1" name="units_in_container" value="<?php echo $data['input']['units_in_container']; ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="" name="units_in_container" value="<?php echo Session::getOldInput('units_in_container'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -112,7 +112,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="1" name="container_cost" value="<?php echo $data['input']['container_cost']; ?>">
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="" name="container_cost" value="<?php echo Session::getOldInput('container_cost'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -121,32 +121,18 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputStock">Number of Units in Stock</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo $data['input']['stock']; ?>"> </div>
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo Session::getOldInput('stock'); ?>"> </div>
                                         </div>
 
 
                                         <div class="form-group">
                                             <label for="inputUnitCost">Unit Cost</label>
-                                            <p class="form-control-static" id="inputUnitCost" name="unit_cost">$<?php echo $data['input']['unit_cost']; ?></p>
+                                            <p class="form-control-static" id="inputUnitCost" name="unit_cost">$<?php echo Session::getOldInput('unit_cost'); ?></p>
                                         </div>
-                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
+                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save</button>
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="white-box">
-                            <h3 class="box-title m-b-0">Options</h3>
-
-                            <!-- Button trigger modal -->
-                            <button
-                                type="button"
-                                class="btn btn-danger m-t-15"
-                                data-toggle="modal"
-                                data-target="#confirm-delete-modal">
-                                Remove Item
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -174,7 +160,15 @@ $SUBTITLE = "Add Food Item";
             let containerCost = parseFloat($('#inputContainerCost').val());
             let unitsInContainer = parseFloat($('#inputUnitsInContainer').val());
 
-            $('#inputUnitCost').text('$'+Number(containerCost/unitsInContainer).toFixed(2));
+            let unitCost = Number(containerCost/unitsInContainer).toFixed(2);
+
+            if(!isNaN(unitCost)){
+                $('#inputUnitCost').text('$'+unitCost);
+            }
+            else {
+                $('#inputUnitCost').text('Enter valid container cost and units in container.');
+            }
+
         }
 
         calculateUnitCost();
