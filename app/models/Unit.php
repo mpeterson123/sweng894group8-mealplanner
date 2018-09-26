@@ -13,10 +13,10 @@ class Unit
         $name,
         $baseEqv;
 
-    public function __construct($id,$name,$baseEqv){
+    public function __construct(){
   		$this->id = $id;
-      $this->name = $name;
-      $this->baseEqv = $baseEqv;
+        $this->name = $name;
+        $this->baseEqv = $baseEqv;
     }
     public function getId()
     {
