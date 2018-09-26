@@ -33,5 +33,25 @@ class Session{
         return;
     }
 
+    public static function flashOldInput($oldInputs)
+    {
+        $_SESSION['old'] = array();
+        foreach($oldInputs as $key => $value){
+            $_SESSION['old'][$key] = $value;
+        }
+    }
+
+    public static function getOldInput($oldInputKey)
+    {
+        if(isset($_SESSION['old'][$oldInputKey])){
+            $value = $_SESSION['old'][$oldInputKey];
+            unset($_SESSION['old'][$oldInputKey]);
+            return $value;
+        }
+        else {
+            return '';
+        }
+    }
+
 
 }

@@ -63,7 +63,7 @@
                                     <a href="javascript:void(0)"><img src="/images/users/avatar4.jpg" alt="user-img" class="img-circle"> <span>Lawrence Sell <small class="text-success">online</small></span></a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)"><img src="/images/users/avatar6.jpg" alt="user-img" class="img-circle"> <span>Prof. Sangwan<small class="text-success">online</small></span></a>
+                                    <a href="javascript:void(0)"><img src="/images/users/avatar2.jpg" alt="user-img" class="img-circle"> <span>Prof. Sangwan<small class="text-success">online</small></span></a>
                                 </li>
                             </ul>
                         </div>

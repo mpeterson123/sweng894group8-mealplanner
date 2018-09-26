@@ -417,7 +417,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                             <h4 class="box-title">Chat</h4>
                             <ul class="chat-list slimscroll" style="overflow: hidden;" tabindex="5005">
                                 <li>
-                                    <div class="chat-image"> <img alt="male" src="/images/users/avatar6.jpg"> </div>
+                                    <div class="chat-image"> <img alt="male" src="/images/users/avatar2.jpg"> </div>
                                     <div class="chat-body">
                                         <div class="chat-text">
                                             <p><span class="font-semibold">Prof. Sangwan</span> Hey Daniel, This is just a sample chat. </p>
@@ -434,7 +434,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="chat-image"> <img alt="male" src="/images/users/avatar6.jpg"> </div>
+                                    <div class="chat-image"> <img alt="male" src="/images/users/avatar2.jpg"> </div>
                                     <div class="chat-body">
                                         <div class="chat-text">
                                             <p><span class="font-semibold">Prof. Sangwan</span> Bye now. </p>
