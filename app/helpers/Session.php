@@ -4,11 +4,22 @@ namespace Base\Helpers;
 
 class Session{
 
+    /**
+     * Stores temporary messages in the session
+     * @param  string $status  Type of alert. Must be one of: info, success, danger, warning
+     * @param  string $message Message to show to user.
+     * @return void
+     */
     public static function flashMessage($status, $message){
         self::add('status', $status);
         self::add('message', $message);
     }
 
+    /**
+     * Displays a flashed (temporary) message and removes it from the session.
+     * The message is displayed as a Bootstrap alert.
+     * @return void
+     */
     public static function renderMessage(){
         if(self::get('status') && self::get('message')){
             $html = '<div class="alert alert-dismissable alert-'.self::get('status').'" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.self::get('message').'</div>';
@@ -18,6 +29,11 @@ class Session{
         }
     }
 
+    /**
+     * Add a key-value pair to the session
+     * @param string $key   Identifier to access value
+     * @param string $value Value to be stored
+     */
     public static function add($key, $value){
         $_SESSION[$key] = $value;
     }
@@ -26,6 +42,11 @@ class Session{
         unset ($_SESSION[$key]);
     }
 
+    /**
+     * Retrieve a key-value pair from the session
+     * @param string $key   Identifier to access value
+     * @return mixed        Value corresponding to key
+     */
     public static function get($key){
         if(isset($_SESSION[$key])){
             return $_SESSION[$key];
@@ -33,6 +54,13 @@ class Session{
         return;
     }
 
+    /**
+     * Store old input in the session. Used in combination with getOldInput to
+     * repopulate forms that have errors.
+     *
+     * @param  array $oldInputs     Array of inputs to store for repopulation
+     * @return void
+     */
     public static function flashOldInput($oldInputs)
     {
         $_SESSION['old'] = array();
@@ -41,6 +69,13 @@ class Session{
         }
     }
 
+    /**
+     * Store old input in the session. Used in combination with getOldInput to
+     * repopulate forms that have errors.
+     *
+     * @param  string $oldInputKey Field name in form
+     * @return string              Old input value
+     */
     public static function getOldInput($oldInputKey)
     {
         if(isset($_SESSION['old'][$oldInputKey])){
