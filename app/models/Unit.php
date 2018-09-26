@@ -10,9 +10,14 @@ class Unit
 {
     private
         $id,
-        $name;
+        $name,
+        $baseEqv;
 
-
+    public function __construct($id,$name,$baseEqv){
+  		$this->id = $id;
+      $this->name = $name;
+      $this->baseEqv = $baseEqv;
+    }
     public function getId()
     {
         return $this->id;
@@ -31,6 +36,9 @@ class Unit
     public function setName($name)
     {
         $this->name = $name;
+    }
+    public function getBaseEqv(){
+      return $this->baseEqv;
     }
 }
 
