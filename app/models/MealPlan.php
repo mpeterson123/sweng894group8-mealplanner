@@ -13,10 +13,18 @@ class MealPlan {
   }
 
   public function addMeal($meal) {
-
+    if($meal == ''){
+        throw new \Exception(
+            "Meal name cannot be empty", 1);
+          }
+          
   }
 
   public function removeMeal($meal) {
+    if($name == ''){
+        throw new \Exception(
+            "Meal name cannot be empty", 1);
+          }
 
   }
 

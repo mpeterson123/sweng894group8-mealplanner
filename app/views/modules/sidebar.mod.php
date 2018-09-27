@@ -54,6 +54,19 @@
                                 <li><a href="javascript:void(0);">Add Recipe</a></li>
                             </ul>
                         </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Meals<span class="label label-rounded label-danger pull-right">0</span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="javascript:void(0);">View Meal Plan</a></li>
+                                <li><a href="javascript:void(0);">Add Meal Plan</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Groceries<span class="label label-rounded label-danger pull-right">0</span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="javascript:void(0);">View Grocery List</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <div class="p-30">
