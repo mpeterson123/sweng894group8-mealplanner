@@ -1,0 +1,101 @@
+<?php
+namespace Base\Models;
+require_once __DIR__.'/../../vendor/autoload.php';
+
+class FoodItem {
+    private
+        $id,
+        $name,
+        $stock,
+        $unit,
+        $category,
+        $unitsInContainer,
+        $containerCost,
+        $unitCost;
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId(){
+        return $this->id;
+    }
+
+    public function setName($name){
+        if($name == ''){
+            throw new \Exception(
+                "Food Item name cannot be empty", 1);
+        }
+
+        if(strlen($name) > 20){
+            throw new \Exception(
+                "Food Item name cannot be longer than 20 characters", 1);
+        }
+
+        $this->name = trim($name);
+    }
+
+    public function getName(){
+        return $this->name;
+    }
+
+    public function setStock($stock){
+        if($stock < 0)
+        {
+            throw new \Exception(
+                "Stock cannot be a negative number", 1);
+        }
+        $this->stock = $stock;
+    }
+
+    public function getStock(){
+        return $this->stock;
+    }
+
+    public function setUnit($unit)
+    {
+        $this->unit = $unit;
+    }
+
+    public function getUnit(){
+        return $this->unit;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    public function getCategory(){
+        return $this->category;
+    }
+
+    public function setUnitsInContainer($unitsInContainer)
+    {
+        $this->unitsInContainer = trim($unitsInContainer);
+    }
+
+    public function getUnitsInContainer(){
+        return $this->unitsInContainer;
+    }
+
+    public function setContainerCost($containerCost)
+    {
+        $this->containerCost = trim($containerCost);
+    }
+
+    public function getContainerCost(){
+        return $this->containerCost;
+    }
+
+    public function setUnitCost()
+    {
+        $this->unitCost = $this->containerCost/$this->unitsInContainer;
+    }
+
+    public function getUnitCost(){
+        return $this->unitCost;
+    }
+
+}

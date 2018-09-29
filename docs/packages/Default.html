@@ -1,0 +1,639 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>API Documentation » Default</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">API Documentation</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/Base.html"><i class="icon-th"></i> Base</a></li>
+<li><a href="../namespaces/global.html"><i class="icon-th"></i> global</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">247</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-map-marker"></i> Packages</li>
+<li>
+<a href="../packages/Default.html" title="Default"><i class="icon-folder-open"></i>Default</a><ul class="nav nav-list nav-packages"></ul>
+</li>
+<li class="nav-header">
+<i title="Functions" class="icon-custom icon-function"></i> Functions</li>
+<li class="function  "><a href="#function_PHPUnitCheck" title="PHPUnitCheck() :: "><span class="description">PHPUnitCheck()
+        </span><pre>PHPUnitCheck</pre></a></li>
+<li class="function  "><a href="#function_decodeBase64" title="decodeBase64() :: "><span class="description">decodeBase64()
+        </span><pre>decodeBase64</pre></a></li>
+<li class="function  "><a href="#function_decrypt" title="decrypt() :: "><span class="description">decrypt()
+        </span><pre>decrypt</pre></a></li>
+<li class="function  "><a href="#function_encodeBase64" title="encodeBase64() :: "><span class="description">encodeBase64()
+        </span><pre>encodeBase64</pre></a></li>
+<li class="function  "><a href="#function_encrypt" title="encrypt() :: "><span class="description">encrypt()
+        </span><pre>encrypt</pre></a></li>
+<li class="function  "><a href="#function_sqlArrayQuery" title="sqlArrayQuery() :: "><span class="description">sqlArrayQuery()
+        </span><pre>sqlArrayQuery</pre></a></li>
+<li class="function  "><a href="#function_sqlQuery" title="sqlQuery() :: "><span class="description">sqlQuery()
+        </span><pre>sqlQuery</pre></a></li>
+<li class="function  "><a href="#function_sqlRequest" title="sqlRequest() :: "><span class="description">sqlRequest()
+        </span><pre>sqlRequest</pre></a></li>
+<li class="function  "><a href="#function_sqlRequestArray" title="sqlRequestArray() :: "><span class="description">sqlRequestArray()
+        </span><pre>sqlRequestArray</pre></a></li>
+<li class="function  "><a href="#function_sqlRequestArrayByID" title="sqlRequestArrayByID() :: "><span class="description">sqlRequestArrayByID()
+        </span><pre>sqlRequestArrayByID</pre></a></li>
+<li class="function  "><a href="#function_sqlRequestByID" title="sqlRequestByID() :: "><span class="description">sqlRequestByID()
+        </span><pre>sqlRequestByID</pre></a></li>
+<li class="function  "><a href="#function_sqlRequestWhere" title="sqlRequestWhere() :: "><span class="description">sqlRequestWhere()
+        </span><pre>sqlRequestWhere</pre></a></li>
+<li class="nav-header">
+<i title="Classes" class="icon-custom icon-class"></i> Classes</li>
+<li><a href="#Recipe" title="">Recipe</a></li>
+<li><a href="#Home" title="Super class that handles all incoming requests">Home</a></li>
+<li><a href="#User" title="">User</a></li>
+<li><a href="#FoodItems" title="Super class that handles all incoming requests">FoodItems</a></li>
+<li><a href="#Ingredient" title="">Ingredient</a></li>
+<li><a href="#App" title="Entry point to the application">App</a></li>
+<li><a href="#Meal" title="">Meal</a></li>
+<li><a href="#FoodItemRepository" title="">FoodItemRepository</a></li>
+<li><a href="#MealPlan" title="">MealPlan</a></li>
+<li><a href="#FoodItem" title="">FoodItem</a></li>
+<li><a href="#DatabaseHandler" title="Handle database connection">DatabaseHandler</a></li>
+<li><a href="#Controller" title="Super class that handles all incoming requests">Controller</a></li>
+<li><a href="#GroceryItem" title="">GroceryItem</a></li>
+<li><a href="#Repository" title="">Repository</a></li>
+<li class="nav-header">
+<i title="Constants" class="icon-custom icon-constant"></i> Constants</li>
+<li class="constant  "><a href="#constant___COPYRITE__" title="__COPYRITE__() :: "><span class="description">__COPYRITE__</span><pre>__COPYRITE__</pre></a></li>
+<li class="constant  "><a href="#constant___CRYPT_KEY__" title="__CRYPT_KEY__() :: "><span class="description">__CRYPT_KEY__</span><pre>__CRYPT_KEY__</pre></a></li>
+<li class="constant  "><a href="#constant___CRYPT__" title="__CRYPT__() :: "><span class="description">__CRYPT__</span><pre>__CRYPT__</pre></a></li>
+<li class="constant  "><a href="#constant___FOOTER__" title="__FOOTER__() :: "><span class="description">__FOOTER__</span><pre>__FOOTER__</pre></a></li>
+<li class="constant  "><a href="#constant___HEADER__" title="__HEADER__() :: "><span class="description">__HEADER__</span><pre>__HEADER__</pre></a></li>
+<li class="constant  "><a href="#constant___NAVBAR__" title="__NAVBAR__() :: "><span class="description">__NAVBAR__</span><pre>__NAVBAR__</pre></a></li>
+<li class="constant  "><a href="#constant___PHPUNIT__" title="__PHPUNIT__() :: "><span class="description">__PHPUNIT__</span><pre>__PHPUNIT__</pre></a></li>
+<li class="constant  "><a href="#constant___REDIRECT__" title="__REDIRECT__() :: "><span class="description">__REDIRECT__</span><pre>__REDIRECT__</pre></a></li>
+<li class="constant  "><a href="#constant___SESSIONS__" title="__SESSIONS__() :: "><span class="description">__SESSIONS__</span><pre>__SESSIONS__</pre></a></li>
+<li class="constant  "><a href="#constant___SIDEBAR__" title="__SIDEBAR__() :: "><span class="description">__SIDEBAR__</span><pre>__SIDEBAR__</pre></a></li>
+<li class="constant  "><a href="#constant___SITENAME__" title="__SITENAME__() :: "><span class="description">__SITENAME__</span><pre>__SITENAME__</pre></a></li>
+<li class="constant  "><a href="#constant___SPANEL__" title="__SPANEL__() :: "><span class="description">__SPANEL__</span><pre>__SPANEL__</pre></a></li>
+<li class="constant  "><a href="#constant___SQL_DB__" title="__SQL_DB__() :: "><span class="description">__SQL_DB__</span><pre>__SQL_DB__</pre></a></li>
+<li class="constant  "><a href="#constant___SQL_HN__" title="__SQL_HN__() :: "><span class="description">__SQL_HN__</span><pre>__SQL_HN__</pre></a></li>
+<li class="constant  "><a href="#constant___SQL_PW__" title="__SQL_PW__() :: "><span class="description">__SQL_PW__</span><pre>__SQL_PW__</pre></a></li>
+<li class="constant  "><a href="#constant___SQL_UN__" title="__SQL_UN__() :: "><span class="description">__SQL_UN__</span><pre>__SQL_UN__</pre></a></li>
+<li class="constant  "><a href="#constant___SQL__" title="__SQL__() :: "><span class="description">__SQL__</span><pre>__SQL__</pre></a></li>
+</ul>
+</div>
+<div class="span8 package-contents">
+<ul class="breadcrumb"><li>
+<a href="../index.html"><i class="icon-folder-open"></i></a><span class="divider">\</span><li class="active"><a href="../packages/Default.html">Default</a></li>
+</li></ul>
+<div class="package-indent">
+<h3>
+<i title="Functions" class="icon-custom icon-function"></i> Functions</h3>
+<a xmlns:php="http://php.net/xsl" id="function_PHPUnitCheck"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_PHPUnitCheck " data-toggle="collapse" data-target=".function_PHPUnitCheck .collapse" title="">
+<h2>PHPUnitCheck()
+        </h2>
+<pre>PHPUnitCheck($errors) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$errors</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_decodeBase64"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_decodeBase64 " data-toggle="collapse" data-target=".function_decodeBase64 .collapse" title="">
+<h2>decodeBase64()
+        </h2>
+<pre>decodeBase64($stringData) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$stringData</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_decrypt"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_decrypt " data-toggle="collapse" data-target=".function_decrypt .collapse" title="">
+<h2>decrypt()
+        </h2>
+<pre>decrypt($stringData, $Key<code> = __CRYPT_KEY__</code>) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$stringData</h4></div>
+<div class="subelement argument"><h4>$Key</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_encodeBase64"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_encodeBase64 " data-toggle="collapse" data-target=".function_encodeBase64 .collapse" title="">
+<h2>encodeBase64()
+        </h2>
+<pre>encodeBase64($stringData) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$stringData</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_encrypt"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_encrypt " data-toggle="collapse" data-target=".function_encrypt .collapse" title="">
+<h2>encrypt()
+        </h2>
+<pre>encrypt($stringData, $Key<code> = __CRYPT_KEY__</code>) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$stringData</h4></div>
+<div class="subelement argument"><h4>$Key</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_sqlArrayQuery"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_sqlArrayQuery " data-toggle="collapse" data-target=".function_sqlArrayQuery .collapse" title="">
+<h2>sqlArrayQuery()
+        </h2>
+<pre>sqlArrayQuery($queryResource) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$queryResource</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_sqlQuery"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_sqlQuery " data-toggle="collapse" data-target=".function_sqlQuery .collapse" title="">
+<h2>sqlQuery()
+        </h2>
+<pre>sqlQuery($query, $returnID<code> = FALSE</code>) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$query</h4></div>
+<div class="subelement argument"><h4>$returnID</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_sqlRequest"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_sqlRequest " data-toggle="collapse" data-target=".function_sqlRequest .collapse" title="">
+<h2>sqlRequest()
+        </h2>
+<pre>sqlRequest($query) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$query</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_sqlRequestArray"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_sqlRequestArray " data-toggle="collapse" data-target=".function_sqlRequestArray .collapse" title="">
+<h2>sqlRequestArray()
+        </h2>
+<pre>sqlRequestArray($table, $array) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$table</h4></div>
+<div class="subelement argument"><h4>$array</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_sqlRequestArrayByID"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_sqlRequestArrayByID " data-toggle="collapse" data-target=".function_sqlRequestArrayByID .collapse" title="">
+<h2>sqlRequestArrayByID()
+        </h2>
+<pre>sqlRequestArrayByID($table, $id, $vars) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$table</h4></div>
+<div class="subelement argument"><h4>$id</h4></div>
+<div class="subelement argument"><h4>$vars</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_sqlRequestByID"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_sqlRequestByID " data-toggle="collapse" data-target=".function_sqlRequestByID .collapse" title="">
+<h2>sqlRequestByID()
+        </h2>
+<pre>sqlRequestByID($table, $id, $var) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$table</h4></div>
+<div class="subelement argument"><h4>$id</h4></div>
+<div class="subelement argument"><h4>$var</h4></div>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="function_sqlRequestWhere"></a><div xmlns:php="http://php.net/xsl" class="element clickable function  function_sqlRequestWhere " data-toggle="collapse" data-target=".function_sqlRequestWhere .collapse" title="">
+<h2>sqlRequestWhere()
+        </h2>
+<pre>sqlRequestWhere($table, $var, $match) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$table</h4></div>
+<div class="subelement argument"><h4>$var</h4></div>
+<div class="subelement argument"><h4>$match</h4></div>
+</div></div>
+</div>
+<h3>
+<i title="Classes" class="icon-custom icon-class"></i> Classes, interfaces, and traits</h3>
+<div xmlns:php="http://php.net/xsl" id="FoodItems" class="element ajax clickable class">
+<h1>FoodItems<a href="../classes/Base.Controllers.FoodItems.html">¶</a>
+</h1>
+<p class="short_description">Super class that handles all incoming requests</p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Controllers.FoodItems.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="Home" class="element ajax clickable class">
+<h1>Home<a href="../classes/Base.Controllers.Home.html">¶</a>
+</h1>
+<p class="short_description">Super class that handles all incoming requests</p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Controllers.Home.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="App" class="element ajax clickable class">
+<h1>App<a href="../classes/Base.Core.App.html">¶</a>
+</h1>
+<p class="short_description">Entry point to the application</p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Core.App.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="Controller" class="element ajax clickable class">
+<h1>Controller<a href="../classes/Base.Core.Controller.html">¶</a>
+</h1>
+<p class="short_description">Super class that handles all incoming requests</p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Core.Controller.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="DatabaseHandler" class="element ajax clickable class">
+<h1>DatabaseHandler<a href="../classes/Base.Core.DatabaseHandler.html">¶</a>
+</h1>
+<p class="short_description">Handle database connection</p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Core.DatabaseHandler.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="FoodItem" class="element ajax clickable class">
+<h1>FoodItem<a href="../classes/Base.Models.FoodItem.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Models.FoodItem.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="GroceryItem" class="element ajax clickable class">
+<h1>GroceryItem<a href="../classes/Base.Models.GroceryItem.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Models.GroceryItem.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="Ingredient" class="element ajax clickable class">
+<h1>Ingredient<a href="../classes/Base.Models.Ingredient.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Models.Ingredient.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="Meal" class="element ajax clickable class">
+<h1>Meal<a href="../classes/Base.Models.Meal.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Models.Meal.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="MealPlan" class="element ajax clickable class">
+<h1>MealPlan<a href="../classes/Base.Models.MealPlan.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Models.MealPlan.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="Recipe" class="element ajax clickable class">
+<h1>Recipe<a href="../classes/Base.Models.Recipe.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Models.Recipe.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="User" class="element ajax clickable class">
+<h1>User<a href="../classes/Base.Models.User.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Models.User.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="FoodItemRepository" class="element ajax clickable class">
+<h1>FoodItemRepository<a href="../classes/Base.Repositories.FoodItemRepository.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Repositories.FoodItemRepository.html" class="more">« More »</a>
+</div>
+<div xmlns:php="http://php.net/xsl" id="Repository" class="element ajax clickable class">
+<h1>Repository<a href="../classes/Base.Repositories.Repository.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/Base.Repositories.Repository.html" class="more">« More »</a>
+</div>
+<h3>
+<i title="Constants" class="icon-custom icon-constant"></i> Constants</h3>
+<a xmlns:php="http://php.net/xsl" id="constant___COPYRITE__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___COPYRITE__" data-toggle="collapse" data-target=".constant___COPYRITE__ .collapse" title="">
+<h2>__COPYRITE__</h2>
+<pre>__COPYRITE__ = '2018 © Penn State - Cohort 19 &amp;amp; 20 - Group 8.' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___CRYPT_KEY__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___CRYPT_KEY__" data-toggle="collapse" data-target=".constant___CRYPT_KEY__ .collapse" title="">
+<h2>__CRYPT_KEY__</h2>
+<pre>__CRYPT_KEY__ = 'Capstone' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___CRYPT__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___CRYPT__" data-toggle="collapse" data-target=".constant___CRYPT__ .collapse" title="">
+<h2>__CRYPT__</h2>
+<pre>__CRYPT__ = __DIR__ . '/crypt.mod.php' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___FOOTER__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___FOOTER__" data-toggle="collapse" data-target=".constant___FOOTER__ .collapse" title="">
+<h2>__FOOTER__</h2>
+<pre>__FOOTER__ = __DIR__ . '/footer.mod.php' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___HEADER__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___HEADER__" data-toggle="collapse" data-target=".constant___HEADER__ .collapse" title="">
+<h2>__HEADER__</h2>
+<pre>__HEADER__ = __DIR__ . '/header.mod.php' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___NAVBAR__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___NAVBAR__" data-toggle="collapse" data-target=".constant___NAVBAR__ .collapse" title="">
+<h2>__NAVBAR__</h2>
+<pre>__NAVBAR__ = __DIR__ . '/navbar.mod.php' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___PHPUNIT__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___PHPUNIT__" data-toggle="collapse" data-target=".constant___PHPUNIT__ .collapse" title="">
+<h2>__PHPUNIT__</h2>
+<pre>__PHPUNIT__ = __DIR__ . '/phpunit.mod.php' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___REDIRECT__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___REDIRECT__" data-toggle="collapse" data-target=".constant___REDIRECT__ .collapse" title="">
+<h2>__REDIRECT__</h2>
+<pre>__REDIRECT__ = '/dashboard/' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___SESSIONS__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___SESSIONS__" data-toggle="collapse" data-target=".constant___SESSIONS__ .collapse" title="">
+<h2>__SESSIONS__</h2>
+<pre>__SESSIONS__ = __DIR__ . '/sessions.mod.php' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___SIDEBAR__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___SIDEBAR__" data-toggle="collapse" data-target=".constant___SIDEBAR__ .collapse" title="">
+<h2>__SIDEBAR__</h2>
+<pre>__SIDEBAR__ = __DIR__ . '/sidebar.mod.php' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___SITENAME__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___SITENAME__" data-toggle="collapse" data-target=".constant___SITENAME__ .collapse" title="">
+<h2>__SITENAME__</h2>
+<pre>__SITENAME__ = 'MealPlanner - Capstone Project' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___SPANEL__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___SPANEL__" data-toggle="collapse" data-target=".constant___SPANEL__ .collapse" title="">
+<h2>__SPANEL__</h2>
+<pre>__SPANEL__ = __DIR__ . '/spanel.mod.php' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___SQL_DB__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___SQL_DB__" data-toggle="collapse" data-target=".constant___SQL_DB__ .collapse" title="">
+<h2>__SQL_DB__</h2>
+<pre>__SQL_DB__ = 'capstone' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___SQL_HN__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___SQL_HN__" data-toggle="collapse" data-target=".constant___SQL_HN__ .collapse" title="">
+<h2>__SQL_HN__</h2>
+<pre>__SQL_HN__ = 'localhost' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___SQL_PW__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___SQL_PW__" data-toggle="collapse" data-target=".constant___SQL_PW__ .collapse" title="">
+<h2>__SQL_PW__</h2>
+<pre>__SQL_PW__ = 'CmklPrew!' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___SQL_UN__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___SQL_UN__" data-toggle="collapse" data-target=".constant___SQL_UN__ .collapse" title="">
+<h2>__SQL_UN__</h2>
+<pre>__SQL_UN__ = 'capstone' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+<a xmlns:php="http://php.net/xsl" id="constant___SQL__"> </a><div xmlns:php="http://php.net/xsl" class="element clickable constant  constant___SQL__" data-toggle="collapse" data-target=".constant___SQL__ .collapse" title="">
+<h2>__SQL__</h2>
+<pre>__SQL__ = __DIR__ . '/sql.mod.php' </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Default.html">Default</a></td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.8.5</a> and<br>
+            generated on 2018-09-11T21:54:29-04:00.<br></footer></div>
+</div>
+</body>
+</html>
