@@ -45,8 +45,8 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' )
         <div class="error-box">
             <div class="error-body text-center">
                 <h1>500</h1>
-                <h3 class="text-uppercase">Internal Server Error.</h3>
-                <p class="text-muted m-t-30 m-b-30">Please try after some time</p>
+                <h3 class="text-uppercase">Internal Server Error</h3>
+                <p class="text-muted m-t-30 m-b-30">Uh oh! Looks like we couldn't process that request.</p>
                 <a href="<?php echo __REDIRECT__; ?>" class="btn btn-info btn-rounded waves-effect waves-light m-b-40">Back to home</a> </div>
             <footer class="footer text-center"><?php echo __COPYRITE__; ?></footer>
         </div>

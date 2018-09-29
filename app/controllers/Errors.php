@@ -26,6 +26,10 @@ class Errors extends Controller {
      */
     public function show($errorCode)
     {
+        if(!is_numeric($errorCode) || !file_exists(__DIR__.'/../views/errors/'.$errorCode.'.php')){
+            $this->view('errors/500');
+            return;
+        }
         $this->view('errors/'.$errorCode);
         return;
     }
