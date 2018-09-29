@@ -5,11 +5,18 @@ namespace Base\Controllers;
 require_once __DIR__.'/../../vendor/autoload.php';
 
 
-////////////////////
-// Use statements //
-////////////////////
+//////////////////////
+// Standard classes //
+//////////////////////
 use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
+use Base\Helpers\Session;
+use Base\Helpers\Redirect;
+use \Valitron\Validator;
+
+///////////////////////////
+// File-specific classes //
+///////////////////////////
 use Base\Repositories\UserRepository;
 
 class Home extends Controller{
