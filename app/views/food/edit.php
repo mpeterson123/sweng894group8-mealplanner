@@ -63,14 +63,7 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0"><?php echo $data['food']['name']; ?></h3>
-<?php if (isset($Errors)) { ?>
-                            <p class="text-danger m-b-30 font-13">
-<?php     foreach($Errors as $error) { ?>
-                            <?php echo $error; ?><br/>
-<?php     } ?>
-                            </p>
-<?php } ?>
+                            <h3 class="box-title m-b-0"><?php echo (Session::getOldInput('name') != NULL)? Session::getOldInput('name') : $data['food']['name']; ?></h3>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
                             <a href="/FoodItems/">&laquo; Return to foods</a>
@@ -78,12 +71,12 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
                                     <form method="post" action="/FoodItems/update/<?php echo $data['food']['id']; ?>">
-                                        <input type="hidden" name="foodid" value="<?php echo $data['food']['id']; ?>">
+
                                         <div class="form-group">
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo $data['food']['name']; ?>"> </div>
+                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo (Session::getOldInput('name') != NULL)? Session::getOldInput('name') : $data['food']['name']; ?>"> </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputCategory">Category</label>
@@ -125,7 +118,7 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                                             <label for="inputUnitsInContainer">Number of Units in Container</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="1" name="units_in_container" value="<?php echo $data['food']['units_in_container']; ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="1" name="units_in_container" value="<?php echo (Session::getOldInput('units_in_container') != NULL)? Session::getOldInput('units_in_container') : $data['food']['units_in_container']; ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -134,7 +127,7 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                                             <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="1" name="container_cost" value="<?php echo $data['food']['container_cost']; ?>">
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="1" name="container_cost" value="<?php echo (Session::getOldInput('container_cost') != NULL)? Session::getOldInput('container_cost') : $data['food']['container_cost']; ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -143,13 +136,13 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                                             <label for="inputStock">Number of Units in Stock</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo $data['food']['stock']; ?>"> </div>
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo (Session::getOldInput('stock') != NULL)? Session::getOldInput('stock') : $data['food']['stock']; ?>"> </div>
                                         </div>
 
 
                                         <div class="form-group">
                                             <label for="inputUnitCost">Unit Cost</label>
-                                            <p class="form-control-static" id="inputUnitCost" name="unit_cost">$<?php echo $data['food']['unit_cost']; ?></p>
+                                            <p class="form-control-static" id="inputUnitCost" name="unit_cost">$<?php echo (Session::getOldInput('unit_cost') != NULL)? Session::getOldInput('unit_cost') : $data['food']['unit_cost']; ?></p>
                                         </div>
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
                                     </form>

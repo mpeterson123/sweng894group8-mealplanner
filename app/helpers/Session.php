@@ -81,13 +81,19 @@ class Session{
     {
         if(isset($_SESSION['old'][$oldInputKey])){
             $value = $_SESSION['old'][$oldInputKey];
-            unset($_SESSION['old'][$oldInputKey]);
             return $value;
         }
-        else {
-            return '';
-        }
+        return;
     }
+
+    /**
+     * Remove old input from session
+     */
+    public static function flushOldInput():void{
+        unset($_SESSION['old']);
+    }
+
+
 
 
 }

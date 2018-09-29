@@ -5,13 +5,19 @@ namespace Base\Controllers;
 require_once __DIR__.'/../../vendor/autoload.php';
 
 
-////////////////////
-// Use statements //
-////////////////////
+//////////////////////
+// Standard classes //
+//////////////////////
 use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
 use Base\Helpers\Redirect;
+use Base\Helpers\Format;
+use \Valitron\Validator;
+
+///////////////////////////
+// File-specific classes //
+///////////////////////////
 use Base\Models\FoodItem;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
@@ -73,6 +79,11 @@ class FoodItems extends Controller {
 
         $input = $_POST;
 
+        Session::flashOldInput($input);
+
+        // Validate input
+        $this->validateInput($input, 'create');
+
         // Find unit and category
         $db = $this->dbh->getDB();
         $categoryRepository = new CategoryRepository($db);
@@ -93,8 +104,9 @@ class FoodItems extends Controller {
 
         $this->foodItemRepository->save($food);
 
-        // Flash success message
-        Session::flashMessage('success', strtoupper($food->getName()).' was added to your list.');
+        // Flash success message and flush old input
+        Session::flashMessage('success', ucfirst($food->getName()).' was added to your list.');
+        Session::flushOldInput();
 
         // Redirect back after updating
         Redirect::toControllerMethod('FoodItems', 'index');
@@ -128,10 +140,12 @@ class FoodItems extends Controller {
 
     public function update($id){
         $foodArray = $this->foodItemRepository->find($id);
-
         $this->checkFoodBelongsToUser($id);
 
         $input = $_POST;
+
+        $this->validateInput($input, 'edit', [$id]);
+
 
         // Find unit and category
         $db = $this->dbh->getDB();
@@ -155,7 +169,7 @@ class FoodItems extends Controller {
         $this->foodItemRepository->save($food);
 
         // Flash success message
-        Session::flashMessage('success', strtoupper($food->getName()).' was updated.');
+        Session::flashMessage('success', ucfirst($food->getName()).' was updated.');
 
         // Redirect back after updating
         Redirect::toControllerMethod('FoodItems', 'edit', array('foodId' => $food->getId()));
@@ -166,6 +180,51 @@ class FoodItems extends Controller {
         // If food doesn't belong to user, show forbidden error
         if(!$this->foodItemRepository->foodBelongsToUser($id, $_SESSION['id'])){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
+            return;
+        }
+    }
+
+    private function validateInput($input, $method, $params = NULL){
+        Session::flashOldInput($input);
+
+        // Validate input
+        $validator = new Validator($input);
+        $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
+        $safeStringRegex = '/^[0-9a-z #\/\(\)-]+$/i';
+        $rules = [
+            'required' => [
+                ['name'],
+                ['category_id'],
+                ['unit_id'],
+                ['units_in_container'],
+                ['container_cost'],
+                ['stock']
+            ],
+            'integer' => [
+                ['category_id'],
+                ['unit_id']
+            ],
+            'regex' => [
+                ['name', $safeStringRegex],
+                ['units_in_container', $twoSigDigFloatRegex],
+                ['container_cost', $twoSigDigFloatRegex],
+                ['stock', $twoSigDigFloatRegex]
+            ]
+        ];
+        $validator->rules($rules);
+        $validator->labels(array(
+            'category_id' => 'Category',
+            'unit_id' => 'Unit'
+        ));
+        
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            Session::flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('FoodItems', $method, $params);
             return;
         }
     }
