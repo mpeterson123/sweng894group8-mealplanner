@@ -1,6 +1,6 @@
 <?php
-
 namespace Base\Repositories;
+require_once __DIR__.'/../../vendor/autoload.php';
 
 abstract class Repository {
     private $dbh;

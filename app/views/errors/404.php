@@ -4,9 +4,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 // For handling 404 server errors
 ///////////////////////////////////////////////////////////////////////////////
+require_once __DIR__.'/../../../vendor/autoload.php';
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

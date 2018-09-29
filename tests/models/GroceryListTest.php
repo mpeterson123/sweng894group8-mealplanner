@@ -1,8 +1,7 @@
 <?php
 namespace Base\Test;
 
-require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
-require_once dirname(dirname(__FILE__)).'/app/models/GroceryList.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 // Add the classes you are testing
@@ -40,7 +39,7 @@ class GroceryListTest extends TestCase {
     // Fill the grocery list with an array
     public function testPopulate(){
         $array = array("Butter","Egg","Flour");
-        
+
         $this->grocerlist->populate($array);
     }
 

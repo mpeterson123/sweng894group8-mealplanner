@@ -1,26 +1,18 @@
 <?php
 namespace Base\Controllers;
-////////////////////////////////////////////////////////////
-// Import dependencies. Can be replaced by autoload later //
-////////////////////////////////////////////////////////////
-require_once __DIR__.'/../core/Controller.php';
-require_once __DIR__.'/../core/DatabaseHandler.php';
-require_once __DIR__.'/../helpers/Session.php';
-require_once __DIR__.'/../helpers/Redirect.php';
-require_once __DIR__.'/../models/FoodItem.php';
-require_once __DIR__.'/../repositories/FoodItemRepository.php';
-require_once __DIR__.'/../repositories/UnitRepository.php';
-require_once __DIR__.'/../repositories/CategoryRepository.php';
+
+// Autoload dependencies
+require_once __DIR__.'/../../vendor/autoload.php';
 
 
-/////////////////////////////////////////////////////////////////////
-// Load dependencies into current scope. Not the same as importing //
-/////////////////////////////////////////////////////////////////////
+////////////////////
+// Use statements //
+////////////////////
 use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
 use Base\Helpers\Redirect;
-use Base\models\FoodItem;
+use Base\Models\FoodItem;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
 use Base\Repositories\CategoryRepository;
@@ -45,7 +37,6 @@ class FoodItems extends Controller {
     }
 
     public function index(){
-        // session_start();
         // echo "In ".__CLASS__."@".__FUNCTION__;
         $foods = $this->foodItemRepository->allForUser($_SESSION['id']);
         $this->view('food/index', compact('foods'));
@@ -111,8 +102,6 @@ class FoodItems extends Controller {
     }
 
     public function delete($id){
-
-        try{
             $food = $this->foodItemRepository->find($id);
 
             // If food doesn't exist, load 404 error page
@@ -134,12 +123,7 @@ class FoodItems extends Controller {
             // Redirect to list after deleting
             $this->index();
             return;
-        }
-        catch(Exception $e)
-        {
-            $this->view('errors/500');
-            return;
-        }
+
     }
 
     public function update($id){

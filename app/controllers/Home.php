@@ -1,26 +1,24 @@
 <?php
 namespace Base\Controllers;
-////////////////////////////////////////////////////////////
-// Import dependencies. Can be replaced by autoload later //
-////////////////////////////////////////////////////////////
-require_once __DIR__.'/../core/Controller.php';
-require_once __DIR__.'/../core/DatabaseHandler.php';
-require_once __DIR__.'/../repositories/UserRepository.php';
 
-/////////////////////////////////////////////////////////////////////
-// Load dependencies into current scope. Not the same as importing //
-/////////////////////////////////////////////////////////////////////
+// Autoload dependencies
+require_once __DIR__.'/../../vendor/autoload.php';
+
+
+////////////////////
+// Use statements //
+////////////////////
 use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
-use Base\repositories\UserRepository;
+use Base\Repositories\UserRepository;
 
 class Home extends Controller{
 	private $userRepo;
 	public function __construct()
     {
         parent::__construct(...func_get_args());
-				$dbh = DatabaseHandler::getInstance();
-				$this->userRepo = new UserRepository($dbh->getDB());
+		$dbh = DatabaseHandler::getInstance();
+		$this->userRepo = new UserRepository($dbh->getDB());
     }
 
 	public function index(){

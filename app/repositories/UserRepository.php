@@ -1,8 +1,6 @@
 <?php
 namespace Base\Repositories;
-
-require_once __DIR__.'/../repositories/Repository.php';
-
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use Base\Repositories\Repository;
 

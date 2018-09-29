@@ -1,9 +1,6 @@
 <?php
 namespace Base\Repositories;
-
-require_once __DIR__.'/../models/Category.php';
-require_once __DIR__.'/../repositories/Repository.php';
-
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use Base\Models\Category;
 use Base\Repositories\Repository;

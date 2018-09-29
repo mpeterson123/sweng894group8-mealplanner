@@ -5,10 +5,10 @@
 // Quantity Class
 ///////////////////////////////////////////////////////////////////////////////
 namespace Base\Models;
+require_once __DIR__.'/../../vendor/autoload.php';
 
-require_once __DIR__.'/../models/Unit.php';
 
-use Base\models\Unit;
+use Base\Models\Unit;
 
 class Quantity
 {

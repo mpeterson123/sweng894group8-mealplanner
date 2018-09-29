@@ -1,13 +1,13 @@
 <?php
 namespace Base\Core;
+require_once __DIR__.'/../../vendor/autoload.php';
 
-date_default_timezone_set('America/New_York');
 /**
  * Handle database connection
  */
 class DatabaseHandler
 {
-    private static $host = 'localhost';
+    private static $host = '34.207.226.165';
     private static $dbName   = 'capstone';
     private static $user = 'capstone_remote';
     private static $pass = 'CmklPrew!';

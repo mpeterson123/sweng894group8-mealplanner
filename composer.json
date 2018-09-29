@@ -3,11 +3,19 @@
         "phpunit/phpunit": "^7"
     },
     "require": {
-        "zendframework/zend-i18n": "^2.9",
-        "dompdf/dompdf": "dev-master@dev",
         "swiftmailer/swiftmailer": "^6.0",
-        "vlucas/valitron": "^1.4"
+        "vlucas/valitron": "^1.4",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Base\\Controllers\\":"app/controllers",
+            "Base\\Models\\":"app/models",
+            "Base\\Core\\":"app/core",
+            "Base\\Helpers\\":"app/helpers",
+            "Base\\Repositories\\":"app/repositories"
+        }
+    }
 }

@@ -2,10 +2,7 @@
 
 namespace Base\Test;
 
-require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
-require_once dirname(dirname(__FILE__)).'/app/models/Recipe.php';
-require_once dirname(dirname(__FILE__)).'/app/models/Ingredient.php';
-require_once dirname(dirname(__FILE__)).'/app/models/FoodItem.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 

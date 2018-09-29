@@ -1,6 +1,7 @@
 <?php
 
 namespace Base\Models;
+require_once __DIR__.'/../../vendor/autoload.php';
 
 class MealPlan {
   private $startDate,
@@ -17,7 +18,7 @@ class MealPlan {
         throw new \Exception(
             "Meal name cannot be empty", 1);
           }
-          
+
   }
 
   public function removeMeal($meal) {

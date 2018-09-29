@@ -5,6 +5,7 @@
 // Unit Class
 ///////////////////////////////////////////////////////////////////////////////
 namespace Base\Models;
+require_once __DIR__.'/../../vendor/autoload.php';
 
 class Unit
 {
@@ -13,11 +14,6 @@ class Unit
         $name,
         $baseEqv;
 
-    public function __construct(){
-  		$this->id = $id;
-        $this->name = $name;
-        $this->baseEqv = $baseEqv;
-    }
     public function getId()
     {
         return $this->id;

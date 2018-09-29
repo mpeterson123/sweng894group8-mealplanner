@@ -4,8 +4,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Food (listing)
 ///////////////////////////////////////////////////////////////////////////////
+require_once __DIR__.'/../../../vendor/autoload.php';
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/helpers/Session.php' );
+
 use Base\Helpers\Session;
 
 // Sub Title

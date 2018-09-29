@@ -1,22 +1,17 @@
 <?php
 namespace Base\Controllers;
-////////////////////////////////////////////////////////////
-// Import dependencies. Can be replaced by autoload later //
-////////////////////////////////////////////////////////////
-require_once __DIR__.'/../core/Controller.php';
-require_once __DIR__.'/../core/DatabaseHandler.php';
-require_once __DIR__.'/../repositories/UserRepository.php';
-require_once __DIR__.'/../models/Email.php';
-require_once __DIR__.'/../models/User.php';
 
-/////////////////////////////////////////////////////////////////////
-// Load dependencies into current scope. Not the same as importing //
-/////////////////////////////////////////////////////////////////////
+// Autoload dependencies
+require_once __DIR__.'/../../vendor/autoload.php';
+
+////////////////////
+// Use statements //
+////////////////////
 use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
-use Base\repositories\UserRepository;
-use Base\models\Email;
-use Base\models\User;
+use Base\Repositories\UserRepository;
+use Base\Models\Email;
+use Base\Models\User;
 
 class Account extends Controller{
 	private $userRepo;
