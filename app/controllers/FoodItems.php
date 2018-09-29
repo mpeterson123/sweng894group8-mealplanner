@@ -106,13 +106,13 @@ class FoodItems extends Controller {
 
             // If food doesn't exist, load 404 error page
             if(!$food){
-                $this->view('errors/404');
+                Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
                 return;
             }
 
             // If food doesn't belong to user, do not delete, and show error page
             if(!$this->foodItemRepository->foodBelongsToUser($id, $_SESSION['id'])){
-                $this->view('errors/403');
+                Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
                 return;
             }
 
