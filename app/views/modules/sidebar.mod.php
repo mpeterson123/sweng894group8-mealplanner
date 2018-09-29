@@ -48,10 +48,10 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Recipes<span class="label label-rounded label-danger pull-right">0</span></span></a>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Recipes<span class="label label-rounded label-danger pull-right">2</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="javascript:void(0);">View Recipes</a></li>
-                                <li><a href="javascript:void(0);">Add Recipe</a></li>
+                                <li><a href="/Recipes/">View Recipes</a></li>
+                                <li><a href="/Recipes/create">Add Recipe</a></li>
                             </ul>
                         </li>
                         <li>
