@@ -1,16 +1,14 @@
 <?php
 namespace Base\Core;
 
-////////////////////////////////////////////////////////////
-// Import dependencies. Can be replaced by autoload later //
-////////////////////////////////////////////////////////////
-require_once('DatabaseHandler.php');
+// Autoload dependencies
+require_once __DIR__.'/../../vendor/autoload.php';
 
-
-/////////////////////////////////////////////////////////////////////
-// Load dependencies into current scope. Not the same as importing //
-/////////////////////////////////////////////////////////////////////
+////////////////////
+// Use statements //
+////////////////////
 use Base\Core\DatabaseHandler;
+use Base\Repositories\UserRepository;
 
 /**
  * Super class that handles all incoming requests
@@ -37,7 +35,23 @@ class Controller{
 
 	}
 	public function view($view,$data = []){
-		require_once __DIR__.'/../views/'.$view.'.php';
+		// session_start();
+
+		$userRepository = new UserRepository($this->dbh->getDB());
+		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword');
+
+		if(isset($_SESSION['username'])){
+			$user = $userRepository->find($_SESSION['username']);
+			$data['user'] = $user;
+			require_once __DIR__.'/../views/'.$view.'.php';
+		}
+		else if(in_array($view,$notLoggedInPages)){
+			require_once __DIR__.'/../views/'.$view.'.php';
+		}
+		else {
+			require_once __DIR__.'/../views/auth/login.php';
+		}
+
 	}
 }
 ?>

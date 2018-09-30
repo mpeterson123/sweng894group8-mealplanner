@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// S[ervice] Panel Module
+///////////////////////////////////////////////////////////////////////////////
+// Notes:
+//        Should be placed within the Page-Container, at the end before
+//    the &lt;/div&gt; ends the section.
+///////////////////////////////////////////////////////////////////////////////
+?&gt;
+                &lt;!-- ===== Service-Panel ===== --&gt;
+                &lt;div class=&quot;right-sidebar&quot;&gt;
+                    &lt;div class=&quot;slimscrollright&quot;&gt;
+                        &lt;div class=&quot;rpanel-title&quot;&gt; Service Panel &lt;span&gt;&lt;i class=&quot;icon-close right-side-toggler&quot;&gt;&lt;/i&gt;&lt;/span&gt; &lt;/div&gt;
+                        &lt;div class=&quot;r-panel-body&quot;&gt;
+                            &lt;ul class=&quot;hidden-xs&quot;&gt;
+                                &lt;li&gt;&lt;b&gt;Layout Options&lt;/b&gt;&lt;/li&gt;
+                                &lt;li&gt;
+                                    &lt;div class=&quot;checkbox checkbox-danger&quot;&gt;
+                                        &lt;input id=&quot;headcheck&quot; type=&quot;checkbox&quot; class=&quot;fxhdr&quot;&gt;
+                                        &lt;label for=&quot;headcheck&quot;&gt; Fix Header &lt;/label&gt;
+                                    &lt;/div&gt;
+                                &lt;/li&gt;
+                                &lt;li&gt;
+                                    &lt;div class=&quot;checkbox checkbox-warning&quot;&gt;
+                                        &lt;input id=&quot;sidecheck&quot; type=&quot;checkbox&quot; class=&quot;fxsdr&quot;&gt;
+                                        &lt;label for=&quot;sidecheck&quot;&gt; Fix Sidebar &lt;/label&gt;
+                                    &lt;/div&gt;
+                                &lt;/li&gt;
+                            &lt;/ul&gt;
+                            &lt;ul id=&quot;themecolors&quot; class=&quot;m-t-20&quot;&gt;
+                                &lt;li&gt;&lt;b&gt;With Light sidebar&lt;/b&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;default&quot; class=&quot;default-theme working&quot;&gt;1&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;green&quot; class=&quot;green-theme&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;yellow&quot; class=&quot;yellow-theme&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;red&quot; class=&quot;red-theme&quot;&gt;4&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;purple&quot; class=&quot;purple-theme&quot;&gt;5&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;black&quot; class=&quot;black-theme&quot;&gt;6&lt;/a&gt;&lt;/li&gt;
+                                &lt;li class=&quot;db&quot;&gt;&lt;b&gt;With Dark sidebar&lt;/b&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;default-dark&quot; class=&quot;default-dark-theme&quot;&gt;7&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;green-dark&quot; class=&quot;green-dark-theme&quot;&gt;8&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;yellow-dark&quot; class=&quot;yellow-dark-theme&quot;&gt;9&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;red-dark&quot; class=&quot;red-dark-theme&quot;&gt;10&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;purple-dark&quot; class=&quot;purple-dark-theme&quot;&gt;11&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0)&quot; data-theme=&quot;black-dark&quot; class=&quot;black-dark-theme&quot;&gt;12&lt;/a&gt;&lt;/li&gt;
+                            &lt;/ul&gt;
+                            &lt;ul class=&quot;m-t-20 chatonline&quot;&gt;
+                                &lt;li&gt;&lt;b&gt;Chat option&lt;/b&gt;&lt;/li&gt;
+                                &lt;li&gt;
+                                    &lt;a href=&quot;javascript:void(0)&quot;&gt;&lt;img src=&quot;/images/users/avatar1.jpg&quot; alt=&quot;user-img&quot; class=&quot;img-circle&quot;&gt; &lt;span&gt;Belisarius Smith &lt;small class=&quot;text-success&quot;&gt;online&lt;/small&gt;&lt;/span&gt;&lt;/a&gt;
+                                &lt;/li&gt;
+                                &lt;li&gt;
+                                    &lt;a href=&quot;javascript:void(0)&quot;&gt;&lt;img src=&quot;/images/users/avatar2.jpg&quot; alt=&quot;user-img&quot; class=&quot;img-circle&quot;&gt; &lt;span&gt;Camila Perez &lt;small class=&quot;text-warning&quot;&gt;Away&lt;/small&gt;&lt;/span&gt;&lt;/a&gt;
+                                &lt;/li&gt;
+                                &lt;li&gt;
+                                    &lt;a href=&quot;javascript:void(0)&quot;&gt;&lt;img src=&quot;/images/users/avatar3.jpg&quot; alt=&quot;user-img&quot; class=&quot;img-circle&quot;&gt; &lt;span&gt;Melissa Peterson &lt;small class=&quot;text-danger&quot;&gt;Busy&lt;/small&gt;&lt;/span&gt;&lt;/a&gt;
+                                &lt;/li&gt;
+                                &lt;li&gt;
+                                    &lt;a href=&quot;javascript:void(0)&quot;&gt;&lt;img src=&quot;/images/users/avatar5.jpg&quot; alt=&quot;user-img&quot; class=&quot;img-circle&quot;&gt; &lt;span&gt;Andrew Drake &lt;small class=&quot;text-muted&quot;&gt;Offline&lt;/small&gt;&lt;/span&gt;&lt;/a&gt;
+                                &lt;/li&gt;
+                                &lt;li&gt;
+                                    &lt;a href=&quot;javascript:void(0)&quot;&gt;&lt;img src=&quot;/images/users/avatar4.jpg&quot; alt=&quot;user-img&quot; class=&quot;img-circle&quot;&gt; &lt;span&gt;Lawrence Sell &lt;small class=&quot;text-success&quot;&gt;online&lt;/small&gt;&lt;/span&gt;&lt;/a&gt;
+                                &lt;/li&gt;
+                                &lt;li&gt;
+                                    &lt;a href=&quot;javascript:void(0)&quot;&gt;&lt;img src=&quot;/images/users/avatar2.jpg&quot; alt=&quot;user-img&quot; class=&quot;img-circle&quot;&gt; &lt;span&gt;Prof. Sangwan&lt;small class=&quot;text-success&quot;&gt;online&lt;/small&gt;&lt;/span&gt;&lt;/a&gt;
+                                &lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;!-- ===== Service-Panel-End ===== --&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

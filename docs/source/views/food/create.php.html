@@ -1,0 +1,229 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// Create Food
+///////////////////////////////////////////////////////////////////////////////
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
+
+
+use Base\Helpers\Session;
+
+// Plugins
+$PLUGIN_SLIMSCROLL  = TRUE;
+$PLUGIN_WAVES       = TRUE;
+$PLUGIN_SIDEBARMENU = TRUE;
+
+
+// Sub Title
+$SUBTITLE = &quot;Add Food Item&quot;;
+
+?&gt;
+&lt;?php require_once( __HEADER__ ); ?&gt;
+
+&lt;body class=&quot;mini-sidebar&quot;&gt;
+
+    &lt;!-- ===== Main-Wrapper ===== --&gt;
+    &lt;div id=&quot;wrapper&quot;&gt;
+        &lt;div class=&quot;preloader&quot;&gt;
+            &lt;div class=&quot;cssload-speeding-wheel&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+&lt;?php require_once( __NAVBAR__ ); ?&gt;
+
+&lt;?php require_once( __SIDEBAR__ ); ?&gt;
+
+        &lt;!-- ===== Page-Content ===== --&gt;
+        &lt;div class=&quot;page-wrapper&quot;&gt;
+
+            &lt;!-- ===== Page-Container ===== --&gt;
+            &lt;div class=&quot;container-fluid&quot;&gt;
+                &lt;?php Session::renderMessage(); ?&gt;
+
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-md-4 col-sm-12&quot;&gt;
+                        &lt;div class=&quot;white-box&quot;&gt;
+                            &lt;h3 class=&quot;box-title m-b-0&quot;&gt;&lt;?php echo $SUBTITLE; ?&gt;&lt;/h3&gt;
+&lt;?php if (isset($Errors)) { ?&gt;
+                            &lt;p class=&quot;text-danger m-b-30 font-13&quot;&gt;
+&lt;?php     foreach($Errors as $error) { ?&gt;
+                            &lt;?php echo $error; ?&gt;&lt;br/&gt;
+&lt;?php     } ?&gt;
+                            &lt;/p&gt;
+&lt;?php } ?&gt;
+
+                            &lt;p class=&quot;text-muted m-b-30 font-13&quot;&gt; &lt;?php echo $SUBTITLE; ?&gt;
+                            &lt;a href=&quot;/FoodItems/&quot;&gt;&amp;laquo; Return to foods&lt;/a&gt;
+                            &lt;/p&gt;
+                            &lt;div class=&quot;row&quot;&gt;
+                                &lt;div class=&quot;col-sm-12 col-xs-12&quot;&gt;
+                                    &lt;form method=&quot;post&quot; action=&quot;/FoodItems/store&quot;&gt;
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputName&quot;&gt;Name&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-font&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;inputName&quot; placeholder=&quot;Name of Food or Grocery Item&quot; name=&quot;name&quot; value=&quot;&lt;?php echo Session::getOldInput('name') ?&gt;&quot;&gt; &lt;/div&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputCategory&quot;&gt;Category&lt;/label&gt;
+                                            &lt;select class=&quot;form-control&quot; id=&quot;inputCategory&quot; name=&quot;category_id&quot;&gt;
+                                                &lt;option value=&quot;0&quot;&gt;Select one&lt;/option&gt;
+                                                &lt;?php
+                                                    foreach($data['categories'] as $category){
+                                                        echo '&lt;option ';
+
+                                                        if(Session::getOldInput('category_id') == $category['id']){
+                                                            echo 'selected=&quot;selected&quot;';
+                                                        }
+
+                                                        echo 'value=&quot;'.$category['id'].'&quot;&gt;'.$category['name'].'&lt;/option&gt;';
+                                                    }
+                                                ?&gt;
+                                            &lt;/select&gt;
+                                        &lt;/div&gt;
+
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputUnit&quot;&gt;Unit&lt;/label&gt;
+                                            &lt;select class=&quot;form-control&quot; id=&quot;inputUnit&quot; name=&quot;unit_id&quot;&gt;
+                                                &lt;option value=&quot;0&quot;&gt;Select one&lt;/option&gt;
+                                                &lt;?php
+                                                    foreach($data['units'] as $unit){
+                                                        echo '&lt;option ';
+
+                                                        if(Session::getOldInput('unit_id') == $unit['id']){
+                                                            echo 'selected=&quot;selected&quot; ';
+                                                        }
+
+                                                        echo 'value=&quot;'.$unit['id'].'&quot;&gt;'.$unit['name'].' &ndash; '.$unit['abbreviation'].'&lt;/option&gt;';
+                                                    }
+                                                ?&gt;
+                                            &lt;/select&gt;
+                                        &lt;/div&gt;
+
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputUnitsInContainer&quot;&gt;Number of Units in Container&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-font&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;number&quot; step=&quot;0.01&quot; min=&quot;1&quot; class=&quot;form-control&quot; id=&quot;inputUnitsInContainer&quot; placeholder=&quot;&quot; name=&quot;units_in_container&quot; value=&quot;&lt;?php echo Session::getOldInput('units_in_container'); ?&gt;&quot;&gt;
+                                            &lt;/div&gt;
+                                            &lt;p class=&quot;help-block&quot;&gt;&lt;/p&gt;
+                                        &lt;/div&gt;
+
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputContainerCost&quot;&gt;Container Cost&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-money&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;number&quot; step=&quot;0.01&quot; min=&quot;0&quot; class=&quot;form-control&quot; id=&quot;inputContainerCost&quot; placeholder=&quot;&quot; name=&quot;container_cost&quot; value=&quot;&lt;?php echo Session::getOldInput('container_cost'); ?&gt;&quot;&gt;
+                                            &lt;/div&gt;
+                                            &lt;p class=&quot;help-block&quot;&gt;&lt;/p&gt;
+                                        &lt;/div&gt;
+
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputStock&quot;&gt;Number of Units in Stock&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-font&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;number&quot; step=&quot;0.01&quot; min=&quot;0&quot; class=&quot;form-control&quot; id=&quot;inputStock&quot; placeholder=&quot;Enter current stock&quot; name=&quot;stock&quot; value=&quot;&lt;?php echo Session::getOldInput('stock'); ?&gt;&quot;&gt; &lt;/div&gt;
+                                        &lt;/div&gt;
+
+
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputUnitCost&quot;&gt;Unit Cost&lt;/label&gt;
+                                            &lt;p class=&quot;form-control-static&quot; id=&quot;inputUnitCost&quot; name=&quot;unit_cost&quot;&gt;$&lt;?php echo Session::getOldInput('unit_cost'); ?&gt;&lt;/p&gt;
+                                        &lt;/div&gt;
+                                        &lt;button type=&quot;submit&quot; class=&quot;btn btn-success waves-effect waves-light m-r-10&quot;&gt;Save&lt;/button&gt;
+                                    &lt;/form&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+&lt;?php require_once( __SPANEL__ ); ?&gt;
+
+            &lt;/div&gt;
+            &lt;!-- ===== Page-Container-End ===== --&gt;
+
+            &lt;footer class=&quot;footer t-a-c&quot;&gt;
+                &lt;?php echo __COPYRITE__; ?&gt;
+            &lt;/footer&gt;
+
+        &lt;/div&gt;
+        &lt;!-- ===== Page-Content-End ===== --&gt;
+
+    &lt;/div&gt;
+    &lt;!-- ===== Main-Wrapper-End ===== --&gt;
+
+&lt;?php require_once( __FOOTER__ ); ?&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(document).ready(function(){
+        function calculateUnitCost(){
+            let containerCost = parseFloat($('#inputContainerCost').val());
+            let unitsInContainer = parseFloat($('#inputUnitsInContainer').val());
+
+            let unitCost = Number(containerCost/unitsInContainer).toFixed(2);
+
+            if(!isNaN(unitCost)){
+                $('#inputUnitCost').text('$'+unitCost);
+            }
+            else {
+                $('#inputUnitCost').text('Enter valid container cost and units in container.');
+            }
+
+        }
+
+        calculateUnitCost();
+
+        $('#inputUnitsInContainer, #inputContainerCost').on('change', function(){
+            calculateUnitCost();
+        });
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Models;
+require_once __DIR__.'/../../vendor/autoload.php';
+
+class Meal{
+	private $recipe;
+	private $date;
+	private $isComplete;
+	private $addedDate;
+	private $scale;
+
+	public function __construct($r,$d,$s){
+		$this-&gt;recipe = $r;
+		$this-&gt;date = $d;
+		$this-&gt;isComplete = false;
+		$this-&gt;scale = $s;
+		$this-&gt;addedDate = date('Y-m-d');
+	}
+	public function scale($newScale){
+		$this-&gt;scale = $newScale;
+	}
+	public function isComplete(){
+		return $this-&gt;isComplete;
+	}
+	public function complete(){
+		$this-&gt;isComplete = true;
+	}
+	public function markIncomplete(){
+		$this-&gt;isComplete = false;
+	}
+	public function getIngredientQuantity($anIngredientName){
+				return $this-&gt;recipe-&gt;getIngredientByName($anIngredientName)-&gt;getQuantity() * $this-&gt;scale;
+	}
+	public function getRecipe(){
+		return $this-&gt;recipe;
+	}
+	public function setRecipe($aRecipe){
+		$this-&gt;recipe = aRecipe;
+	}
+}
+?&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,202 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Repositories;
+require_once __DIR__.'/../../vendor/autoload.php';
+
+use Base\Repositories\Repository;
+use Base\Helpers\Session;
+
+
+class RecipeRepository extends Repository {
+    private $db;
+
+    public function __construct($db){
+        $this-&gt;db = $db;
+    }
+
+    /**
+     * Find a single recipe by id
+     * @param  integer $id items's id
+     * @return array       associative array of recipe's details
+     */
+    public function find($id){
+
+        $query = $this-&gt;db-&gt;prepare('SELECT * FROM recipes WHERE id = ?');
+        $query-&gt;bind_param(&quot;s&quot;, $id);
+        $query-&gt;execute();
+        $result = $query-&gt;get_result();
+        return $result-&gt;fetch_assoc();
+    }
+
+    /**
+     * Inserts or updates a recipe in the database
+     * @param  Base\Models\Recipe $recipe recipe to be saved
+     * @return void
+     */
+    public function save($recipe){
+
+        if($recipe-&gt;getId() &amp;&amp; $this-&gt;find($recipe&gt;getId()))
+        {
+            $this-&gt;update($recipe);
+        }
+        else {
+            $this-&gt;insert($recipe);
+        }
+    }
+
+    /**
+     * Get all recipes 
+     * @return array Associative array of recipes
+     */
+    public function all(){
+        return $this-&gt;db-&gt;query('SELECT * FROM recipes ORDER by name')-&gt;fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Get all recipes added by a user
+     * @param  [type] $userId [description]
+     * @return array Associative array of recipes
+     */
+    public function allForUser($userId){
+        $query = $this-&gt;db-&gt;prepare('SELECT * FROM recipes WHERE user_id = ? ORDER by name');
+        $query-&gt;bind_param(&quot;s&quot;, $userId);
+        $query-&gt;execute();
+
+        $result = $query-&gt;get_result();
+        return $result-&gt;fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Delete a recipe from the database
+     * @param  integer $id  item's id
+     * @return bool         Whether query was successful
+     */
+    public function remove($id){
+        $query = $this-&gt;db-&gt;prepare('DELETE FROM recipes WHERE id = ?');
+        $query-&gt;bind_param(&quot;s&quot;, $id);
+        return $query-&gt;execute();
+    }
+
+    /**
+     * Insert recipe into the database
+     * @param  Base\Models\Recipe $recipe   Recipe to be stored
+     * @return bool                     Whether query was successful
+     */
+    protected function insert($recipe){
+        $query = $this-&gt;db
+            -&gt;prepare('INSERT INTO recipes
+                (name, description, servings, source, notes, user_id)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ');
+
+        // @ operator to suppress bind_param asking for variables by reference
+        // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
+        @$query-&gt;bind_param(&quot;ssissi&quot;,
+            $recipe-&gt;getName(),
+            $recipe-&gt;getDescription(),
+            $recipe-&gt;getServings(),
+            //$recipe-&gt;getIngredients(),
+            $recipe-&gt;getSource(),
+            $recipe-&gt;getNotes(),
+            Session::get('id')
+        );
+        return $query-&gt;execute();
+    }
+
+    /**
+     * Update recipe in database
+     * @param  Base\Models\Recipe $recipe Recipe to be updated
+     * @return bool                 Whether query was successful
+     */
+    protected function update($recipe){
+        $query = $this-&gt;db
+            -&gt;prepare('UPDATE recipes
+                SET
+                    name = ?,
+                    description = ?,
+                    servings = ?,
+                    ingredients = ?,
+                    source = ?,
+                    notes = ?,
+                WHERE id = ?
+            ');
+
+        // @ operator to suppress bind_param asking for variables by reference
+        // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
+        @$query-&gt;bind_param(&quot;ssisssi&quot;,
+            $recipe-&gt;getName(),
+            $recipe-&gt;getDescription(),
+            $recipe-&gt;getServings(),
+            $recipe-&gt;getIngredients(),
+            $recipe-&gt;getSource(),
+            $recipe-&gt;getNotes(),
+            $recipe-&gt;getId()
+        );
+        $query-&gt;execute();
+
+    }
+
+    /**
+     * Check if recipe belongs to a user_id
+     * @param  integer $reciped  Recipe's id
+     * @param  integer $userId  Current user's id
+     * @return bool             Whether recipe belongs to user
+     */
+    public function recipeBelongsToUser($recipeId, $userId)
+    {
+        $query = $this-&gt;db-&gt;prepare('SELECT * FROM recipes WHERE id = ? AND user_id = ?');
+        $query-&gt;bind_param(&quot;si&quot;, $recipeId, $userId);
+        $query-&gt;execute();
+
+        $result = $query-&gt;get_result();
+        if($result-&gt;num_rows &gt; 0){
+            return true;
+        }
+        return false;
+    }
+
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

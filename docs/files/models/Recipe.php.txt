@@ -1,7 +1,9 @@
 <?php
 namespace Base\Models;
+require_once __DIR__.'/../../vendor/autoload.php';
 
 class Recipe{
+	private $id;
 	private $name;
 	private $description;
 	private $servings;
@@ -36,12 +38,58 @@ class Recipe{
 				return $this->ingredients[$i];
 		}
 	}
+
+	public function getDescription(){
+		return $this->description;
+	}
+
+	public function getId(){
+			return $this->id;
+	}
+	public function getName(){
+		return $this->name;
+	}
 	public function getServings(){
 		return $this->servings;
 	}
+
+	public function getSource(){
+		return $this->source;
+	}
+
+	public function getNotes(){
+		return $this->notes;
+	}
+
 	public function getIngredientQuantity($anIngredientName){
 		return $this->getIngredientByName($anIngredientName)->getQuantity();
 	}
+
+	public function setDescription($desc){
+		$this->description = $desc;
+	}
+
+	public function setId($id)
+	{
+			$this->id = $id;
+	}
+
+	public function setName($name){
+		$this->name = $name;
+	}
+
+	public function setNotes($notes){
+		$this->notes = $notes;
+	}
+
+	public function setServings($servings){
+		$this->servings = $servings;
+	}
+
+	public function setSource($source){
+		$this->source = $source;
+	}
+
 }
 ?>
 

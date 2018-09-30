@@ -1,0 +1,240 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Controllers;
+
+// Autoload dependencies
+require_once __DIR__.'/../../vendor/autoload.php';
+
+//////////////////////
+// Standard classes //
+//////////////////////
+use Base\Core\Controller;
+use Base\Core\DatabaseHandler;
+use Base\Helpers\Session;
+use Base\Helpers\Redirect;
+use \Valitron\Validator;
+
+///////////////////////////
+// File-specific classes //
+///////////////////////////
+use Base\Repositories\UserRepository;
+use Base\Models\Email;
+use Base\Models\User;
+
+class Account extends Controller{
+	private $userRepo;
+	public function __construct() {
+      parent::__construct(...func_get_args());
+			$dbh = DatabaseHandler::getInstance();
+			$this-&gt;userRepo = new UserRepository($dbh-&gt;getDB());
+  }
+	public function register(){
+		if(isset($_POST['reg_username'])){
+			$error = array();
+			$user = array();
+			$fields = array('username','password','namefirst','namelast','email');
+			foreach($fields as $f){
+				$user[$f] = $_POST['reg_'.$f];
+				if(!isset($user[$f])){
+					$error[] = 'All fields are required';
+				}
+			}
+			if($_POST['reg_password'] != $_POST['reg_password2']){
+				$error[] = 'Passwords don\'t match';
+			}
+			if(empty($error)){
+					$user['password'] = $this-&gt;pass_hash($user['password']);
+					$email = new Email();
+					$email-&gt;sendEmailAddrConfirm($user['email']);
+					$this-&gt;userRepo-&gt;insert($user);
+					$this-&gt;view('auth/login',array('message'=&gt;'Account has been created. A confirmation link has been sent to you. Please confirm your email address to enable your account.'));
+			}
+			else
+					$this-&gt;view('auth/register',$error);
+		}
+		else
+			$this-&gt;view('auth/register');
+	}
+	public function logout(){
+		//$user-&gt;logout();
+		unset($_SESSION['username']);
+		$this-&gt;view('auth/logout');
+	}
+	public function pass_hash($password){
+		for($i = 0; $i &lt; 1000; $i++) $password = hash('sha256',trim(addslashes($password)));
+		return $password;
+	}
+	public function confirmEmail($email,$code){
+		// Handle circumvention of email confirmation
+		$salt = 'QM8z7AnkXUKQzwtK7UcA';
+		if(urlencode(hash('sha256',$email.$salt) != $code))	die(&quot;This link is invalid&quot;);
+
+		// set as confirmed in the db
+		$this-&gt;userRepo-&gt;confirmEmail($email);
+
+		// Redirect to login
+		$this-&gt;view('auth/login',['message'=&gt;'Your email address has been confirmed. Please Login.']);
+	}
+	public function forgotPassword(){
+		// Get temp pass and email
+		$code = urlencode(hash('sha256',rand(1000000000,10000000000)));
+		$email = addslashes(trim($_POST['email']));
+
+		// Check if email exists in db
+		$u = $this-&gt;userRepo-&gt;get('email',$email);
+		if($email == '')
+			$this-&gt;view('auth/login',['message'=&gt;'No email has been supplied.']);
+		else if(!$u)
+			$this-&gt;view('auth/login',['message'=&gt;'Not Found. An email has been sent with instruction to reset your password.']);
+		else{
+			$this-&gt;userRepo-&gt;setPassTemp($email,$code);
+			// send Email
+			$emailHandler = new Email();
+			$emailHandler-&gt;sendPasswordReset($email,$code);
+
+			// Redirect to login
+			$this-&gt;view('auth/login',['message'=&gt;'An email has been sent with instruction to reset your password.']);
+		}
+	}
+	public function resetPassword($email,$code){
+		// Check if email exists in db
+		$u = $this-&gt;userRepo-&gt;get('email',$email);
+		if(!$u)
+			$this-&gt;view('auth/login',['message'=&gt;'An error has occured. Please try again. Email.']);
+		// Check if reset code has been set
+		else if($u['passTemp'] == '')
+			$this-&gt;view('auth/login',['message'=&gt;'An error has occured. Please try again. tempPass not set.']);
+		// Check if code matches db
+		else if($u['passTemp'] != $code)
+			$this-&gt;view('auth/login',['message'=&gt;'An error has occured. Please try again. Code.']);
+		else{
+			// Reset page has been submitted
+			if(isset($_POST['rst_password'])){
+				// Reset password
+				$this-&gt;userRepo-&gt;setValue('password',$this-&gt;pass_hash($_POST['rst_password']),'email',$email);
+				// Reset temp pass
+				$this-&gt;userRepo-&gt;setValue('passTemp','','email',$email);
+				// Redirect to login
+				$this-&gt;view('auth/login',['message'=&gt;'Password has been reset. Please login.']);
+			}
+			else{
+				// Direct to reset pass view
+				$this-&gt;view('auth/resetPassword',['email'=&gt;$email,'code'=&gt;$code]);
+			}
+		}
+	}
+	public function settings(){
+		$user = new User();
+		$u = $this-&gt;userRepo-&gt;find($_SESSION['username']);
+		$user-&gt;setAll($u);
+		$this-&gt;view('auth/settings', $u);
+	}
+	public function update(){
+		$user = new User();
+		$u = $this-&gt;userRepo-&gt;find($_SESSION['username']);
+		$user-&gt;setAll($u);
+		// Check for blank fields
+		$fields = array('namefirst','namelast','email');
+		foreach($fields as $f){
+			if(!isset($_POST[$f])){
+				die('All fields are required');
+			}
+		}
+		// Handle password update
+		if(isset($_POST['password'])){
+			if($_POST['password'] != $_POST['password2']){
+				die('Passwords don\'t match');
+			}
+			$this-&gt;userRepo-&gt;setValue('password',$this-&gt;pass_hash($_POST['password']),'username',$_SESSION['username']);
+		}
+		// Handle name updated
+		if($_POST['namefirst'].' '.$_POST['namelast'] != $u['namefirst'].' '.$u['namelast']){
+			$this-&gt;userRepo-&gt;setValue('namefirst',$_POST['namefirst'],'username',$_SESSION['username']);
+			$this-&gt;userRepo-&gt;setValue('namelast',$_POST['namelast'],'username',$_SESSION['username']);
+		}
+		// Handle email updated
+		if($_POST['email'] != $u['email']){
+			// send Email
+			$emailHandler = new Email();
+			$emailHandler-&gt;sendEmailUpdateConfirm($_POST['email'],$u['email']);
+			$u['message'] = 'A confirmation email has been sent to '.$_POST['email'].'. Please confirm to update.';
+			$this-&gt;view('auth/settings', $u);
+		}
+		else{
+			$u['message'] = 'Your account has been updated. Return to &lt;a href=&quot;/Dashboard/&quot;&gt;Dashboard&lt;/a&gt;.';
+			$this-&gt;view('auth/settings', $u);
+		}
+	}
+	public function confirmNewEmail($email,$old_email,$code){
+		// Handle circumvention of email confirmation
+		$salt = 'QM8z7AnkXUKQzwtK7UcA';
+		if(urlencode(hash('sha256',$email.$salt.$old_email) != $code))	die(&quot;This link is invalid&quot;);
+
+		// update in the db
+		$this-&gt;userRepo-&gt;setValue('email',$email,'email',$old_email);
+
+		// Redirect to login
+		$this-&gt;view('auth/settings',['message'=&gt;'Your email address has been updated. Return to &lt;a href=&quot;/Dashboard/&quot;&gt;Dashboard&lt;/a&gt;.']);
+	}
+	public function delete($confirmed = 0){
+		// Confirm
+		if(!$confirmed){
+				$this-&gt;view('auth/settings', ['message'=&gt;'Are you sure you want to delete? This cannot be undone. &lt;a href=&quot;/Account/delete/1&quot;&gt;Yes&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;/Home/&quot;&gt;Back to dashboard.&lt;/a&gt;']);
+		}
+		// Delete User and all related info
+		else{
+			$this-&gt;userRepo-&gt;remove($_SESSION['id']);
+			// !!!!
+ 			// Remove data from other repos here
+			// !!!!
+			unset($_SESSION['id']);
+			unset($_SESSION['username']);
+			$this-&gt;view('auth/login',['message'=&gt;'Your account has been deleted.']);
+		}
+	}
+}
+?&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>
