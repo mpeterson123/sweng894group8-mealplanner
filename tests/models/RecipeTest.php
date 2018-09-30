@@ -14,6 +14,7 @@ use Base\Models\FoodItem;
 class RecipeTest extends TestCase {
     // Variables to be reused
     private $recipe;
+    private $foodItem;
     private $ingredient;
 
     /**
@@ -21,7 +22,9 @@ class RecipeTest extends TestCase {
      */
     public function setUp(){
       $this->recipe = new Recipe('Sugar Cookies', 'Sugar Cookies',6);
-      $this->ingredient = new Ingredient(new FoodItem('flour','',''),2);
+      $this->foodItem = new FoodItem();
+      $this->foodItem->setName('flour');
+      $this->ingredient = new Ingredient($this->foodItem, 2);
       $this->recipe->addIngredient($this->ingredient);
     }
 
@@ -31,15 +34,16 @@ class RecipeTest extends TestCase {
     public function tearDown(){
       unset($this->recipe);
     }
+
     public function testAddIngredient(){
       $this->recipe->addIngredient($this->ingredient);
-      $this->assertEquals($this->recipe->getIngredientByName('flour')->getQuantity(),2);
+      $this->assertSame($this->ingredient, $this->recipe->getIngredientByName('flour'));
     }
 
-  	public function testEditIngredient(){
-  		$this->recipe->getIngredientByName('flour')->setQuantity('5');
-  		$this->assertEquals($this->recipe->getIngredientQuantity('flour'), '5');
-  	}
+     public function testEditIngredient(){
+  	$this->recipe->getIngredientByName('flour')->setQuantity('5');
+  	$this->assertEquals($this->recipe->getIngredientByName('flour')->getQuantity(), 5);
+     }
 
     public function testSetDescription(){
       $desc = 'Meatloaf Description';

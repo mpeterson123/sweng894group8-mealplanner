@@ -3,16 +3,16 @@ namespace Base\Test;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../../app/core/DatabaseHandler.php';
-require_once __DIR__.'/../../app/controllers/Recipe.php';
+require_once __DIR__.'/../../app/controllers/Recipes.php';
 
 
 use PHPUnit\Framework\TestCase;
 use \GuzzleHttp\Client;
 use Base\Core\DatabaseHandler;
-use Base\Controllers\Recipe;
+use Base\Controllers\Recipes;
 
 
-class TestFoodItems extends TestCase {
+class TestRecipes extends TestCase {
     // Variables to be reused
     private $dbh;
     private $httpClient;
@@ -26,13 +26,13 @@ class TestFoodItems extends TestCase {
         $_SESSION['id'] = 3;
         $_SESSION['username'] = 'mpeterson';
 
-        echo "-------------------------sess id 1: ".$_SESSION['id'];
-        $sessionId = session_id(3);
+        echo "\n-------------------------sess id 1: ".$_SESSION['id'];
+        $sessionId = session_id();
         session_write_close();
-        echo "session id is: ".$sessionId;
+        echo "\nsession id is: ".$sessionId;
 
         $this->dbh = DatabaseHandler::getInstance();
-        $this->recipeController = new Recipe($this->dbh);
+        $this->recipeController = new Recipes($this->dbh);
 
         $domain = 'localhost/';
 
@@ -62,11 +62,11 @@ class TestFoodItems extends TestCase {
     /**
      * Passing sample test method
      */
-    /*public function testIndex(){
+    public function testIndex(){
         $res = $this->httpClient->request('GET', 'Recipe/index');
         $this->assertEquals($res->getStatusCode(), 200);
 
         echo $res->getBody();
     }
-    */
+    
 }

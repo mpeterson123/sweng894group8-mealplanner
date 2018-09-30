@@ -19,19 +19,23 @@ class Recipe{
 		$this->source = $theSource;
 		$this->notes = $theNotes;
 	}
+
 	public function addIngredient($anIngredient){
 		$this->ingredients[] = $anIngredient;
 	}
+
 	public function removeIngredient($anIngredientName){
 		for($i=0;$i<count($this->ingredients);$i++){
 			if($this->ingredients[$i]->getName() == $anIngredientName)
 				unset($this->ingredients[$i]);
 		}
 	}
+
 	public function swapIngredient($old,$new){
 		removeIngredient($old);
 		addIngredient($new);
 	}
+
 	public function getIngredientByName($anIngredientName){
 		for($i=0;$i<count($this->ingredients);$i++){
 			if($this->ingredients[$i]->getFood()->getName() == $anIngredientName)
