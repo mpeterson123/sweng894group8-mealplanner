@@ -12,7 +12,7 @@
                 <div class="user-profile">
                     <div class="dropdown user-pro-body">
                         <div class="profile-image">
-                            <img src="/images/users/avatar2.jpg" alt="user-img" class="img-circle">
+                            <img src="/images/users/<?php echo $data['profile_pic']; ?>" alt="user-img" class="img-circle">
                             <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <span class="badge badge-danger">
                                     <i class="fa fa-angle-down"></i>
@@ -48,10 +48,10 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Recipes<span class="label label-rounded label-danger pull-right">0</span></span></a>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Recipes<span class="label label-rounded label-danger pull-right">2</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="javascript:void(0);">View Recipes</a></li>
-                                <li><a href="javascript:void(0);">Add Recipe</a></li>
+                                <li><a href="/Recipes/">View Recipes</a></li>
+                                <li><a href="/Recipes/create">Add Recipe</a></li>
                             </ul>
                         </li>
                         <li>

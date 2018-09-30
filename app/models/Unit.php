@@ -33,6 +33,10 @@ class Unit
     {
         $this->name = $name;
     }
+    public function setBaseEqv($eqv)
+    {
+        $this->baseEqv = $eqv;
+    }
     public function getBaseEqv(){
       return $this->baseEqv;
     }
