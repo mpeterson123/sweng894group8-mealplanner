@@ -49,7 +49,7 @@ class Home extends Controller{
 			$user->login($u);
 		}
 		if($user->isLoggedIn())
-			$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName()]);
+			$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
 		else
 			$this->view('auth/login',['message' => $message]);
 	}
