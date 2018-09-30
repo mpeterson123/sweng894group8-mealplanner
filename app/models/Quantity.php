@@ -22,7 +22,8 @@ class Quantity
     }
 
     public function convertTo($newUnit){
-      $this->value = ($this->value/$this->unit->getBaseEqv())*$newUnit->getBaseEqv();
+      $baseEqvValue = $this->value*$this->unit->getBaseEqv();
+      $this->value = $baseEqvValue/$newUnit->getBaseEqv();
       $this->unit = $newUnit;
     }
 
