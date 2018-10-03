@@ -5,13 +5,19 @@ namespace Base\Controllers;
 require_once __DIR__.'/../../vendor/autoload.php';
 
 
-////////////////////
-// Use statements //
-////////////////////
+//////////////////////
+// Standard classes //
+//////////////////////
 use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
 use Base\Helpers\Redirect;
+use Base\Helpers\Format;
+use \Valitron\Validator;
+
+///////////////////////////
+// File-specific classes //
+///////////////////////////
 use Base\Models\Recipe;
 use Base\Repositories\RecipeRepository;
 
@@ -87,7 +93,7 @@ class Recipes extends Controller {
         $this->recipeRepository->save($recipe);
 
         // Flash success message
-        Session::flashMessage('success', strtoupper($recipe->getName()).' was added to your list.');
+        Session::flashMessage('success', ucfirst($recipe->getName()).' was added to your list.');
 
         // Redirect back after updating
         Redirect::toControllerMethod('Recipes', 'index');
@@ -114,7 +120,7 @@ class Recipes extends Controller {
             Session::flashMessage('success', $recipe['name'].' was removed from your recipes.');
 
             // Redirect to list after deleting
-            $this->index();
+            Redirect::toControllerMethod('Recipes', 'index');
             return;
 
     }
@@ -146,7 +152,7 @@ class Recipes extends Controller {
         $this->recipeRepository->save($recipe);
 
         // Flash success message
-        Session::flashMessage('success', strtoupper($recipe->getName()).' was updated.');
+        Session::flashMessage('success', ucfirst($recipe->getName()).' was updated.');
 
         // Redirect back after updating
         //Redirect::toControllerMethod('Recipes', 'edit', array('recipeId' => $food->getId()));
