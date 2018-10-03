@@ -24,7 +24,7 @@ class Redirect{
      * @param  array $params    URL parameters after controller method
      * @return string           URL-friendly string with parameters
      */
-    private static function queryStringifyParams($params){
+    private static function queryStringifyParams($params = NULL){
         if(!$params){
             return '';
         }

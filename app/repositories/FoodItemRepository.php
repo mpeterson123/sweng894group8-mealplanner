@@ -6,6 +6,10 @@ use Base\Repositories\Repository;
 use Base\Helpers\Session;
 
 
+// File-specific classes
+use Base\Factories\FoodItemFactory;
+
+
 class FoodItemRepository extends Repository {
     private $db;
 
@@ -24,7 +28,10 @@ class FoodItemRepository extends Repository {
         $query->bind_param("s", $id);
         $query->execute();
         $result = $query->get_result();
-        return $result->fetch_assoc();
+        $foodItemRow = $result->fetch_assoc();
+
+        $foodItem = (new FoodItemFactory($this->db))->make($foodItemRow);
+        return $foodItem;
     }
 
     /**

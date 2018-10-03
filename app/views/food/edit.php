@@ -16,7 +16,7 @@ $PLUGIN_SIDEBARMENU = TRUE;
 
 
 // Sub Title
-$SUBTITLE = "Edit Food {$data['food']['name']}";
+$SUBTITLE = "Edit Food {$data['food']->getName()}";
 
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -34,7 +34,7 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                     <p>Are you sure you want to delete this food item? Doing so will <strong>remove it from all of your recipes</strong>. This cannot be undone.</p>
                 </div>
                 <div class="modal-footer">
-                    <form class="" action="/FoodItems/delete/<?php echo $data['food']['id'];?>" method="post">
+                    <form class="" action="/FoodItems/delete/<?php echo $data['food']->getId();?>" method="post">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
@@ -63,20 +63,20 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0"><?php echo (Session::getOldInput('name') != NULL)? Session::getOldInput('name') : $data['food']['name']; ?></h3>
+                            <h3 class="box-title m-b-0"><?php echo (Session::getOldInput('name') != NULL)? Session::getOldInput('name') : $data['food']->getName(); ?></h3>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
                             <a href="/FoodItems/">&laquo; Return to foods</a>
                             </p>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
-                                    <form method="post" action="/FoodItems/update/<?php echo $data['food']['id']; ?>">
+                                    <form method="post" action="/FoodItems/update/<?php echo $data['food']->getId(); ?>">
 
                                         <div class="form-group">
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo (Session::getOldInput('name') != NULL)? Session::getOldInput('name') : $data['food']['name']; ?>"> </div>
+                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo (Session::getOldInput('name') != NULL)? Session::getOldInput('name') : $data['food']->getName(); ?>"> </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputCategory">Category</label>
@@ -86,7 +86,7 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                                                     foreach($data['categories'] as $category){
                                                         echo '<option ';
 
-                                                        if($data['food']['category_id'] == $category['id']){
+                                                        if($data['food']->getCategory()->getId() == $category['id']){
                                                             echo 'selected="selected"';
                                                         }
 
@@ -104,7 +104,7 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                                                     foreach($data['units'] as $unit){
                                                         echo '<option ';
 
-                                                        if($data['food']['unit_id'] == $unit['id']){
+                                                        if($data['food']->getUnit()->getId() == $unit['id']){
                                                             echo 'selected="selected" ';
                                                         }
 
@@ -118,7 +118,7 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                                             <label for="inputUnitsInContainer">Number of Units in Container</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="1" name="units_in_container" value="<?php echo (Session::getOldInput('units_in_container') != NULL)? Session::getOldInput('units_in_container') : $data['food']['units_in_container']; ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="1" name="units_in_container" value="<?php echo (Session::getOldInput('units_in_container') != NULL)? Session::getOldInput('units_in_container') : $data['food']->getUnitsInContainer(); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -127,7 +127,7 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                                             <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="1" name="container_cost" value="<?php echo (Session::getOldInput('container_cost') != NULL)? Session::getOldInput('container_cost') : $data['food']['container_cost']; ?>">
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="1" name="container_cost" value="<?php echo (Session::getOldInput('container_cost') != NULL)? Session::getOldInput('container_cost') : $data['food']->getContainerCost(); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -136,13 +136,13 @@ $SUBTITLE = "Edit Food {$data['food']['name']}";
                                             <label for="inputStock">Number of Units in Stock</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo (Session::getOldInput('stock') != NULL)? Session::getOldInput('stock') : $data['food']['stock']; ?>"> </div>
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo (Session::getOldInput('stock') != NULL)? Session::getOldInput('stock') : $data['food']->getStock(); ?>"> </div>
                                         </div>
 
 
                                         <div class="form-group">
                                             <label for="inputUnitCost">Unit Cost</label>
-                                            <p class="form-control-static" id="inputUnitCost" name="unit_cost">$<?php echo (Session::getOldInput('unit_cost') != NULL)? Session::getOldInput('unit_cost') : $data['food']['unit_cost']; ?></p>
+                                            <p class="form-control-static" id="inputUnitCost" name="unit_cost">$<?php echo (Session::getOldInput('unit_cost') != NULL)? Session::getOldInput('unit_cost') : $data['food']->getUnitCost(); ?></p>
                                         </div>
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
                                     </form>
