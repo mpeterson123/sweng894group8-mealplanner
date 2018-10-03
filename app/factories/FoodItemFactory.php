@@ -1,29 +1,37 @@
-<?
-
+<?php
 namespace Base\Factories;
-
-require_once __DIR__.'/../models/FoodItem.php';
-
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use Base\Models\FoodItem;
-
+use Base\Repositories\CategoryRepository;
+use Base\Repositories\UnitRepository;
 
 class FoodItemFactory {
-    public static function make($foodArray)
+
+    private $db;
+
+    public function make($foodItemArray)
     {
+        $category = (new CategoryRepository($this->db))->find($foodItemArray['category_id']);
+        $unit = (new UnitRepository($this->db))->find($foodItemArray['unit_id']);
+
         $foodItem = new FoodItem();
-        $foodItem->setId($foodArray['id']);
-        $foodItem->setName($foodArray['name']);
+        if(isset($foodItemArray['id'])){
+            $foodItem->setId($foodItemArray['id']);
+        }
+        $foodItem->setName($foodItemArray['name']);
+        $foodItem->setStock(floatval($foodItemArray['stock']));
         $foodItem->setCategory($category);
         $foodItem->setUnit($unit);
-        $foodItem->setStock($stock);
-        $foodItem->setCost($cost);
+        $foodItem->setUnitsInContainer(floatval($foodItemArray['units_in_container']));
+        $foodItem->setContainerCost(floatval($foodItemArray['container_cost']));
+        $foodItem->setUnitCost();
 
         return $foodItem;
     }
 
-    public function __construct(){
-
-
+    public function __construct($db){
+        $this->db = $db;
     }
+
 }

@@ -15,7 +15,8 @@
             "Base\\Models\\":"app/models",
             "Base\\Core\\":"app/core",
             "Base\\Helpers\\":"app/helpers",
-            "Base\\Repositories\\":"app/repositories"
+            "Base\\Repositories\\":"app/repositories",
+            "Base\\Factories\\":"app/factories"
         }
     }
 }
