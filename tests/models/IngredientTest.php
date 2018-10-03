@@ -7,6 +7,10 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use PHPUnit\Framework\TestCase;
 // Add the classes you are testing
 use Base\Models\Ingredient;
+use Base\Models\FoodItem;
+use Base\Models\Quantity;
+use Base\Models\Unit;
+use Base\Models\Category;
 
 
 class IngredientTest extends TestCase {
@@ -22,8 +26,11 @@ class IngredientTest extends TestCase {
 
 
     public function setUp(){
-      $this->food=('Flour');
-      $this->quantity=(2);
+      $this->foodUnit = new Unit('lbs', 'lbs', 16);
+      $this->category = new Category(1,'Baking');
+      $this->food= new FoodItem(1, 'Flour', 1, $this->foodUnit, $this->category, 1, 5, 5);
+      $this->ingrUnit = new Unit('Cup', 'C', 8);
+      $this->quantity= new Quantity('1', $this->ingrUnit);
       $this->ingredient = new Ingredient($this->food, $this->quantity);
     }
 
@@ -47,17 +54,21 @@ class IngredientTest extends TestCase {
     }
 
     public function testSetFood(){
-      $fi = ('Broccoli');
+      $fi = new FoodItem(1, 'Broccoli', 1, $this->foodUnit, $this->category, 1, 5, 5);
       $this->ingredient->setFood($fi);
     	$this->assertEquals($fi, $this->ingredient->getFood(), '');
     }
 
     public function testSetQuantity(){
-      $q = (5);
+      $q = new Quantity('2', $this->ingrUnit);
       $this->ingredient->setQuantity($q);
     	$this->assertEquals($q, $this->ingredient->getQuantity(), '');
     }
 
+    public function testSetRecipeId() {
+      $this->ingredient->setRecipeId('1');
+      $this->assertEquals('1', $this->ingredient->getRecipeId(), '');
+    }
 }
 
 ?>
