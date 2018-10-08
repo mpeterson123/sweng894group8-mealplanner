@@ -52,7 +52,7 @@ class Recipes extends Controller {
         //$unitRepository = new UnitRepository($db);
 
         // Get user's categories, and list of units
-      //  $categories = $categoryRepository->allForUser($_SESSION['id']);
+      //  $categories = $categoryRepository->all();
       //  $units = $unitRepository->all();
 
         // Get food details
@@ -67,7 +67,7 @@ class Recipes extends Controller {
       //  $unitRepository = new UnitRepository($db);
 
         // Get user's categories, and list of units
-      //  $categories = $categoryRepository->allForUser($_SESSION['id']);
+      //  $categories = $categoryRepository->all();
       //  $units = $unitRepository->all();
 
         $this->view('recipe/create');//, compact('categories', 'units'));

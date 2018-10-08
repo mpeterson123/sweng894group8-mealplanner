@@ -64,7 +64,7 @@ class FoodItems extends Controller {
         $unitRepository = new UnitRepository($db);
 
         // Get user's categories, and list of units
-        $categories = $categoryRepository->allForUser($_SESSION['id']);
+        $categories = $categoryRepository->all();
         $units = $unitRepository->all();
 
         // Get food details
@@ -82,7 +82,7 @@ class FoodItems extends Controller {
         $unitRepository = new UnitRepository($db);
 
         // Get user's categories, and list of units
-        $categories = $categoryRepository->allForUser($_SESSION['id']);
+        $categories = $categoryRepository->all();
         $units = $unitRepository->all();
 
         $this->view('food/create', compact('categories', 'units'));
