@@ -5,7 +5,8 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 class Ingredient {
   private $food,
-    $quantity;
+    $quantity,
+    $recipeId;
 
     public function __construct($fi, $qty) {
       $this->food = $fi;
@@ -26,6 +27,14 @@ class Ingredient {
 
     public function getQuantity() {
       return $this->quantity;
+    }
+
+    public function setRecipeId($recipeId) {
+      $this->recipeId = $recipeId;
+    }
+
+    public function getRecipeId() {
+      return $this->recipeId;
     }
 }
 
