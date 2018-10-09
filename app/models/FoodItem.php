@@ -15,10 +15,20 @@ class FoodItem {
 
     public function setId($id)
     {
+        if(!$id)
+        {
+            throw new \Exception("Id cannot be empty", 1);
+        }
+
+        if(gettype($id) !== 'integer'){
+            throw new \Exception("Id must be an integer", 1);
+        }
+
         $this->id = $id;
     }
 
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -58,7 +68,7 @@ class FoodItem {
             throw new \Exception(
                 "Stock cannot be a negative number", 1);
         }
-        $this->stock = $stock;
+        $this->stock = floatval($stock);
     }
 
     /**
@@ -75,6 +85,9 @@ class FoodItem {
      */
     public function setUnit($unit):void
     {
+        if(!$unit){
+            throw new \Exception("Unit cannot be empty", 1);
+        }
         $this->unit = $unit;
     }
 
@@ -107,9 +120,15 @@ class FoodItem {
      * Get how many units a container of the food item has
      * @param float $unitsInContainer Units in container
      */
-    public function setUnitsInContainer($unitsInContainer):void
-    {
-        $this->unitsInContainer = trim($unitsInContainer);
+    public function setUnitsInContainer($unitsInContainer):void {
+        if(!preg_match_all('/^\d+(\.\d+)?$/', $unitsInContainer)){
+            throw new \Exception("UnitsInContainer must be numeric", 1);
+        }
+
+        if($unitsInContainer <= 0 || $unitsInContainer > 999.99){
+            throw new \Exception('Units in container must be a positive number below 999.99', 1);
+        }
+        $this->unitsInContainer = floatval($unitsInContainer);
     }
 
     /**
@@ -124,9 +143,15 @@ class FoodItem {
      * Get cost of a container of the food item
      * @param float $containerCost Food item container's cost
      */
-    public function setContainerCost($containerCost):void
-    {
-        $this->containerCost = trim($containerCost);
+    public function setContainerCost($containerCost):void {
+        if(!preg_match_all('/^\d+(\.\d+)?$/', $containerCost)){
+            throw new \Exception("ContainerCost must be numeric", 1);
+        }
+
+        if($containerCost <= 0 || $containerCost > 9999.99){
+            throw new \Exception('Container cost must be a positive number below 10,000', 1);
+        }
+        $this->containerCost = floatval($containerCost);
     }
 
     /**
@@ -140,8 +165,7 @@ class FoodItem {
     /**
      * Calculate cost of food item per unit chosen, based on container cost
      */
-    public function setUnitCost():void
-    {
+    public function setUnitCost():void {
         $this->unitCost = $this->containerCost/$this->unitsInContainer;
     }
 
@@ -149,8 +173,11 @@ class FoodItem {
      * Get cost of food item per unit chosen, based on container cost
      * @return float Food item's unit cost
      */
-    public function getUnitCost():float{
-        return $this->unitCost;
+    public function getUnitCost():float {
+        if($this->containerCost <= 0 || $this->unitsInContainer <= 0){
+            throw new \Exception("Container cost and units in container must be valid values", 1);
+        }
+        return $this->containerCost/$this->unitsInContainer;
     }
 
 }
