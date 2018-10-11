@@ -13,9 +13,11 @@ class Category
         $id,
         $name;
 
-
-    public function setId($id)
-    {
+    /**
+     * Set category id
+     * @param integer $id Category id
+     */
+    public function setId(integer $id):void {
         if(!$id)
         {
             throw new \Exception("Id cannot be empty", 1);
@@ -28,13 +30,19 @@ class Category
         $this->id = $id;
     }
 
-    public function getId()
-    {
+    /**
+     * Get category id
+     * @return integer Category id
+     */
+    public function getId():integer {
         return $this->id;
     }
 
-    public function getName()
-    {
+    /**
+     * Get category name
+     * @return string Category name
+     */
+    public function getName():string {
         return $this->name;
     }
 
@@ -42,7 +50,7 @@ class Category
      * Set category name
      * @param string $name Category name
      */
-    public function setName($name):void{
+    public function setName(string $name):void {
         if($name == ''){
             throw new \Exception(
                 "Category name cannot be empty", 1);
@@ -52,7 +60,6 @@ class Category
             throw new \Exception(
                 "Category name cannot be longer than 20 characters", 1);
         }
-
         $this->name = trim($name);
     }
 }
