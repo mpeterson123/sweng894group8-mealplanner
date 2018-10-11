@@ -6,11 +6,23 @@ use Base\Models\FoodItem;
 use Base\Repositories\CategoryRepository;
 use Base\Repositories\UnitRepository;
 
+/**
+ * Handles FoodItem model instantiation
+ */
 class FoodItemFactory {
 
     private $db;
 
-    public function make($foodItemArray)
+    public function __construct($db){
+        $this->db = $db;
+    }
+
+    /**
+     * Creates a new instance of a food item
+     * @param  array    $foodItemArray A food item's properties
+     * @return FoodItem                A food item object
+     */
+    public function make(array $foodItemArray):FoodItem
     {
         $category = (new CategoryRepository($this->db))->find($foodItemArray['category_id']);
         $unit = (new UnitRepository($this->db))->find($foodItemArray['unit_id']);
@@ -30,8 +42,6 @@ class FoodItemFactory {
         return $foodItem;
     }
 
-    public function __construct($db){
-        $this->db = $db;
-    }
+
 
 }
