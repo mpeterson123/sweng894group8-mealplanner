@@ -57,7 +57,7 @@ class Account extends Controller{
 	public function logout(){
 		//$user->logout();
 		unset($_SESSION['username']);
-		$this->view('auth/logout');
+		$this->view('/auth/logout');
 	}
 	public function pass_hash($password){
 		for($i = 0; $i < 1000; $i++) $password = hash('sha256',trim(addslashes($password)));
@@ -72,7 +72,7 @@ class Account extends Controller{
 		$this->userRepo->confirmEmail($email);
 
 		// Redirect to login
-		$this->view('auth/login',['message'=>'Your email address has been confirmed. Please Login.']);
+		$this->view('/auth/login',['message'=>'Your email address has been confirmed. Please Login.']);
 	}
 	public function forgotPassword(){
 		// Get temp pass and email

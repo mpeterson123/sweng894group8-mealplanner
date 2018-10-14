@@ -48,8 +48,13 @@ class Home extends Controller{
 			$u = $this->userRepo->find($_SESSION['username']);
 			$user->login($u);
 		}
-		if($user->isLoggedIn())
-			$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+		if($user->isLoggedIn()){
+			//print_r($user->getHousehold());
+			if(empty($user->getHousehold()))
+				$this->view('/auth/newHousehold',['message' => $message]);
+			else
+				$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+		}
 		else
 			$this->view('auth/login',['message' => $message]);
 	}

@@ -17,6 +17,9 @@ class UserRepository extends Repository {
       $query->execute();
       $result = $query->get_result();
       $row = $result->fetch_assoc();
+
+      $row['households'] = array();
+      $row['households'] = $this->getHouseholds($row['id']);
       return $row;
 	  }
 
@@ -26,6 +29,9 @@ class UserRepository extends Repository {
         $query->execute();
         $result = $query->get_result();
         $row = $result->fetch_assoc();
+
+        $row['households'] = array();
+        $row['households'] = $this->getHouseholds($row['id']);
         return $row;
     }
     public function get($field,$value){
@@ -65,7 +71,29 @@ class UserRepository extends Repository {
     public function all(){
         return $this->db->query('SELECT * FROM users')->fetch_all();
     }
-    // Not Implemented yet
+    public function getHouseholds($userId){
+        $hhIds = array();
+        $query = $this->db->prepare('SELECT * FROM usersHouseholds WHERE userId = ?');
+        $query->bind_param("s",$userId);
+        $query->execute();
+        $result = $query->get_result();
+        while($row = $result->fetch_assoc()){
+          $hhIds[] = $row['householdId'];
+        }
+
+        $households = array();
+        foreach($hhIds as $hhId){
+          $query = $this->db->prepare('SELECT * FROM household WHERE id = ?');
+          $query->bind_param("s",$hhId);
+          $query->execute();
+          $result = $query->get_result();
+          while($row = $result->fetch_assoc()){
+            $households[$hhId] = $row['name'];
+          }
+        }
+        return $households;
+    }
+
     public function remove($id){
         $query = $this->db->prepare('DELETE FROM users WHERE id = ?');
         $query->bind_param("s",$id);
@@ -80,7 +108,7 @@ class UserRepository extends Repository {
         $query->bind_param("ssssss",$object['username'],$object['password'],$object['email'],$today,$object['namefirst'],$object['namelast']);
         $query->execute();
     }
-
+    // Not Implemented yet
     protected function update($object){
         $query = $this->db
             ->prepare('UPDATE food
