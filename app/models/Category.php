@@ -17,7 +17,7 @@ class Category
      * Set category id
      * @param integer $id Category id
      */
-    public function setId(integer $id):void {
+    public function setId($id):void {
         if(!$id)
         {
             throw new \Exception("Id cannot be empty", 1);
@@ -34,7 +34,7 @@ class Category
      * Get category id
      * @return integer Category id
      */
-    public function getId():integer {
+    public function getId() {
         return $this->id;
     }
 
@@ -42,7 +42,7 @@ class Category
      * Get category name
      * @return string Category name
      */
-    public function getName():string {
+    public function getName() {
         return $this->name;
     }
 
@@ -50,7 +50,7 @@ class Category
      * Set category name
      * @param string $name Category name
      */
-    public function setName(string $name):void {
+    public function setName($name):void {
         if($name == ''){
             throw new \Exception(
                 "Category name cannot be empty", 1);
