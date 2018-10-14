@@ -72,10 +72,10 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['foods']){
                                                 foreach ($data['foods'] as $food) { ?>
                                                 <tr>
-                                                    <td><a href="/FoodItems/edit/<?php echo $food['id']; ?>"><?php echo $food['name']; ?></a></td>
-                                                    <td><?php echo $food['category']; ?></td>
-                                                    <td><?php echo $food['stock']; ?></td>
-                                                    <td><?php echo $food['unit']; ?></td>
+                                                    <td><a href="/FoodItems/edit/<?php echo $food->getid(); ?>"><?php echo $food->getName(); ?></a></td>
+                                                    <td><?php echo $food->getCategory()->getName(); ?></td>
+                                                    <td><?php echo $food->getStock(); ?></td>
+                                                    <td><?php echo $food->getUnit()->getName(); ?></td>
                                                 </tr>
                                                 <?php
                                                 }

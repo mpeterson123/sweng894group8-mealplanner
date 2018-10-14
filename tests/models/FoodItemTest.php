@@ -77,8 +77,8 @@ class FoodItemTest extends TestCase {
         $this->foodItem->setName('');
     }
 
-    public function testNameCannotBeLongerThan20Chars(){
-        $longName = '123456789012345678901234567890';
+    public function testNameCannotBeLongerThan50Chars(){
+        $longName = '123456789012345678901234567890123456789012345678901';
         $this->expectException(\Exception::class);
         $this->foodItem->setName($longName);
     }

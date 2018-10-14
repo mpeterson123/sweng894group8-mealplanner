@@ -42,9 +42,9 @@ class FoodItem {
                 "Food Item name cannot be empty", 1);
         }
 
-        if(strlen($name) > 20){
+        if(strlen($name) > 50){
             throw new \Exception(
-                "Food Item name cannot be longer than 20 characters", 1);
+                "Food Item name cannot be longer than 50 characters", 1);
         }
 
         $this->name = trim($name);

@@ -147,9 +147,7 @@ class FoodItems extends Controller {
         $foodItem = $this->foodItemRepository->find($id);
         $this->checkFoodBelongsToUser($id);
 
-        $input = $_POST;
-
-        $this->validateInput($input, 'edit', [$id]);
+        $this->validateInput($_POST, 'edit', [$id]);
 
         $this->foodItemRepository->save($foodItem);
 

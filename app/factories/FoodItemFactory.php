@@ -18,7 +18,7 @@ class FoodItemFactory {
     }
 
     /**
-     * Creates a new instance of a food item
+     * Creates a new instance of FoodItem model
      * @param  array    $foodItemArray A food item's properties
      * @return FoodItem                A food item object
      */
