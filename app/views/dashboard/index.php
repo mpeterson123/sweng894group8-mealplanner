@@ -7,6 +7,8 @@
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once( __DIR__ . '/../modules/main.mod.php' );
 
+use Base\Helpers\Session;
+
 // Sub Title
 $SUBTITLE = 'Login';
 
@@ -30,6 +32,11 @@ $PLUGIN_SIDEBARMENU= TRUE;
 
         <!-- ===== Page-Content ===== -->
         <div class="page-wrapper">
+            <div class="row">
+                <div class="col-xs-12">
+                    <?php Session::renderMessage(); ?>
+                </div>
+            </div>
             <div class="row m-0">
                 <div class="col-md-3 col-sm-6 info-box">
                     <div class="media">

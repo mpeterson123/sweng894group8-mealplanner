@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once(__DIR__ . '/../modules/main.mod.php' );
+use Base\Helpers\Session;
 
 // Sub Title
 $SUBTITLE = 'Register';
@@ -29,8 +30,9 @@ $PLUGIN_SIDEBARMENU= FALSE;
     <section id="wrapper" >
         <div class="login-box">
             <div class="white-box">
-                <form class="form-horizontal form-material" id="registerform" action="Account/register/" method="POST">
+                <form class="form-horizontal form-material" id="registerform" action="/Account/register/" method="POST">
                     <h3 class="box-title m-b-20">Register</h3>
+                    <?php Session::renderMessage(); ?>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" name="reg_username" required="" placeholder="Username">

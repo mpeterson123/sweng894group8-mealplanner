@@ -1,7 +1,7 @@
 <?php
 namespace Base\Test;
 
-require_once __DIR__.'../../vendor/autoload.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -36,6 +36,15 @@ class UserTest extends TestCase {
             'Base\Models\User',
             new User(),
             'Object must be an instance of User');
+    }
+
+	////////
+	// Id //
+	////////
+	public function testSetId(){
+		$id = 1;
+        $this->user->setId($id);
+        $this->assertEquals($this->user->getId(), $id);
     }
 
     ///////////////
@@ -139,8 +148,8 @@ class UserTest extends TestCase {
 	// 	$this->user->resetPassword();
 	// 	$this->assertNotEquals($password, $this->user->getPassword(), 'Current password must not match previous password');
 	// }
-	//
-	//
+
+
 	////////////
 	// Email //
 	////////////
@@ -181,4 +190,31 @@ class UserTest extends TestCase {
 		$this->user->delete();
 		$this->assertNull($this->user->getFirstUsername(), 'User cannot exist.');
 	}
+
+	/////////////
+	// Joined //
+	/////////////
+	public function testSetJoined(){
+		$joined = '2018-08-27 19:38:35';
+        $this->user->setJoined($joined);
+        $this->assertEquals($this->user->getJoined(), $joined);
+    }
+
+	///////////////
+	// Activated //
+	//////////////
+	public function testSetActivated(){
+		$activated = 1;
+        $this->user->setActivated($activated);
+        $this->assertEquals($this->user->getActivated(), $activated);
+    }
+
+	///////////////
+	// PassTemp //
+	//////////////
+	public function testSetPassTemp(){
+		$passTemp = '1234567890';
+        $this->user->setPassTemp($passTemp);
+        $this->assertEquals($this->user->getPassTemp(), $passTemp);
+    }
 }

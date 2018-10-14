@@ -24,10 +24,10 @@
                                 <li role="separator" class="divider"></li>
                                 <li><a href="/Account/settings"><i class="fa fa-cog"></i> Account Settings</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="Account/logout"><i class="fa fa-power-off"></i> Logout</a></li>
+                                <li><a href="/Account/logout"><i class="fa fa-power-off"></i> Logout</a></li>
                             </ul>
                         </div>
-                        <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"><?php echo $data['user']['namefirst']; echo ' ' . $data['user']['namelast'] ?></a></p>
+                        <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"><?php echo $data['user']->getFirstName(); echo ' ' . $data['user']->getLastName() ?></a></p>
                     </div>
                 </div>
                 <nav class="sidebar-nav">
@@ -43,22 +43,22 @@
                         <li>
                             <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-cup fa-fw"></i> <span class="hide-menu"> Food<span class="label label-rounded label-success pull-right">2</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="/FoodItems/">All Foods</a></li>
+                                <li><a href="/FoodItems/index">Food List</a></li>
                                 <li><a href="/FoodItems/create">Add Food Item</a></li>
                             </ul>
                         </li>
                         <li>
                             <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Recipes<span class="label label-rounded label-danger pull-right">2</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="/Recipes/">View Recipes</a></li>
+                                <li><a href="/Recipes/index">Recipe List</a></li>
                                 <li><a href="/Recipes/create">Add Recipe</a></li>
                             </ul>
                         </li>
                         <li>
                             <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Meals<span class="label label-rounded label-danger pull-right">0</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="javascript:void(0);">View Meal Plan</a></li>
-                                <li><a href="javascript:void(0);">Add Meal Plan</a></li>
+                                <li><a href="/Meals/index">Meal List</a></li>
+                                <li><a href="/Meals/create">Add Meal</a></li>
                             </ul>
                         </li>
                         <li>
