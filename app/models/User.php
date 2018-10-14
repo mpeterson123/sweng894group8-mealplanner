@@ -8,7 +8,9 @@ class User{
 					$firstName,
 					$lastName,
 					$email,
-					$loggedIn;
+					$loggedIn,
+					$households,
+					$id;
 
 
 	public function __construct(){
@@ -20,6 +22,8 @@ class User{
 		$this->setFirstName($array['namefirst']);
 		$this->setLastName($array['namelast']);
 		$this->setEmail($array['email']);
+		$this->setHousehold($array['households']);
+		$this->setId($array['id']);
 	}
 
 	///////////////
@@ -176,5 +180,17 @@ class User{
 	public function getPassTemp(){
   		return $this->passTemp;
 	}
+
+	///////////////
+	// Household //
+	///////////////
+	public function setHouseholds($households){
+    $this->households = $households;
+	}
+
+	public function getHouseholds(){
+  		return $this->households;
+  	}
+
 }
 ?>

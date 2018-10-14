@@ -3,6 +3,7 @@ namespace Base\Factories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
 use Base\Models\User;
+use Base\Repositories\HouseholdRepository;
 
 /**
  * Handles User model instantiation
@@ -25,6 +26,11 @@ class UserFactory {
         $user = new User();
         if(isset($userArray['id'])){
             $user->setId($userArray['id']);
+            $households = (new HouseholdRepository($this->db))->allForUser($userArray);
+            $user->setHouseholds($households);
+        }
+        else{
+            $user->setHouseholds(array());
         }
         $user->setUsername($userArray['username']);
         $user->setPassword($userArray['password']);

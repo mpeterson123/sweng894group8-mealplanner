@@ -222,6 +222,13 @@ class Account extends Controller{
 
 	public function dashboard(){
 		$user = $this->userRepo->find($_SESSION['username']);
+
+		if(empty($user->getHouseholds())){
+			$this->view('/auth/newHousehold',['message' => $message]);
+			return;
+		}
+
+		$user = $this->userRepo->find($_SESSION['username']);
 		$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
 	}
 
