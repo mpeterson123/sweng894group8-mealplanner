@@ -133,23 +133,6 @@ class User{
 	public function getEmail(){
   		return $this->email;
 	}
-	////////////
-	// Login //
-	///////////
-	// public function login($userArray){
-	// 	$this->setAll($userArray);
-	// 	$_SESSION['username'] = $this->username;
-	// 	$_SESSION['id'] = $userArray['id'];
-	// 	$this->loggedIn = true;
-	// }
-	//
-	// public function isLoggedIn(){
-	// 	return $this->loggedIn;
-	// }
-	//
-	// public function logout(){
-	// 	$this->loggedIn = false;
-	// }
 
 	////////////
 	// Joined //

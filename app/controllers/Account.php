@@ -11,6 +11,7 @@ use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
 use Base\Helpers\Redirect;
+use Base\Helpers\Format;
 use \Valitron\Validator;
 
 ///////////////////////////
@@ -62,7 +63,7 @@ class Account extends Controller{
 	}
 
 	public function logout(){
-		unset($_SESSION['username']);
+		Session::remove('username');
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
@@ -145,7 +146,7 @@ class Account extends Controller{
 
 
 	public function update(){
-		$user = $this->userRepo->find($_SESSION['username']);
+		$user = $this->userRepo->find(Session::get('username'));
 
 		// Check for blank fields
 		$fields = array('firstName','lastName','email');
@@ -206,29 +207,29 @@ class Account extends Controller{
 	public function delete($confirmed = 0){
 		// Confirm
 		if(!$confirmed){
-				$this->view('auth/settings', ['message'=>'Are you sure you want to delete? This cannot be undone. <a href="/Account/delete/'.$_SESSION['id'].'">Yes</a><br><a href="/Account/dashboard">Back to dashboard.</a>']);
+				$this->view('auth/settings', ['message'=>'Are you sure you want to delete? This cannot be undone. <a href="/Account/delete/'.Session::get('id').'">Yes</a><br><a href="/Account/dashboard">Back to dashboard.</a>']);
 		}
 		// Delete User and all related info
 		else{
-			$this->userRepo->remove($_SESSION['id']);
+			$this->userRepo->remove(Session::get('id'));
 			// !!!!
  			// Remove data from other repos here
 			// !!!!
-			unset($_SESSION['id']);
-			unset($_SESSION['username']);
+			Session::remove('id');
+			Session::remove('username');
 			$this->view('auth/login',['message'=>'Your account has been deleted.']);
 		}
 	}
 
 	public function dashboard(){
-		$user = $this->userRepo->find($_SESSION['username']);
+		$user = $this->userRepo->find(Session::get('username'));
 
 		if(empty($user->getHouseholds())){
 			$this->view('/auth/newHousehold',['message' => $message]);
 			return;
 		}
 
-		$user = $this->userRepo->find($_SESSION['username']);
+		$user = $this->userRepo->find(Session::get('username'));
 		$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
 	}
 
@@ -238,7 +239,7 @@ class Account extends Controller{
 
 	public function logInUser(){
 		// Active session
-		if(isset($_SESSION['username'])){
+		if(!Session::get('username')){
 			Redirect::toControllerMethod('Account', 'dashboard');
 		}
 
@@ -253,8 +254,8 @@ class Account extends Controller{
 				$message = 'Please confirm email before you can log in.';
 			}
 			else{
-				$_SESSION['username'] = $user->getUsername();
-				$_SESSION['id'] = $user->getId();
+				Session::add('username', $user->getUsername());
+				Session::add('id', $user->getId());
 
 				Redirect::toControllerMethod('Account', 'dashboard');
 				return;
