@@ -24,7 +24,7 @@ class RecipeTest extends TestCase {
       $this->recipe = new Recipe('Sugar Cookies', 'Sugar Cookies',6);
       $this->foodItem = new FoodItem();
       $this->foodItem->setName('flour');
-      $this->ingredient = new Ingredient($this->foodItem, 2);
+      $this->ingredient = new Ingredient($this->foodItem, 2, 1, 1);
       $this->recipe->addIngredient($this->ingredient);
     }
 
@@ -75,6 +75,11 @@ class RecipeTest extends TestCase {
       $this->assertEquals($notes, $this->recipe->getNotes());
     }
 
+    public function testGetIngredients() {
+      //THere is currently one ingredient in the array
+      $actual = $this->recipe->getIngredients();
+      $this->assertEquals($this->ingredient, $actual[0], '');
+    }
 }
 ?>
 >>>>>>> e5f8b178da8c943428c7fffce9fca3aeb71e9e0a

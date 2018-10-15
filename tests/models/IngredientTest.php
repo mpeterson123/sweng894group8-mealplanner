@@ -31,13 +31,18 @@ class IngredientTest extends TestCase {
       $this->food= new FoodItem(1, 'Flour', 1, $this->foodUnit, $this->category, 1, 5, 5);
       $this->ingrUnit = new Unit('Cup', 'C', 8);
       $this->quantity= new Quantity('1', $this->ingrUnit);
-      $this->ingredient = new Ingredient($this->food, $this->quantity);
+      $this->ingredient = new Ingredient($this->food, $this->quantity, '1', $this->ingrUnit);
     }
 
     /**
      * Unset any variables you've created
      */
     public function tearDown(){
+      unset($this->foodUnit);
+      unset($this->category);
+      unset($this->food);
+      unset($this->ingrUnit);
+      unset($this->quantity);
       unset($this->ingredient);
     }
 
@@ -66,8 +71,19 @@ class IngredientTest extends TestCase {
     }
 
     public function testSetRecipeId() {
-      $this->ingredient->setRecipeId('1');
-      $this->assertEquals('1', $this->ingredient->getRecipeId(), '');
+      $this->ingredient->setRecipeId('2');
+      $this->assertEquals('2', $this->ingredient->getRecipeId(), '');
+    }
+
+    public function testSetId() {
+      $this->ingredient->setId('1');
+      $this->assertEquals('1', $this->ingredient->getId(), '');
+    }
+
+    public function testSetUnit() {
+      $unit = new Unit('grams(s)', 'g', 1);
+      $this->ingredient->setUnit($unit);
+      $this->assertEquals($unit, $this->ingredient->getUnit(), '');
     }
 }
 

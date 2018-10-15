@@ -26,10 +26,10 @@ class TestRecipes extends TestCase {
         $_SESSION['id'] = 3;
         $_SESSION['username'] = 'mpeterson';
 
-        echo "\n-------------------------sess id 1: ".$_SESSION['id'];
+        //echo "\n-------------------------sess id 1: ".$_SESSION['id'];
         $sessionId = session_id();
         session_write_close();
-        echo "\nsession id is: ".$sessionId;
+        //echo "\nsession id is: ".$sessionId;
 
         $this->dbh = DatabaseHandler::getInstance();
         $this->recipeController = new Recipes($this->dbh);
@@ -63,10 +63,41 @@ class TestRecipes extends TestCase {
      * Passing sample test method
      */
     public function testIndex(){
-        $res = $this->httpClient->request('GET', 'Recipe/index');
+        $res = $this->httpClient->request('GET', 'Recipes/index');
         $this->assertEquals($res->getStatusCode(), 200);
 
-        echo $res->getBody();
+        //echo $res->getBody();
     }
-    
+
+    public function testStore() {
+      $res = $this->httpClient->request('POST', 'localhost/Recipes/store', [
+          'form_params' => [
+              'name' => 'Name',
+              'description' => 'Desc',
+              'servings' => 2,
+              'source' => 'Source',
+              'notes' => 'Notes',
+              'ingredient1' => [
+                  'foodid' => 5,
+                  'quantity' => 2.0,
+                  'unitid' => 8
+                ],
+              'ingredient2' => [
+                'foodid' => 1,
+                'quantity' => 1.0,
+                'unitid' => 5
+              ],
+              'ingredient3' => [
+                'foodid' => 2,
+                'quantity' => 3.0,
+                'unitid' => 2
+              ],
+              'user_id' => $_SESSION['id'] = 3
+          ]
+      ]);
+      $this->assertEquals($res->getStatusCode(), 200);
+
+      //echo $res->getBody();
+    }
+
 }

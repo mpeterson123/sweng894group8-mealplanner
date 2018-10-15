@@ -20,7 +20,11 @@ use \Valitron\Validator;
 ///////////////////////////
 use Base\Models\Recipe;
 use Base\Repositories\RecipeRepository;
-
+use Base\Repositories\IngredientRepository;
+use Base\Repositories\FoodItemRepository;
+use Base\Repositories\UnitRepository;
+use Base\Factories\RecipeFactory;
+use Base\Factories\IngredientFactory;
 
 class Recipes extends Controller {
 
@@ -37,6 +41,8 @@ class Recipes extends Controller {
          */
         $this->dbh = DatabaseHandler::getInstance();
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
+        $this->ingredientRepository = new IngredientRepository($this->dbh->getDB());
+
     }
 
     public function index(){
@@ -63,37 +69,64 @@ class Recipes extends Controller {
 
     public function create(){
         $db = $this->dbh->getDB();
-      //  $categoryRepository = new CategoryRepository($db);
-      //  $unitRepository = new UnitRepository($db);
 
-        // Get user's categories, and list of units
-      //  $categories = $categoryRepository->allForUser($_SESSION['id']);
-      //  $units = $unitRepository->all();
+        $foodItemRepository = new FoodItemRepository($db);
+        $unitRepository = new UnitRepository($db);
 
-        $this->view('recipe/create');//, compact('categories', 'units'));
+        // Get user's fooditems and list of units
+        $fooditems = $foodItemRepository->allForUser($_SESSION['id']);
+        $units = $unitRepository->all();
+
+        $this->view('recipe/create', compact('fooditems', 'units'));
     }
 
     public function store(){
 
         $input = $_POST;
 
-        // Find unit and category
         $db = $this->dbh->getDB();
-      //  $categoryRepository = new CategoryRepository($db);
-        //$unitRepository = new UnitRepository($db);
 
-        // Get user's categories
-        //$category = $categoryRepository->find($input['category_id']);
-      //  $unit = $unitRepository->find($input['unit_id']);
+        $recipeFactory = new RecipeFactory($db);
+        $ingredientFactory = new IngredientFactory($db);
 
-        $recipe = new Recipe($input['name'],$input['description'],$input['servings'], $input['source'], $input['notes']);
-        //$recipe->setName($input['name']);
-        //$recipe->setStock($input['stock']);
+        //Use a RecipeFactory to create the Recipe Object:
+        $recipe = $recipeFactory->make($input);
 
-        $this->recipeRepository->save($recipe);
+        //Save the recipe in the database:
+        if ($this->recipeRepository->save($recipe)) {
+          // Flash success message
+          Session::flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
 
-        // Flash success message
-        Session::flashMessage('success', ucfirst($recipe->getName()).' was added to your list.');
+          echo "\nRecipe ID = " . $recipe->getId();
+
+        //  for($i=0;$i<count($ingredArray);$i++){
+          //Create the ingredient array:
+          $ingredientInput = array("foodid" => $input['foodid'],
+                                  "quantity" => $input['quantity'],
+                                  "recipeid" => $recipe->getId(),
+                                  "unit_id" => $input['unit_id']);
+
+            //Create the ingredient object:
+            $ingredient = $ingredientFactory->make($ingredientInput);
+
+            //Save the ingredient in the database:
+            if($this->ingredientRepository->save($ingredient)) {
+
+              //Add the ingredient to the recipe object:
+              $recipe->addIngredient($ingredient);
+
+              // Flash success message
+              Session::flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+            }
+            else {
+              Session::flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
+            }
+          //}
+        }
+        else {
+          Session::flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
+        }
+
 
         // Redirect back after updating
         Redirect::toControllerMethod('Recipes', 'index');
@@ -101,9 +134,13 @@ class Recipes extends Controller {
     }
 
     public function delete($id){
+
+            //Remove ingredients for this recipe from the ingredients table:
+
+            //Remove the recipe from the recipes table:
             $recipe = $this->recipeRepository->find($id);
 
-            // If food doesn't exist, load 404 error page
+            // If recipe doesn't exist, load 404 error page
             if(!$recipe){
                 Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
                 return;

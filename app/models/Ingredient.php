@@ -4,13 +4,17 @@ namespace Base\Models;
 require_once __DIR__.'/../../vendor/autoload.php';
 
 class Ingredient {
-  private $food,
+  private $id,
+    $food,
     $quantity,
-    $recipeId;
+    $recipeId,
+    $unit;
 
-    public function __construct($fi, $qty) {
+    public function __construct($fi, $qty, $ri, $u) {
       $this->food = $fi;
       $this->quantity = $qty;
+      $this->recipeId = $ri;
+      $this->unit = $u;
     }
 
     public function setFood($fi) {
@@ -35,6 +39,22 @@ class Ingredient {
 
     public function getRecipeId() {
       return $this->recipeId;
+    }
+
+    public function setId($ingrId) {
+      $this->id = $ingrId;
+    }
+
+    public function getId() {
+      return $this->id;
+    }
+
+    public function setUnit($u) {
+      $this->unit = $u;
+    }
+
+    public function getUnit() {
+      return $this->unit;
     }
 }
 
