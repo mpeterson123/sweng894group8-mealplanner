@@ -12,6 +12,7 @@ use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
 use Base\Helpers\Redirect;
+use Base\Helpers\Format;
 use \Valitron\Validator;
 
 ///////////////////////////
@@ -44,8 +45,8 @@ class Home extends Controller{
 			}
 		}
 		// Active session
-		else if(isset($_SESSION['username'])){
-			$u = $this->userRepo->find($_SESSION['username']);
+		else if(!Session::get('username')){
+			$u = $this->userRepo->find(Session::get('username'));
 			$user->login($u);
 		}
 		if($user->isLoggedIn()){
@@ -60,7 +61,7 @@ class Home extends Controller{
 	}
 	public function logout(){
 		//$user->logout();
-		unset($_SESSION['username']);
+		Session::remove('username');
 		$this->view('auth/logout');
 	}
 	function pass_hash($password){

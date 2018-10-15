@@ -41,7 +41,7 @@ class Recipes extends Controller {
 
     public function index(){
         // echo "In ".__CLASS__."@".__FUNCTION__;
-        $recipes = $this->recipeRepository->allForUser($_SESSION['id']);
+        $recipes = $this->recipeRepository->allForUser(Session::get('id'));
         //$recipes = $this->recipeRepository->all();
         $this->view('recipe/index', compact('recipes'));
     }
@@ -110,7 +110,7 @@ class Recipes extends Controller {
             }
 
             // If recipe doesn't belong to user, do not delete, and show error page
-            if(!$this->recipeRepository->recipeBelongsToUser($id, $_SESSION['id'])){
+            if(!$this->recipeRepository->recipeBelongsToUser($id, Session::get('id'))){
                 Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
                 return;
             }
@@ -162,7 +162,7 @@ class Recipes extends Controller {
 
     public function checkRecipeBelongsToUser($id){
         // If recipe doesn't belong to user, show forbidden error
-        if(!$this->recipeRepository->recipeBelongsToUser($id, $_SESSION['id'])){
+        if(!$this->recipeRepository->recipeBelongsToUser($id, Session::get('id'))){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }
