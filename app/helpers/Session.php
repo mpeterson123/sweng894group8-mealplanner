@@ -93,6 +93,12 @@ class Session{
         unset($_SESSION['old']);
     }
 
+    /**
+     * Remove old input from session
+     */
+    public static function flush():void{
+        $_SESSION = NULL;
+    }
 
 
 

@@ -113,13 +113,19 @@ class UserRepository extends Repository {
         $query->execute();
     }
 
-    protected function insert($object){
-        die('TODO');
+    protected function insert($user){
         $today = date('Y-m-d');
         $query = $this->db->prepare('INSERT INTO users
                 (username, password, email, joined, namefirst, namelast)
                 VALUES(?,?,?,?,?,?)');
-        $query->bind_param("ssssss",$object['username'],$object['password'],$object['email'],$today,$object['namefirst'],$object['namelast']);
+        $query->bind_param("ssssss",
+            $user->getUsername(),
+            $user->getPassword(),
+            $user->getEmail(),
+            $today,
+            $user->getFirstName(),
+            $user->getLastName()
+        );
         $query->execute();
     }
 

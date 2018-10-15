@@ -20,24 +20,28 @@ use \Valitron\Validator;
 use Base\Repositories\UserRepository;
 use Base\Helpers\Email;
 use Base\Models\User;
+use Base\Factories\UserFactory;
 
 class Account extends Controller{
 	private $userRepo;
+	private $dbh;
 
 	public function __construct() {
       parent::__construct(...func_get_args());
-			$dbh = DatabaseHandler::getInstance();
-			$this->userRepo = new UserRepository($dbh->getDB());
+			$this->dbh = DatabaseHandler::getInstance();
+			$this->userRepo = new UserRepository($this->dbh->getDB());
   	}
 
 	public function register(){
 		if(isset($_POST['reg_username'])){
 			$error = array();
-			$user = array();
+
+			$userFactory = new UserFactory($this->dbh);
+			$userRow = array();
 			$fields = array('username','password','namefirst','namelast','email');
-			foreach($fields as $f){
-				$user[$f] = $_POST['reg_'.$f];
-				if(!isset($user[$f])){
+			foreach($fields as $field){
+				$userRow[$field] = $_POST['reg_'.$field];
+				if(!isset($userRow[$field])){
 					$error[] = 'All fields are required';
 				}
 			}
@@ -45,10 +49,13 @@ class Account extends Controller{
 				$error[] = 'Passwords don\'t match';
 			}
 			if(empty($error)){
-					$user['password'] = $this->pass_hash($user['password']);
+					$userRow['password'] = $this->pass_hash($userRow['password']);
+
+					$user = $userFactory->make($userRow);
+
 					$email = new Email();
-					$email->sendEmailAddrConfirm($user['email']);
-					$this->userRepo->insert($user);
+					$email->sendEmailAddrConfirm($user->getEmail());
+					$this->userRepo->save($user);
 
 					Session::flashMessage('success', 'Your account has been created. A confirmation link has been sent to you. Please confirm your email address to activate your account.');
 					Redirect::toControllerMethod('Account', 'showLogin');
@@ -86,7 +93,6 @@ class Account extends Controller{
 		// Redirect to login
 		Session::flashMessage('success', 'Your email address has been confirmed. Please log in.');
 		Redirect::toControllerMethod('Account', 'showLogin');
-
 	}
 
 	public function forgotPassword(){
@@ -96,18 +102,22 @@ class Account extends Controller{
 
 		// Check if email exists in db
 		$u = $this->userRepo->get('email',$email);
-		if($email == '')
+
+		if($email == ''){
 			$this->view('auth/login',['message'=>'No email has been supplied.']);
-		else if(!$u)
+		}
+		else if(!$u){
 			$this->view('auth/login',['message'=>'Not Found. An email has been sent with instruction to reset your password.']);
-		else{
+		}
+		else {
 			$this->userRepo->setPassTemp($email,$code);
 			// send Email
 			$emailHandler = new Email();
 			$emailHandler->sendPasswordReset($email,$code);
 
 			// Redirect to login
-			$this->view('auth/login',['message'=>'An email has been sent with instruction to reset your password.']);
+			Session::flashMessage('success', 'An email has been sent with instructions to reset your password..');
+			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 	}
 
@@ -204,21 +214,15 @@ class Account extends Controller{
 	}
 
 
-	public function delete($confirmed = 0){
-		// Confirm
-		if(!$confirmed){
-				$this->view('auth/settings', ['message'=>'Are you sure you want to delete? This cannot be undone. <a href="/Account/delete/'.Session::get('id').'">Yes</a><br><a href="/Account/dashboard">Back to dashboard.</a>']);
-		}
-		// Delete User and all related info
-		else{
-			$this->userRepo->remove(Session::get('id'));
-			// !!!!
- 			// Remove data from other repos here
-			// !!!!
-			Session::remove('id');
-			Session::remove('username');
-			$this->view('auth/login',['message'=>'Your account has been deleted.']);
-		}
+	public function delete(){
+
+		$this->userRepo->remove(Session::get('id'));
+		// Remove everything from session
+		Session::flush();
+
+		Session::flashMessage('success', 'Your account has been deleted.');
+		Redirect::toControllerMethod('Account', 'showLogin');
+
 	}
 
 	public function dashboard(){
@@ -229,8 +233,7 @@ class Account extends Controller{
 			return;
 		}
 
-		$user = $this->userRepo->find(Session::get('username'));
-		$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+		$this->view('dashboard/index', ['user'=>$user, 'username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
 	}
 
 	public function showLogin(){
@@ -239,7 +242,7 @@ class Account extends Controller{
 
 	public function logInUser(){
 		// Active session
-		if(!Session::get('username')){
+		if(Session::get('username')){
 			Redirect::toControllerMethod('Account', 'dashboard');
 		}
 

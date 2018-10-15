@@ -21,7 +21,7 @@ class UserFactory {
      * @param  array    $userArray A user's properties
      * @return User                A user object
      */
-    public function make(array $userArray):User
+    public function make($userArray):User
     {
         $user = new User();
         if(isset($userArray['id'])){

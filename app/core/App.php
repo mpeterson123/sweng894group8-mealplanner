@@ -36,12 +36,6 @@ class App {
 			unset($url[0]);
 		}
 
-		// Redirect to login if not logged in
-	 	if(!Session::get('username')){
-			$this->controller = 'Account';
-			$this->method = 'showLogin';
-		}
-
 		// Require controller file
 		$path = __DIR__.'/../controllers/'.$this->controller.'.php';
 		require_once($path);

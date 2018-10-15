@@ -22,7 +22,7 @@ class User{
 		$this->setFirstName($array['namefirst']);
 		$this->setLastName($array['namelast']);
 		$this->setEmail($array['email']);
-		$this->setHousehold($array['households']);
+		$this->setHouseholds($array['households']);
 		$this->setId($array['id']);
 	}
 

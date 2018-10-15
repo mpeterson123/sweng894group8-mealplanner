@@ -36,17 +36,14 @@ class Controller{
 
 	}
 	public function view($view,$data = []){
-		// session_start();
 
 		$userRepository = new UserRepository($this->dbh->getDB());
+		$user = $userRepository->find(Session::get('username'));
+		$data['user'] = $user;
+
 		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword');
 
-		if(!Session::get('username')){
-			$user = $userRepository->find(Session::get('username'));
-			$data['user'] = $user;
-			require_once __DIR__.'/../views/'.$view.'.php';
-		}
-		else if(in_array($view,$notLoggedInPages)){
+		if($user || in_array($view,$notLoggedInPages) ){
 			require_once __DIR__.'/../views/'.$view.'.php';
 		}
 		else {
