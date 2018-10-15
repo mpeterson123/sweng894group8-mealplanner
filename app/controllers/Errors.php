@@ -11,6 +11,7 @@ use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
 use Base\Helpers\Redirect;
+use Base\Helpers\Format;
 use \Valitron\Validator;
 
 ///////////////////////////

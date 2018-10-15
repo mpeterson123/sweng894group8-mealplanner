@@ -4,6 +4,8 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 use Base\Repositories\Repository;
 
+// File-specific classes
+use Base\Factories\UserFactory;
 
 class UserRepository extends Repository {
     private $db;
@@ -11,23 +13,39 @@ class UserRepository extends Repository {
     public function __construct($db){
         $this->db = $db;
     }
+
+
     public function checkUser($uname,$pwd){
-      $query = $this->db->prepare('SELECT * FROM users WHERE username = ? AND password = ?');
-			$query->bind_param("ss",$uname,$pwd);
-      $query->execute();
-      $result = $query->get_result();
-      $row = $result->fetch_assoc();
-      return $row;
-	  }
+        $query = $this->db->prepare('SELECT * FROM users WHERE username = ? AND password = ?');
+		$query->bind_param("ss",$uname,$pwd);
+        $query->execute();
+        $result = $query->get_result();
+        $userRow = $result->fetch_assoc();
+
+        if(!$userRow){
+            return NULL;
+        }
+
+        $user = (new UserFactory($this->db))->make($userRow);
+        return $user;
+	}
 
     public function find($username){
         $query = $this->db->prepare('SELECT * FROM users WHERE username = ?');
         $query->bind_param("s",$username);
         $query->execute();
         $result = $query->get_result();
-        $row = $result->fetch_assoc();
-        return $row;
+        $userRow = $result->fetch_assoc();
+
+        if(!$userRow){
+            return NULL;
+        }
+
+        $user = (new UserFactory($this->db))->make($userRow);
+        return $user;
     }
+
+
     public function get($field,$value){
       $query = $this->db->prepare('SELECT * FROM users WHERE '.$field.' = ?');
       $query->bind_param("s",$value);
@@ -42,6 +60,7 @@ class UserRepository extends Repository {
 			$query->bind_param("s",$email);
       $query->execute();
     }
+
     public function setPassTemp($email,$pass){
       $query = $this->db->prepare('UPDATE users SET passTemp = ? WHERE email = ?');
 			$query->bind_param("ss",$pass,$email);
@@ -54,7 +73,7 @@ class UserRepository extends Repository {
     }
 
     public function save($user){
-        if(isset($this->id) && $this->find($user->id))
+        if($user->getId() && $this->find($user->getUsername()))
         {
             $this->update($user);
         }
@@ -65,14 +84,37 @@ class UserRepository extends Repository {
     public function all(){
         return $this->db->query('SELECT * FROM users')->fetch_all();
     }
-    // Not Implemented yet
+    public function getHouseholds($userId){
+        $hhIds = array();
+        $query = $this->db->prepare('SELECT * FROM usersHouseholds WHERE userId = ?');
+        $query->bind_param("s",$userId);
+        $query->execute();
+        $result = $query->get_result();
+        while($row = $result->fetch_assoc()){
+          $hhIds[] = $row['householdId'];
+        }
+
+        $households = array();
+        foreach($hhIds as $hhId){
+          $query = $this->db->prepare('SELECT * FROM household WHERE id = ?');
+          $query->bind_param("s",$hhId);
+          $query->execute();
+          $result = $query->get_result();
+          while($row = $result->fetch_assoc()){
+            $households[$hhId] = $row['name'];
+          }
+        }
+        return $households;
+    }
+
     public function remove($id){
         $query = $this->db->prepare('DELETE FROM users WHERE id = ?');
         $query->bind_param("s",$id);
         $query->execute();
     }
 
-    public function insert($object){
+    protected function insert($object){
+        die('TODO');
         $today = date('Y-m-d');
         $query = $this->db->prepare('INSERT INTO users
                 (username, password, email, joined, namefirst, namelast)
@@ -81,14 +123,21 @@ class UserRepository extends Repository {
         $query->execute();
     }
 
-    protected function update($object){
+    protected function update($user){
         $query = $this->db
-            ->prepare('UPDATE food
-                SET name = ?, unitcost =?)
-                VALUES(?,?)');
+            ->prepare('UPDATE users SET
+                password = ?,
+                email = ?,
+                namefirst = ?,
+                namelast = ?
+            ');
+
         $query->bind_param(array(
-            'name' => $food->name,
-            'name' => $food->unitCost,
+            'ssss',
+            $user->getPassword(),
+            $user->getEmail(),
+            $user->getFirstName(),
+            $user->getLastName(),
         ));
         $query->execute();
     }

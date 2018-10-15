@@ -8,6 +8,7 @@ require_once __DIR__.'/../../vendor/autoload.php';
 // Use statements //
 ////////////////////
 use Base\Core\DatabaseHandler;
+use Base\Helpers\Session;
 use Base\Repositories\UserRepository;
 
 /**
@@ -40,8 +41,8 @@ class Controller{
 		$userRepository = new UserRepository($this->dbh->getDB());
 		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword');
 
-		if(isset($_SESSION['username'])){
-			$user = $userRepository->find($_SESSION['username']);
+		if(!Session::get('username')){
+			$user = $userRepository->find(Session::get('username'));
 			$data['user'] = $user;
 			require_once __DIR__.'/../views/'.$view.'.php';
 		}

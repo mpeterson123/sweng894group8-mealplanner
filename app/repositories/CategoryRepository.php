@@ -41,18 +41,18 @@ class CategoryRepository extends Repository {
         return $this->db->query('SELECT * FROM categories')->fetch_all(MYSQLI_ASSOC);
     }
 
-    /**
-     * Get all categories added by a user
-     * @return array Associative array of food items
-     */
-    public function allForUser($userId){
-        $query = $this->db->prepare('SELECT * FROM categories WHERE user_id = ? ORDER BY name');
-        $query->bind_param("s", $userId);
-        $query->execute();
-
-        $result = $query->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
+    // /**
+    //  * Get all categories added by a user
+    //  * @return array Associative array of food items
+    //  */
+    // public function allForUser($userId){
+    //     $query = $this->db->prepare('SELECT * FROM categories WHERE user_id = ? ORDER BY name');
+    //     $query->bind_param("s", $userId);
+    //     $query->execute();
+    //
+    //     $result = $query->get_result();
+    //     return $result->fetch_all(MYSQLI_ASSOC);
+    // }
 
     public function save($object){}
     public function remove($object){}

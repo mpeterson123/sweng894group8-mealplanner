@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once(__DIR__ . '/../modules/main.mod.php' );
+use Base\Helpers\Session;
 
 // Sub Title
 $SUBTITLE = 'Login';

@@ -50,7 +50,7 @@ class FoodItems extends Controller {
      */
     public function index():void{
         // echo "In ".__CLASS__."@".__FUNCTION__;
-        $foods = $this->foodItemRepository->allForUser($_SESSION['id']);
+        $foods = $this->foodItemRepository->allForUser(Session::get('id'));
         $this->view('food/index', compact('foods'));
     }
 
@@ -64,7 +64,7 @@ class FoodItems extends Controller {
         $unitRepository = new UnitRepository($db);
 
         // Get user's categories, and list of units
-        $categories = $categoryRepository->allForUser($_SESSION['id']);
+        $categories = $categoryRepository->all();
         $units = $unitRepository->all();
 
         // Get food details
@@ -82,7 +82,7 @@ class FoodItems extends Controller {
         $unitRepository = new UnitRepository($db);
 
         // Get user's categories, and list of units
-        $categories = $categoryRepository->allForUser($_SESSION['id']);
+        $categories = $categoryRepository->all();
         $units = $unitRepository->all();
 
         $this->view('food/create', compact('categories', 'units'));
@@ -147,9 +147,7 @@ class FoodItems extends Controller {
         $foodItem = $this->foodItemRepository->find($id);
         $this->checkFoodBelongsToUser($id);
 
-        $input = $_POST;
-
-        $this->validateInput($input, 'edit', [$id]);
+        $this->validateInput($_POST, 'edit', [$id]);
 
         $this->foodItemRepository->save($foodItem);
 
@@ -167,7 +165,7 @@ class FoodItems extends Controller {
      */
     public function checkFoodBelongsToUser($id):void{
         // If food doesn't belong to user, show forbidden error
-        if(!$this->foodItemRepository->foodBelongsToUser($id, $_SESSION['id'])){
+        if(!$this->foodItemRepository->foodBelongsToUser($id, Session::get('id'))){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }

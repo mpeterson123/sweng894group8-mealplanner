@@ -17,8 +17,8 @@ use Base\Helpers\Session;
  * to handle them.
  */
 class App {
-	protected $controller = 'Home';
-	protected $method = 'index';
+	protected $controller = 'Account';
+	protected $method = 'dashboard';
 	protected $params = [];
 
 	public function __construct(){
@@ -34,6 +34,12 @@ class App {
 		if(file_exists(__DIR__.'/../controllers/'.$url[0].'.php')){
 			$this->controller = $url[0];
 			unset($url[0]);
+		}
+
+		// Redirect to login if not logged in
+	 	if(!Session::get('username')){
+			$this->controller = 'Account';
+			$this->method = 'showLogin';
 		}
 
 		// Require controller file

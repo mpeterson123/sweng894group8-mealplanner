@@ -64,12 +64,20 @@ class FoodItemRepository extends Repository {
      * @return array Associative array of food items
      */
     public function allForUser($userId){
-        $query = $this->db->prepare('SELECT * FROM VIEW_foods WHERE user_id = ? ORDER by name');
+        $query = $this->db->prepare('SELECT * FROM foods WHERE user_id = ? ORDER by name');
         $query->bind_param("s", $userId);
         $query->execute();
 
         $result = $query->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $foodItemRows = $result->fetch_all(MYSQLI_ASSOC);
+
+        $collection = array();
+        $foodItemFactory = new FoodItemFactory($this->db);
+        foreach($foodItemRows as $foodItemRow){
+            $collection[] = $foodItemFactory->make($foodItemRow);
+        }
+
+        return $collection;
     }
 
     /**

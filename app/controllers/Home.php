@@ -12,6 +12,7 @@ use Base\Core\Controller;
 use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
 use Base\Helpers\Redirect;
+use Base\Helpers\Format;
 use \Valitron\Validator;
 
 ///////////////////////////
@@ -44,18 +45,23 @@ class Home extends Controller{
 			}
 		}
 		// Active session
-		else if(isset($_SESSION['username'])){
-			$u = $this->userRepo->find($_SESSION['username']);
+		else if(!Session::get('username')){
+			$u = $this->userRepo->find(Session::get('username'));
 			$user->login($u);
 		}
-		if($user->isLoggedIn())
-			$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+		if($user->isLoggedIn()){
+			//print_r($user->getHousehold());
+			if(empty($user->getHousehold()))
+				$this->view('/auth/newHousehold',['message' => $message]);
+			else
+				$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+		}
 		else
 			$this->view('auth/login',['message' => $message]);
 	}
 	public function logout(){
 		//$user->logout();
-		unset($_SESSION['username']);
+		Session::remove('username');
 		$this->view('auth/logout');
 	}
 	function pass_hash($password){

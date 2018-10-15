@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once(__DIR__ . '/../modules/main.mod.php' );
+use Base\Helpers\Session;
 
 // Sub Title
 $SUBTITLE = 'Login';
@@ -29,8 +30,9 @@ $PLUGIN_SIDEBARMENU= TRUE;
     <section id="wrapper" class="login-register">
         <div class="login-box">
             <div class="white-box">
-                <form class="form-horizontal form-material" id="loginform" action="/dashboard/" method="POST">
+                <form class="form-horizontal form-material" id="loginform" action="/Account/logInUser" method="POST">
                     <h3 class="box-title m-b-20">Sign In</h3>
+                    <?php Session::renderMessage(); ?>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" name="login_username" required="" placeholder="Username">
@@ -47,7 +49,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                                 <input id="checkbox-signup" type="checkbox">
                                 <label for="checkbox-signup"> Remember me </label>
                             </div>
-                            <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a> </div>
+                            <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Forgot password?</a> </div>
                     </div>
                     <div class="form-group text-center m-t-20">
                         <div class="col-xs-12">
