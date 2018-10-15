@@ -36,15 +36,17 @@ class RecipeRepository extends Repository {
 
         if($recipe->getId() && $this->find($recipe>getId()))
         {
-            $this->update($recipe);
+            $success = $this->update($recipe);
         }
         else {
-            $this->insert($recipe);
+            $success = $this->insert($recipe);
         }
+
+        return $success;
     }
 
     /**
-     * Get all recipes 
+     * Get all recipes
      * @return array Associative array of recipes
      */
     public function all(){
@@ -71,6 +73,7 @@ class RecipeRepository extends Repository {
      * @return bool         Whether query was successful
      */
     public function remove($id){
+
         $query = $this->db->prepare('DELETE FROM recipes WHERE id = ?');
         $query->bind_param("s", $id);
         return $query->execute();
@@ -94,12 +97,20 @@ class RecipeRepository extends Repository {
             $recipe->getName(),
             $recipe->getDescription(),
             $recipe->getServings(),
-            //$recipe->getIngredients(),
             $recipe->getSource(),
             $recipe->getNotes(),
             Session::get('id')
         );
-        return $query->execute();
+
+        //$query->insert_id should return the id of the newly inserted row.
+        $bool = $query->execute();
+        if($bool) {
+          echo "\nrecipe id = ". $query->insert_id . "\n";
+          $recipe->setId($query->insert_id);
+        }
+
+        return $bool;
+        //return $query->execute();
     }
 
     /**
@@ -131,7 +142,7 @@ class RecipeRepository extends Repository {
             $recipe->getNotes(),
             $recipe->getId()
         );
-        $query->execute();
+      return $query->execute();
 
     }
 

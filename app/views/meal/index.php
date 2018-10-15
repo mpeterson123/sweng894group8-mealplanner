@@ -2,10 +2,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 // MealPlanner                             Penn State - Cohorts 19 & 20 @ 2018
 ///////////////////////////////////////////////////////////////////////////////
-// Food (listing)
+// Meal (listing)
 ///////////////////////////////////////////////////////////////////////////////
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
+
+use Base\Helpers\Session;
 
 // Sub Title
 $SUBTITLE = 'Meal';
@@ -17,13 +19,11 @@ $PLUGIN_DATATABLES  = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
 $PLUGIN_EXPORT      = TRUE;
 
-// Food
+// Meal
 $User['id'] = 1;  // Default to 1 for testing purposes
 $MealPlan = sqlRequestWhere('MealPlan', 'userid', $User['id']);
 $Meals = sqlRequestWhere('Meal', 'planid', $MealPlan['id']);
 $Recipes = sqlRequestWhere('Recipe', 'id', $Meals['recipe']);
-// $Ingredents = sqlRequestWhere('ingredent', 'recipeid', $Recipes['id']);
-// $Foods = sqlRequestWhere('food', 'foodid', $Ingredents['id']);
 
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -91,7 +91,7 @@ $Recipes = sqlRequestWhere('Recipe', 'id', $Meals['recipe']);
                     <div class="col-sm-2">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
-                            <a href="/foods/add/" class="btn btn-success m-t-15">+ Add Food Item</a>
+                            <a href="/meal/create/" class="btn btn-success m-t-15">+ Create Meal</a>
                         </div>
                     </div>
                 </div>

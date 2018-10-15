@@ -99,6 +99,50 @@ $SUBTITLE = "Add Recipe";
                                             <p class="help-block"></p>
                                         </div>
 
+                                        <div class="form-group">
+                                          <h3 class="box-title m-b-0">Ingredients</h3>
+                                            <label for="inputFoodItem">FoodItem</label>
+                                            <select class="form-control" id="inputFoodItem" name="foodid">
+                                                <option value="0">Select one</option>
+                                                <?php
+                                                    foreach($data['fooditems'] as $fooditem){
+                                                        echo '<option ';
+
+                                                        if(Session::getOldInput('foodid') == $fooditem['id']){
+                                                            echo 'selected="selected" ';
+                                                        }
+
+                                                        echo 'value="'.$fooditem['id'].'">'.$fooditem['name'].'</option>';
+                                                    }
+                                                ?>
+                                            </select>
+
+                                            <!--<div class="form-group">-->
+                                                <label for="inputQuantity">Quantity</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="fa fa-font"></i></div>
+                                                    <input type="number" step="0.01" min="1" class="form-control" id="inputQuantity" placeholder="" name="quantity" value="<?php echo Session::getOldInput('quantity'); ?>">
+                                                </div>
+                                                <p class="help-block"></p>
+                                            <!--</div>-->
+
+                                            <!--<div class="form-group">-->
+                                                <label for="inputUnit">Unit</label>
+                                                <select class="form-control" id="inputUnit" name="unit_id">
+                                                    <option value="0">Select one</option>
+                                                    <?php
+                                                        foreach($data['units'] as $unit){
+                                                            echo '<option ';
+
+                                                            if(Session::getOldInput('unit_id') == $unit['id']){
+                                                                echo 'selected="selected" ';
+                                                            }
+
+                                                            echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                                                        }
+                                                    ?>
+                                                </select>
+                                            <!--</div>-->
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save</button>
                                     </form>
                                 </div>
@@ -106,6 +150,7 @@ $SUBTITLE = "Add Recipe";
                         </div>
                     </div>
                 </div>
+              </div>
 
 <?php require_once( __SPANEL__ ); ?>
 

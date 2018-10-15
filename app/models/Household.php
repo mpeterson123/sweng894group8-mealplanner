@@ -51,4 +51,21 @@ class Household {
     public function getName():string{
         return $this->name;
     }
+
+    public function genInviteCode(){
+      // start with id
+      $code = $this->id;
+      // add 10 million (to ensure consistant length)
+      $code += 10000000;
+      // add checksum (sum of digits mod 10)
+      $sum = array_sum(str_split($code));
+      $sum %= 10;
+      $code = $sum.''.$code;
+      // add checkmult (product of non-zero digits mod 10)
+      $mult = array_product(array_filter(str_split($code)));
+      $mult %= 10;
+      $code = $code.''.$mult;
+      // use base36 encoding to shorten length
+      return strtoupper(base_convert($code,10,36));
+    }
 }

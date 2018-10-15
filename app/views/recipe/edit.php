@@ -107,7 +107,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']['name']}";
                                             <label for="inputName">Notes</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputNotes" placeholder="Notes" name="notes" value="<?php echo $data['recipe']['notes]; ?>"> </div>
+                                                <input type="text" class="form-control" id="inputNotes" placeholder="Notes" name="notes" value="<?php echo $data['recipe']['notes']; ?>"> </div>
                                         </div>
 
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
@@ -126,8 +126,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']['name']}";
                                 class="btn btn-danger m-t-15"
                                 data-toggle="modal"
                                 data-target="#confirm-delete-modal">
-                                Remove Item
-                            </button>
+                                Remove Recipe                            </button>
                         </div>
                     </div>
                 </div>

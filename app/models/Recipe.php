@@ -94,5 +94,8 @@ class Recipe{
 		$this->source = $source;
 	}
 
+public function getIngredients() {
+	return $this->ingredients;
+}
 }
 ?>
