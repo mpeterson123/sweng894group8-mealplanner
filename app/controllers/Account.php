@@ -17,8 +17,10 @@ use \Valitron\Validator;
 // File-specific classes //
 ///////////////////////////
 use Base\Repositories\UserRepository;
+use Base\Repositories\HouseholdRepository;
 use Base\Helpers\Email;
 use Base\Models\User;
+use Base\Models\Household;
 
 class Account extends Controller{
 	private $userRepo;
@@ -229,6 +231,7 @@ class Account extends Controller{
 		}
 
 		$user = $this->userRepo->find($_SESSION['username']);
+
 		$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
 	}
 
