@@ -29,9 +29,9 @@ class Account extends Controller{
 	private $dbh;
 
 	public function __construct() {
-      parent::__construct(...func_get_args());
-			$this->dbh = DatabaseHandler::getInstance();
-			$this->userRepo = new UserRepository($this->dbh->getDB());
+      	parent::__construct(...func_get_args());
+		$this->dbh = DatabaseHandler::getInstance();
+		$this->userRepo = new UserRepository($this->dbh->getDB());
   	}
 
 	public function register(){
