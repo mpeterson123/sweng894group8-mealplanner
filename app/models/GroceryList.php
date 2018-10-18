@@ -10,12 +10,26 @@ class GroceryList {
 		    $this->groceryitemarray = array();
     }
 
-	public function populateList() {
-		    // Read all grocery items and quantities from GroceryItem model
+    public function getEntireList()
+
+      // Look up meals in given timeframe
+      
+      // Look up food inventory/stock
+
+      // Subtract Food inventory from meal need times Scale
+
+      // If negative, add absolute value to grocery item array
+
+      return $this->groceryitemarray;
     }
 
-    public function getEntireList() {
-		    return this->groceryitemarray;
+    public function purchase($n,$q) {
+
+      // Add value from grocery list to cooresponding food's stock
+
+      //$this->quantity = $this->quantity - $q;
+
+      $this->getEntireList();
     }
 }
 

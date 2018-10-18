@@ -1,5 +1,4 @@
 <?php
-
 namespace Base\Test;
 
 require_once __DIR__.'/../../vendor/autoload.php';
@@ -15,13 +14,14 @@ use Base\Models\FoodItem;
 class MealTest extends TestCase {
     // Variables to be reused
     private $meal;
+    private $recipe;
 
     /**
      * Create instances or whatever you need to reuse in several tests here
      */
     public function setUp(){
-      $recipe = new Recipe('Sugar Cookies','Sugar Cookies',6);
-      $this->meal = new Meal($recipe,'2018-10-01',1);
+      $this->recipe = new Recipe('Sugar Cookies','Sugar Cookies',6);
+      $this->meal = new Meal($this->recipe,date("Y-m-d H:i:s"),1.0);
     }
 
     /**
@@ -29,38 +29,55 @@ class MealTest extends TestCase {
      */
     public function tearDown(){
       unset($this->meal);
-    }
-    /**
-     * Test scaling up a recipe
-     */
-    public function testscaleRecipeUp(){
-      $ingredient = new Ingredient(new FoodItem('sugar','',''), 2);
-      $scaleFactor = 2;
-      $this->meal->getRecipe()->addIngredient($ingredient);
-      $this->meal->scale($scaleFactor);
-      $this->assertEquals(
-        $this->meal->getIngredientQuantity('sugar'), 4, 'Ingredient must be scaled by factor of'.$scaleFactor);
+      unset($this->recipe);
     }
 
-    /**
-     * Test scaling down a recipe
-     */
-    public function testscaleRecipeDown(){
-      $ingredient = new Ingredient(new FoodItem('sugar','',''), 2);
-      $scaleFactor = 0.5;
-      $this->meal->getRecipe()->addIngredient($ingredient);
-      $this->meal->scale($scaleFactor);
-      $this->assertEquals(
-        $this->meal->getIngredientQuantity('sugar'), 1, 'Ingredient must be scaled by factor of'.$scaleFactor);
+    public function testCreateMeal(){
+      $this->assertInstanceOf('Base\Models\Meal',
+        new Meal($this->recipe,date("Y-m-d H:i:s"),2.0),
+        'Object must be an instance of Meal');
     }
 
-    /**
-     * Mark recipe completed
-     */
+    public function testEditMealScale(){
+      $this->meal->setScale(1.5);
+      $this->assertEquals($this->meal->getScale(), 1.5);
+    }
+
+    public function testEditMealDate(){
+      $nowTime = date("Y-m-d H:i:s");
+      $this->meal->setDate($nowTime);
+      $this->assertEquals($this->meal->getDate(), $nowTime);
+    }
+
+    public function testEditMealRecipe(){
+      //$newRecipe = 1;
+      $this->meal->setRecipe($this->recipe);
+      $this->assertEquals($this->meal->getRecipe(), $this->recipe);
+    }
+
+    public function testRejectInvalidScale(){
+      $this->expectException(\Exception::class);
+      $this->meal->setScale('bad');//"Id must be a number"
+    }
+
+    public function testRejectInvalidDate(){
+      $this->expectException(\Exception::class);
+      $this->meal->setDate('bad');//"Date must be a timestamp"
+    }
+
+    public function testRejectInvalidRecipe(){
+      $this->expectException(\Exception::class);
+      $this->meal->setRecipe('bad');//"Meal must reference a Recipe"
+    }
+
     public function testMarkMealCompleted(){
       $this->meal->complete();
       $this->assertTrue($this->meal->isComplete(), 'Recipe must be completed.');
     }
+
+    //public function testDeleteMeal(){
+    //  $this->meal->delete();
+    //}
 
 }
 ?>

@@ -94,8 +94,21 @@ class Recipe{
 		$this->source = $source;
 	}
 
-public function getIngredients() {
-	return $this->ingredients;
-}
+	public function getIngredients() {
+		return $this->ingredients;
+	}
+
+	public function updateStockAfterCreation($scale){
+		if ($scale == NULL){
+			$scale = 1.0;
+		}
+		for($i=0;$i<count($this->ingredients);$i++){
+			$ingredientFood = $this->ingredient[$i]->getFood();
+			$currentStock = $ingredientFood->getStock();
+			$ingredientQty = $this->ingredients[$i]->getQuantity();
+			$ingredientFood->setStock($scale * ($currentStock - $ingredientQty));
+		}
+	}
+
 }
 ?>
