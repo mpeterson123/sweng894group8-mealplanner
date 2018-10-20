@@ -26,7 +26,8 @@ class UserFactory {
         $user = new User();
         if(isset($userArray['id'])){
             $user->setId($userArray['id']);
-            $households = (new HouseholdRepository($this->db))->allForUser($userArray);
+            $households = (new HouseholdRepository($this->db))->allForUser($userArray['id']);
+    
             $user->setHouseholds($households);
         }
         else{

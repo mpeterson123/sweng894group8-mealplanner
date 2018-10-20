@@ -239,7 +239,7 @@ class Account extends Controller{
 	}
 
 	public function showLogin(){
-		$this->view('auth/login');
+		$this->view('auth/login',['message'=>'']);
 	}
 
 	public function logInUser(){
