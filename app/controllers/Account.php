@@ -228,8 +228,14 @@ class Account extends Controller{
 	}
 
 	public function dashboard(){
+<<<<<<< HEAD
 		$user = $this->userRepo->find((new Session())->get('username'));
 
+=======
+		$user = $this->userRepo->find(Session::get('username'));
+//print_r($user->getHouseholds());
+//die();
+>>>>>>> a13963d16407c8e5969b442e1f5f376ebb5e03c0
 		if(empty($user->getHouseholds())){
 			$this->view('/auth/newHousehold',['message' => $message]);
 			return;
@@ -239,7 +245,7 @@ class Account extends Controller{
 	}
 
 	public function showLogin(){
-		$this->view('auth/login');
+		$this->view('auth/login',['message'=>'']);
 	}
 
 	public function logInUser(){
