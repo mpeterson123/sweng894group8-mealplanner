@@ -50,7 +50,7 @@ $Recipes = sqlRequestWhere('Recipe', 'id', $Meals['recipe']);
                             <h3 class="box-title m-b-0">Meal Plan Schedule</h3>
                             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
                             <div class="table-responsive">
-                                <table id="export-table" class="display nowrap" cellspacing="0" width="100%">
+                                <table id="export-table" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>Date</th>

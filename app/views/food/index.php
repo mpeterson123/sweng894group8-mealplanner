@@ -10,7 +10,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' )
 use Base\Helpers\Session;
 
 // Sub Title
-$SUBTITLE = 'Food Directory';
+$SUBTITLE = 'Food List';
 
 
 // Plugins
@@ -50,7 +50,7 @@ $PLUGIN_EXPORT      = TRUE;
                             <h3 class="box-title m-b-0">Food Directory</h3>
                             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
                             <div class="table-responsive">
-                                <table id="export-table" class="display nowrap" cellspacing="0" width="100%">
+                                <table id="export-table" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -60,11 +60,11 @@ $PLUGIN_EXPORT      = TRUE;
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Category</th>
-                                            <th>Stock</th>
-                                            <th>Unit</th>
+                                        <tr class="column-search">
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
+                                            <th><select class="column-search-select form-control"><option value=""></option></select></th>
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
+                                            <th><select class="column-search-select form-control"><option value=""></option></select></th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
