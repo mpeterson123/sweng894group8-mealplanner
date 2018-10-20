@@ -229,7 +229,8 @@ class Account extends Controller{
 
 	public function dashboard(){
 		$user = $this->userRepo->find(Session::get('username'));
-
+//print_r($user->getHouseholds());
+//die();
 		if(empty($user->getHouseholds())){
 			$this->view('/auth/newHousehold',['message' => $message]);
 			return;
@@ -239,7 +240,7 @@ class Account extends Controller{
 	}
 
 	public function showLogin(){
-		$this->view('auth/login');
+		$this->view('auth/login',['message'=>'']);
 	}
 
 	public function logInUser(){

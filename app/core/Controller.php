@@ -41,7 +41,7 @@ class Controller{
 		$user = $userRepository->find(Session::get('username'));
 		$data['user'] = $user;
 
-		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword');
+		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword,');
 
 		if($user || in_array($view,$notLoggedInPages) ){
 			require_once __DIR__.'/../views/'.$view.'.php';

@@ -19,11 +19,13 @@ use \Valitron\Validator;
 // File-specific classes //
 ///////////////////////////
 use Base\Repositories\UserRepository;
+use Base\Models\Household as HH;
 use Base\Repositories\HouseholdRepository;
 use Base\Factories\HouseholdFactory;
 
 class Household extends Controller{
 	private $userRepo;
+	private $hhRepo;
 	private $dbh;
 
 	public function __construct()
@@ -53,6 +55,28 @@ class Household extends Controller{
 		// $object['userId'] = $user->getId();
 		// $h = $this->hhRepo->insert($object);
 		$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+	}
+	public function list(){
+		$user = $this->userRepo->find(Session::get('username'));
+		//$householdFactory = new HouseholdFactory($this->dbh->getDB());
+		$households = 	$this->hhRepo->allForUser($user->getId());
+		$hhs = array();
+		foreach($households as $hh){
+			$hhs[] = array('id'=>$hh->getId(),'name'=>$hh->getName(),'code'=>$hh->genInviteCode());
+		}
+
+		$this->view('/auth/householdList',['message' => '','households'=>$hhs]);
+	}
+	public function join(){
+		$user = $this->userRepo->find(Session::get('username'));
+
+		$inviteCode = trim($_POST['invite_code']);
+		$household = new HH();
+		$hhId = $household->reverseCode($inviteCode);
+
+		$this->hhRepo->connect($user->getId(),$hhId);
+
+		Redirect::toControllerMethod('Account', 'dashboard');
 	}
 }
 ?>
