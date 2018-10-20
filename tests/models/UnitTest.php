@@ -132,6 +132,44 @@ class UnitTest extends TestCase {
         $this->unit->setAbbreviation($invalidAbbreviation);
     }
 
+    ///////////////
+    // Base Unit //
+    ///////////////
+
+    public function testSetAndGetBaseUnit(){
+        $baseUnit = 'mL';
+        $this->unit->setBaseUnit($baseUnit);
+        $this->assertEquals($this->unit->getBaseUnit(), $baseUnit);
+    }
+
+    public function testBaseUnitCannotBeEmpty(){
+        $this->expectException(\Exception::class);
+        $this->unit->setBaseUnit('');
+    }
+
+    public function testBaseUnitCannotBeLongerThan4Chars(){
+        $longBaseUnit = 'abcde';
+        $this->expectException(\Exception::class);
+        $this->unit->setBaseUnit($longBaseUnit);
+    }
+
+    public function testBaseUnitCannotHaveExtraWhitespace(){
+        $nameWithWhitespace = ' mL ';
+        $expectedBaseUnit =  'mL';
+        $this->unit->setBaseUnit($nameWithWhitespace);
+
+        $this->assertEquals($this->unit->getBaseUnit(), $expectedBaseUnit,
+            'BaseUnit must be trimmed.');
+    }
+
+    public function testBaseUnitMustBeAlphabetical(){
+        $invalidBaseUnit = 'm!';
+
+        $this->expectException(\Exception::class);
+        $this->unit->setBaseUnit($invalidBaseUnit);
+    }
+
+
     //////////////
     // Base Eqv //
     //////////////

@@ -87,6 +87,37 @@ class Unit
         return $this->abbreviation;
     }
 
+    //////////////
+    // BaseUnit //
+    //////////////
+
+    public function setBaseUnit($baseUnit){
+        $baseUnit = trim($baseUnit);
+
+        /*
+         * Regex rules:
+         * - Only letters
+         * - Case insensitive
+         * - From 1-4 characters
+         */
+        $regex = '/^[a-z]{1,4}$/i';
+
+        if(!preg_match_all($regex, $baseUnit, $matches)){
+            throw new \Exception(
+                "Food Item name must alphabetical, and must be 1-4 characters in length", 1);
+        }
+
+        $this->baseUnit = $baseUnit;
+    }
+
+    public function getBaseUnit(){
+        return $this->baseUnit;
+    }
+
+
+    /////////////
+    // BaseEqv //
+    /////////////
 
     public function setBaseEqv($eqv)
     {
