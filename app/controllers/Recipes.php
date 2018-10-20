@@ -54,12 +54,6 @@ class Recipes extends Controller {
 
     public function edit($id){
         $db = $this->dbh->getDB();
-      //  $categoryRepository = new CategoryRepository($db);
-        //$unitRepository = new UnitRepository($db);
-
-        // Get user's categories, and list of units
-      //  $categories = $categoryRepository->all();
-      //  $units = $unitRepository->all();
 
         // Get food details
         $recipe = $this->recipeRepository->find($id);
@@ -73,11 +67,11 @@ class Recipes extends Controller {
         $foodItemRepository = new FoodItemRepository($db);
         $unitRepository = new UnitRepository($db);
 
-        // Get user's fooditems and list of units
-        $fooditems = $foodItemRepository->allForUser((new Session())->get('id'));
+        // Get user's foodItems and list of units
+        $foodItems = $foodItemRepository->allForUser((new Session())->get('id'));
         $units = $unitRepository->all();
 
-        $this->view('recipe/create', compact('fooditems', 'units'));
+        $this->view('recipe/create', compact('foodItems', 'units'));
     }
 
     public function store(){

@@ -13,11 +13,6 @@ class RecipeFactory {
 
     public function make($recipeArray)
     {
-        //$foodItem = (new FoodItemRepository($this->db))->find($ingredientArray['foodid']);
-        //$unit = (new UnitRepository($this->db))->find($ingredientArray['unit_id']);
-        //$quantity = new Quantity($ingredientArray['quantity'], $unit);
-
-
         $recipe = new Recipe($recipeArray['name'], $recipeArray['description'], $recipeArray['servings'], $recipeArray['source'], $recipeArray['notes']);
         if(isset($recipeArray['id'])){
             $recipe->setId($recipeArray['id']);

@@ -105,14 +105,14 @@ $SUBTITLE = "Add Recipe";
                                             <select class="form-control" id="inputFoodItem" name="foodid">
                                                 <option value="0">Select one</option>
                                                 <?php
-                                                    foreach($data['fooditems'] as $fooditem){
+                                                    foreach($data['foodItems'] as $foodItem){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('foodid') == $fooditem['id']){
+                                                        if((new Session())->getOldInput('foodid') == $foodItem->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
-                                                        echo 'value="'.$fooditem['id'].'">'.$fooditem['name'].'</option>';
+                                                        echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
                                                     }
                                                 ?>
                                             </select>
@@ -134,11 +134,11 @@ $SUBTITLE = "Add Recipe";
                                                         foreach($data['units'] as $unit){
                                                             echo '<option ';
 
-                                                            if((new Session())->getOldInput('unit_id') == $unit['id']){
+                                                            if((new Session())->getOldInput('unit_id') == $unit->getId()){
                                                                 echo 'selected="selected" ';
                                                             }
 
-                                                            echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                                                            echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
                                                         }
                                                     ?>
                                                 </select>

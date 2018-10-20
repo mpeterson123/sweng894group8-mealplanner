@@ -66,7 +66,7 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
                             <h3 class="box-title m-b-0"><?php echo ((new Session())->getOldInput('name') != NULL)? (new Session())->getOldInput('name') : $data['food']->getName(); ?></h3>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
-                            <a href="/FoodItems/">&laquo; Return to foods</a>
+                            <a href="/FoodItems/index">&laquo; Return to foods</a>
                             </p>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
@@ -104,11 +104,11 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
                                                     foreach($data['units'] as $unit){
                                                         echo '<option ';
 
-                                                        if($data['food']->getUnit()->getId() == $unit['id']){
+                                                        if($data['food']->getUnit()->getId() == $unit->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
-                                                        echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                                                        echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
                                                     }
                                                 ?>
                                             </select>

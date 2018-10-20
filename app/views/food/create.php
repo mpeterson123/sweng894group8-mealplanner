@@ -54,7 +54,7 @@ $SUBTITLE = "Add Food Item";
 <?php } ?>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
-                            <a href="/FoodItems/">&laquo; Return to foods</a>
+                            <a href="/FoodItems/index">&laquo; Return to foods</a>
                             </p>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
@@ -91,11 +91,11 @@ $SUBTITLE = "Add Food Item";
                                                     foreach($data['units'] as $unit){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('unit_id') == $unit['id']){
+                                                        if((new Session())->getOldInput('unit_id') == $unit->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
-                                                        echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                                                        echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
                                                     }
                                                 ?>
                                             </select>
