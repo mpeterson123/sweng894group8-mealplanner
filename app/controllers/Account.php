@@ -59,11 +59,11 @@ class Account extends Controller{
 					$email->sendEmailAddrConfirm($user->getEmail());
 					$this->userRepo->save($user);
 
-					Session::flashMessage('success', 'Your account has been created. A confirmation link has been sent to you. Please confirm your email address to activate your account.');
+					(new Session())->flashMessage('success', 'Your account has been created. A confirmation link has been sent to you. Please confirm your email address to activate your account.');
 					Redirect::toControllerMethod('Account', 'showLogin');
 			}
 			else {
-				Session::flashMessage('danger', 'An error occured');
+				(new Session())->flashMessage('danger', 'An error occured');
 				$this->view('auth/register',$error);
 			}
 		}
@@ -72,7 +72,7 @@ class Account extends Controller{
 	}
 
 	public function logout(){
-		Session::remove('username');
+		(new Session())->remove('username');
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
@@ -85,7 +85,7 @@ class Account extends Controller{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt) != $code)){
-			Session::flashMessage('danger', 'Your password reset link is invalid. Please reset your password again.');
+			(new Session())->flashMessage('danger', 'Your password reset link is invalid. Please reset your password again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 
@@ -93,7 +93,7 @@ class Account extends Controller{
 		$this->userRepo->confirmEmail($email);
 
 		// Redirect to login
-		Session::flashMessage('success', 'Your email address has been confirmed. Please log in.');
+		(new Session())->flashMessage('success', 'Your email address has been confirmed. Please log in.');
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
@@ -118,7 +118,7 @@ class Account extends Controller{
 			$emailHandler->sendPasswordReset($email,$code);
 
 			// Redirect to login
-			Session::flashMessage('success', 'An email has been sent with instructions to reset your password..');
+			(new Session())->flashMessage('success', 'An email has been sent with instructions to reset your password..');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 	}
@@ -152,13 +152,13 @@ class Account extends Controller{
 	}
 
 	public function settings(){
-		$user = $this->userRepo->find(Session::get('username'));
+		$user = $this->userRepo->find((new Session())->get('username'));
 		$this->view('auth/settings', compact($user));
 	}
 
 
 	public function update(){
-		$user = $this->userRepo->find(Session::get('username'));
+		$user = $this->userRepo->find((new Session())->get('username'));
 
 		// Check for blank fields
 		$fields = array('firstName','lastName','email');
@@ -187,12 +187,12 @@ class Account extends Controller{
 			// send Email
 			$emailHandler = new Email();
 			$emailHandler->sendEmailUpdateConfirm($_POST['email'],$user->getEmail());
-			Session::flashMessage('success', 'A confirmation email has been sent to '.$_POST['email'].'. Please confirm to update.');
+			(new Session())->flashMessage('success', 'A confirmation email has been sent to '.$_POST['email'].'. Please confirm to update.');
 			Redirect::toControllerMethod('Account', 'settings');
 			return;
 		}
 
-		Session::flashMessage('success', 'Your account has been updated. Return to <a href="/Account/dashboard/">Dashboard</a>.');
+		(new Session())->flashMessage('success', 'Your account has been updated. Return to <a href="/Account/dashboard/">Dashboard</a>.');
 		Redirect::toControllerMethod('Account', 'settings');
 
 	}
@@ -202,7 +202,7 @@ class Account extends Controller{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt.$old_email) != $code)){
-			Session::flashMessage('danger', 'Your email confirmation link is invalid.');
+			(new Session())->flashMessage('danger', 'Your email confirmation link is invalid.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 
@@ -210,7 +210,7 @@ class Account extends Controller{
 		$this->userRepo->setValue('email',$email,'email',$old_email);
 
 		// Redirect to login
-		Session::flashMessage('success', 'Your email address has been updated.');
+		(new Session())->flashMessage('success', 'Your email address has been updated.');
 		Redirect::toControllerMethod('Account', 'dashboard');
 
 	}
@@ -218,17 +218,17 @@ class Account extends Controller{
 
 	public function delete(){
 
-		$this->userRepo->remove(Session::get('id'));
+		$this->userRepo->remove((new Session())->get('id'));
 		// Remove everything from session
-		Session::flush();
+		(new Session())->flush();
 
-		Session::flashMessage('success', 'Your account has been deleted.');
+		(new Session())->flashMessage('success', 'Your account has been deleted.');
 		Redirect::toControllerMethod('Account', 'showLogin');
 
 	}
 
 	public function dashboard(){
-		$user = $this->userRepo->find(Session::get('username'));
+		$user = $this->userRepo->find((new Session())->get('username'));
 
 		if(empty($user->getHouseholds())){
 			$this->view('/auth/newHousehold',['message' => $message]);
@@ -244,7 +244,7 @@ class Account extends Controller{
 
 	public function logInUser(){
 		// Active session
-		if(Session::get('username')){
+		if((new Session())->get('username')){
 			Redirect::toControllerMethod('Account', 'dashboard');
 		}
 
@@ -259,14 +259,14 @@ class Account extends Controller{
 				$message = 'Please confirm email before you can log in.';
 			}
 			else{
-				Session::add('username', $user->getUsername());
-				Session::add('id', $user->getId());
+				(new Session())->add('username', $user->getUsername());
+				(new Session())->add('id', $user->getId());
 
 				Redirect::toControllerMethod('Account', 'dashboard');
 				return;
 			}
 		}
-		Session::flashMessage('danger', $message);
+		(new Session())->flashMessage('danger', $message);
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 

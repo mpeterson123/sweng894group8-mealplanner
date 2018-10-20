@@ -52,7 +52,7 @@ $PLUGIN_SIDEBARMENU= FALSE;
                 <form class="" id="" action="/Account/update" method="POST">
                     <h3 class="box-title m-b-20">Account</h3>
 
-                    <?php Session::renderMessage(); ?>
+                    <?php (new Session())->renderMessage(); ?>
 
                     <div class="form-group">
                         <label for="readonlyUsername">Username</label>
@@ -62,21 +62,21 @@ $PLUGIN_SIDEBARMENU= FALSE;
                         <label for="inputFirstName">First Name</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                            <input type="text" required class="form-control" id="inputFirstName" placeholder="" name="firstName" value="<?php echo (Session::getOldInput('firstName') != NULL)? Session::getOldInput('firstName') : $data['user']->getFirstName(); ?>">
+                            <input type="text" required class="form-control" id="inputFirstName" placeholder="" name="firstName" value="<?php echo ((new Session())->getOldInput('firstName') != NULL)? (new Session())->getOldInput('firstName') : $data['user']->getFirstName(); ?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputLastName">Last Name</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                            <input type="text" required class="form-control" id="inputLastName" name="lastName" value="<?php echo (Session::getOldInput('lastName') != NULL)? Session::getOldInput('lastName') : $data['user']->getLastName(); ?>">
+                            <input type="text" required class="form-control" id="inputLastName" name="lastName" value="<?php echo ((new Session())->getOldInput('lastName') != NULL)? (new Session())->getOldInput('lastName') : $data['user']->getLastName(); ?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputEmail">Email</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                            <input type="email" required class="form-control" id="inputEmail" name="email" value="<?php echo (Session::getOldInput('email') != NULL)? Session::getOldInput('email') : $data['user']->getEmail(); ?>">
+                            <input type="email" required class="form-control" id="inputEmail" name="email" value="<?php echo ((new Session())->getOldInput('email') != NULL)? (new Session())->getOldInput('email') : $data['user']->getEmail(); ?>">
                         </div>
                     </div>
 

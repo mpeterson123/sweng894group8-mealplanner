@@ -45,8 +45,8 @@ class Home extends Controller{
 			}
 		}
 		// Active session
-		else if(!Session::get('username')){
-			$u = $this->userRepo->find(Session::get('username'));
+		else if(!(new Session())->get('username')){
+			$u = $this->userRepo->find((new Session())->get('username'));
 			$user->login($u);
 		}
 		if($user->isLoggedIn()){
@@ -61,7 +61,7 @@ class Home extends Controller{
 	}
 	public function logout(){
 		//$user->logout();
-		Session::remove('username');
+		(new Session())->remove('username');
 		$this->view('auth/logout');
 	}
 	function pass_hash($password){

@@ -35,13 +35,13 @@ class Household extends Controller{
     }
 
 	public function index(){
-		$user = $this->userRepo->find(Session::get('username'));
+		$user = $this->userRepo->find((new Session())->get('username'));
 		$message = '';
 
 		$this->view('/auth/newHousehold',['message' => $message]);
 	}
 	public function create(){
-		$user = $this->userRepo->find(Session::get('username'));
+		$user = $this->userRepo->find((new Session())->get('username'));
 
 		$householdName = $user->getLastName().' Household';
 		$householdFactory = new HouseholdFactory($this->dbh->getDB());

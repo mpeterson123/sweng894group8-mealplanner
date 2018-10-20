@@ -34,7 +34,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
         <div class="page-wrapper">
             <div class="row">
                 <div class="col-xs-12">
-                    <?php Session::renderMessage(); ?>
+                    <?php (new Session())->renderMessage(); ?>
                 </div>
             </div>
             <div class="row m-0">

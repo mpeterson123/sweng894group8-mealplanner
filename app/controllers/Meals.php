@@ -36,7 +36,7 @@ class Meals extends Controller {
 
     public function index():void{
         // echo "In ".__CLASS__."@".__FUNCTION__;
-        $meals = $this->mealRepository->allForUser(Session::get('id'));
+        $meals = $this->mealRepository->allForUser((new Session())->get('id'));
         $this->view('meal/index', compact('meals'));
     }
 
@@ -57,7 +57,7 @@ class Meals extends Controller {
     public function store():void{
 
         $input = $_POST;
-        Session::flashOldInput($input);
+        (new Session())->flashOldInput($input);
 
         // Validate input
         $this->validateInput($input, 'create');
@@ -69,8 +69,8 @@ class Meals extends Controller {
         $this->mealRepository->save($meal);
 
         // Flash success message and flush old input
-        Session::flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was added to your list.');
-        Session::flushOldInput();
+        (new Session())->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was added to your list.');
+        (new Session())->flushOldInput();
 
         // Redirect back after updating
         Redirect::toControllerMethod('Meal', 'index');
@@ -89,7 +89,7 @@ class Meals extends Controller {
         $this->checkMealBelongsToUser($id);
         $this->mealRepository->remove($id);
 
-        Session::flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
+        (new Session())->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
 
         // Redirect to list after deleting
         Redirect::toControllerMethod('Meal', 'index');
@@ -105,7 +105,7 @@ class Meals extends Controller {
         $this->mealRepository->save($meal);
 
         // Flash success message
-        Session::flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
+        (new Session())->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
 
         // Redirect back after updating
         Redirect::toControllerMethod('Meal', 'edit', array('Meal' => $meal->getId()));
@@ -114,14 +114,14 @@ class Meals extends Controller {
 
     public function checkMealBelongsToUser($id):void{
         // If meal doesn't belong to user, show forbidden error
-        if(!$this->mealRepository->mealBelongsToUser($id, Session::get('id'))){
-            Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
+        if(!$this->mealRepository->mealBelongsToUser($id, (new Session())->get('id'))){
+            Redirect::toControllerMethod('Errors', 'show', array('errorCode' => '403'));
             return;
         }
     }
 
     private function validateInput($input, $method, $params = NULL):void{
-        Session::flashOldInput($input);
+        (new Session())->flashOldInput($input);
 
         // Validate input
         $validator = new Validator($input);
@@ -152,7 +152,7 @@ class Meals extends Controller {
 
             $errorMessage = Format::validatorErrors($validator->errors());
             // Flash danger message
-            Session::flashMessage('danger', $errorMessage);
+            (new Session())->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
             Redirect::toControllerMethod('Meal', $method, $params);

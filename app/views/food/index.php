@@ -42,7 +42,7 @@ $PLUGIN_EXPORT      = TRUE;
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
 
-                <?php Session::renderMessage(); ?>
+                <?php (new Session())->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-sm-4">

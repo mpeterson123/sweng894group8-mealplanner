@@ -82,7 +82,7 @@ class HouseholdRepository extends Repository {
         $query = $this->db->prepare('INSERT INTO usersHouseholds
                 (userId,householdId)
                 VALUES(?,?)');
-        @$query->bind_param("ss",Session::get('id'),$this->db->insert_id);
+        @$query->bind_param("ss",(new Session())->get('id'),$this->db->insert_id);
         $query->execute();
     }
 

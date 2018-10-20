@@ -50,7 +50,7 @@ class FoodItems extends Controller {
      */
     public function index():void{
         // echo "In ".__CLASS__."@".__FUNCTION__;
-        $foods = $this->foodItemRepository->allForUser(Session::get('id'));
+        $foods = $this->foodItemRepository->allForUser((new Session())->get('id'));
         $this->view('food/index', compact('foods'));
     }
 
@@ -95,7 +95,7 @@ class FoodItems extends Controller {
 
         $input = $_POST;
 
-        Session::flashOldInput($input);
+        (new Session())->flashOldInput($input);
 
         // Validate input
         $this->validateInput($input, 'create');
@@ -107,8 +107,8 @@ class FoodItems extends Controller {
         $this->foodItemRepository->save($foodItem);
 
         // Flash success message and flush old input
-        Session::flashMessage('success', ucfirst($foodItem->getName()).' was added to your list.');
-        Session::flushOldInput();
+        (new Session())->flashMessage('success', ucfirst($foodItem->getName()).' was added to your list.');
+        (new Session())->flushOldInput();
 
         // Redirect back after updating
         Redirect::toControllerMethod('FoodItems', 'index');
@@ -132,7 +132,7 @@ class FoodItems extends Controller {
 
         $this->foodItemRepository->remove($id);
 
-        Session::flashMessage('success', $foodItem->getName().' was removed from your items.');
+        (new Session())->flashMessage('success', $foodItem->getName().' was removed from your items.');
 
         // Redirect to list after deleting
         Redirect::toControllerMethod('FoodItems', 'index');
@@ -152,7 +152,7 @@ class FoodItems extends Controller {
         $this->foodItemRepository->save($foodItem);
 
         // Flash success message
-        Session::flashMessage('success', ucfirst($food->getName()).' was updated.');
+        (new Session())->flashMessage('success', ucfirst($food->getName()).' was updated.');
 
         // Redirect back after updating
         Redirect::toControllerMethod('FoodItems', 'edit', array('foodId' => $food->getId()));
@@ -165,7 +165,7 @@ class FoodItems extends Controller {
      */
     public function checkFoodBelongsToUser($id):void{
         // If food doesn't belong to user, show forbidden error
-        if(!$this->foodItemRepository->foodBelongsToUser($id, Session::get('id'))){
+        if(!$this->foodItemRepository->foodBelongsToUser($id, (new Session())->get('id'))){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }
@@ -178,7 +178,7 @@ class FoodItems extends Controller {
      * @param array $params Parameters for the redirection method
      */
     private function validateInput($input, $method, $params = NULL):void{
-        Session::flashOldInput($input);
+        (new Session())->flashOldInput($input);
 
         // Validate input
         $validator = new Validator($input);
@@ -214,7 +214,7 @@ class FoodItems extends Controller {
 
             $errorMessage = Format::validatorErrors($validator->errors());
             // Flash danger message
-            Session::flashMessage('danger', $errorMessage);
+            (new Session())->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
             Redirect::toControllerMethod('FoodItems', $method, $params);

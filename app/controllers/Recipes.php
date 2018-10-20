@@ -47,7 +47,7 @@ class Recipes extends Controller {
 
     public function index(){
         // echo "In ".__CLASS__."@".__FUNCTION__;
-        $recipes = $this->recipeRepository->allForUser(Session::get('id'));
+        $recipes = $this->recipeRepository->allForUser((new Session())->get('id'));
         //$recipes = $this->recipeRepository->all();
         $this->view('recipe/index', compact('recipes'));
     }
@@ -74,7 +74,7 @@ class Recipes extends Controller {
         $unitRepository = new UnitRepository($db);
 
         // Get user's fooditems and list of units
-        $fooditems = $foodItemRepository->allForUser($_SESSION['id']);
+        $fooditems = $foodItemRepository->allForUser((new Session())->get('id'));
         $units = $unitRepository->all();
 
         $this->view('recipe/create', compact('fooditems', 'units'));
@@ -95,7 +95,7 @@ class Recipes extends Controller {
         //Save the recipe in the database:
         if ($this->recipeRepository->save($recipe)) {
           // Flash success message
-          Session::flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
+          (new Session())->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
 
           echo "\nRecipe ID = " . $recipe->getId();
 
@@ -116,15 +116,15 @@ class Recipes extends Controller {
               $recipe->addIngredient($ingredient);
 
               // Flash success message
-              Session::flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+              (new Session())->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
             }
             else {
-              Session::flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
+              (new Session())->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
             }
           //}
         }
         else {
-          Session::flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
+          (new Session())->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
         }
 
 
@@ -147,14 +147,14 @@ class Recipes extends Controller {
             }
 
             // If recipe doesn't belong to user, do not delete, and show error page
-            if(!$this->recipeRepository->recipeBelongsToUser($id, Session::get('id'))){
+            if(!$this->recipeRepository->recipeBelongsToUser($id, (new Session())->get('id'))){
                 Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
                 return;
             }
 
             $this->recipeRepository->remove($id);
 
-            Session::flashMessage('success', $recipe['name'].' was removed from your recipes.');
+            (new Session())->flashMessage('success', $recipe['name'].' was removed from your recipes.');
 
             // Redirect to list after deleting
             Redirect::toControllerMethod('Recipes', 'index');
@@ -189,7 +189,7 @@ class Recipes extends Controller {
         $this->recipeRepository->save($recipe);
 
         // Flash success message
-        Session::flashMessage('success', ucfirst($recipe->getName()).' was updated.');
+        (new Session())->flashMessage('success', ucfirst($recipe->getName()).' was updated.');
 
         // Redirect back after updating
         //Redirect::toControllerMethod('Recipes', 'edit', array('recipeId' => $food->getId()));
@@ -199,7 +199,7 @@ class Recipes extends Controller {
 
     public function checkRecipeBelongsToUser($id){
         // If recipe doesn't belong to user, show forbidden error
-        if(!$this->recipeRepository->recipeBelongsToUser($id, Session::get('id'))){
+        if(!$this->recipeRepository->recipeBelongsToUser($id, (new Session())->get('id'))){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }

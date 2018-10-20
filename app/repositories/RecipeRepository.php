@@ -99,7 +99,7 @@ class RecipeRepository extends Repository {
             $recipe->getServings(),
             $recipe->getSource(),
             $recipe->getNotes(),
-            Session::get('id')
+            (new Session())->get('id')
         );
 
         //$query->insert_id should return the id of the newly inserted row.

@@ -113,7 +113,7 @@ class FoodItemRepository extends Repository {
             $food->getUnitsInContainer(),
             $food->getContainerCost(),
             $food->getUnitCost(),
-            Session::get('id')
+            (new Session())->get('id')
         );
         return $query->execute();
     }

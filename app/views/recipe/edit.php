@@ -58,7 +58,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']['name']}";
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
-                <?php Session::renderMessage(); ?>
+                <?php (new Session())->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-md-4 col-sm-12">

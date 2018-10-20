@@ -39,7 +39,7 @@ $SUBTITLE = "Create Meal";
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
-                <?php Session::renderMessage(); ?>
+                <?php (new Session())->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
@@ -64,7 +64,7 @@ $SUBTITLE = "Create Meal";
                                             <label for="inputDate">Date</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputDate" placeholder="Date of Meal" name="name" value="<?php echo Session::getOldInput('date') ?>"> </div>
+                                                <input type="text" class="form-control" id="inputDate" placeholder="Date of Meal" name="name" value="<?php echo (new Session())->getOldInput('date') ?>"> </div>
                                         </div>
 
                                       <!--RECIPE-->
@@ -77,7 +77,7 @@ $SUBTITLE = "Create Meal";
                                                     foreach($data['recipes'] as $recipe){
                                                         echo '<option ';
 
-                                                        if(Session::getOldInput('recipeid') == $recipe['id']){
+                                                        if((new Session())->getOldInput('recipeid') == $recipe['id']){
                                                             echo 'selected="selected" ';
                                                         }
 
@@ -91,7 +91,7 @@ $SUBTITLE = "Create Meal";
                                                 <label for="inputScale">Scale</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                    <input type="number" step="0.01" min="1" class="form-control" id="inputScale" placeholder="" name="scale" value="<?php echo Session::getOldInput('scale'); ?>">
+                                                    <input type="number" step="0.01" min="1" class="form-control" id="inputScale" placeholder="" name="scale" value="<?php echo (new Session())->getOldInput('scale'); ?>">
                                                 </div>
                                                 <p class="help-block"></p>
                                             <!--</div>-->

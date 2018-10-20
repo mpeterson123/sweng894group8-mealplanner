@@ -32,7 +32,7 @@ $PLUGIN_SIDEBARMENU= FALSE;
             <div class="white-box">
                 <form class="form-horizontal form-material" id="registerform" action="/Account/register/" method="POST">
                     <h3 class="box-title m-b-20">Register</h3>
-                    <?php Session::renderMessage(); ?>
+                    <?php (new Session())->renderMessage(); ?>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" name="reg_username" required="" placeholder="Username">
