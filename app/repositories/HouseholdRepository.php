@@ -67,33 +67,23 @@ class HouseholdRepository extends Repository {
 
     public function insert($household){
         // Insert into household
-        $query = $this->db->prepare('INSERT INTO household
+        $newHouseholdQuery = $this->db->prepare('INSERT INTO household
                 (name)
                 VALUES(?)');
-        @$query->bind_param("s",$household->getName());
-        $query->execute();
+        @$newHouseholdQuery->bind_param("s",$household->getName());
+        $newHouseholdQuery->execute();
 
-        // // Get householdId
-        // $query = $this->db->prepare('SELECT * FROM household WHERE name = ? order by id DESC');
-        // $query->bind_param("s",$household->getName());
-        // $query->execute();
-        // $result = $query->get_result();
-        // $row = $result->fetch_assoc();
-        // $hhId = $row['id'];
-
-        // Insert into usersHouseholds
-        $query = $this->db->prepare('INSERT INTO usersHouseholds
-                (userId,householdId)
-                VALUES(?,?)');
-        @$query->bind_param(
-            "ss",
-            (new Session())->get('user')->getId(),
-            $this->db->insert_id
-        );
-        $query->execute();
+        // Assign to user
+        $user = (new Session())->get('user');
+        $this->connect($user->getId(), $this->db->insert_id);
     }
 
-    public function connect($userId,$hhId){
+    /**
+     * Connect a user to a household
+     * @param  integer $userId Id of user to connect
+     * @param  integer $hhId   Id of household to connect
+     */
+    public function connect($userId,$hhId):void{
       $query = $this->db->prepare('INSERT INTO usersHouseholds
               (userId,householdId)
               VALUES(?,?)');
