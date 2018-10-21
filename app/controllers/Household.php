@@ -50,13 +50,15 @@ class Household extends Controller{
 
 		$householdName = $user->getLastName().' Household';
 		$household = $this->householdFactory->make(array('name' => $householdName));
-		$household = $this->hhRepo->save($household);
-		// // create household
-		// $object = array();
-		// $object['name'] = $user->getLastName().' Household';
-		// $object['userId'] = $user->getId();
-		// $h = $this->hhRepo->insert($object);
-		$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+		$this->hhRepo->save($household);
+
+		// Update user in the session
+		$updatedUser = $this->userRepo->find($user->getUsername());
+		(new Session())->add('user', $updatedUser);
+
+		(new Session())->flashMessage('success', $household->getName().' was created. Check the Household Settings page to see the invite code for other users.');
+		Redirect::toControllerMethod('Account', 'dashboard');
+
 	}
 	public function list(){
 		$user = (new Session())->get('user');
