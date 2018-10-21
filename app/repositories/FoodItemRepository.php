@@ -60,12 +60,12 @@ class FoodItemRepository extends Repository {
 
     /**
      * Get all food items added by a user
-     * @param  [type] $userId [description]
+     * @param  User $user [description]
      * @return array Associative array of food items
      */
-    public function allForUser($userId){
+    public function allForUser($user){
         $query = $this->db->prepare('SELECT * FROM foods WHERE user_id = ? ORDER by name');
-        $query->bind_param("s", $userId);
+        @$query->bind_param("s", $user->getId());
         $query->execute();
 
         $result = $query->get_result();
@@ -93,8 +93,8 @@ class FoodItemRepository extends Repository {
 
     /**
      * Insert item into the database
-     * @param  Base\Models\Food $food   Item to be stored
-     * @return bool                     Whether query was successful
+     * @param  Base\Models\FoodItem $food   Item to be stored
+     * @return bool                         Whether query was successful
      */
     protected function insert($food){
         $query = $this->db
@@ -113,7 +113,7 @@ class FoodItemRepository extends Repository {
             $food->getUnitsInContainer(),
             $food->getContainerCost(),
             $food->getUnitCost(),
-            (new Session())->get('id')
+            (new Session())->get('user')->getId()
         );
         return $query->execute();
     }
@@ -156,13 +156,13 @@ class FoodItemRepository extends Repository {
     /**
      * Check if food items belongs to a user_id
      * @param  integer $foodId  Food item's id
-     * @param  integer $userId  Current user's id
+     * @param  User $user       Current user
      * @return bool             Whether food belongs to user
      */
-    public function foodBelongsToUser($foodId, $userId)
+    public function foodBelongsToUser($foodId, $user)
     {
         $query = $this->db->prepare('SELECT * FROM foods WHERE id = ? AND user_id = ?');
-        $query->bind_param("si", $foodId, $userId);
+        $query->bind_param("ii", $foodId, $user->getId());
         $query->execute();
 
         $result = $query->get_result();

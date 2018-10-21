@@ -35,8 +35,9 @@ class Meals extends Controller {
     }
 
     public function index():void{
-        // echo "In ".__CLASS__."@".__FUNCTION__;
-        $meals = $this->mealRepository->allForUser((new Session())->get('id'));
+        $user = (new Session())->get('user');
+
+        $meals = $this->mealRepository->allForUser($user);
         $this->view('meal/index', compact('meals'));
     }
 
@@ -113,8 +114,10 @@ class Meals extends Controller {
     }
 
     public function checkMealBelongsToUser($id):void{
+        $user = (new Session())->get('user');
+        
         // If meal doesn't belong to user, show forbidden error
-        if(!$this->mealRepository->mealBelongsToUser($id, (new Session())->get('id'))){
+        if(!$this->mealRepository->mealBelongsToUser($id, $user)){
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => '403'));
             return;
         }

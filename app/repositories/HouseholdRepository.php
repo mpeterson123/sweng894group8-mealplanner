@@ -27,9 +27,9 @@ class HouseholdRepository extends Repository {
         return $household;
     }
 
-    public function allForUser($userId){
+    public function allForUser($user){
         $query = $this->db->prepare('SELECT household.* FROM household JOIN usersHouseholds ON usersHouseholds.householdId = household.id WHERE usersHouseholds.userId = ?');
-        $query->bind_param("i",$userId);
+        $query->bind_param("i",$user->getId());
         $query->execute();
         $result = $query->get_result();
 
@@ -82,7 +82,11 @@ class HouseholdRepository extends Repository {
         $query = $this->db->prepare('INSERT INTO usersHouseholds
                 (userId,householdId)
                 VALUES(?,?)');
-        @$query->bind_param("ss",(new Session())->get('id'),$this->db->insert_id);
+        @$query->bind_param(
+            "ss",
+            (new Session())->get('user')->getId(),
+            $this->db->insert_id
+        );
         $query->execute();
     }
 
@@ -90,7 +94,10 @@ class HouseholdRepository extends Repository {
       $query = $this->db->prepare('INSERT INTO usersHouseholds
               (userId,householdId)
               VALUES(?,?)');
-      $query->bind_param("ss",$userId,$hhId);
+      $query->bind_param(
+          "ii",
+          $userId,
+          $hhId);
       $query->execute();
     }
 

@@ -11,6 +11,10 @@ class RecipeFactory {
 
     private $db;
 
+    public function __construct($db){
+        $this->db = $db;
+    }
+
     public function make($recipeArray)
     {
         $recipe = new Recipe($recipeArray['name'], $recipeArray['description'], $recipeArray['servings'], $recipeArray['source'], $recipeArray['notes']);
@@ -24,8 +28,6 @@ class RecipeFactory {
         return $recipe;
     }
 
-    public function __construct($db){
-        $this->db = $db;
-    }
+
 
 }

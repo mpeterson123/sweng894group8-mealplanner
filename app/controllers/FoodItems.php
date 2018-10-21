@@ -49,8 +49,8 @@ class FoodItems extends Controller {
      * Lists all food items belonging to a user
      */
     public function index():void{
-        // echo "In ".__CLASS__."@".__FUNCTION__;
-        $foods = $this->foodItemRepository->allForUser((new Session())->get('id'));
+        $user = (new Session())->get('user');
+        $foods = $this->foodItemRepository->allForUser($user);
         $this->view('food/index', compact('foods'));
     }
 
@@ -164,8 +164,10 @@ class FoodItems extends Controller {
      * @param string $id Food item's id
      */
     public function checkFoodBelongsToUser($id):void{
+        $user = (new Session())->get('user');
+
         // If food doesn't belong to user, show forbidden error
-        if(!$this->foodItemRepository->foodBelongsToUser($id, (new Session())->get('id'))){
+        if(!$this->foodItemRepository->foodBelongsToUser($id, $user)){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }

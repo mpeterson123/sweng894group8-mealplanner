@@ -72,7 +72,9 @@ class Account extends Controller{
 	}
 
 	public function logout(){
+		(new Session())->remove('user');
 		(new Session())->remove('username');
+		(new Session())->remove('id');
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
@@ -152,13 +154,13 @@ class Account extends Controller{
 	}
 
 	public function settings(){
-		$user = $this->userRepo->find((new Session())->get('username'));
+		// $user = (new Session())->get('user');
 		$this->view('auth/settings', compact($user));
 	}
 
 
 	public function update(){
-		$user = $this->userRepo->find((new Session())->get('username'));
+		$user = (new Session())->get('user');
 
 		// Check for blank fields
 		$fields = array('firstName','lastName','email');
@@ -181,6 +183,9 @@ class Account extends Controller{
 		}
 
 		$this->userRepo->save($user);
+
+		// Update user in the session
+		(new Session())->add('user', $user);
 
 		// Handle email updated
 		if($_POST['email'] != $user->getEmail()){
@@ -217,8 +222,9 @@ class Account extends Controller{
 
 
 	public function delete(){
+		$user = (new Session())->get('user');
 
-		$this->userRepo->remove((new Session())->get('id'));
+		$this->userRepo->remove($user);
 		// Remove everything from session
 		(new Session())->flush();
 
@@ -228,7 +234,7 @@ class Account extends Controller{
 	}
 
 	public function dashboard(){
-		$user = $this->userRepo->find((new Session())->get('username'));
+		$user = (new Session())->get('user');
 
 		if(empty($user->getHouseholds())){
 			$this->view('/auth/newHousehold',['message' => $message]);
@@ -243,9 +249,12 @@ class Account extends Controller{
 	}
 
 	public function logInUser(){
+		$user = (new Session())->get('user');
+
 		// Active session
-		if((new Session())->get('username')){
+		if($user){
 			Redirect::toControllerMethod('Account', 'dashboard');
+			return;
 		}
 
 		// Submitted login form
@@ -261,6 +270,7 @@ class Account extends Controller{
 			else{
 				(new Session())->add('username', $user->getUsername());
 				(new Session())->add('id', $user->getId());
+				(new Session())->add('user', $user);
 
 				Redirect::toControllerMethod('Account', 'dashboard');
 				return;

@@ -37,13 +37,13 @@ class Household extends Controller{
     }
 
 	public function index(){
-		$user = $this->userRepo->find((new Session())->get('username'));
+		$user = (new Session())->get('user');
 		$message = '';
 
 		$this->view('/auth/newHousehold',['message' => $message]);
 	}
 	public function create(){
-		$user = $this->userRepo->find((new Session())->get('username'));
+		$user = (new Session())->get('user');
 
 		$householdName = $user->getLastName().' Household';
 		$householdFactory = new HouseholdFactory($this->dbh->getDB());
@@ -57,9 +57,10 @@ class Household extends Controller{
 		$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
 	}
 	public function list(){
-		$user = $this->userRepo->find(Session::get('username'));
+		$user = (new Session())->get('user');
+
 		//$householdFactory = new HouseholdFactory($this->dbh->getDB());
-		$households = 	$this->hhRepo->allForUser($user->getId());
+		$households = 	$this->hhRepo->allForUser($user);
 		$hhs = array();
 		foreach($households as $hh){
 			$hhs[] = array('id'=>$hh->getId(),'name'=>$hh->getName(),'code'=>$hh->genInviteCode());
@@ -68,7 +69,7 @@ class Household extends Controller{
 		$this->view('/auth/householdList',['message' => '','households'=>$hhs]);
 	}
 	public function join(){
-		$user = $this->userRepo->find(Session::get('username'));
+		$user = (new Session())->get('user');
 
 		$inviteCode = trim($_POST['invite_code']);
 		$household = new HH();

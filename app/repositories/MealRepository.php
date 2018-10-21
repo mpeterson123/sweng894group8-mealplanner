@@ -40,9 +40,9 @@ class MealRepository extends Repository {
         return $this->db->query('SELECT * FROM meal ORDER by date')->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function allForUser($userId){
+    public function allForUser($user){
         $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipe, meal.scaleFactor, meal.isComplete FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE user_id = ? ORDER by name');
-        $query->bind_param("s", $userId);
+        $query->bind_param("i", $user->getId());
         $query->execute();
 
         $result = $query->get_result();
@@ -106,10 +106,13 @@ class MealRepository extends Repository {
         $query->execute();
     }
 
-    public function mealBelongsToUser($mealId, $userId)
+    public function mealBelongsToUser($mealId, $user)
     {
         $query = $this->db->prepare('SELECT * FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE recipes.user_id = ? AND meal.id = ?');
-        $query->bind_param($userId, $mealId);
+        $query->bind_param(
+            $user->getId(),
+            $mealId
+        );
         $query->execute();
 
         $result = $query->get_result();
