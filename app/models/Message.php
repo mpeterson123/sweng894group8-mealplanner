@@ -134,7 +134,7 @@ class Message
 
         if (strlen($message) > MAX_MESSAGE_SIZE)
         {
-            throw new Exception("Food Item message cannot be longer than 20 characters");
+            throw new Exception("Message cannot exceed maximum size.");
         }
 
         $this->message = $message;
