@@ -17,7 +17,7 @@ class IngredientRepository extends Repository {
     /**
      * Find a single ingredient by id
      * @param  integer $id the ingredient's id
-     * @return array       associative array of ingredient's details
+     * @return object       ingredient object
      */
     public function find($id){
 
@@ -56,7 +56,30 @@ class IngredientRepository extends Repository {
     public function all(){
         //return $this->db->query('SELECT * FROM recipes ORDER by name')->fetch_all(MYSQLI_ASSOC);
     }
+
     /**
+     * Get all ingredients for a particular recipe
+     * @return array Array of ingredient objects
+     */
+    public function allForRecipe($recipeId){
+        $query = $this->db->prepare('SELECT * FROM ingredients WHERE recipeid = ? ORDER by foodid');
+        $query->bind_param("s", $recipeId);
+        $query->execute();
+        $result = $query->get_result();
+        $ingredientRows = $result->fetch_all(MYSQLI_ASSOC);
+
+        $collection = array();
+
+        $ingredientFactory = new IngredientFactory($this->db);
+
+        foreach($ingredientRows as $ingredientRow){
+            $collection[] = $ingredientFactory->make($ingredientRow);
+        }
+
+        return $collection;
+      }
+
+        /**
      * Delete an ingredient from the database
      * @param  integer $id  ingredient's id
      * @return bool         Whether query was successful

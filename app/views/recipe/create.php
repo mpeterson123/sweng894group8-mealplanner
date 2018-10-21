@@ -42,7 +42,7 @@ $SUBTITLE = "Add Recipe";
                 <?php Session::renderMessage(); ?>
 
                 <div class="row">
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-sm-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0"><?php echo $SUBTITLE; ?></h3>
 <?php if (isset($Errors)) { ?>
@@ -54,23 +54,26 @@ $SUBTITLE = "Add Recipe";
 <?php } ?>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
-                            <a href="/Recipes/">&laquo; Return to recipes</a>
+                            <a href="/Recipes/index">&laquo; Return to recipes</a>
                             </p>
                             <div class="row">
-                                <div class="col-sm-12 col-xs-12">
+                                <div class="col-sm-12">
                                     <form method="post" action="/Recipes/store">
                                         <div class="form-group">
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Recipe" name="name" value="<?php echo Session::getOldInput('name') ?>"> </div>
+                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Recipe" name="name" value="<?php echo Session::getOldInput('name') ?>">
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputDescription">Description</label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i clas="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputDescription" placeholder="Description" name="description" value-"<?php echo Session::getOldInput('description') ?>"></div>
+                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
+                                                <input type="text" class="form-control" id="inputDescription" placeholder="Description" name="description" value-"<?php echo Session::getOldInput('description') ?>">
+                                            </div>
+                                      </div>
 
                                         <div class="form-group">
                                             <label for="inputServings">Servings</label>
@@ -99,37 +102,21 @@ $SUBTITLE = "Add Recipe";
                                             <p class="help-block"></p>
                                         </div>
 
-                                        <div class="form-group">
-                                          <h3 class="box-title m-b-0">Ingredients</h3>
-                                            <label for="inputFoodItem">FoodItem</label>
-                                            <select class="form-control" id="inputFoodItem" name="foodid">
-                                                <option value="0">Select one</option>
-                                                <?php
-                                                    foreach($data['fooditems'] as $fooditem){
-                                                        echo '<option ';
 
-                                                        if(Session::getOldInput('foodid') == $fooditem['id']){
-                                                            echo 'selected="selected" ';
-                                                        }
 
-                                                        echo 'value="'.$fooditem['id'].'">'.$fooditem['name'].'</option>';
-                                                    }
-                                                ?>
-                                            </select>
+                                    <hr>
+                                        <label for="ingredientsWrapper">Ingredients</label>
+                                        <div id="ingredientsWrapper">
 
-                                            <!--<div class="form-group">-->
-                                                <label for="inputQuantity">Quantity</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                    <input type="number" step="0.01" min="1" class="form-control" id="inputQuantity" placeholder="" name="quantity" value="<?php echo Session::getOldInput('quantity'); ?>">
-                                                </div>
-                                                <p class="help-block"></p>
-                                            <!--</div>-->
+                                        <div class="form-group ingredientFormGroup">
 
-                                            <!--<div class="form-group">-->
-                                                <label for="inputUnit">Unit</label>
-                                                <select class="form-control" id="inputUnit" name="unit_id">
-                                                    <option value="0">Select one</option>
+                                          <div class="col-sm-3">
+                                                    <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo Session::getOldInput('quantity'); ?>">
+                                          </div>
+
+                                          <div class="col-sm-4">
+                                                <select class="form-control" name="unit_id[]">
+                                                    <option value="0">Select a unit</option>
                                                     <?php
                                                         foreach($data['units'] as $unit){
                                                             echo '<option ';
@@ -142,15 +129,48 @@ $SUBTITLE = "Add Recipe";
                                                         }
                                                     ?>
                                                 </select>
-                                            <!--</div>-->
-                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save</button>
+                                          </div>
+
+                                          <div class="col-sm-4">
+                                            <select class="form-control" name="foodid[]">
+                                                <option value="0">Select a food item</option>
+                                                <?php
+                                                    foreach($data['fooditems'] as $fooditem){
+                                                        echo '<option ';
+
+                                                        if(Session::getOldInput('foodid') == $fooditem->getId()){
+                                                            echo 'selected="selected" ';
+                                                        }
+
+                                                        echo 'value="'.$fooditem->getId().'">'.$fooditem->getName().'</option>';
+                                                    }
+                                                ?>
+                                            </select>
+                                          </div> <!-- div class col-xs-5 -->
+
+                                          <div class="col-sm-1">
+                                            <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
+                                            </button>
+                                          </div>
+
+                                        </div> <!-- end ingredientFormGroup -->
+                                      </div> <!-- end ingredientsWrapper -->
+
+                                      <br><br><br>
+                                      <button id="addIngredientBtn" class="btn btn-success pull-right">Add Ingredient</button>
+
+                                      <br><br>
+                                      <hr>
+                                      <br><br>
+                                      <button type="submit" class="btn btn-success waves-effect waves-light m-r-10 pull-center">Save Recipe</button>
                                     </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
+                                      <br><br>
+
+                                </div> <!-- end class col-sm-12 -->
+                            </div> <!-- end row -->
+                        </div> <!-- end class white-box -->
+                    </div> <!-- end class col-sm-9-->
+                </div> <!-- end row -->
 
 <?php require_once( __SPANEL__ ); ?>
 
@@ -168,6 +188,95 @@ $SUBTITLE = "Add Recipe";
     <!-- ===== Main-Wrapper-End ===== -->
 
 <?php require_once( __FOOTER__ ); ?>
+
+<script>
+  $(document).ready(function() {
+      let ingredientHTML =
+      `<div class="form-group ingredientFormGroup">
+
+        <div class="col-sm-3">
+                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo Session::getOldInput('quantity'); ?>">
+        </div>
+
+        <div class="col-sm-4">
+              <select class="form-control" name="unit_id[]">
+                  <option value="0">Select a unit</option>
+                  <?php
+                      foreach($data['units'] as $unit){
+                          echo '<option ';
+
+                          if(Session::getOldInput('unit_id') == $unit['id']){
+                              echo 'selected="selected" ';
+                          }
+
+                          echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                      }
+                  ?>
+              </select>
+        </div>
+
+        <div class="col-sm-4">
+          <select class="form-control" name="foodid[]">
+              <option value="0">Select a food item</option>
+              <?php
+                  foreach($data['fooditems'] as $fooditem){
+                      echo '<option ';
+
+                      if(Session::getOldInput('foodid') == $fooditem->getId()){
+                          echo 'selected="selected" ';
+                      }
+
+                      echo 'value="'.$fooditem->getId().'">'.$fooditem->getName().'</option>';
+                  }
+              ?>
+          </select>
+        </div>
+
+        <div class="col-sm-1">
+          <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
+          </button>
+        </div>
+
+    </div>`; //end ingredientFormGroup -->
+      /*
+                `<div class="form-group ingredientFormGroup">
+                    <div class="col-xs-3">
+                       <input class="form-control" type="number" step="0.01" min="0.01">
+                    </div>
+                    <div class="col-xs-3">
+                       <select class="form-control" name="ingredientUnits[]" id="">
+                          <option value="1">Unit 1</option>
+                          <option value="2">Unit 2</option>
+                          <option value="1">Unit 3</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-5">
+                       <select class="form-control" name="ingredientNames[]" id="">
+                          <option value="1">Food item 1</option>
+                          <option value="2">Food item 2</option>
+                          <option value="1">Food item 3</option>
+                       </select>
+                    </div>
+                     <div class="col-xs-1">
+                         <buttton class="btn-sm btn-danger btn removeIngredientBtn">
+                             <span class="glyphicon glyphicon-remove"></span>
+                         </buttton>
+
+                     </div>
+                 </div>`;
+                 */
+      $("#addIngredientBtn").on("click", function(e) {
+          e.preventDefault();
+          $('#ingredientsWrapper').append(ingredientHTML);
+      });
+
+      $(document).on("click", ".removeIngredientBtn", function(e) {
+          e.preventDefault();
+          $(this).closest(".ingredientFormGroup").remove();
+      });
+  });
+
+</script>
 
 </body>
 </html>

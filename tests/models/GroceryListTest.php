@@ -33,7 +33,7 @@ class GroceryListTest extends TestCase {
     }
 
     public function getEntireList() {
-		    return this->groceryitemarray;
+		    return $this->groceryitemarray;
     }
 
     // Fill the grocery list with an array

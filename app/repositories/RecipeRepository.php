@@ -4,6 +4,7 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 use Base\Repositories\Repository;
 use Base\Helpers\Session;
+use Base\Factories\RecipeFactory;
 
 
 class RecipeRepository extends Repository {
@@ -16,7 +17,7 @@ class RecipeRepository extends Repository {
     /**
      * Find a single recipe by id
      * @param  integer $id items's id
-     * @return array       associative array of recipe's details
+     * @return object  A recipe object
      */
     public function find($id){
 
@@ -24,7 +25,10 @@ class RecipeRepository extends Repository {
         $query->bind_param("s", $id);
         $query->execute();
         $result = $query->get_result();
-        return $result->fetch_assoc();
+        $recipeRow = $result->fetch_assoc();
+
+        $recipe = (new RecipeFactory($this->db))->make($recipeRow);
+        return $recipe;
     }
 
     /**
@@ -34,7 +38,7 @@ class RecipeRepository extends Repository {
      */
     public function save($recipe){
 
-        if($recipe->getId() && $this->find($recipe>getId()))
+        if( $recipe->getId() && $this->find($recipe->getId()))
         {
             $success = $this->update($recipe);
         }
@@ -110,7 +114,6 @@ class RecipeRepository extends Repository {
         }
 
         return $bool;
-        //return $query->execute();
     }
 
     /**
@@ -125,19 +128,17 @@ class RecipeRepository extends Repository {
                     name = ?,
                     description = ?,
                     servings = ?,
-                    ingredients = ?,
                     source = ?,
-                    notes = ?,
+                    notes = ?
                 WHERE id = ?
             ');
 
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
-        @$query->bind_param("ssisssi",
+        @$query->bind_param("ssissi",
             $recipe->getName(),
             $recipe->getDescription(),
             $recipe->getServings(),
-            $recipe->getIngredients(),
             $recipe->getSource(),
             $recipe->getNotes(),
             $recipe->getId()
