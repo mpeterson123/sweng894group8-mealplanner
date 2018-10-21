@@ -11,10 +11,10 @@ class Ingredient {
     $unit;
 
     public function __construct($fi, $qty, $ri, $u) {
-      $this->food = $fi;
-      $this->quantity = $qty;
-      $this->recipeId = $ri;
-      $this->unit = $u;
+      $this->setFood($fi);
+      $this->setQuantity($qty);
+      $this->setRecipeId($ri);
+      $this->setUnit($u);
     }
 
     public function setFood($fi) {
@@ -57,5 +57,4 @@ class Ingredient {
       return $this->unit;
     }
 }
-
 ?>
