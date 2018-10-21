@@ -43,6 +43,9 @@ class FoodItems extends Controller {
          */
         $this->dbh = DatabaseHandler::getInstance();
         $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB());
+        $this->categoryRepository = new CategoryRepository($this->dbh->getDB());
+        $this->unitRepository = new UnitRepository($this->dbh->getDB());
+        $this->foodItemFactory = new FoodItemFactory($this->categoryRepository, $this->unitRepository);
     }
 
     /**
@@ -59,13 +62,9 @@ class FoodItems extends Controller {
      * @param string $id Food item's id
      */
     public function edit($id):void{
-        $db = $this->dbh->getDB();
-        $categoryRepository = new CategoryRepository($db);
-        $unitRepository = new UnitRepository($db);
-
         // Get user's categories, and list of units
-        $categories = $categoryRepository->all();
-        $units = $unitRepository->all();
+        $categories = $this->categoryRepository->all();
+        $units = $this->unitRepository->all();
 
         // Get food details
         $food = $this->foodItemRepository->find($id);
@@ -77,13 +76,9 @@ class FoodItems extends Controller {
      * Lets users create a food item
      */
     public function create():void{
-        $db = $this->dbh->getDB();
-        $categoryRepository = new CategoryRepository($db);
-        $unitRepository = new UnitRepository($db);
-
         // Get user's categories, and list of units
-        $categories = $categoryRepository->all();
-        $units = $unitRepository->all();
+        $categories = $this->categoryRepository->all();
+        $units = $this->unitRepository->all();
 
         $this->view('food/create', compact('categories', 'units'));
     }
@@ -101,7 +96,7 @@ class FoodItems extends Controller {
         $this->validateInput($input, 'create');
 
         // Make food item
-        $foodItem = (new FoodItemFactory($this->dbh->getDB()))->make($input);
+        $foodItem = $this->foodItemFactory->make($input);
 
         // Save to DB
         $this->foodItemRepository->save($foodItem);
@@ -152,10 +147,10 @@ class FoodItems extends Controller {
         $this->foodItemRepository->save($foodItem);
 
         // Flash success message
-        (new Session())->flashMessage('success', ucfirst($food->getName()).' was updated.');
+        (new Session())->flashMessage('success', ucfirst($foodItem->getName()).' was updated.');
 
         // Redirect back after updating
-        Redirect::toControllerMethod('FoodItems', 'edit', array('foodId' => $food->getId()));
+        Redirect::toControllerMethod('FoodItems', 'edit', array('foodId' => $foodItem->getId()));
         return;
     }
 

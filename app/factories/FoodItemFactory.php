@@ -11,10 +11,12 @@ use Base\Repositories\UnitRepository;
  */
 class FoodItemFactory {
 
-    private $db;
+    private $categoryRepository,
+        $unitRepository;
 
-    public function __construct($db){
-        $this->db = $db;
+    public function __construct($categoryRepository, $unitRepository){
+        $this->categoryRepository = $categoryRepository;
+        $this->unitRepository = $unitRepository;
     }
 
     /**
@@ -24,8 +26,8 @@ class FoodItemFactory {
      */
     public function make(array $foodItemArray):FoodItem
     {
-        $category = (new CategoryRepository($this->db))->find($foodItemArray['category_id']);
-        $unit = (new UnitRepository($this->db))->find($foodItemArray['unit_id']);
+        $category = $this->categoryRepository->find($foodItemArray['category_id']);
+        $unit = $this->unitRepository->find($foodItemArray['unit_id']);
 
         $foodItem = new FoodItem();
         if(isset($foodItemArray['id'])){
@@ -41,7 +43,4 @@ class FoodItemFactory {
 
         return $foodItem;
     }
-
-
-
 }

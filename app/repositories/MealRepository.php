@@ -42,7 +42,7 @@ class MealRepository extends Repository {
 
     public function allForUser($user){
         $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipe, meal.scaleFactor, meal.isComplete FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE user_id = ? ORDER by name');
-        $query->bind_param("i", $user->getId());
+        @$query->bind_param("i", $user->getId());
         $query->execute();
 
         $result = $query->get_result();

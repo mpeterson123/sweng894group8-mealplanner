@@ -11,10 +11,16 @@ use Base\Factories\FoodItemFactory;
 
 
 class FoodItemRepository extends Repository {
-    private $db;
+    private $db,
+        $foodItemFactory;
 
     public function __construct($db){
         $this->db = $db;
+
+        // TODO Use dependecy injection
+        $categoryRepository = new CategoryRepository($this->db);
+        $unitRepository = new UnitRepository($this->db);
+        $this->foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
     }
 
     /**
@@ -30,7 +36,7 @@ class FoodItemRepository extends Repository {
         $result = $query->get_result();
         $foodItemRow = $result->fetch_assoc();
 
-        $foodItem = (new FoodItemFactory($this->db))->make($foodItemRow);
+        $foodItem = $this->foodItemFactory->make($foodItemRow);
         return $foodItem;
     }
 
@@ -72,9 +78,9 @@ class FoodItemRepository extends Repository {
         $foodItemRows = $result->fetch_all(MYSQLI_ASSOC);
 
         $collection = array();
-        $foodItemFactory = new FoodItemFactory($this->db);
+
         foreach($foodItemRows as $foodItemRow){
-            $collection[] = $foodItemFactory->make($foodItemRow);
+            $collection[] = $this->foodItemFactory->make($foodItemRow);
         }
 
         return $collection;
@@ -162,7 +168,7 @@ class FoodItemRepository extends Repository {
     public function foodBelongsToUser($foodId, $user)
     {
         $query = $this->db->prepare('SELECT * FROM foods WHERE id = ? AND user_id = ?');
-        $query->bind_param("ii", $foodId, $user->getId());
+        @$query->bind_param("ii", $foodId, $user->getId());
         $query->execute();
 
         $result = $query->get_result();

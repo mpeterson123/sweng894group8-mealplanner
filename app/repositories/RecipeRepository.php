@@ -60,7 +60,7 @@ class RecipeRepository extends Repository {
      */
     public function allForUser($user){
         $query = $this->db->prepare('SELECT * FROM recipes WHERE user_id = ? ORDER by name');
-        $query->bind_param("s", $user->getId());
+        @$query->bind_param("s", $user->getId());
         $query->execute();
 
         $result = $query->get_result();
