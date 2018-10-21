@@ -9,12 +9,6 @@ use Base\Models\Unit;
  */
 class UnitFactory {
 
-    private $db;
-
-    public function __construct($db){
-        $this->db = $db;
-    }
-
     /**
      * Creates a new instance of Unit model
      * @param  array    $unitArray A unit's properties
