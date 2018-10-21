@@ -9,10 +9,14 @@ use Base\Helpers\Session;
 use Base\Factories\HouseholdFactory;
 
 class HouseholdRepository extends Repository {
-    private $db;
+    private $db,
+        $householdFactory;
 
     public function __construct($db){
         $this->db = $db;
+
+        // TODO Use dependeny injection
+        $this->householdFactory = new HouseholdFactory();
     }
 
 
@@ -22,7 +26,7 @@ class HouseholdRepository extends Repository {
         $query->execute();
         $result = $query->get_result();
         $householdRow = $result->fetch_assoc();
-        $household = (new HouseholdFactory($this->db))->make($householdRow);
+        $household = $this->householdFactory->make($householdRow);
 
         return $household;
     }
@@ -34,9 +38,8 @@ class HouseholdRepository extends Repository {
         $result = $query->get_result();
 
         $households = array();
-        $householdFactory = new HouseholdFactory($this->db);
         while($householdRow = $result->fetch_assoc()){
-            $households[] = $householdFactory->make($householdRow);
+            $households[] = $this->householdFactory->make($householdRow);
         }
         return $households;
     }

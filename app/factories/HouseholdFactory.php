@@ -9,12 +9,6 @@ use Base\Models\Household;
  */
 class HouseholdFactory {
 
-    private $db;
-
-    public function __construct($db){
-        $this->db = $db;
-    }
-
     /**
      * Creates a new instance of Household model
      * @param  array    $householdArray A household's properties

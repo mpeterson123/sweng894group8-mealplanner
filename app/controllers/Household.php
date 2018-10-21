@@ -27,13 +27,16 @@ class Household extends Controller{
 	private $userRepo;
 	private $hhRepo;
 	private $dbh;
+	private $householdFactory;
 
 	public function __construct()
     {
         parent::__construct(...func_get_args());
+		// TODO use dependecy injection
 		$this->dbh = DatabaseHandler::getInstance();
 		$this->userRepo = new UserRepository($this->dbh->getDB());
 		$this->hhRepo = new HouseholdRepository($this->dbh->getDB());
+		$this->householdFactory = new HouseholdFactory();
     }
 
 	public function index(){
@@ -46,8 +49,7 @@ class Household extends Controller{
 		$user = (new Session())->get('user');
 
 		$householdName = $user->getLastName().' Household';
-		$householdFactory = new HouseholdFactory($this->dbh->getDB());
-		$household = $householdFactory->make(array('name' => $householdName));
+		$household = $this->householdFactory->make(array('name' => $householdName));
 		$household = $this->hhRepo->save($household);
 		// // create household
 		// $object = array();
@@ -59,7 +61,6 @@ class Household extends Controller{
 	public function list(){
 		$user = (new Session())->get('user');
 
-		//$householdFactory = new HouseholdFactory($this->dbh->getDB());
 		$households = 	$this->hhRepo->allForUser($user);
 		$hhs = array();
 		foreach($households as $hh){
