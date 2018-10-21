@@ -7,7 +7,7 @@
 
 // Constants
 define( '__SITENAME__' , 'MealPlanner - Capstone Project' );
-define( '__REDIRECT__' , '/dashboard/' );
+define( '__REDIRECT__' , '/Account/dashboard/' );
 define( '__COPYRITE__' , '2018 © Penn State - Cohort 19 &amp; 20 - Group 8.' );
 
 // Modules
