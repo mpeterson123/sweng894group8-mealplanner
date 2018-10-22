@@ -135,7 +135,7 @@ $SUBTITLE = "Add Recipe";
                                                     foreach($data['fooditems'] as $fooditem){
                                                         echo '<option ';
 
-                                                        if(Session::getOldInput('foodid') == $fooditem->getId()){
+                                                        if((new Session())->getOldInput('foodid') == $fooditem->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
@@ -191,43 +191,43 @@ $SUBTITLE = "Add Recipe";
       let ingredientHTML =
       `<div class="form-group ingredientFormGroup">
 
-        <div class="col-sm-3">
-                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo (new Session())->getOldInput('quantity'); ?>">
-        </div>
+      <div class="col-sm-3">
+                <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo (new Session())->getOldInput('quantity'); ?>">
+      </div>
 
-        <div class="col-sm-4">
-              <select class="form-control" name="unit_id[]">
-                  <option value="0">Select a unit</option>
-                  <?php
-                      foreach($data['units'] as $unit){
-                          echo '<option ';
+      <div class="col-sm-4">
+            <select class="form-control" name="unit_id[]">
+                <option value="0">Select a unit</option>
+                <?php
+                    foreach($data['units'] as $unit){
+                        echo '<option ';
 
-                          if(Session::getOldInput('unit_id') == $unit['id']){
-                              echo 'selected="selected" ';
-                          }
+                        if((new Session())->getOldInput('unit_id') == $unit->getId()){
+                            echo 'selected="selected" ';
+                        }
 
-                          echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
-                      }
-                  ?>
-              </select>
-        </div>
+                        echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
+                    }
+                ?>
+            </select>
+      </div>
 
-        <div class="col-sm-4">
-          <select class="form-control" name="foodid[]">
-              <option value="0">Select a food item</option>
-              <?php
-                  foreach($data['fooditems'] as $fooditem){
-                      echo '<option ';
+      <div class="col-sm-4">
+        <select class="form-control" name="foodid[]">
+            <option value="0">Select a food item</option>
+            <?php
+                foreach($data['fooditems'] as $fooditem){
+                    echo '<option ';
 
-                      if(Session::getOldInput('foodid') == $fooditem->getId()){
-                          echo 'selected="selected" ';
-                      }
+                    if((new Session())->getOldInput('foodid') == $fooditem->getId()){
+                        echo 'selected="selected" ';
+                    }
 
-                      echo 'value="'.$fooditem->getId().'">'.$fooditem->getName().'</option>';
-                  }
-              ?>
-          </select>
-        </div>
+                    echo 'value="'.$fooditem->getId().'">'.$fooditem->getName().'</option>';
+                }
+            ?>
+        </select>
+      </div> <!-- div class col-xs-5 -->
 
         <div class="col-sm-1">
           <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
