@@ -9,7 +9,7 @@ use Base\Factories\HouseholdFactory;
 use Base\Models\Household;
 
 
-class HouseholdTest extends TestCase {
+class HouseholdFactoryTest extends TestCase {
     // Variables to be reused
     private $householdFactory;
 

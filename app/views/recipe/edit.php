@@ -106,7 +106,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <label for="inputSource">Source</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputSource" placeholder="" name="source" value="<?php echo Session::getOldInput('source'); ?>">
+                                                <input type="text" class="form-control" id="inputSource" placeholder="" name="source" value="<?php echo (new Session())->getOldInput('source'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -138,11 +138,11 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                             foreach($data['units'] as $unit){
                                                                 echo '<option ';
 
-                                                                if(Session::getOldInput('unit_id') == $unit['id']){
+                                                                if((new Session())->getOldInput('unit_id') == $unit['id']){
                                                                     echo 'selected="selected" ';
                                                                 }
 
-                                                                echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                                                                echo 'value="'.$unit['id'].'">'.$unit['name'].' ï¿½ '.$unit['abbreviation'].'</option>';
                                                             }
                                                         ?>
                                                     </select>
@@ -155,7 +155,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                         foreach($data['fooditems'] as $fooditem){
                                                             echo '<option ';
 
-                                                            if(Session::getOldInput('foodid') == $fooditem->getId()){
+                                                            if((new Session())->getOldInput('foodid') == $fooditem->getId()){
                                                                 echo 'selected="selected" ';
                                                             }
 
@@ -226,7 +226,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
       `<div class="form-group ingredientFormGroup">
 
         <div class="col-sm-3">
-                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo Session::getOldInput('quantity'); ?>">
+                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo (new Session())->getOldInput('quantity'); ?>">
         </div>
 
         <div class="col-sm-4">
@@ -236,11 +236,11 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                       foreach($data['units'] as $unit){
                           echo '<option ';
 
-                          if(Session::getOldInput('unit_id') == $unit['id']){
+                          if((new Session())->getOldInput('unit_id') == $unit['id']){
                               echo 'selected="selected" ';
                           }
 
-                          echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                          echo 'value="'.$unit['id'].'">'.$unit['name'].' ï¿½ '.$unit['abbreviation'].'</option>';
                       }
                   ?>
               </select>
@@ -253,7 +253,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                   foreach($data['fooditems'] as $fooditem){
                       echo '<option ';
 
-                      if(Session::getOldInput('foodid') == $fooditem->getId()){
+                      if((new Session())->getOldInput('foodid') == $fooditem->getId()){
                           echo 'selected="selected" ';
                       }
 

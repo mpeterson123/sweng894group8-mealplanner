@@ -9,7 +9,7 @@ use Base\Factories\UnitFactory;
 use Base\Models\Unit;
 
 
-class UnitTest extends TestCase {
+class UnitFactoryTest extends TestCase {
     // Variables to be reused
     private $unitFactory;
 

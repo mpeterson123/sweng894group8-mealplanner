@@ -48,8 +48,8 @@ class Email{
         $salt = 'QM8z7AnkXUKQzwtK7UcA';
         $code = urlencode(hash('sha256',$to.$salt));
         $subject = 'Please confirm your email';
-        $body = 'Please click this link to confirm your email address:<p>
-            localhost/Account/ConfirmEmail/'.$to.'/'.$code.'<p>';
+        $body = 'Please click this link to confirm your email address:
+        <a href="http://localhost/Account/ConfirmEmail/'.$to.'/'.$code.'">Confirm your email<a>';
 
         // Send email
         $this->send($to,$subject,$body);
@@ -62,8 +62,9 @@ class Email{
     */
     public function sendPasswordReset($to, $code){
         $subject = 'Password Reset';
-        $body = 'Please click this link to reset your password:<p>
-            localhost/Account/ResetPassword/'.$to.'/'.$code.'<p>';
+        $body = 'Please click this link to reset your password:
+        <a href="http://localhost/Account/ResetPassword/'.$to.'/'.$code.'">Reset your password<a>';
+
         $this->send($to,$subject,$body);
     }
 
@@ -79,6 +80,9 @@ class Email{
         $subject = 'Please confirm your email';
         $body = 'Please click this link to confirm your email address:<p>
             localhost/Account/ConfirmNewEmail/'.$to.'/'.$old_email.'/'.$code.'<p>';
+
+        $body = 'Please click this link to confirm your email address:
+        <a href="http://localhost/Account/ConfirmNewEmail/'.$to.'/'.$old_email.'/'.$code.'">Confirm your email<a>';
 
             // Send email
         $this->send($to,$subject,$body);

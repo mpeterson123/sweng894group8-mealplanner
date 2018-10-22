@@ -80,6 +80,11 @@ class Household extends Controller{
 
 		$this->hhRepo->connect($user->getId(),$hhId);
 
+		// Update user in the session
+		$updatedUser = $this->userRepo->find($user->getUsername());
+		(new Session())->add('user', $updatedUser);
+
+		(new Session())->flashMessage('success', 'You have joined a household.');
 		Redirect::toControllerMethod('Account', 'dashboard');
 	}
 }

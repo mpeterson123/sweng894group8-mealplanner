@@ -17,7 +17,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
 ?>
 <?php require_once( __HEADER__ ); ?>
 <?php
-  if(!empty($data))
+  if(!empty($data['message']))
     echo $data['message'];
 ?>
 <style>
