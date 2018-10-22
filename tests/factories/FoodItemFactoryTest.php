@@ -14,7 +14,7 @@ use Base\Repositories\CategoryRepository;
 use Base\Repositories\UnitRepository;
 
 
-class FoodItemTest extends TestCase {
+class FoodItemFactoryTest extends TestCase {
     // Variables to be reused
     private $foodItemFactory,
         $categoryRepositoryStub,
