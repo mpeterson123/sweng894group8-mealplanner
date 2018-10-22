@@ -43,14 +43,17 @@ class FoodItems extends Controller {
          */
         $this->dbh = DatabaseHandler::getInstance();
         $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB());
+        $this->categoryRepository = new CategoryRepository($this->dbh->getDB());
+        $this->unitRepository = new UnitRepository($this->dbh->getDB());
+        $this->foodItemFactory = new FoodItemFactory($this->categoryRepository, $this->unitRepository);
     }
 
     /**
      * Lists all food items belonging to a user
      */
     public function index():void{
-        // echo "In ".__CLASS__."@".__FUNCTION__;
-        $foods = $this->foodItemRepository->allForUser(Session::get('id'));
+        $user = (new Session())->get('user');
+        $foods = $this->foodItemRepository->allForUser($user);
         $this->view('food/index', compact('foods'));
     }
 
@@ -59,13 +62,9 @@ class FoodItems extends Controller {
      * @param string $id Food item's id
      */
     public function edit($id):void{
-        $db = $this->dbh->getDB();
-        $categoryRepository = new CategoryRepository($db);
-        $unitRepository = new UnitRepository($db);
-
         // Get user's categories, and list of units
-        $categories = $categoryRepository->all();
-        $units = $unitRepository->all();
+        $categories = $this->categoryRepository->all();
+        $units = $this->unitRepository->all();
 
         // Get food details
         $food = $this->foodItemRepository->find($id);
@@ -77,13 +76,9 @@ class FoodItems extends Controller {
      * Lets users create a food item
      */
     public function create():void{
-        $db = $this->dbh->getDB();
-        $categoryRepository = new CategoryRepository($db);
-        $unitRepository = new UnitRepository($db);
-
         // Get user's categories, and list of units
-        $categories = $categoryRepository->all();
-        $units = $unitRepository->all();
+        $categories = $this->categoryRepository->all();
+        $units = $this->unitRepository->all();
 
         $this->view('food/create', compact('categories', 'units'));
     }
@@ -95,20 +90,20 @@ class FoodItems extends Controller {
 
         $input = $_POST;
 
-        Session::flashOldInput($input);
+        (new Session())->flashOldInput($input);
 
         // Validate input
         $this->validateInput($input, 'create');
 
         // Make food item
-        $foodItem = (new FoodItemFactory($this->dbh->getDB()))->make($input);
+        $foodItem = $this->foodItemFactory->make($input);
 
         // Save to DB
         $this->foodItemRepository->save($foodItem);
 
         // Flash success message and flush old input
-        Session::flashMessage('success', ucfirst($foodItem->getName()).' was added to your list.');
-        Session::flushOldInput();
+        (new Session())->flashMessage('success', ucfirst($foodItem->getName()).' was added to your list.');
+        (new Session())->flushOldInput();
 
         // Redirect back after updating
         Redirect::toControllerMethod('FoodItems', 'index');
@@ -132,7 +127,7 @@ class FoodItems extends Controller {
 
         $this->foodItemRepository->remove($id);
 
-        Session::flashMessage('success', $foodItem->getName().' was removed from your items.');
+        (new Session())->flashMessage('success', $foodItem->getName().' was removed from your items.');
 
         // Redirect to list after deleting
         Redirect::toControllerMethod('FoodItems', 'index');
@@ -152,10 +147,10 @@ class FoodItems extends Controller {
         $this->foodItemRepository->save($foodItem);
 
         // Flash success message
-        Session::flashMessage('success', ucfirst($food->getName()).' was updated.');
+        (new Session())->flashMessage('success', ucfirst($foodItem->getName()).' was updated.');
 
         // Redirect back after updating
-        Redirect::toControllerMethod('FoodItems', 'edit', array('foodId' => $food->getId()));
+        Redirect::toControllerMethod('FoodItems', 'edit', array('foodId' => $foodItem->getId()));
         return;
     }
 
@@ -164,8 +159,10 @@ class FoodItems extends Controller {
      * @param string $id Food item's id
      */
     public function checkFoodBelongsToUser($id):void{
+        $user = (new Session())->get('user');
+
         // If food doesn't belong to user, show forbidden error
-        if(!$this->foodItemRepository->foodBelongsToUser($id, Session::get('id'))){
+        if(!$this->foodItemRepository->foodBelongsToUser($id, $user)){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }
@@ -178,7 +175,7 @@ class FoodItems extends Controller {
      * @param array $params Parameters for the redirection method
      */
     private function validateInput($input, $method, $params = NULL):void{
-        Session::flashOldInput($input);
+        (new Session())->flashOldInput($input);
 
         // Validate input
         $validator = new Validator($input);
@@ -214,7 +211,7 @@ class FoodItems extends Controller {
 
             $errorMessage = Format::validatorErrors($validator->errors());
             // Flash danger message
-            Session::flashMessage('danger', $errorMessage);
+            (new Session())->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
             Redirect::toControllerMethod('FoodItems', $method, $params);

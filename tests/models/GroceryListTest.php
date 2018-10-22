@@ -12,7 +12,6 @@ class GroceryListTest extends TestCase {
     // Variables to be reused
     private $grocerylist;
 
-
     /**
      * Create instances or whatever you need to reuse in several tests here
      */
@@ -27,25 +26,14 @@ class GroceryListTest extends TestCase {
       unset($this->grocerylist);
     }
 
-
-    public function populateList() {
-		    // Read all grocery items and quantities from GroceryItem model
-    }
-
-    public function getEntireList() {
-		    return $this->groceryitemarray;
-    }
-
-    // Fill the grocery list with an array
-    public function testPopulate(){
-        $array = array("Butter","Egg","Flour");
-
-        $this->grocerlist->populate($array);
-    }
-
     // Return the entire grocery list
-    public function testGetEntireList(){
-        return $this->grocerlist->getEntireList();
+    public function testGetEntireGroceryList(){
+        return $this->grocerylist->getEntireList();
+    }
+
+    // Mark item on grocery list as purchased
+    public function testMarkItemAsPurchased(){
+
     }
 
 }

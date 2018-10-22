@@ -68,4 +68,11 @@ class Household {
       // use base36 encoding to shorten length
       return strtoupper(base_convert($code,10,36));
     }
+
+    public function reverseCode($code){
+      $code = strtolower($code);
+      $code = base_convert($code,36,10);
+      $code = substr($code, 1, strlen($code)-2);
+      return $code-10000000;
+    }
 }

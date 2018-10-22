@@ -19,40 +19,68 @@ use \Valitron\Validator;
 // File-specific classes //
 ///////////////////////////
 use Base\Repositories\UserRepository;
+use Base\Models\Household as HH;
 use Base\Repositories\HouseholdRepository;
 use Base\Factories\HouseholdFactory;
 
 class Household extends Controller{
 	private $userRepo;
+	private $hhRepo;
 	private $dbh;
+	private $householdFactory;
 
 	public function __construct()
     {
         parent::__construct(...func_get_args());
+		// TODO use dependecy injection
 		$this->dbh = DatabaseHandler::getInstance();
 		$this->userRepo = new UserRepository($this->dbh->getDB());
 		$this->hhRepo = new HouseholdRepository($this->dbh->getDB());
+		$this->householdFactory = new HouseholdFactory();
     }
 
 	public function index(){
-		$user = $this->userRepo->find(Session::get('username'));
+		$user = (new Session())->get('user');
 		$message = '';
 
 		$this->view('/auth/newHousehold',['message' => $message]);
 	}
 	public function create(){
-		$user = $this->userRepo->find(Session::get('username'));
+		$user = (new Session())->get('user');
 
 		$householdName = $user->getLastName().' Household';
-		$householdFactory = new HouseholdFactory($this->dbh->getDB());
-		$household = $householdFactory->make(array('name' => $householdName));
-		$household = $this->hhRepo->save($household);
-		// // create household
-		// $object = array();
-		// $object['name'] = $user->getLastName().' Household';
-		// $object['userId'] = $user->getId();
-		// $h = $this->hhRepo->insert($object);
-		$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+		$household = $this->householdFactory->make(array('name' => $householdName));
+		$this->hhRepo->save($household);
+
+		// Update user in the session
+		$updatedUser = $this->userRepo->find($user->getUsername());
+		(new Session())->add('user', $updatedUser);
+
+		(new Session())->flashMessage('success', $household->getName().' was created. Check the Household Settings page to see the invite code for other users.');
+		Redirect::toControllerMethod('Account', 'dashboard');
+
+	}
+	public function list(){
+		$user = (new Session())->get('user');
+
+		$households = 	$this->hhRepo->allForUser($user);
+		$hhs = array();
+		foreach($households as $hh){
+			$hhs[] = array('id'=>$hh->getId(),'name'=>$hh->getName(),'code'=>$hh->genInviteCode());
+		}
+
+		$this->view('/auth/householdList',['message' => '','households'=>$hhs]);
+	}
+	public function join(){
+		$user = (new Session())->get('user');
+
+		$inviteCode = trim($_POST['invite_code']);
+		$household = new HH();
+		$hhId = $household->reverseCode($inviteCode);
+
+		$this->hhRepo->connect($user->getId(),$hhId);
+
+		Redirect::toControllerMethod('Account', 'dashboard');
 	}
 }
 ?>

@@ -39,7 +39,7 @@ $SUBTITLE = "Add Recipe";
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
-                <?php Session::renderMessage(); ?>
+                <?php (new Session())->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -63,23 +63,20 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Recipe" name="name" value="<?php echo Session::getOldInput('name') ?>">
-                                            </div>
+                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Recipe" name="name" value="<?php echo (new Session())->getOldInput('name') ?>"> </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputDescription">Description</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputDescription" placeholder="Description" name="description" value-"<?php echo Session::getOldInput('description') ?>">
-                                            </div>
-                                      </div>
+                                                <input type="text" class="form-control" id="inputDescription" placeholder="Description" name="description" value-"<?php echo (new Session())->getOldInput('description') ?>"></div>
 
                                         <div class="form-group">
                                             <label for="inputServings">Servings</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputServings" placeholder="" name="servings" value="<?php echo Session::getOldInput('servings'); ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputServings" placeholder="" name="servings" value="<?php echo (new Session())->getOldInput('servings'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -88,7 +85,7 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputSource">Source</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputSource" placeholder="" name="source" value="<?php echo Session::getOldInput('source'); ?>">
+                                                <input type="text" class="form-control" id="inputSource" placeholder="" name="source" value="<?php echo (new Session())->getOldInput('source'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -97,7 +94,7 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputSource">Notes</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputNotes" placeholder="" name="notes" value="<?php echo Session::getOldInput('notes'); ?>">
+                                                <input type="text" class="form-control" id="inputNotes" placeholder="" name="notes" value="<?php echo (new Session())->getOldInput('notes'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -111,7 +108,7 @@ $SUBTITLE = "Add Recipe";
                                         <div class="form-group ingredientFormGroup">
 
                                           <div class="col-sm-3">
-                                                    <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo Session::getOldInput('quantity'); ?>">
+                                                    <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo (new Session())->getOldInput('quantity'); ?>">
                                           </div>
 
                                           <div class="col-sm-4">
@@ -121,11 +118,11 @@ $SUBTITLE = "Add Recipe";
                                                         foreach($data['units'] as $unit){
                                                             echo '<option ';
 
-                                                            if(Session::getOldInput('unit_id') == $unit['id']){
+                                                            if((new Session())->getOldInput('unit_id') == $unit->getId()){
                                                                 echo 'selected="selected" ';
                                                             }
 
-                                                            echo 'value="'.$unit['id'].'">'.$unit['name'].' – '.$unit['abbreviation'].'</option>';
+                                                            echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
                                                         }
                                                     ?>
                                                 </select>
@@ -195,7 +192,7 @@ $SUBTITLE = "Add Recipe";
       `<div class="form-group ingredientFormGroup">
 
         <div class="col-sm-3">
-                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo Session::getOldInput('quantity'); ?>">
+                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo (new Session())->getOldInput('quantity'); ?>">
         </div>
 
         <div class="col-sm-4">

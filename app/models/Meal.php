@@ -10,13 +10,13 @@ class Meal{
 	private $addedDate;
 	private $scale;
 
-	public function createMeal($r,$d,$s){
+	public function __construct($r,$d,$s){
 
 		$this->setRecipe($r);
 		$this->setDate($d);
 		$this->setScale($s);
 		$this->isComplete = false;
-		$this->addedDate = date('Y-m-d');
+		$this->addedDate = date('Y-m-d H-i-s');
 	}
 
 	public function setScale($newScale){
@@ -33,7 +33,7 @@ class Meal{
 		$this->scale = $newScale;
 	}
 
-	public function getScale($newScale){
+	public function getScale(){
 		return $this->scale;
 	}
 
@@ -42,12 +42,17 @@ class Meal{
 	}
 
 	public function complete(){
-		$this->isComplete = true;
+
+		if ($this->isComplete == FALSE){
+			$this->recipe->updateStockAfterCreation($this->scale);
+		}
+
+		$this->isComplete = TRUE;
 	}
 
-	public function markIncomplete(){
-		$this->isComplete = false;
-	}
+	//public function markIncomplete(){
+	//	$this->isComplete = false;
+	//}
 
 	public function getIngredientQuantity($anIngredientName){
 		return $this->recipe->getIngredientByName($anIngredientName)->getQuantity() * $this->scale;
@@ -61,12 +66,12 @@ class Meal{
 		return $this->recipe->getId();
 	}
 
-	public function setRecipe($aRecipe){
-		if(!$aRecipe)
+	public function setRecipe($newRecipe){
+		if(!$newRecipe instanceof Recipe)
 		{
-			throw new \Exception("Meal must reference a Recipe")
+			throw new \Exception("Meal must reference a Recipe");
 		}
-		$this->recipe = $aRecipe;
+		$this->recipe = $newRecipe;
 	}
 
 	public function getId(){
@@ -101,8 +106,7 @@ class Meal{
 			{
 					throw new \Exception("Date cannot be empty", 1);
 			}
-
-			if(gettype($newDate) !== 'timestamp'){
+			if(!strtotime($newDate)){
 					throw new \Exception("Date must be a timestamp", 1);
 			}
 

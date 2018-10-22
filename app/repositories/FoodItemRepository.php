@@ -11,10 +11,16 @@ use Base\Factories\FoodItemFactory;
 
 
 class FoodItemRepository extends Repository {
-    private $db;
+    private $db,
+        $foodItemFactory;
 
     public function __construct($db){
         $this->db = $db;
+
+        // TODO Use dependecy injection
+        $categoryRepository = new CategoryRepository($this->db);
+        $unitRepository = new UnitRepository($this->db);
+        $this->foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
     }
 
     /**
@@ -30,7 +36,7 @@ class FoodItemRepository extends Repository {
         $result = $query->get_result();
         $foodItemRow = $result->fetch_assoc();
 
-        $foodItem = (new FoodItemFactory($this->db))->make($foodItemRow);
+        $foodItem = $this->foodItemFactory->make($foodItemRow);
         return $foodItem;
     }
 
@@ -60,21 +66,21 @@ class FoodItemRepository extends Repository {
 
     /**
      * Get all food items added by a user
-     * @param  [type] $userId [description]
+     * @param  User $user [description]
      * @return array Associative array of food items
      */
-    public function allForUser($userId){
+    public function allForUser($user){
         $query = $this->db->prepare('SELECT * FROM foods WHERE user_id = ? ORDER by name');
-        $query->bind_param("s", $userId);
+        @$query->bind_param("s", $user->getId());
         $query->execute();
 
         $result = $query->get_result();
         $foodItemRows = $result->fetch_all(MYSQLI_ASSOC);
 
         $collection = array();
-        $foodItemFactory = new FoodItemFactory($this->db);
+
         foreach($foodItemRows as $foodItemRow){
-            $collection[] = $foodItemFactory->make($foodItemRow);
+            $collection[] = $this->foodItemFactory->make($foodItemRow);
         }
 
         return $collection;
@@ -93,8 +99,8 @@ class FoodItemRepository extends Repository {
 
     /**
      * Insert item into the database
-     * @param  Base\Models\Food $food   Item to be stored
-     * @return bool                     Whether query was successful
+     * @param  Base\Models\FoodItem $food   Item to be stored
+     * @return bool                         Whether query was successful
      */
     protected function insert($food){
         $query = $this->db
@@ -113,7 +119,7 @@ class FoodItemRepository extends Repository {
             $food->getUnitsInContainer(),
             $food->getContainerCost(),
             $food->getUnitCost(),
-            Session::get('id')
+            (new Session())->get('user')->getId()
         );
         return $query->execute();
     }
@@ -156,13 +162,13 @@ class FoodItemRepository extends Repository {
     /**
      * Check if food items belongs to a user_id
      * @param  integer $foodId  Food item's id
-     * @param  integer $userId  Current user's id
+     * @param  User $user       Current user
      * @return bool             Whether food belongs to user
      */
-    public function foodBelongsToUser($foodId, $userId)
+    public function foodBelongsToUser($foodId, $user)
     {
         $query = $this->db->prepare('SELECT * FROM foods WHERE id = ? AND user_id = ?');
-        $query->bind_param("si", $foodId, $userId);
+        @$query->bind_param("ii", $foodId, $user->getId());
         $query->execute();
 
         $result = $query->get_result();

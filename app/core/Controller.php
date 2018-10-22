@@ -38,7 +38,7 @@ class Controller{
 	public function view($view,$data = []){
 
 		$userRepository = new UserRepository($this->dbh->getDB());
-		$user = $userRepository->find(Session::get('username'));
+		$user = (new Session())->get('user');
 		$data['user'] = $user;
 
 		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword');

@@ -11,7 +11,7 @@ class Session{
      * @param  string $message Message to show to user.
      * @return void
      */
-    public static function flashMessage($status, $message){
+    public function flashMessage($status, $message){
         self::add('status', $status);
         self::add('message', $message);
     }
@@ -21,7 +21,7 @@ class Session{
      * The message is displayed as a Bootstrap alert.
      * @return void
      */
-    public static function renderMessage(){
+    public function renderMessage(){
         if(self::get('status') && self::get('message')){
             $html = '<div class="alert alert-dismissable alert-'.self::get('status').'" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.self::get('message').'</div>';
             echo $html;
@@ -35,11 +35,11 @@ class Session{
      * @param string $key   Identifier to access value
      * @param string $value Value to be stored
      */
-    public static function add($key, $value){
+    public function add($key, $value){
         $_SESSION[$key] = $value;
     }
 
-    public static function remove($key){
+    public function remove($key){
         unset ($_SESSION[$key]);
     }
 
@@ -48,7 +48,7 @@ class Session{
      * @param string $key   Identifier to access value
      * @return mixed        Value corresponding to key
      */
-    public static function get($key){
+    public function get($key){
         if(isset($_SESSION[$key])){
             return $_SESSION[$key];
         }
@@ -62,7 +62,7 @@ class Session{
      * @param  array $oldInputs     Array of inputs to store for repopulation
      * @return void
      */
-    public static function flashOldInput($oldInputs)
+    public function flashOldInput($oldInputs)
     {
         $_SESSION['old'] = array();
         foreach($oldInputs as $key => $value){
@@ -77,7 +77,7 @@ class Session{
      * @param  string $oldInputKey Field name in form
      * @return string              Old input value
      */
-    public static function getOldInput($oldInputKey)
+    public function getOldInput($oldInputKey)
     {
         if(isset($_SESSION['old'][$oldInputKey])){
             $value = $_SESSION['old'][$oldInputKey];
@@ -89,14 +89,14 @@ class Session{
     /**
      * Remove old input from session
      */
-    public static function flushOldInput():void{
+    public function flushOldInput():void{
         unset($_SESSION['old']);
     }
 
     /**
      * Remove old input from session
      */
-    public static function flush():void{
+    public function flush():void{
         $_SESSION = NULL;
     }
 

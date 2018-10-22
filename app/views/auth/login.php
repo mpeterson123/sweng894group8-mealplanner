@@ -32,7 +32,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
             <div class="white-box">
                 <form class="form-horizontal form-material" id="loginform" action="/Account/logInUser" method="POST">
                     <h3 class="box-title m-b-20">Sign In</h3>
-                    <?php Session::renderMessage(); ?>
+                    <?php (new Session())->renderMessage(); ?>
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" name="login_username" required="" placeholder="Username">

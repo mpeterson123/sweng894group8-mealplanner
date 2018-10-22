@@ -10,7 +10,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' )
 use Base\Helpers\Session;
 
 // Sub Title
-$SUBTITLE = 'Food List';
+$SUBTITLE = 'Household';
 
 
 // Plugins
@@ -47,35 +47,22 @@ $PLUGIN_EXPORT      = TRUE;
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Food Directory</h3>
-                            <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
-                            <div class="table-responsive">
-                                <table id="export-table" class="table table-striped">
+                          <h3 class="box-title m-b-0">Household</h3>
+                          <div class="table-responsive">
+                                <table class="display nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Category</th>
-                                            <th>Stock</th>
-                                            <th>Unit</th>
+                                            <th>Invite Code</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr class="column-search">
-                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
-                                            <th><select class="column-search-select form-control"><option value=""></option></select></th>
-                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
-                                            <th><select class="column-search-select form-control"><option value=""></option></select></th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                         <?php
-                                            if($data['foods']){
-                                                foreach ($data['foods'] as $food) { ?>
+                                            if($data['households']){
+                                                foreach ($data['households'] as $hh) { ?>
                                                 <tr>
-                                                    <td><a href="/FoodItems/edit/<?php echo $food->getid(); ?>"><?php echo $food->getName(); ?></a></td>
-                                                    <td><?php echo $food->getCategory()->getName(); ?></td>
-                                                    <td><?php echo $food->getStock(); ?></td>
-                                                    <td><?php echo $food->getUnit()->getName(); ?></td>
+                                                    <td><a href="/Household/edit/<?php echo $hh['id']; ?>"><?php echo $hh['name']; ?></a></td>
+                                                    <td><?php echo $hh['code']; ?></td>
                                                 </tr>
                                                 <?php
                                                 }
@@ -84,12 +71,6 @@ $PLUGIN_EXPORT      = TRUE;
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="white-box">
-                            <h3 class="box-title m-b-0">Options</h3>
-                            <a href="/FoodItems/create" class="btn btn-success m-t-15">+ Add Food Item</a>
                         </div>
                     </div>
                 </div>

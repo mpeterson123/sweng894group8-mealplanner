@@ -84,10 +84,10 @@ class UserRepository extends Repository {
     public function all(){
         return $this->db->query('SELECT * FROM users')->fetch_all();
     }
-    public function getHouseholds($userId){
+    public function getHouseholds($user){
         $hhIds = array();
         $query = $this->db->prepare('SELECT * FROM usersHouseholds WHERE userId = ?');
-        $query->bind_param("s",$userId);
+        $query->bind_param("s",$user->getId());
         $query->execute();
         $result = $query->get_result();
         while($row = $result->fetch_assoc()){
@@ -107,9 +107,9 @@ class UserRepository extends Repository {
         return $households;
     }
 
-    public function remove($id){
+    public function remove($user){
         $query = $this->db->prepare('DELETE FROM users WHERE id = ?');
-        $query->bind_param("s",$id);
+        $query->bind_param("i",$user->getId());
         $query->execute();
     }
 

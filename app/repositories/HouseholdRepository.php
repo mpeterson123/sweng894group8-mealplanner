@@ -9,10 +9,14 @@ use Base\Helpers\Session;
 use Base\Factories\HouseholdFactory;
 
 class HouseholdRepository extends Repository {
-    private $db;
+    private $db,
+        $householdFactory;
 
     public function __construct($db){
         $this->db = $db;
+
+        // TODO Use dependeny injection
+        $this->householdFactory = new HouseholdFactory();
     }
 
 
@@ -22,21 +26,20 @@ class HouseholdRepository extends Repository {
         $query->execute();
         $result = $query->get_result();
         $householdRow = $result->fetch_assoc();
-        $household = (new HouseholdFactory($this->db))->make($householdRow);
+        $household = $this->householdFactory->make($householdRow);
 
         return $household;
     }
 
-    public function allForUser($userId){
-        $query = $this->db->prepare('SELECT household.* FROM household JOIN usersHouseholds ON usersHouseholds.householdId = household.id AND usersHouseholds.userId = ?');
-        $query->bind_param("i",$userId);
+    public function allForUser($user){
+        $query = $this->db->prepare('SELECT household.* FROM household JOIN usersHouseholds ON usersHouseholds.householdId = household.id WHERE usersHouseholds.userId = ?');
+        @$query->bind_param("i",$user->getId());
         $query->execute();
         $result = $query->get_result();
 
         $households = array();
-        $householdFactory = new HouseholdFactory($this->db);
         while($householdRow = $result->fetch_assoc()){
-            $households[] = $householdFactory->make($householdRow);
+            $households[] = $this->householdFactory->make($householdRow);
         }
         return $households;
     }
@@ -64,26 +67,31 @@ class HouseholdRepository extends Repository {
 
     public function insert($household){
         // Insert into household
-        $query = $this->db->prepare('INSERT INTO household
+        $newHouseholdQuery = $this->db->prepare('INSERT INTO household
                 (name)
                 VALUES(?)');
-        @$query->bind_param("s",$household->getName());
-        $query->execute();
+        @$newHouseholdQuery->bind_param("s",$household->getName());
+        $newHouseholdQuery->execute();
 
-        // // Get householdId
-        // $query = $this->db->prepare('SELECT * FROM household WHERE name = ? order by id DESC');
-        // $query->bind_param("s",$household->getName());
-        // $query->execute();
-        // $result = $query->get_result();
-        // $row = $result->fetch_assoc();
-        // $hhId = $row['id'];
+        // Assign to user
+        $user = (new Session())->get('user');
+        $this->connect($user->getId(), $this->db->insert_id);
+    }
 
-        // Insert into usersHouseholds
-        $query = $this->db->prepare('INSERT INTO usersHouseholds
-                (userId,householdId)
-                VALUES(?,?)');
-        @$query->bind_param("ss",Session::get('id'),$this->db->insert_id);
-        $query->execute();
+    /**
+     * Connect a user to a household
+     * @param  integer $userId Id of user to connect
+     * @param  integer $hhId   Id of household to connect
+     */
+    public function connect($userId,$hhId):void{
+      $query = $this->db->prepare('INSERT INTO usersHouseholds
+              (userId,householdId)
+              VALUES(?,?)');
+      $query->bind_param(
+          "ii",
+          $userId,
+          $hhId);
+      $query->execute();
     }
 
     // Not Implemented yet

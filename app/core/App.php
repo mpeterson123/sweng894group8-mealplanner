@@ -18,7 +18,7 @@ use Base\Helpers\Session;
  */
 class App {
 	protected $controller = 'Account';
-	protected $method = 'dashboard';
+	protected $method = 'showLogin';
 	protected $params = [];
 
 	public function __construct(){

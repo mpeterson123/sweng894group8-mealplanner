@@ -46,8 +46,10 @@ class Recipes extends Controller {
     }
 
     public function index(){
+        $user = (new Session())->get('user');
+
         // echo "In ".__CLASS__."@".__FUNCTION__;
-        $recipes = $this->recipeRepository->allForUser(Session::get('id'));
+        $recipes = $this->recipeRepository->allForUser($user);
         //$recipes = $this->recipeRepository->all();
         $this->view('recipe/index', compact('recipes'));
     }
@@ -82,11 +84,13 @@ class Recipes extends Controller {
         $foodItemRepository = new FoodItemRepository($db);
         $unitRepository = new UnitRepository($db);
 
-        // Get user's fooditems and list of units
-        $fooditems = $foodItemRepository->allForUser(Session::get('id'));
+        $user = (new Session())->get('user');
+
+        // Get user's foodItems and list of units
+        $foodItems = $foodItemRepository->allForUser($user);
         $units = $unitRepository->all();
 
-        $this->view('recipe/create', compact('fooditems', 'units'));
+        $this->view('recipe/create', compact('foodItems', 'units'));
     }
 
     public function store(){
@@ -104,7 +108,7 @@ class Recipes extends Controller {
         //Save the recipe in the database:
         if ($this->recipeRepository->save($recipe)) {
           // Flash success message
-          Session::flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
+          (new Session())->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
 
         for($i=0;$i<count($input['foodid']);$i++){
           //Create the ingredient array:
@@ -124,15 +128,15 @@ class Recipes extends Controller {
               $recipe->addIngredient($ingredient);
 
               // Flash success message
-              Session::flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+              (new Session())->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
             }
             else {
-              Session::flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
+              (new Session())->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
             }
           }
         }
         else {
-          Session::flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
+          (new Session())->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
         }
 
 
@@ -142,6 +146,7 @@ class Recipes extends Controller {
     }
 
     public function delete($id){
+            $user = (new Session())->get('user');
 
             //Remove ingredients for this recipe from the ingredients table:
 
@@ -155,14 +160,14 @@ class Recipes extends Controller {
             }
 
             // If recipe doesn't belong to user, do not delete, and show error page
-            if(!$this->recipeRepository->recipeBelongsToUser($id, Session::get('id'))){
+            if(!$this->recipeRepository->recipeBelongsToUser($id, $user)){
                 Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
                 return;
             }
 
             $this->recipeRepository->remove($id);
 
-            Session::flashMessage('success', $recipe['name'].' was removed from your recipes.');
+            (new Session())->flashMessage('success', $recipe['name'].' was removed from your recipes.');
 
             // Redirect to list after deleting
             Redirect::toControllerMethod('Recipes', 'index');
@@ -196,7 +201,7 @@ class Recipes extends Controller {
         $this->recipeRepository->save($recipe);
 
         // Flash success message
-        Session::flashMessage('success', ucfirst($recipe->getName()).' was updated.');
+        (new Session())->flashMessage('success', ucfirst($recipe->getName()).' was updated.');
 
         //Also update the ingredients
 
@@ -210,8 +215,10 @@ class Recipes extends Controller {
     }
 
     public function checkRecipeBelongsToUser($id){
+        $user = (new Session())->get('user');
+
         // If recipe doesn't belong to user, show forbidden error
-        if(!$this->recipeRepository->recipeBelongsToUser($id, Session::get('id'))){
+        if(!$this->recipeRepository->recipeBelongsToUser($id, $user)){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }

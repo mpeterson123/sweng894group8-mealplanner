@@ -59,12 +59,12 @@ class RecipeRepository extends Repository {
 
     /**
      * Get all recipes added by a user
-     * @param  [type] $userId [description]
+     * @param  User $user [description]
      * @return array Associative array of recipes
      */
-    public function allForUser($userId){
+    public function allForUser($user){
         $query = $this->db->prepare('SELECT * FROM recipes WHERE user_id = ? ORDER by name');
-        $query->bind_param("s", $userId);
+        @$query->bind_param("s", $user->getId());
         $query->execute();
 
         $result = $query->get_result();
@@ -103,7 +103,8 @@ class RecipeRepository extends Repository {
             $recipe->getServings(),
             $recipe->getSource(),
             $recipe->getNotes(),
-            Session::get('id')
+            (new Session())->get('user')->getId()
+
         );
 
         //$query->insert_id should return the id of the newly inserted row.
@@ -153,10 +154,10 @@ class RecipeRepository extends Repository {
      * @param  integer $userId  Current user's id
      * @return bool             Whether recipe belongs to user
      */
-    public function recipeBelongsToUser($recipeId, $userId)
+    public function recipeBelongsToUser($recipeId, $user)
     {
         $query = $this->db->prepare('SELECT * FROM recipes WHERE id = ? AND user_id = ?');
-        $query->bind_param("si", $recipeId, $userId);
+        $query->bind_param("si", $recipeId, $user->getId());
         $query->execute();
 
         $result = $query->get_result();
