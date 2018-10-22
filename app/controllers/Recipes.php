@@ -63,10 +63,7 @@ class Recipes extends Controller {
 
         // Get user's fooditems and list of units
         //$fooditems = $foodItemRepository->allForUser(Session::get('id'));
-<<<<<<< HEAD
         $fooditems = $foodItemRepository->allForUser($user);
-=======
->>>>>>> 19f7da14195d2833a68de71912b70d9016b90f33
         $units = $unitRepository->all();
 
         // Get recipe Object
