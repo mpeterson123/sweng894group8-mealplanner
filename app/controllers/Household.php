@@ -49,7 +49,7 @@ class Household extends Controller{
 		$user = (new Session())->get('user');
 
 		$householdName = $user->getLastName().' Household';
-		$household = $this->householdFactory->make(array('name' => $householdName));
+		$household = $this->householdFactory->make(array('name' => $householdName, 'owner' => $user->getUsername()));
 		$this->hhRepo->save($household);
 
 		// Update user in the session

@@ -57,10 +57,25 @@ class Recipes extends Controller {
     public function edit($id){
         $db = $this->dbh->getDB();
 
-        // Get food details
+        $foodItemRepository = new FoodItemRepository($db);
+        $unitRepository = new UnitRepository($db);
+
+        // Get user's fooditems and list of units
+        $fooditems = $foodItemRepository->allForUser(Session::get('id'));
+        $units = $unitRepository->all();
+
+        // Get recipe Object
         $recipe = $this->recipeRepository->find($id);
 
-        $this->view('recipe/edit', compact('recipe'));//, 'categories', 'units'));
+        //Get the ingredients
+        $ingredients = $this->ingredientRepository->allForRecipe($id);
+
+        //Add to the recipe object
+        for($i = 0;$i<count($ingredients); $i++) {
+          $recipe->addIngredient($ingredients[$i]);
+        }
+
+        $this->view('recipe/edit', compact('recipe', 'ingredients', 'fooditems', 'units'));
     }
 
     public function create(){
@@ -95,14 +110,13 @@ class Recipes extends Controller {
           // Flash success message
           (new Session())->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
 
-          echo "\nRecipe ID = " . $recipe->getId();
-
-        //  for($i=0;$i<count($ingredArray);$i++){
+        for($i=0;$i<count($input['foodid']);$i++){
           //Create the ingredient array:
-          $ingredientInput = array("foodid" => $input['foodid'],
-                                  "quantity" => $input['quantity'],
+
+          $ingredientInput = array("foodid" => $input['foodid'][$i],
+                                  "quantity" => $input['quantity'][$i],
                                   "recipeid" => $recipe->getId(),
-                                  "unit_id" => $input['unit_id']);
+                                  "unit_id" => $input['unit_id'][$i]);
 
             //Create the ingredient object:
             $ingredient = $ingredientFactory->make($ingredientInput);
@@ -119,7 +133,7 @@ class Recipes extends Controller {
             else {
               (new Session())->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
             }
-          //}
+          }
         }
         else {
           (new Session())->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
@@ -177,7 +191,6 @@ class Recipes extends Controller {
         //$category = $categoryRepository->find($input['category_id']);
         //$unit = $unitRepository->find($input['unit_id']);
 
-        $recipe = new Recipe();
         $recipe->setId($id);
         $recipe->setName($input['name']);
         $recipe->setDescription($input['description']);
@@ -190,9 +203,14 @@ class Recipes extends Controller {
         // Flash success message
         (new Session())->flashMessage('success', ucfirst($recipe->getName()).' was updated.');
 
+        //Also update the ingredients
+
         // Redirect back after updating
-        //Redirect::toControllerMethod('Recipes', 'edit', array('recipeId' => $food->getId()));
-        Redirect::toControllerMethod('Recipes', 'edit', $recipe->getId());
+        echo "\nrecipeid = " . $recipe->getId() . "\n";
+
+      //  Redirect::toControllerMethod('Recipes', 'edit', $recipe->getId());
+      Redirect::toControllerMethod('Recipes', 'index');
+
         return;
     }
 

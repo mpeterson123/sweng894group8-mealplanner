@@ -45,12 +45,12 @@ $PLUGIN_EXPORT      = TRUE;
                 <?php (new Session())->renderMessage(); ?>
 
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Recipe Directory</h3>
                             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
                             <div class="table-responsive">
-                                <table id="export-table" class="table table-striped">
+                                <table id="export-table" class="table table-striped" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -58,9 +58,9 @@ $PLUGIN_EXPORT      = TRUE;
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Servings</th>
+                                        <tr class="column-search">
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -80,7 +80,7 @@ $PLUGIN_EXPORT      = TRUE;
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
                             <a href="/Recipes/create" class="btn btn-success m-t-15">+ Add Recipe</a>

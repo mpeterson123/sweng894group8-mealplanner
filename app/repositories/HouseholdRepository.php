@@ -68,9 +68,9 @@ class HouseholdRepository extends Repository {
     public function insert($household){
         // Insert into household
         $newHouseholdQuery = $this->db->prepare('INSERT INTO household
-                (name)
-                VALUES(?)');
-        @$newHouseholdQuery->bind_param("s",$household->getName());
+                (name,owner)
+                VALUES(?,?)');
+        @$newHouseholdQuery->bind_param("ss",$household->getName(),$household->getOwner());
         $newHouseholdQuery->execute();
 
         // Assign to user

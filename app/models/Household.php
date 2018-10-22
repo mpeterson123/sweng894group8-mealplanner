@@ -5,7 +5,8 @@ require_once __DIR__.'/../../vendor/autoload.php';
 class Household {
     private
         $id,
-        $name;
+        $name,
+        $owner;
 
     public function setId($id)
     {
@@ -50,6 +51,13 @@ class Household {
      */
     public function getName():string{
         return $this->name;
+    }
+
+    public function getOwner(){
+      return $this->owner;
+    }
+    public function setOwner($newOwner){
+      $this->owner = $newOwner;
     }
 
     public function genInviteCode(){

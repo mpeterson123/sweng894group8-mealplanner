@@ -11,7 +11,7 @@ class Recipe{
 	private $source;
 	private $notes;
 
-	public function __construct($theName,$theDescription='',$theServings,$theSource='',$theNotes=''){
+	public function __construct($theName='',$theDescription='',$theServings='',$theSource='',$theNotes=''){
 		$this->name = $theName;
 		$this->description = $theDescription;
 		$this->servings = $theServings;

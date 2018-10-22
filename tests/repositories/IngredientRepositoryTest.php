@@ -43,13 +43,13 @@ class IngredientRepositoryTest extends TestCase {
       $this->food->setUnit($this->foodUnit);
       $this->food->setCategory($this->category);
       $this->food->setUnitsInContainer(1);
-      $this->food->setContainerCost(0);
-      $this->food->setUnitCost(0);
+      $this->food->setContainerCost(2);
+      $this->food->setUnitCost(1);
       $this->ingrUnit = new Unit();
       $this->ingrUnit->setId(6);
-      $this->ingrUnit->setNAme('liter(s)');
+      $this->ingrUnit->setName('liter(s)');
       $this->quantity= new Quantity('2.0', $this->ingrUnit);
-      $this->ingredient = new Ingredient($this->food, $this->quantity, 1, $this->ingrUnit); //Just use the quantity value for now
+      $this->ingredient = new Ingredient($this->food, $this->quantity, 1, $this->ingrUnit);
       //$this->ingredient->setFood(5);
       //$this->ingredient->setQuantity(2.0);
       //$this->ingredient->setRecipeId(1);
@@ -167,5 +167,9 @@ class IngredientRepositoryTest extends TestCase {
       $this->assertEquals($this->ingredient, $ingredReturned, '');
 
       //$returnedId = $ingredReturned->GetId();
+    }
+
+    public function testAllForRecipe() {
+
     }
 }
