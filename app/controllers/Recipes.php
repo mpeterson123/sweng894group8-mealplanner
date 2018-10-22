@@ -55,13 +55,15 @@ class Recipes extends Controller {
     }
 
     public function edit($id){
+      $user = (new Session())->get('user');
         $db = $this->dbh->getDB();
 
         $foodItemRepository = new FoodItemRepository($db);
         $unitRepository = new UnitRepository($db);
 
         // Get user's fooditems and list of units
-        $fooditems = $foodItemRepository->allForUser(Session::get('id'));
+        //$fooditems = $foodItemRepository->allForUser(Session::get('id'));
+        $fooditems = $foodItemRepository->allForUser( (new Session())->get('user'));
         $units = $unitRepository->all();
 
         // Get recipe Object
