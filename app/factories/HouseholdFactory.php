@@ -21,6 +21,7 @@ class HouseholdFactory {
             $household->setId($householdArray['id']);
         }
         $household->setName($householdArray['name']);
+        $household->setOwner($householdArray['owner']);
 
         return $household;
     }

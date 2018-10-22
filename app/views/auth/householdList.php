@@ -71,6 +71,9 @@ $PLUGIN_EXPORT      = TRUE;
                                     </tbody>
                                 </table>
                             </div>
+                            <hr>
+                            <br>
+                            <a href="/Household/index">+ Add Household</a>
                         </div>
                     </div>
                 </div>

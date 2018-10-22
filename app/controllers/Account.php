@@ -245,6 +245,13 @@ class Account extends Controller{
 	}
 
 	public function showLogin(){
+		$user = (new Session())->get('user');
+		
+		// Active session
+		if($user){
+			Redirect::toControllerMethod('Account', 'dashboard');
+			return;
+		}
 		$this->view('auth/login',['message'=>'']);
 	}
 
