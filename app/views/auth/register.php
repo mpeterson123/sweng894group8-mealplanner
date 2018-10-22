@@ -18,9 +18,9 @@ $PLUGIN_SIDEBARMENU= FALSE;
 ?>
 <?php require_once( __HEADER__ ); ?>
 <?php
-  foreach($data as $d){
-    echo $d.'<br>';
-  }
+  //foreach($data as $d){
+  //  echo $d.'<br>';
+  //}
  ?>
 <body class="mini-sidebar">
     <!-- Preloader -->
