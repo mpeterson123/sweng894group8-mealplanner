@@ -237,7 +237,7 @@ class Account extends Controller{
 		$user = (new Session())->get('user');
 
 		if(empty($user->getHouseholds())){
-			$this->view('/auth/newHousehold',['message' => $message]);
+			$this->view('/auth/newHousehold');
 			return;
 		}
 
