@@ -55,6 +55,7 @@ class Recipes extends Controller {
     }
 
     public function edit($id){
+
         $user = (new Session())->get('user');
         $db = $this->dbh->getDB();
 

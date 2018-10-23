@@ -14,7 +14,6 @@ $PLUGIN_SLIMSCROLL  = TRUE;
 $PLUGIN_WAVES       = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
 
-
 // Sub Title
 $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 
@@ -45,9 +44,10 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
-        <div class="preloader">
-            <div class="cssload-speeding-wheel"></div>
-        </div>
+<!--      <div class="preloader">
+          <div class="cssload-speeding-wheel"></div>
+      </div>
+-->
 
 <?php require_once( __NAVBAR__ ); ?>
 
@@ -57,25 +57,26 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
         <div class="page-wrapper">
 
             <!-- ===== Page-Container ===== -->
-            <div class="container-fluid">
+           <div class="container-fluid">
                 <?php (new Session())->renderMessage(); ?>
 
                 <div class="row">
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-sm-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0"><?php echo $data['recipe']->getName(); ?></h3>
-<?php if (isset($Errors)) { ?>
-                            <p class="text-danger m-b-30 font-13">
-<?php     foreach($Errors as $error) { ?>
-                            <?php echo $error; ?><br/>
-<?php     } ?>
-                            </p>
-<?php } ?>
+                            <?php if (isset($Errors)) { ?>
+                              <p class="text-danger m-b-30 font-13">
+                                <?php     foreach($Errors as $error) { ?>
+                                  <?php echo $error; ?><br/>
+                                <?php     } ?>
+                              </p>
+                            <?php } ?>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
-                            <a href="/REcipes/">&laquo; Return to recipe</a>
+                            <a href="/Recipes/index">&laquo; Return to recipe</a>
                             </p>
                             <div class="row">
+
                                 <div class="col-sm-12 col-xs-12">
                                     <form method="post" action="/Recipes/update/<?php echo $data['recipe']->getId(); ?>">
                                         <input type="hidden" name="recipeid" value="<?php echo $data['recipe']->getId(); ?>">
@@ -118,6 +119,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                 <input type="text" class="form-control" id="inputNotes" placeholder="Notes" name="notes" value="<?php echo $data['recipe']->getNotes(); ?>"> </div>
                                         </div>
 
+
                                         <hr>
                                             <label for="ingredientsWrapper">Ingredients</label>
                                             <div id="ingredientsWrapper">
@@ -125,8 +127,9 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <div class="form-group ingredientFormGroup">
 
 
-                                          <!--  for(i=0;i<$data['ingredients'].length;i++)
-                                            {-->
+                                          <!--  for(i=0;i<$data['ingredients'].length;i++)-->
+                                          <!--  {-->
+
                                               <div class="col-sm-3">
                                                         <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo $data['ingredients'][0]->getQuantity()->getValue(); ?>">
                                               </div>
@@ -138,11 +141,11 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                             foreach($data['units'] as $unit){
                                                                 echo '<option ';
 
-                                                                if((new Session())->getOldInput('unit_id') == $unit['id']){
+                                                                if((new Session())->getOldInput('unit_id') == $unit->getId()){
                                                                     echo 'selected="selected" ';
                                                                 }
 
-                                                                echo 'value="'.$unit['id'].'">'.$unit['name'].' � '.$unit['abbreviation'].'</option>';
+                                                                echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
                                                             }
                                                         ?>
                                                     </select>
@@ -183,7 +186,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                           <br><br>
 
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
-                                    </form>
+                                   </form>
                                 </div>
                             </div>
                         </div>
@@ -197,15 +200,14 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                 type="button"
                                 class="btn btn-danger m-t-15"
                                 data-toggle="modal"
-                                data-target="#confirm-delete-modal">
-                                Remove Recipe                            </button>
+                                data-target="#confirm-delete-modal">Remove Recipe</button>
                         </div>
                     </div>
                 </div>
 
 <?php require_once( __SPANEL__ ); ?>
 
-            </div>
+          </div>
             <!-- ===== Page-Container-End ===== -->
 
             <footer class="footer t-a-c">
@@ -213,11 +215,11 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
             </footer>
 
         </div>
+
         <!-- ===== Page-Content-End ===== -->
 
     </div>
     <!-- ===== Main-Wrapper-End ===== -->
-
 <?php require_once( __FOOTER__ ); ?>
 
 <script>
