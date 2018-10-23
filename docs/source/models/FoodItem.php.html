@@ -1,0 +1,146 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Models;
+require_once __DIR__.'/../../vendor/autoload.php';
+
+class FoodItem {
+    private
+        $id,
+        $name,
+        $stock,
+        $unit,
+        $category,
+        $unitsInContainer,
+        $containerCost,
+        $unitCost;
+
+    public function setId($id)
+    {
+        $this-&gt;id = $id;
+    }
+
+    public function getId(){
+        return $this-&gt;id;
+    }
+
+    public function setName($name){
+        if($name == ''){
+            throw new \Exception(
+                &quot;Food Item name cannot be empty&quot;, 1);
+        }
+
+        if(strlen($name) &gt; 20){
+            throw new \Exception(
+                &quot;Food Item name cannot be longer than 20 characters&quot;, 1);
+        }
+
+        $this-&gt;name = trim($name);
+    }
+
+    public function getName(){
+        return $this-&gt;name;
+    }
+
+    public function setStock($stock){
+        if($stock &lt; 0)
+        {
+            throw new \Exception(
+                &quot;Stock cannot be a negative number&quot;, 1);
+        }
+        $this-&gt;stock = $stock;
+    }
+
+    public function getStock(){
+        return $this-&gt;stock;
+    }
+
+    public function setUnit($unit)
+    {
+        $this-&gt;unit = $unit;
+    }
+
+    public function getUnit(){
+        return $this-&gt;unit;
+    }
+
+    public function setCategory($category)
+    {
+        $this-&gt;category = $category;
+    }
+
+    public function getCategory(){
+        return $this-&gt;category;
+    }
+
+    public function setUnitsInContainer($unitsInContainer)
+    {
+        $this-&gt;unitsInContainer = trim($unitsInContainer);
+    }
+
+    public function getUnitsInContainer(){
+        return $this-&gt;unitsInContainer;
+    }
+
+    public function setContainerCost($containerCost)
+    {
+        $this-&gt;containerCost = trim($containerCost);
+    }
+
+    public function getContainerCost(){
+        return $this-&gt;containerCost;
+    }
+
+    public function setUnitCost()
+    {
+        $this-&gt;unitCost = $this-&gt;containerCost/$this-&gt;unitsInContainer;
+    }
+
+    public function getUnitCost(){
+        return $this-&gt;unitCost;
+    }
+
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

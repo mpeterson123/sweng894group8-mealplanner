@@ -1,0 +1,178 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Models;
+require_once __DIR__.'/../../vendor/autoload.php';
+
+class User{
+	private $username,
+					$password,
+					$firstName,
+					$lastName,
+					$email,
+					$loggedIn;
+
+
+	public function __construct(){
+		$this-&gt;loggedIn = false;
+  }
+
+		public function setAll($array){
+			$this-&gt;setUsername($array['username']);
+			$this-&gt;setFirstName($array['namefirst']);
+			$this-&gt;setLastName($array['namelast']);
+			$this-&gt;setEmail($array['email']);
+		}
+
+		///////////////
+		// Username //
+		///////////////
+    public function setUsername($username){
+			$username = trim($username);
+
+      if($username == ''){
+      	throw new \Exception(&quot;Username cannot be empty&quot;, 1);
+      }
+
+      if(strlen($username) &gt; 20){
+        throw new \Exception(&quot;Username cannot be longer than 20 characters&quot;, 1);
+      }
+
+			if(!preg_match('/^[a-z0-9]+$/i', $username)){
+				throw new \Exception(&quot;First Name cannot be longer than 20 characters&quot;, 1);
+			}
+	    $this-&gt;username = $username;
+    }
+
+    public function getUsername(){
+        return $this-&gt;username;
+    }
+
+		////////////////
+		// FirstName //
+		////////////////
+		public function setFirstName($firstName){
+        if($firstName == ''){
+            throw new \Exception(&quot;First Name cannot be empty&quot;, 1);
+        }
+
+        if(strlen($firstName) &gt; 20){
+            throw new \Exception(&quot;First Name cannot be longer than 20 characters&quot;, 1);
+        }
+
+        $this-&gt;firstName = trim($firstName);
+    }
+    public function getFirstName(){
+        return $this-&gt;firstName;
+    }
+		////////////////
+		// LastName //
+		////////////////
+		public function setLastName($lastName){
+				if($lastName == ''){
+						throw new \Exception(&quot;Last Name cannot be empty&quot;, 1);
+				}
+
+				if(strlen($lastName) &gt; 20){
+						throw new \Exception(&quot;First Name cannot be longer than 20 characters&quot;, 1);
+				}
+
+				$this-&gt;lastName = trim($lastName);
+		}
+
+		////////////////
+		// Name //
+		////////////////
+		public function getName(){
+			return $this-&gt;firstName .&quot; &quot;. $this-&gt;lastName;
+		}
+
+		///////////////
+		// Password //
+		///////////////
+		public function setPassword($password){
+        if($password == ''){
+            throw new \Exception(&quot;Password cannot be empty&quot;, 1);
+        }
+
+        if(strlen($password) &lt; 8){
+            throw new \Exception(&quot;Password cannot be shorter than 8 characters&quot;, 1);
+        }
+
+        $this-&gt;password = trim($password);
+    }
+
+    public function getPassword(){
+        return $this-&gt;password;
+    }
+
+
+		////////////
+		// Email //
+		////////////
+		public function setEmail($email){
+        $this-&gt;email = trim($email);
+    }
+		public function getEmail(){
+	  		return $this-&gt;email;
+	  }
+		////////////
+		// Login //
+		/////////////
+		public function login($userArray){
+			$this-&gt;setAll($userArray);
+			$_SESSION['username'] = $this-&gt;username;
+			$_SESSION['id'] = $userArray['id'];
+			$this-&gt;loggedIn = true;
+		}
+		public function isLoggedIn(){
+				return $this-&gt;loggedIn;
+		}
+		public function logout(){
+			$this-&gt;loggedIn = false;
+		}
+}
+?&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

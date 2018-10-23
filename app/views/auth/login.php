@@ -4,7 +4,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Login
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once(__DIR__ . '/../modules/main.mod.php' );
+use Base\Helpers\Session;
 
 // Sub Title
 $SUBTITLE = 'Login';
@@ -15,6 +17,10 @@ $PLUGIN_WAVES      = TRUE;
 $PLUGIN_SIDEBARMENU= TRUE;
 ?>
 <?php require_once( __HEADER__ ); ?>
+<?php
+  if(!empty($data['message']))
+    echo $data['message'];
+?>
 
 <body class="mini-sidebar">
     <!-- Preloader -->
@@ -24,16 +30,17 @@ $PLUGIN_SIDEBARMENU= TRUE;
     <section id="wrapper" class="login-register">
         <div class="login-box">
             <div class="white-box">
-                <form class="form-horizontal form-material" id="loginform" action="/dashboard/">
+                <form class="form-horizontal form-material" id="loginform" action="/Account/logInUser" method="POST">
                     <h3 class="box-title m-b-20">Sign In</h3>
+                    <?php (new Session())->renderMessage(); ?>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Username">
+                            <input class="form-control" type="text" name="login_username" required="" placeholder="Username">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input class="form-control" type="password" required="" placeholder="Password">
+                            <input class="form-control" type="password" name="login_password" required="" placeholder="Password">
                         </div>
                     </div>
                     <div class="form-group">
@@ -42,7 +49,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                                 <input id="checkbox-signup" type="checkbox">
                                 <label for="checkbox-signup"> Remember me </label>
                             </div>
-                            <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a> </div>
+                            <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Forgot password?</a> </div>
                     </div>
                     <div class="form-group text-center m-t-20">
                         <div class="col-xs-12">
@@ -61,11 +68,11 @@ $PLUGIN_SIDEBARMENU= TRUE;
                 -->
                     <div class="form-group m-b-0">
                         <div class="col-sm-12 text-center">
-                            <p>Don't have an account? <a href="/register/" class="text-primary m-l-5"><b>Sign Up</b></a></p>
+                            <p>Don't have an account? <a href="/Account/register/" class="text-primary m-l-5"><b>Sign Up</b></a></p>
                         </div>
                     </div>
                 </form>
-                <form class="form-horizontal" id="recoverform" action="/login/">
+                <form class="form-horizontal" id="recoverform" action="/Account/forgotPassword/" method="POST">
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <h3>Recover Password</h3>
@@ -74,7 +81,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Email">
+                            <input class="form-control" type="text" name="email" required="" placeholder="Email">
                         </div>
                     </div>
                     <div class="form-group text-center m-t-20">
@@ -86,7 +93,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
             </div>
         </div>
     </section>
-    
+
 <?php require_once( __FOOTER__ ); ?>
 
 </body>

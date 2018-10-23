@@ -1,0 +1,140 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Repositories;
+require_once __DIR__.'/../../vendor/autoload.php';
+
+use Base\Repositories\Repository;
+
+
+class UserRepository extends Repository {
+    private $db;
+
+    public function __construct($db){
+        $this-&gt;db = $db;
+    }
+    public function checkUser($uname,$pwd){
+      $query = $this-&gt;db-&gt;prepare('SELECT * FROM users WHERE username = ? AND password = ?');
+			$query-&gt;bind_param(&quot;ss&quot;,$uname,$pwd);
+      $query-&gt;execute();
+      $result = $query-&gt;get_result();
+      $row = $result-&gt;fetch_assoc();
+      return $row;
+	  }
+
+    public function find($username){
+        $query = $this-&gt;db-&gt;prepare('SELECT * FROM users WHERE username = ?');
+        $query-&gt;bind_param(&quot;s&quot;,$username);
+        $query-&gt;execute();
+        $result = $query-&gt;get_result();
+        $row = $result-&gt;fetch_assoc();
+        return $row;
+    }
+    public function get($field,$value){
+      $query = $this-&gt;db-&gt;prepare('SELECT * FROM users WHERE '.$field.' = ?');
+      $query-&gt;bind_param(&quot;s&quot;,$value);
+      $query-&gt;execute();
+      $result = $query-&gt;get_result();
+      $row = $result-&gt;fetch_assoc();
+      return $row;
+    }
+
+    public function confirmEmail($email){
+      $query = $this-&gt;db-&gt;prepare('UPDATE users SET activated = 1 WHERE email = ?');
+			$query-&gt;bind_param(&quot;s&quot;,$email);
+      $query-&gt;execute();
+    }
+    public function setPassTemp($email,$pass){
+      $query = $this-&gt;db-&gt;prepare('UPDATE users SET passTemp = ? WHERE email = ?');
+			$query-&gt;bind_param(&quot;ss&quot;,$pass,$email);
+      $query-&gt;execute();
+    }
+    public function setValue($vField,$value,$idField,$id){
+      $query = $this-&gt;db-&gt;prepare('UPDATE users SET '.$vField.' = ? WHERE '.$idField.' = ?');
+			$query-&gt;bind_param(&quot;ss&quot;,$value,$id);
+      $query-&gt;execute();
+    }
+
+    public function save($user){
+        if(isset($this-&gt;id) &amp;&amp; $this-&gt;find($user-&gt;id))
+        {
+            $this-&gt;update($user);
+        }
+        else {
+            $this-&gt;insert($user);
+        }
+    }
+    public function all(){
+        return $this-&gt;db-&gt;query('SELECT * FROM users')-&gt;fetch_all();
+    }
+    // Not Implemented yet
+    public function remove($id){
+        $query = $this-&gt;db-&gt;prepare('DELETE FROM users WHERE id = ?');
+        $query-&gt;bind_param(&quot;s&quot;,$id);
+        $query-&gt;execute();
+    }
+
+    public function insert($object){
+        $today = date('Y-m-d');
+        $query = $this-&gt;db-&gt;prepare('INSERT INTO users
+                (username, password, email, joined, namefirst, namelast)
+                VALUES(?,?,?,?,?,?)');
+        $query-&gt;bind_param(&quot;ssssss&quot;,$object['username'],$object['password'],$object['email'],$today,$object['namefirst'],$object['namelast']);
+        $query-&gt;execute();
+    }
+
+    protected function update($object){
+        $query = $this-&gt;db
+            -&gt;prepare('UPDATE food
+                SET name = ?, unitcost =?)
+                VALUES(?,?)');
+        $query-&gt;bind_param(array(
+            'name' =&gt; $food-&gt;name,
+            'name' =&gt; $food-&gt;unitCost,
+        ));
+        $query-&gt;execute();
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

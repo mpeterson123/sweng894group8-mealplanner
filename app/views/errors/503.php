@@ -4,7 +4,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // For handling 503 server errors
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="/plugins/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <title><?php echo __SITENAME__; ?> - 503 Service Unavailable</title>
     <!-- ===== Bootstrap CSS ===== -->
     <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -44,8 +45,8 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
         <div class="error-box">
             <div class="error-body text-center">
                 <h1>503</h1>
-                <h3 class="text-uppercase">This site is getting a up in few minute.</h3>
-                <p class="text-muted m-t-30 m-b-30">Please try after some time</p>
+                <h3 class="text-uppercase">Service Unavailable</h3>
+                <p class="text-muted m-t-30 m-b-30">Hold your horses! We'll be ready soon.</p>
                 <a href="<?php echo __REDIRECT__; ?>" class="btn btn-info btn-rounded waves-effect waves-light m-b-40">Back to home</a> </div>
             <footer class="footer text-center"><?php echo __COPYRITE__; ?></footer>
         </div>

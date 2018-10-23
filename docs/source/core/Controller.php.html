@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Core;
+
+// Autoload dependencies
+require_once __DIR__.'/../../vendor/autoload.php';
+
+////////////////////
+// Use statements //
+////////////////////
+use Base\Core\DatabaseHandler;
+use Base\Repositories\UserRepository;
+
+/**
+ * Super class that handles all incoming requests
+ */
+class Controller{
+	private $dbh;
+
+	/**
+	 * Inject DatabaseHandler on instance creation
+	 * @param Base\Core\DatabaseHandler $dbh handler for database connection
+	 */
+	public function __construct(DatabaseHandler $dbh){
+		$this-&gt;dbh = $dbh;
+	}
+
+	public function model($model, $params = NULL){
+		require_once __DIR__.'/../models/'.$model.'.php';
+		$namespacedModel = &quot;Base\Models\\&quot;.$model;
+
+		if($params){
+			return new $namespacedModel(...$params);
+		}
+		return new $namespacedModel();
+
+	}
+	public function view($view,$data = []){
+		// session_start();
+
+		$userRepository = new UserRepository($this-&gt;dbh-&gt;getDB());
+		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword');
+
+		if(isset($_SESSION['username'])){
+			$user = $userRepository-&gt;find($_SESSION['username']);
+			$data['user'] = $user;
+			require_once __DIR__.'/../views/'.$view.'.php';
+		}
+		else if(in_array($view,$notLoggedInPages)){
+			require_once __DIR__.'/../views/'.$view.'.php';
+		}
+		else {
+			require_once __DIR__.'/../views/auth/login.php';
+		}
+
+	}
+}
+?&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

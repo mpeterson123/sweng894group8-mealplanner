@@ -4,7 +4,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Template
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
 
 // Sub Title
 $SUBTITLE = 'Template';

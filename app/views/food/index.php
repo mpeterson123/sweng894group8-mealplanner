@@ -4,10 +4,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Food (listing)
 ///////////////////////////////////////////////////////////////////////////////
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/modules/main.mod.php' );
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
+
+use Base\Helpers\Session;
 
 // Sub Title
-$SUBTITLE = 'Food';
+$SUBTITLE = 'Food List';
+
 
 // Plugins
 $PLUGIN_SLIMSCROLL  = TRUE;
@@ -16,9 +20,7 @@ $PLUGIN_DATATABLES  = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
 $PLUGIN_EXPORT      = TRUE;
 
-// Food
-$User['id'] = 1;  // Default to 1 for testing purposes
-$Foods = sqlRequestWhere('food', 'userid', $User['id']);
+// echo "<pre>".print_r($data)."</pre>";
 
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -39,32 +41,46 @@ $Foods = sqlRequestWhere('food', 'userid', $User['id']);
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
+
+                <?php (new Session())->renderMessage(); ?>
+
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Food Directory</h3>
                             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
                             <div class="table-responsive">
-                                <table id="export-table" class="display nowrap" cellspacing="0" width="100%">
+                                <table id="export-table" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Unit Cost</th>
+                                            <th>Category</th>
+                                            <th>Stock</th>
+                                            <th>Unit</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Unit Cost</th>
+                                        <tr class="column-search">
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
+                                            <th><select class="column-search-select form-control"><option value=""></option></select></th>
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
+                                            <th><select class="column-search-select form-control"><option value=""></option></select></th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-<?php foreach ($Foods as $food) { ?>
-                                        <tr>
-                                            <td><a href="/foods/food/<?php echo $food['id']; ?>"><?php echo $food['name']; ?></a></td>
-                                            <td>$<?php echo $food['unitcost']; ?></td>
-                                        </tr>
-<?php } ?>
+                                        <?php
+                                            if($data['foods']){
+                                                foreach ($data['foods'] as $food) { ?>
+                                                <tr>
+                                                    <td><a href="/FoodItems/edit/<?php echo $food->getid(); ?>"><?php echo $food->getName(); ?></a></td>
+                                                    <td><?php echo $food->getCategory()->getName(); ?></td>
+                                                    <td><?php echo $food->getStock(); ?></td>
+                                                    <td><?php echo $food->getUnit()->getName(); ?></td>
+                                                </tr>
+                                                <?php
+                                                }
+                                            }
+                                            ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -73,7 +89,7 @@ $Foods = sqlRequestWhere('food', 'userid', $User['id']);
                     <div class="col-sm-2">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
-                            <a href="/foods/add/" class="btn btn-success m-t-15">+ Add Food Item</a>
+                            <a href="/FoodItems/create" class="btn btn-success m-t-15">+ Add Food Item</a>
                         </div>
                     </div>
                 </div>

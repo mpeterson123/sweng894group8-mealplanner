@@ -1,0 +1,523 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// Login
+///////////////////////////////////////////////////////////////////////////////
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once( __DIR__ . '/../modules/main.mod.php' );
+
+// Sub Title
+$SUBTITLE = 'Login';
+
+// Plugins
+$PLUGIN_SLIMSCROLL = TRUE;
+$PLUGIN_WAVES      = TRUE;
+$PLUGIN_SIDEBARMENU= TRUE;
+?&gt;
+&lt;?php require_once( __HEADER__ ); ?&gt;
+
+&lt;body class=&quot;mini-sidebar&quot;&gt;
+    &lt;!-- ===== Main-Wrapper ===== --&gt;
+    &lt;div id=&quot;wrapper&quot;&gt;
+        &lt;div class=&quot;preloader&quot;&gt;
+            &lt;div class=&quot;cssload-speeding-wheel&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;?php require_once( __NAVBAR__ ); ?&gt;
+
+        &lt;?php require_once( __SIDEBAR__ ); ?&gt;
+
+        &lt;!-- ===== Page-Content ===== --&gt;
+        &lt;div class=&quot;page-wrapper&quot;&gt;
+            &lt;div class=&quot;row m-0&quot;&gt;
+                &lt;div class=&quot;col-md-3 col-sm-6 info-box&quot;&gt;
+                    &lt;div class=&quot;media&quot;&gt;
+                        &lt;div class=&quot;media-left&quot;&gt;
+                            &lt;span class=&quot;icoleaf bg-primary text-white&quot;&gt;&lt;i class=&quot;mdi mdi-checkbox-marked-circle-outline&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;media-body&quot;&gt;
+                            &lt;h3 class=&quot;info-count text-blue&quot;&gt;154&lt;/h3&gt;
+                            &lt;p class=&quot;info-text font-12&quot;&gt;Food Items&lt;/p&gt;
+                            &lt;span class=&quot;hr-line&quot;&gt;&lt;/span&gt;
+                            &lt;p class=&quot;info-ot font-15&quot;&gt;Target&lt;span class=&quot;label label-rounded label-success&quot;&gt;300&lt;/span&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-md-3 col-sm-6 info-box&quot;&gt;
+                    &lt;div class=&quot;media&quot;&gt;
+                        &lt;div class=&quot;media-left&quot;&gt;
+                            &lt;span class=&quot;icoleaf bg-primary text-white&quot;&gt;&lt;i class=&quot;mdi mdi-comment-text-outline&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;media-body&quot;&gt;
+                            &lt;h3 class=&quot;info-count text-blue&quot;&gt;68&lt;/h3&gt;
+                            &lt;p class=&quot;info-text font-12&quot;&gt;Recipes&lt;/p&gt;
+                            &lt;span class=&quot;hr-line&quot;&gt;&lt;/span&gt;
+                            &lt;p class=&quot;info-ot font-15&quot;&gt;Total Used&lt;span class=&quot;label label-rounded label-danger&quot;&gt;14&lt;/span&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-md-3 col-sm-6 info-box&quot;&gt;
+                    &lt;div class=&quot;media&quot;&gt;
+                        &lt;div class=&quot;media-left&quot;&gt;
+                            &lt;span class=&quot;icoleaf bg-primary text-white&quot;&gt;&lt;i class=&quot;mdi mdi-coin&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;media-body&quot;&gt;
+                            &lt;h3 class=&quot;info-count text-blue&quot;&gt;&amp;#36;947&lt;/h3&gt;
+                            &lt;p class=&quot;info-text font-12&quot;&gt;Food Cost&lt;/p&gt;
+                            &lt;span class=&quot;hr-line&quot;&gt;&lt;/span&gt;
+                            &lt;p class=&quot;info-ot font-15&quot;&gt;Savings : &lt;span class=&quot;text-blue font-semibold&quot;&gt;&amp;#36;578&lt;/span&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-md-3 col-sm-6 info-box b-r-0&quot;&gt;
+                    &lt;div class=&quot;media&quot;&gt;
+                        &lt;div class=&quot;media-left p-r-5&quot;&gt;
+                            &lt;div id=&quot;earning&quot; class=&quot;e&quot; data-percent=&quot;12&quot;&gt;
+                                &lt;div id=&quot;pending&quot; class=&quot;p&quot; data-percent=&quot;55&quot;&gt;&lt;/div&gt;
+                                &lt;div id=&quot;booking&quot; class=&quot;b&quot; data-percent=&quot;50&quot;&gt;&lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;media-body&quot;&gt;
+                            &lt;h2 class=&quot;text-blue font-22 m-t-0&quot;&gt;Report&lt;/h2&gt;
+                            &lt;ul class=&quot;p-0 m-b-20&quot;&gt;
+                                &lt;li&gt;&lt;i class=&quot;fa fa-circle m-r-5 text-primary&quot;&gt;&lt;/i&gt;12% Wasted&lt;/li&gt;
+                                &lt;li&gt;&lt;i class=&quot;fa fa-circle m-r-5 text-primary&quot;&gt;&lt;/i&gt;55% Target Reached&lt;/li&gt;
+                                &lt;li&gt;&lt;i class=&quot;fa fa-circle m-r-5 text-info&quot;&gt;&lt;/i&gt;50% Perishables&lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;!-- ===== Page-Container ===== --&gt;
+            &lt;div class=&quot;container-fluid&quot;&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-md-8 col-sm-12&quot;&gt;
+                        &lt;div class=&quot;white-box stat-widget&quot;&gt;
+                            &lt;div class=&quot;row&quot;&gt;
+                                &lt;div class=&quot;col-md-3 col-sm-3&quot;&gt;
+                                    &lt;h4 class=&quot;box-title&quot;&gt;Statistics&lt;/h4&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;col-md-9 col-sm-9&quot;&gt;
+                                    &lt;select class=&quot;custom-select&quot;&gt;
+                                        &lt;option selected value=&quot;0&quot;&gt;Feb 04 - Mar 03&lt;/option&gt;
+                                        &lt;option value=&quot;1&quot;&gt;Mar 04 - Apr 03&lt;/option&gt;
+                                        &lt;option value=&quot;2&quot;&gt;Apr 04 - May 03&lt;/option&gt;
+                                        &lt;option value=&quot;3&quot;&gt;May 04 - Jun 03&lt;/option&gt;
+                                    &lt;/select&gt;
+                                    &lt;ul class=&quot;list-inline&quot;&gt;
+                                        &lt;li&gt;
+                                            &lt;h6 class=&quot;font-15&quot;&gt;&lt;i class=&quot;fa fa-circle m-r-5 text-success&quot;&gt;&lt;/i&gt;New Groceries&lt;/h6&gt;
+                                        &lt;/li&gt;
+                                        &lt;li&gt;
+                                            &lt;h6 class=&quot;font-15&quot;&gt;&lt;i class=&quot;fa fa-circle m-r-5 text-primary&quot;&gt;&lt;/i&gt;Existing Groceries&lt;/h6&gt;
+                                        &lt;/li&gt;
+                                    &lt;/ul&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;stat chart-pos&quot;&gt;&lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-md-4 col-sm-12&quot;&gt;
+                        &lt;div class=&quot;white-box&quot;&gt;
+                            &lt;h4 class=&quot;box-title&quot;&gt;Task Progress&lt;/h4&gt;
+                            &lt;div class=&quot;task-widget t-a-c&quot;&gt;
+                                &lt;div class=&quot;task-chart&quot; id=&quot;sparklinedashdb&quot;&gt;&lt;/div&gt;
+                                &lt;div class=&quot;task-content font-16 t-a-c&quot;&gt;
+                                    &lt;div class=&quot;col-sm-6 b-r&quot;&gt;
+                                        Urgent Tasks
+                                        &lt;h1 class=&quot;text-primary&quot;&gt;05 &lt;span class=&quot;font-16 text-muted&quot;&gt;Tasks&lt;/span&gt;&lt;/h1&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-sm-6&quot;&gt;
+                                        Normal Tasks
+                                        &lt;h1 class=&quot;text-primary&quot;&gt;03 &lt;span class=&quot;font-16 text-muted&quot;&gt;Tasks&lt;/span&gt;&lt;/h1&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;task-assign font-16&quot;&gt;
+                                    Friends
+                                    &lt;ul class=&quot;list-inline&quot;&gt;
+                                        &lt;li class=&quot;p-l-0&quot;&gt;
+                                            &lt;img src=&quot;/images/users/avatar1.jpg&quot; alt=&quot;user&quot; data-toggle=&quot;tooltip&quot; data-placement=&quot;top&quot; title=&quot;&quot; data-original-title=&quot;Steave&quot;&gt;
+                                        &lt;/li&gt;
+                                        &lt;li&gt;
+                                            &lt;img src=&quot;/images/users/avatar2.jpg&quot; alt=&quot;user&quot; data-toggle=&quot;tooltip&quot; data-placement=&quot;top&quot; title=&quot;&quot; data-original-title=&quot;Steave&quot;&gt;
+                                        &lt;/li&gt;
+                                        &lt;li&gt;
+                                            &lt;img src=&quot;/images/users/avatar3.jpg&quot; alt=&quot;user&quot; data-toggle=&quot;tooltip&quot; data-placement=&quot;top&quot; title=&quot;&quot; data-original-title=&quot;Steave&quot;&gt;
+                                        &lt;/li&gt;
+                                        &lt;li class=&quot;p-r-0&quot;&gt;
+                                            &lt;a href=&quot;javascript:void(0);&quot; class=&quot;btn btn-success font-16&quot;&gt;3+&lt;/a&gt;
+                                        &lt;/li&gt;
+                                    &lt;/ul&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-md-4 col-sm-12&quot;&gt;
+                        &lt;div class=&quot;white-box bg-primary color-box&quot;&gt;
+                            &lt;h1 class=&quot;text-white font-light&quot;&gt;&amp;#36;6547 &lt;span class=&quot;font-14&quot;&gt;Food Cost&lt;/span&gt;&lt;/h1&gt;
+                            &lt;div class=&quot;ct-revenue chart-pos&quot;&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-md-4 col-sm-6&quot;&gt;
+                        &lt;div class=&quot;white-box bg-success color-box&quot;&gt;
+                            &lt;h1 class=&quot;text-white font-light m-b-0&quot;&gt;5247&lt;/h1&gt;
+                            &lt;span class=&quot;hr-line&quot;&gt;&lt;/span&gt;
+                            &lt;p class=&quot;cb-text&quot;&gt;current groceries&lt;/p&gt;
+                            &lt;h6 class=&quot;text-white font-semibold&quot;&gt;+25% &lt;span class=&quot;font-light&quot;&gt;Last Week&lt;/span&gt;&lt;/h6&gt;
+                            &lt;div class=&quot;chart&quot;&gt;
+                                &lt;div class=&quot;ct-visit chart-pos&quot;&gt;&lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-md-4 col-sm-6&quot;&gt;
+                        &lt;div class=&quot;white-box bg-danger color-box&quot;&gt;
+                            &lt;h1 class=&quot;text-white font-light m-b-0&quot;&gt;25%&lt;/h1&gt;
+                            &lt;span class=&quot;hr-line&quot;&gt;&lt;/span&gt;
+                            &lt;p class=&quot;cb-text&quot;&gt;Finished Tasks&lt;/p&gt;
+                            &lt;h6 class=&quot;text-white font-semibold&quot;&gt;+15% &lt;span class=&quot;font-light&quot;&gt;Last Week&lt;/span&gt;&lt;/h6&gt;
+                            &lt;div class=&quot;chart&quot;&gt;
+                                &lt;input class=&quot;knob&quot; data-min=&quot;0&quot; data-max=&quot;100&quot; data-bgColor=&quot;#f86b4a&quot; data-fgColor=&quot;#ffffff&quot; data-displayInput=false data-width=&quot;96&quot; data-height=&quot;96&quot; data-thickness=&quot;.1&quot; value=&quot;25&quot; readonly&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-md-12&quot;&gt;
+                        &lt;div class=&quot;white-box user-table&quot;&gt;
+                            &lt;div class=&quot;row&quot;&gt;
+                                &lt;div class=&quot;col-sm-6&quot;&gt;
+                                    &lt;h4 class=&quot;box-title&quot;&gt;Table Format/User Data&lt;/h4&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;col-sm-6&quot;&gt;
+                                    &lt;ul class=&quot;list-inline&quot;&gt;
+                                        &lt;li&gt;
+                                            &lt;a href=&quot;javascript:void(0);&quot; class=&quot;btn btn-default btn-outline font-16&quot;&gt;&lt;i class=&quot;fa fa-trash&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                                        &lt;/li&gt;
+                                        &lt;li&gt;
+                                            &lt;a href=&quot;javascript:void(0);&quot; class=&quot;btn btn-default btn-outline font-16&quot;&gt;&lt;i class=&quot;fa fa-commenting&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                                        &lt;/li&gt;
+                                    &lt;/ul&gt;
+                                    &lt;select class=&quot;custom-select&quot;&gt;
+                                        &lt;option selected&gt;Sort by&lt;/option&gt;
+                                        &lt;option value=&quot;1&quot;&gt;Name&lt;/option&gt;
+                                        &lt;option value=&quot;2&quot;&gt;Location&lt;/option&gt;
+                                        &lt;option value=&quot;3&quot;&gt;Type&lt;/option&gt;
+                                        &lt;option value=&quot;4&quot;&gt;Role&lt;/option&gt;
+                                        &lt;option value=&quot;5&quot;&gt;Action&lt;/option&gt;
+                                    &lt;/select&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;table-responsive&quot;&gt;
+                                &lt;table class=&quot;table&quot;&gt;
+                                    &lt;thead&gt;
+                                        &lt;tr&gt;
+                                            &lt;th&gt;
+                                                &lt;div class=&quot;checkbox checkbox-info&quot;&gt;
+                                                    &lt;input id=&quot;c1&quot; type=&quot;checkbox&quot;&gt;
+                                                    &lt;label for=&quot;c1&quot;&gt;&lt;/label&gt;
+                                                &lt;/div&gt;
+                                            &lt;/th&gt;
+                                            &lt;th&gt;Name&lt;/th&gt;
+                                            &lt;th&gt;Location&lt;/th&gt;
+                                            &lt;th&gt;Type&lt;/th&gt;
+                                            &lt;th&gt;Role&lt;/th&gt;
+                                            &lt;th&gt;Action&lt;/th&gt;
+                                        &lt;/tr&gt;
+                                    &lt;/thead&gt;
+                                    &lt;tbody&gt;
+                                        &lt;tr&gt;
+                                            &lt;td&gt;
+                                                &lt;div class=&quot;checkbox checkbox-info&quot;&gt;
+                                                    &lt;input id=&quot;c2&quot; type=&quot;checkbox&quot;&gt;
+                                                    &lt;label for=&quot;c2&quot;&gt;&lt;/label&gt;
+                                                &lt;/div&gt;
+                                            &lt;/td&gt;
+                                            &lt;td&gt;&lt;a href=&quot;javascript:void(0);&quot; class=&quot;text-link&quot;&gt;Daniel Kristeen&lt;/a&gt;&lt;/td&gt;
+                                            &lt;td&gt;Texas, US&lt;/td&gt;
+                                            &lt;td&gt;Recipes 564&lt;/td&gt;
+                                            &lt;td&gt;&lt;span class=&quot;label label-success&quot;&gt;Admin&lt;/span&gt;&lt;/td&gt;
+                                            &lt;td&gt;
+                                                &lt;select class=&quot;custom-select&quot;&gt;
+                                                    &lt;option value=&quot;1&quot;&gt;Modulator&lt;/option&gt;
+                                                    &lt;option value=&quot;2&quot;&gt;Admin&lt;/option&gt;
+                                                    &lt;option value=&quot;3&quot;&gt;Staff&lt;/option&gt;
+                                                    &lt;option value=&quot;4&quot;&gt;User&lt;/option&gt;
+                                                    &lt;option value=&quot;5&quot;&gt;General&lt;/option&gt;
+                                                &lt;/select&gt;
+                                            &lt;/td&gt;
+                                        &lt;/tr&gt;
+                                        &lt;tr&gt;
+                                            &lt;td&gt;
+                                                &lt;div class=&quot;checkbox checkbox-info&quot;&gt;
+                                                    &lt;input id=&quot;c3&quot; type=&quot;checkbox&quot;&gt;
+                                                    &lt;label for=&quot;c3&quot;&gt;&lt;/label&gt;
+                                                &lt;/div&gt;
+                                            &lt;/td&gt;
+                                            &lt;td&gt;&lt;a href=&quot;javascript:void(0);&quot; class=&quot;text-link&quot;&gt;Prof. Sangwan&lt;/a&gt;&lt;/td&gt;
+                                            &lt;td&gt;Los Angeles, US&lt;/td&gt;
+                                            &lt;td&gt;Recipes 451&lt;/td&gt;
+                                            &lt;td&gt;&lt;span class=&quot;label label-info&quot;&gt;Staff&lt;/span&gt; &lt;/td&gt;
+                                            &lt;td&gt;
+                                                &lt;select class=&quot;custom-select&quot;&gt;
+                                                    &lt;option value=&quot;1&quot;&gt;Modulator&lt;/option&gt;
+                                                    &lt;option value=&quot;2&quot;&gt;Admin&lt;/option&gt;
+                                                    &lt;option value=&quot;3&quot;&gt;Staff&lt;/option&gt;
+                                                    &lt;option value=&quot;4&quot;&gt;User&lt;/option&gt;
+                                                    &lt;option value=&quot;5&quot;&gt;General&lt;/option&gt;
+                                                &lt;/select&gt;
+                                            &lt;/td&gt;
+                                        &lt;/tr&gt;
+                                        &lt;tr&gt;
+                                            &lt;td&gt;
+                                                &lt;div class=&quot;checkbox checkbox-info&quot;&gt;
+                                                    &lt;input id=&quot;c4&quot; type=&quot;checkbox&quot;&gt;
+                                                    &lt;label for=&quot;c4&quot;&gt;&lt;/label&gt;
+                                                &lt;/div&gt;
+                                            &lt;/td&gt;
+                                            &lt;td&gt;&lt;a href=&quot;javascript:void(0);&quot; class=&quot;text-link&quot;&gt;Jeffery Brown&lt;/a&gt;&lt;/td&gt;
+                                            &lt;td&gt;Houston, US&lt;/td&gt;
+                                            &lt;td&gt;Recipes 978&lt;/td&gt;
+                                            &lt;td&gt;&lt;span class=&quot;label label-danger&quot;&gt;User&lt;/span&gt; &lt;/td&gt;
+                                            &lt;td&gt;
+                                                &lt;select class=&quot;custom-select&quot;&gt;
+                                                    &lt;option value=&quot;1&quot;&gt;Modulator&lt;/option&gt;
+                                                    &lt;option value=&quot;2&quot;&gt;Admin&lt;/option&gt;
+                                                    &lt;option value=&quot;3&quot;&gt;Staff&lt;/option&gt;
+                                                    &lt;option value=&quot;4&quot;&gt;User&lt;/option&gt;
+                                                    &lt;option value=&quot;5&quot;&gt;General&lt;/option&gt;
+                                                &lt;/select&gt;
+                                            &lt;/td&gt;
+                                        &lt;/tr&gt;
+                                        &lt;tr&gt;
+                                            &lt;td&gt;
+                                                &lt;div class=&quot;checkbox checkbox-info&quot;&gt;
+                                                    &lt;input id=&quot;c5&quot; type=&quot;checkbox&quot;&gt;
+                                                    &lt;label for=&quot;c5&quot;&gt;&lt;/label&gt;
+                                                &lt;/div&gt;
+                                            &lt;/td&gt;
+                                            &lt;td&gt;&lt;a href=&quot;javascript:void(0);&quot; class=&quot;text-link&quot;&gt;Elliot Dugteren&lt;/a&gt;&lt;/td&gt;
+                                            &lt;td&gt;San Antonio, US&lt;/td&gt;
+                                            &lt;td&gt;Recipes 34&lt;/td&gt;
+                                            &lt;td&gt;&lt;span class=&quot;label label-warning&quot;&gt;General&lt;/span&gt; &lt;/td&gt;
+                                            &lt;td&gt;
+                                                &lt;select class=&quot;custom-select&quot;&gt;
+                                                    &lt;option value=&quot;1&quot;&gt;Modulator&lt;/option&gt;
+                                                    &lt;option value=&quot;2&quot;&gt;Admin&lt;/option&gt;
+                                                    &lt;option value=&quot;3&quot;&gt;Staff&lt;/option&gt;
+                                                    &lt;option value=&quot;4&quot;&gt;User&lt;/option&gt;
+                                                    &lt;option value=&quot;5&quot;&gt;General&lt;/option&gt;
+                                                &lt;/select&gt;
+                                            &lt;/td&gt;
+                                        &lt;/tr&gt;
+                                        &lt;tr&gt;
+                                            &lt;td&gt;
+                                                &lt;div class=&quot;checkbox checkbox-info&quot;&gt;
+                                                    &lt;input id=&quot;c6&quot; type=&quot;checkbox&quot;&gt;
+                                                    &lt;label for=&quot;c6&quot;&gt;&lt;/label&gt;
+                                                &lt;/div&gt;
+                                            &lt;/td&gt;
+                                            &lt;td&gt;&lt;a href=&quot;javascript:void(0);&quot; class=&quot;text-link&quot;&gt;Sergio Milardovich&lt;/a&gt;&lt;/td&gt;
+                                            &lt;td&gt;Jacksonville, US&lt;/td&gt;
+                                            &lt;td&gt;Recipes 31&lt;/td&gt;
+                                            &lt;td&gt;&lt;span class=&quot;label label-primary&quot;&gt;Partial&lt;/span&gt; &lt;/td&gt;
+                                            &lt;td&gt;
+                                                &lt;select class=&quot;custom-select&quot;&gt;
+                                                    &lt;option value=&quot;1&quot;&gt;Modulator&lt;/option&gt;
+                                                    &lt;option value=&quot;2&quot;&gt;Admin&lt;/option&gt;
+                                                    &lt;option value=&quot;3&quot;&gt;Staff&lt;/option&gt;
+                                                    &lt;option value=&quot;4&quot;&gt;User&lt;/option&gt;
+                                                    &lt;option value=&quot;5&quot;&gt;General&lt;/option&gt;
+                                                &lt;/select&gt;
+                                            &lt;/td&gt;
+                                        &lt;/tr&gt;
+                                    &lt;/tbody&gt;
+                                &lt;/table&gt;
+                            &lt;/div&gt;
+                            &lt;ul class=&quot;pagination&quot;&gt;
+                                &lt;li class=&quot;disabled&quot;&gt; &lt;a href=&quot;#&quot;&gt;1&lt;/a&gt; &lt;/li&gt;
+                                &lt;li class=&quot;active&quot;&gt; &lt;a href=&quot;#&quot;&gt;2&lt;/a&gt; &lt;/li&gt;
+                                &lt;li&gt; &lt;a href=&quot;#&quot;&gt;3&lt;/a&gt; &lt;/li&gt;
+                                &lt;li&gt; &lt;a href=&quot;#&quot;&gt;4&lt;/a&gt; &lt;/li&gt;
+                                &lt;li&gt; &lt;a href=&quot;#&quot;&gt;5&lt;/a&gt; &lt;/li&gt;
+                            &lt;/ul&gt;
+                            &lt;a href=&quot;javascript:void(0);&quot; class=&quot;btn btn-success pull-right m-t-10 font-20&quot;&gt;+&lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-md-8&quot;&gt;
+                        &lt;div class=&quot;white-box&quot;&gt;
+                            &lt;div class=&quot;task-widget2&quot;&gt;
+                                &lt;div class=&quot;task-image&quot;&gt;
+                                    &lt;img src=&quot;/images/task.jpg&quot; alt=&quot;task&quot; class=&quot;img-responsive&quot;&gt;
+                                    &lt;div class=&quot;task-image-overlay&quot;&gt;&lt;/div&gt;
+                                    &lt;div class=&quot;task-detail&quot;&gt;
+                                        &lt;h2 class=&quot;font-light text-white m-b-0&quot;&gt;07 April&lt;/h2&gt;
+                                        &lt;h4 class=&quot;font-normal text-white m-t-5&quot;&gt;Your tasks for today&lt;/h4&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;task-add-btn&quot;&gt;
+                                        &lt;a href=&quot;javascript:void(0);&quot; class=&quot;btn btn-success&quot;&gt;+&lt;/a&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;task-total&quot;&gt;
+                                    &lt;p class=&quot;font-16 m-b-0&quot;&gt;&lt;strong&gt;5&lt;/strong&gt; Tasks for &lt;a href=&quot;javascript:void(0);&quot; class=&quot;text-link&quot;&gt;Jon Doe&lt;/a&gt;&lt;/p&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;task-list&quot;&gt;
+                                    &lt;ul class=&quot;list-group&quot;&gt;
+                                        &lt;li class=&quot;list-group-item bl-info&quot;&gt;
+                                            &lt;div class=&quot;checkbox checkbox-success&quot;&gt;
+                                                &lt;input id=&quot;c7&quot; type=&quot;checkbox&quot;&gt;
+                                                &lt;label for=&quot;c7&quot;&gt;
+                                                    &lt;span class=&quot;font-16&quot;&gt;Create list of ingredients for new recipe.&lt;/span&gt;
+                                                &lt;/label&gt;
+                                                &lt;h6 class=&quot;p-l-30 font-bold&quot;&gt;05:00 PM&lt;/h6&gt;
+                                            &lt;/div&gt;
+                                        &lt;/li&gt;
+                                        &lt;li class=&quot;list-group-item bl-warning&quot;&gt;
+                                            &lt;div class=&quot;checkbox checkbox-success&quot;&gt;
+                                                &lt;input id=&quot;c8&quot; type=&quot;checkbox&quot; checked&gt;
+                                                &lt;label for=&quot;c8&quot;&gt;
+                                                    &lt;span class=&quot;font-16&quot;&gt;Send daughter to pickup &lt;strong&gt;50 onions&lt;/strong&gt; on 23 May to &lt;a href=&quot;javascript:void(0);&quot; class=&quot;text-link&quot;&gt;Daniel Kristeen&lt;/a&gt; for the friend onion fest.&lt;/span&gt;
+                                                &lt;/label&gt;
+                                                &lt;h6 class=&quot;p-l-30 font-bold&quot;&gt;03:00 PM&lt;/h6&gt;
+                                            &lt;/div&gt;
+                                        &lt;/li&gt;
+                                        &lt;li class=&quot;list-group-item bl-danger&quot;&gt;
+                                            &lt;div class=&quot;checkbox checkbox-success&quot;&gt;
+                                                &lt;input id=&quot;c9&quot; type=&quot;checkbox&quot;&gt;
+                                                &lt;label for=&quot;c9&quot;&gt;
+                                                    &lt;span class=&quot;font-16&quot;&gt;It is a long established fact that a reader will be distracted by the readable.&lt;/span&gt;
+                                                &lt;/label&gt;
+                                                &lt;h6 class=&quot;p-l-30 font-bold&quot;&gt;04:45 PM&lt;/h6&gt;
+                                            &lt;/div&gt;
+                                        &lt;/li&gt;
+                                        &lt;li class=&quot;list-group-item bl-success&quot;&gt;
+                                            &lt;div class=&quot;checkbox checkbox-success&quot;&gt;
+                                                &lt;input id=&quot;c10&quot; type=&quot;checkbox&quot;&gt;
+                                                &lt;label for=&quot;c10&quot;&gt;
+                                                    &lt;span class=&quot;font-16&quot;&gt;It is a long established fact that a reader will be distracted by the readable.&lt;/span&gt;
+                                                &lt;/label&gt;
+                                                &lt;h6 class=&quot;p-l-30 font-bold&quot;&gt;05:30 PM&lt;/h6&gt;
+                                            &lt;/div&gt;
+                                        &lt;/li&gt;
+                                    &lt;/ul&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;task-loadmore&quot;&gt;
+                                    &lt;a href=&quot;javascript:void(0);&quot; class=&quot;btn btn-default btn-outline btn-rounded&quot;&gt;Load More&lt;/a&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-md-4&quot; style=&quot;display:none;&quot;&gt;
+                        &lt;div class=&quot;white-box chat-widget&quot;&gt;
+                            &lt;a href=&quot;javascript:void(0);&quot; class=&quot;pull-right&quot;&gt;&lt;i class=&quot;icon-settings&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                            &lt;h4 class=&quot;box-title&quot;&gt;Chat&lt;/h4&gt;
+                            &lt;ul class=&quot;chat-list slimscroll&quot; style=&quot;overflow: hidden;&quot; tabindex=&quot;5005&quot;&gt;
+                                &lt;li&gt;
+                                    &lt;div class=&quot;chat-image&quot;&gt; &lt;img alt=&quot;male&quot; src=&quot;/images/users/avatar2.jpg&quot;&gt; &lt;/div&gt;
+                                    &lt;div class=&quot;chat-body&quot;&gt;
+                                        &lt;div class=&quot;chat-text&quot;&gt;
+                                            &lt;p&gt;&lt;span class=&quot;font-semibold&quot;&gt;Prof. Sangwan&lt;/span&gt; Hey Daniel, This is just a sample chat. &lt;/p&gt;
+                                        &lt;/div&gt;
+                                        &lt;span&gt;2 Min ago&lt;/span&gt;
+                                    &lt;/div&gt;
+                                &lt;/li&gt;
+                                &lt;li class=&quot;odd&quot;&gt;
+                                    &lt;div class=&quot;chat-body&quot;&gt;
+                                        &lt;div class=&quot;chat-text&quot;&gt;
+                                            &lt;p&gt; buddy &lt;/p&gt;
+                                        &lt;/div&gt;
+                                        &lt;span&gt;2 Min ago&lt;/span&gt;
+                                    &lt;/div&gt;
+                                &lt;/li&gt;
+                                &lt;li&gt;
+                                    &lt;div class=&quot;chat-image&quot;&gt; &lt;img alt=&quot;male&quot; src=&quot;/images/users/avatar2.jpg&quot;&gt; &lt;/div&gt;
+                                    &lt;div class=&quot;chat-body&quot;&gt;
+                                        &lt;div class=&quot;chat-text&quot;&gt;
+                                            &lt;p&gt;&lt;span class=&quot;font-semibold&quot;&gt;Prof. Sangwan&lt;/span&gt; Bye now. &lt;/p&gt;
+                                        &lt;/div&gt;
+                                        &lt;span&gt;1 Min ago&lt;/span&gt;
+                                    &lt;/div&gt;
+                                &lt;/li&gt;
+                                &lt;li class=&quot;odd&quot;&gt;
+                                    &lt;div class=&quot;chat-body&quot;&gt;
+                                        &lt;div class=&quot;chat-text&quot;&gt;
+                                            &lt;p&gt; We have been busy all the day to make your website proposal and finally came with the super excited offer. &lt;/p&gt;
+                                        &lt;/div&gt;
+                                        &lt;span&gt;5 Sec ago&lt;/span&gt;
+                                    &lt;/div&gt;
+                                &lt;/li&gt;
+                            &lt;/ul&gt;
+                            &lt;div class=&quot;chat-send&quot;&gt;
+                                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;Write your message&quot;&gt;
+                                &lt;i class=&quot;fa fa-camera&quot;&gt;&lt;/i&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;?php require_once( __SPANEL__ ); ?&gt;
+
+            &lt;/div&gt;
+            &lt;!-- ===== Page-Container-End ===== --&gt;
+
+            &lt;footer class=&quot;footer t-a-c&quot;&gt;
+                &lt;?php echo __COPYRITE__; ?&gt;
+            &lt;/footer&gt;
+        &lt;/div&gt;
+        &lt;!-- ===== Page-Content-End ===== --&gt;
+    &lt;/div&gt;
+    &lt;!-- ===== Main-Wrapper-End ===== --&gt;
+
+&lt;?php require_once( __FOOTER__ ); ?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

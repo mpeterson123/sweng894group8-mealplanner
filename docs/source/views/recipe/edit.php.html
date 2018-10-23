@@ -1,0 +1,198 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// View/Edit Food
+///////////////////////////////////////////////////////////////////////////////
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
+
+use Base\Helpers\Session;
+
+// Plugins
+$PLUGIN_SLIMSCROLL  = TRUE;
+$PLUGIN_WAVES       = TRUE;
+$PLUGIN_SIDEBARMENU = TRUE;
+
+
+// Sub Title
+$SUBTITLE = &quot;Edit Recipe {$data['recipe']['name']}&quot;;
+
+?&gt;
+&lt;?php require_once( __HEADER__ ); ?&gt;
+
+&lt;body class=&quot;mini-sidebar&quot;&gt;
+    &lt;!-- Confirm deletion modal --&gt;
+    &lt;div class=&quot;modal fade&quot; id=&quot;confirm-delete-modal&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot; aria-labelledby=&quot;myModalLabel&quot;&gt;
+        &lt;div class=&quot;modal-dialog modal-sm&quot; role=&quot;document&quot;&gt;
+            &lt;div class=&quot;modal-content&quot;&gt;
+                &lt;div class=&quot;modal-header&quot;&gt;
+                    &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; aria-label=&quot;Close&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;
+                    &lt;h4 class=&quot;modal-title&quot; id=&quot;myModalLabel&quot;&gt;Confirm Recipe Deletion&lt;/h4&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;modal-body&quot;&gt;
+                    &lt;p&gt;Are you sure you want to delete this recipe? Doing so will &lt;strong&gt;remove it from all of your meal plans&lt;/strong&gt;. This cannot be undone.&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;modal-footer&quot;&gt;
+                    &lt;form class=&quot;&quot; action=&quot;/Recipes/delete/&lt;?php echo $data['recipe']['id'];?&gt;&quot; method=&quot;post&quot;&gt;
+                        &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-dismiss=&quot;modal&quot;&gt;Close&lt;/button&gt;
+                        &lt;button type=&quot;submit&quot; class=&quot;btn btn-danger&quot;&gt;Delete&lt;/button&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ===== Main-Wrapper ===== --&gt;
+    &lt;div id=&quot;wrapper&quot;&gt;
+        &lt;div class=&quot;preloader&quot;&gt;
+            &lt;div class=&quot;cssload-speeding-wheel&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+&lt;?php require_once( __NAVBAR__ ); ?&gt;
+
+&lt;?php require_once( __SIDEBAR__ ); ?&gt;
+
+        &lt;!-- ===== Page-Content ===== --&gt;
+        &lt;div class=&quot;page-wrapper&quot;&gt;
+
+            &lt;!-- ===== Page-Container ===== --&gt;
+            &lt;div class=&quot;container-fluid&quot;&gt;
+                &lt;?php Session::renderMessage(); ?&gt;
+
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-md-4 col-sm-12&quot;&gt;
+                        &lt;div class=&quot;white-box&quot;&gt;
+                            &lt;h3 class=&quot;box-title m-b-0&quot;&gt;&lt;?php echo $data['recipe']['name']; ?&gt;&lt;/h3&gt;
+&lt;?php if (isset($Errors)) { ?&gt;
+                            &lt;p class=&quot;text-danger m-b-30 font-13&quot;&gt;
+&lt;?php     foreach($Errors as $error) { ?&gt;
+                            &lt;?php echo $error; ?&gt;&lt;br/&gt;
+&lt;?php     } ?&gt;
+                            &lt;/p&gt;
+&lt;?php } ?&gt;
+
+                            &lt;p class=&quot;text-muted m-b-30 font-13&quot;&gt; &lt;?php echo $SUBTITLE; ?&gt;
+                            &lt;a href=&quot;/REcipes/&quot;&gt;&amp;laquo; Return to recipe&lt;/a&gt;
+                            &lt;/p&gt;
+                            &lt;div class=&quot;row&quot;&gt;
+                                &lt;div class=&quot;col-sm-12 col-xs-12&quot;&gt;
+                                    &lt;form method=&quot;post&quot; action=&quot;/Recipes/update/&lt;?php echo $data['recipe']['id']; ?&gt;&quot;&gt;
+                                        &lt;input type=&quot;hidden&quot; name=&quot;recipeid&quot; value=&quot;&lt;?php echo $data['recipe']['id']; ?&gt;&quot;&gt;
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputName&quot;&gt;Name&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-font&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;inputName&quot; placeholder=&quot;Name of Recipe&quot; name=&quot;name&quot; value=&quot;&lt;?php echo $data['recipe']['name']; ?&gt;&quot;&gt; &lt;/div&gt;
+                                        &lt;/div&gt;
+
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputName&quot;&gt;Description&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-font&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;inputDescription&quot; placeholder=&quot;Description&quot; name=&quot;name&quot; value=&quot;&lt;?php echo $data['recipe']['description']; ?&gt;&quot;&gt; &lt;/div&gt;
+                                        &lt;/div&gt;
+
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputUnitsInContainer&quot;&gt;Servings&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-font&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;number&quot; step=&quot;0.01&quot; min=&quot;1&quot; class=&quot;form-control&quot; id=&quot;inputServings&quot; placeholder=&quot;1&quot; name=&quot;servings&quot; value=&quot;&lt;?php echo $data['recipe']['servings']; ?&gt;&quot;&gt;
+                                            &lt;/div&gt;
+                                            &lt;p class=&quot;help-block&quot;&gt;&lt;/p&gt;
+                                        &lt;/div&gt;
+
+
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputName&quot;&gt;Notes&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-font&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;inputNotes&quot; placeholder=&quot;Notes&quot; name=&quot;notes&quot; value=&quot;&lt;?php echo $data['recipe']['notes]; ?&gt;&quot;&gt; &lt;/div&gt;
+                                        &lt;/div&gt;
+
+                                        &lt;button type=&quot;submit&quot; class=&quot;btn btn-success waves-effect waves-light m-r-10&quot;&gt;Update&lt;/button&gt;
+                                    &lt;/form&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-sm-2&quot;&gt;
+                        &lt;div class=&quot;white-box&quot;&gt;
+                            &lt;h3 class=&quot;box-title m-b-0&quot;&gt;Options&lt;/h3&gt;
+
+                            &lt;!-- Button trigger modal --&gt;
+                            &lt;button
+                                type=&quot;button&quot;
+                                class=&quot;btn btn-danger m-t-15&quot;
+                                data-toggle=&quot;modal&quot;
+                                data-target=&quot;#confirm-delete-modal&quot;&gt;
+                                Remove Item
+                            &lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+&lt;?php require_once( __SPANEL__ ); ?&gt;
+
+            &lt;/div&gt;
+            &lt;!-- ===== Page-Container-End ===== --&gt;
+
+            &lt;footer class=&quot;footer t-a-c&quot;&gt;
+                &lt;?php echo __COPYRITE__; ?&gt;
+            &lt;/footer&gt;
+
+        &lt;/div&gt;
+        &lt;!-- ===== Page-Content-End ===== --&gt;
+
+    &lt;/div&gt;
+    &lt;!-- ===== Main-Wrapper-End ===== --&gt;
+
+&lt;?php require_once( __FOOTER__ ); ?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

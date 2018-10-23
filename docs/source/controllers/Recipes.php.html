@@ -1,0 +1,209 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Controllers;
+
+// Autoload dependencies
+require_once __DIR__.'/../../vendor/autoload.php';
+
+
+////////////////////
+// Use statements //
+////////////////////
+use Base\Core\Controller;
+use Base\Core\DatabaseHandler;
+use Base\Helpers\Session;
+use Base\Helpers\Redirect;
+use Base\Models\Recipe;
+use Base\Repositories\RecipeRepository;
+
+
+class Recipes extends Controller {
+
+    private $recipeRepository;
+    private $dbh;
+
+    public function __construct()
+    {
+        parent::__construct(...func_get_args());
+
+        // Set RecipeRepository
+        /* TODO Find a way to inject it using the constructor (or other methods)
+         * instead of creating it here
+         */
+        $this-&gt;dbh = DatabaseHandler::getInstance();
+        $this-&gt;recipeRepository = new RecipeRepository($this-&gt;dbh-&gt;getDB());
+    }
+
+    public function index(){
+        // echo &quot;In &quot;.__CLASS__.&quot;@&quot;.__FUNCTION__;
+        $recipes = $this-&gt;recipeRepository-&gt;allForUser($_SESSION['id']);
+        //$recipes = $this-&gt;recipeRepository-&gt;all();
+        $this-&gt;view('recipe/index', compact('recipes'));
+    }
+
+    public function edit($id){
+        $db = $this-&gt;dbh-&gt;getDB();
+      //  $categoryRepository = new CategoryRepository($db);
+        //$unitRepository = new UnitRepository($db);
+
+        // Get user's categories, and list of units
+      //  $categories = $categoryRepository-&gt;allForUser($_SESSION['id']);
+      //  $units = $unitRepository-&gt;all();
+
+        // Get food details
+        $recipe = $this-&gt;recipeRepository-&gt;find($id);
+
+        $this-&gt;view('recipe/edit', compact('recipe'));//, 'categories', 'units'));
+    }
+
+    public function create(){
+        $db = $this-&gt;dbh-&gt;getDB();
+      //  $categoryRepository = new CategoryRepository($db);
+      //  $unitRepository = new UnitRepository($db);
+
+        // Get user's categories, and list of units
+      //  $categories = $categoryRepository-&gt;allForUser($_SESSION['id']);
+      //  $units = $unitRepository-&gt;all();
+
+        $this-&gt;view('recipe/create');//, compact('categories', 'units'));
+    }
+
+    public function store(){
+
+        $input = $_POST;
+
+        // Find unit and category
+        $db = $this-&gt;dbh-&gt;getDB();
+      //  $categoryRepository = new CategoryRepository($db);
+        //$unitRepository = new UnitRepository($db);
+
+        // Get user's categories
+        //$category = $categoryRepository-&gt;find($input['category_id']);
+      //  $unit = $unitRepository-&gt;find($input['unit_id']);
+
+        $recipe = new Recipe($input['name'],$input['description'],$input['servings'], $input['source'], $input['notes']);
+        //$recipe-&gt;setName($input['name']);
+        //$recipe-&gt;setStock($input['stock']);
+
+        $this-&gt;recipeRepository-&gt;save($recipe);
+
+        // Flash success message
+        Session::flashMessage('success', strtoupper($recipe-&gt;getName()).' was added to your list.');
+
+        // Redirect back after updating
+        Redirect::toControllerMethod('Recipes', 'index');
+        return;
+    }
+
+    public function delete($id){
+            $recipe = $this-&gt;recipeRepository-&gt;find($id);
+
+            // If food doesn't exist, load 404 error page
+            if(!$recipe){
+                Redirect::toControllerMethod('Errors', 'show', array('errorCode' =&gt; 404));
+                return;
+            }
+
+            // If recipe doesn't belong to user, do not delete, and show error page
+            if(!$this-&gt;recipeRepository-&gt;recipeBelongsToUser($id, $_SESSION['id'])){
+                Redirect::toControllerMethod('Errors', 'show', array('errorCode' =&gt; 403));
+                return;
+            }
+
+            $this-&gt;recipeRepository-&gt;remove($id);
+
+            Session::flashMessage('success', $recipe['name'].' was removed from your recipes.');
+
+            // Redirect to list after deleting
+            $this-&gt;index();
+            return;
+
+    }
+
+    public function update($id){
+        $recipe = $this-&gt;recipeRepository-&gt;find($id);
+
+        $this-&gt;checkRecipeBelongsToUser($id);
+
+        $input = $_POST;
+
+        // Find unit and category
+        $db = $this-&gt;dbh-&gt;getDB();
+        //$categoryRepository = new CategoryRepository($db);
+        //$unitRepository = new UnitRepository($db);
+
+        // Get user's categories
+        //$category = $categoryRepository-&gt;find($input['category_id']);
+        //$unit = $unitRepository-&gt;find($input['unit_id']);
+
+        $recipe = new Recipe();
+        $recipe-&gt;setId($id);
+        $recipe-&gt;setName($input['name']);
+        $recipe-&gt;setDescription($input['description']);
+        $recipe-&gt;setServings($input['servings']);
+        $recipe-&gt;setSource($input['source']);
+        $recipe-&gt;setNotes($input['notes']);
+
+        $this-&gt;recipeRepository-&gt;save($recipe);
+
+        // Flash success message
+        Session::flashMessage('success', strtoupper($recipe-&gt;getName()).' was updated.');
+
+        // Redirect back after updating
+        //Redirect::toControllerMethod('Recipes', 'edit', array('recipeId' =&gt; $food-&gt;getId()));
+        Redirect::toControllerMethod('Recipes', 'edit', $recipe-&gt;getId());
+        return;
+    }
+
+    public function checkRecipeBelongsToUser($id){
+        // If recipe doesn't belong to user, show forbidden error
+        if(!$this-&gt;recipeRepository-&gt;recipeBelongsToUser($id, $_SESSION['id'])){
+            Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
+            return;
+        }
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,16 +1,15 @@
 <?php
 namespace Base\Core;
 
-////////////////////////////////////////////////////////////
-// Import dependencies. Can be replaced by autoload later //
-////////////////////////////////////////////////////////////
-require_once('DatabaseHandler.php');
+// Autoload dependencies
+require_once __DIR__.'/../../vendor/autoload.php';
 
-
-/////////////////////////////////////////////////////////////////////
-// Load dependencies into current scope. Not the same as importing //
-/////////////////////////////////////////////////////////////////////
+////////////////////
+// Use statements //
+////////////////////
 use Base\Core\DatabaseHandler;
+use Base\Helpers\Session;
+use Base\Repositories\UserRepository;
 
 /**
  * Super class that handles all incoming requests
@@ -26,12 +25,31 @@ class Controller{
 		$this->dbh = $dbh;
 	}
 
-	public function model($model){
+	public function model($model, $params = NULL){
 		require_once __DIR__.'/../models/'.$model.'.php';
-		return new $model();
+		$namespacedModel = "Base\Models\\".$model;
+
+		if($params){
+			return new $namespacedModel(...$params);
+		}
+		return new $namespacedModel();
+
 	}
 	public function view($view,$data = []){
-		require_once __DIR__.'/../views/'.$view.'.php';
+
+		$userRepository = new UserRepository($this->dbh->getDB());
+		$user = (new Session())->get('user');
+		$data['user'] = $user;
+
+		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword');
+
+		if($user || in_array($view,$notLoggedInPages) ){
+			require_once __DIR__.'/../views/'.$view.'.php';
+		}
+		else {
+			require_once __DIR__.'/../views/auth/login.php';
+		}
+
 	}
 }
 ?>

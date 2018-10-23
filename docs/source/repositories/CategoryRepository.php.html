@@ -1,0 +1,106 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Repositories;
+require_once __DIR__.'/../../vendor/autoload.php';
+
+use Base\Models\Category;
+use Base\Repositories\Repository;
+
+
+class CategoryRepository extends Repository {
+    private $db;
+
+    public function __construct($db){
+        $this-&gt;db = $db;
+    }
+
+    /**
+     * Search for a category using its id
+     * @param  string $id   the category's id
+     * @return array        category's details
+     */
+    public function find($id){
+
+        $query = $this-&gt;db-&gt;prepare('SELECT * FROM categories WHERE id = ? ORDER BY name');
+        $query-&gt;bind_param(&quot;s&quot;, $id);
+        $query-&gt;execute();
+        $result = $query-&gt;get_result();
+        $categoryRow = $result-&gt;fetch_assoc();
+
+        $category = new Category();
+        $category-&gt;setId($categoryRow['id']);
+        $category-&gt;setName($categoryRow['name']);
+
+        return $category;
+    }
+
+    /**
+     * Get all categories added by a user
+     * @return array Associative array of categories
+     */
+    public function all(){
+        return $this-&gt;db-&gt;query('SELECT * FROM categories')-&gt;fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * Get all categories added by a user
+     * @return array Associative array of food items
+     */
+    public function allForUser($userId){
+        $query = $this-&gt;db-&gt;prepare('SELECT * FROM categories WHERE user_id = ? ORDER BY name');
+        $query-&gt;bind_param(&quot;s&quot;, $userId);
+        $query-&gt;execute();
+
+        $result = $query-&gt;get_result();
+        return $result-&gt;fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function save($object){}
+    public function remove($object){}
+    protected function insert($object){}
+    protected function update($object){}
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>
