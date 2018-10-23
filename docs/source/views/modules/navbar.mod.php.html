@@ -1,0 +1,232 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// Navbar (top) Module
+///////////////////////////////////////////////////////////////////////////////
+
+?&gt;
+        &lt;!-- ===== Top-Navigation ===== --&gt;
+        &lt;nav class=&quot;navbar navbar-default navbar-static-top m-b-0&quot;&gt;
+            &lt;div class=&quot;navbar-header&quot;&gt;
+                &lt;a class=&quot;navbar-toggle font-20 hidden-sm hidden-md hidden-lg &quot; href=&quot;javascript:void(0)&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.navbar-collapse&quot;&gt;
+                    &lt;i class=&quot;fa fa-bars&quot;&gt;&lt;/i&gt;
+                &lt;/a&gt;
+                &lt;div class=&quot;top-left-part&quot;&gt;
+                    &lt;a class=&quot;logo&quot; href=&quot;/dashboard/&quot;&gt;
+                        &lt;b&gt;
+                            &lt;img src=&quot;/images/logo.png&quot; alt=&quot;home&quot; /&gt;
+                        &lt;/b&gt;
+                        &lt;span&gt;
+                            &lt;img src=&quot;/images/logo-text.png&quot; alt=&quot;homepage&quot; class=&quot;dark-logo&quot; /&gt;
+                        &lt;/span&gt;
+                    &lt;/a&gt;
+                &lt;/div&gt;
+                &lt;ul class=&quot;nav navbar-top-links navbar-left hidden-xs&quot;&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:void(0)&quot; class=&quot;sidebartoggler font-20 waves-effect waves-light&quot;&gt;&lt;i class=&quot;icon-arrow-left-circle&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;form role=&quot;search&quot; class=&quot;app-search hidden-xs&quot;&gt;
+                            &lt;i class=&quot;icon-magnifier&quot;&gt;&lt;/i&gt;
+                            &lt;input type=&quot;text&quot; placeholder=&quot;Search...&quot; class=&quot;form-control&quot;&gt;
+                        &lt;/form&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;ul class=&quot;nav navbar-top-links navbar-right pull-right&quot;&gt;
+                    &lt;li class=&quot;dropdown&quot;&gt;
+                        &lt;a class=&quot;dropdown-toggle waves-effect waves-light font-20&quot; data-toggle=&quot;dropdown&quot; href=&quot;javascript:void(0);&quot;&gt;
+                            &lt;i class=&quot;icon-speech&quot;&gt;&lt;/i&gt;
+                            &lt;span class=&quot;badge badge-xs badge-danger&quot;&gt;6&lt;/span&gt;
+                        &lt;/a&gt;
+                        &lt;ul class=&quot;dropdown-menu mailbox animated bounceInDown&quot;&gt;
+                            &lt;li&gt;
+                                &lt;div class=&quot;drop-title&quot;&gt;You have 4 new messages&lt;/div&gt;
+                            &lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;div class=&quot;message-center&quot;&gt;
+                                    &lt;a href=&quot;javascript:void(0);&quot;&gt;
+                                        &lt;div class=&quot;user-img&quot;&gt;
+                                            &lt;img src=&quot;/images/users/avatar4.jpg&quot; alt=&quot;user&quot; class=&quot;img-circle&quot;&gt;
+                                            &lt;span class=&quot;profile-status online pull-right&quot;&gt;&lt;/span&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class=&quot;mail-contnet&quot;&gt;
+                                            &lt;h5&gt;Lawrence Sell&lt;/h5&gt;
+                                            &lt;span class=&quot;mail-desc&quot;&gt;Just see the my admin!&lt;/span&gt;
+                                            &lt;span class=&quot;time&quot;&gt;9:30 AM&lt;/span&gt;
+                                        &lt;/div&gt;
+                                    &lt;/a&gt;
+                                    &lt;a href=&quot;javascript:void(0);&quot;&gt;
+                                        &lt;div class=&quot;user-img&quot;&gt;
+                                            &lt;img src=&quot;/images/users/avatar2.jpg&quot; alt=&quot;user&quot; class=&quot;img-circle&quot;&gt;
+                                            &lt;span class=&quot;profile-status busy pull-right&quot;&gt;&lt;/span&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class=&quot;mail-contnet&quot;&gt;
+                                            &lt;h5&gt;Camila Perez&lt;/h5&gt;
+                                            &lt;span class=&quot;mail-desc&quot;&gt;I've sung a eating song! See you at&lt;/span&gt;
+                                            &lt;span class=&quot;time&quot;&gt;9:10 AM&lt;/span&gt;
+                                        &lt;/div&gt;
+                                    &lt;/a&gt;
+                                    &lt;a href=&quot;javascript:void(0);&quot;&gt;
+                                        &lt;div class=&quot;user-img&quot;&gt;
+                                            &lt;img src=&quot;/images/users/avatar5.jpg&quot; alt=&quot;user&quot; class=&quot;img-circle&quot;&gt;&lt;span class=&quot;profile-status away pull-right&quot;&gt;&lt;/span&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class=&quot;mail-contnet&quot;&gt;
+                                            &lt;h5&gt;Andrew Drake&lt;/h5&gt;
+                                            &lt;span class=&quot;mail-desc&quot;&gt;I am a picky eater!&lt;/span&gt;
+                                            &lt;span class=&quot;time&quot;&gt;9:08 AM&lt;/span&gt;
+                                        &lt;/div&gt;
+                                    &lt;/a&gt;
+                                    &lt;a href=&quot;javascript:void(0);&quot;&gt;
+                                        &lt;div class=&quot;user-img&quot;&gt;
+                                            &lt;img src=&quot;/images/users/avatar4.jpg&quot; alt=&quot;user&quot; class=&quot;img-circle&quot;&gt;
+                                            &lt;span class=&quot;profile-status offline pull-right&quot;&gt;&lt;/span&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class=&quot;mail-contnet&quot;&gt;
+                                            &lt;h5&gt;Lawrence Sell&lt;/h5&gt;
+                                            &lt;span class=&quot;mail-desc&quot;&gt;Just see the my admin!&lt;/span&gt;
+                                            &lt;span class=&quot;time&quot;&gt;9:02 AM&lt;/span&gt;
+                                        &lt;/div&gt;
+                                    &lt;/a&gt;
+                                &lt;/div&gt;
+                            &lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a class=&quot;text-center&quot; href=&quot;javascript:void(0);&quot;&gt;
+                                    &lt;strong&gt;See all notifications&lt;/strong&gt;
+                                    &lt;i class=&quot;fa fa-angle-right&quot;&gt;&lt;/i&gt;
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;dropdown&quot;&gt;
+                        &lt;a class=&quot;dropdown-toggle waves-effect waves-light font-20&quot; data-toggle=&quot;dropdown&quot; href=&quot;javascript:void(0);&quot;&gt;
+                            &lt;i class=&quot;icon-calender&quot;&gt;&lt;/i&gt;
+                            &lt;span class=&quot;badge badge-xs badge-danger&quot;&gt;3&lt;/span&gt;
+                        &lt;/a&gt;
+                        &lt;ul class=&quot;dropdown-menu dropdown-tasks animated slideInUp&quot;&gt;
+                            &lt;li&gt;
+                                &lt;a href=&quot;javascript:void(0);&quot;&gt;
+                                    &lt;div&gt;
+                                        &lt;p&gt;
+                                            &lt;strong&gt;Task 1&lt;/strong&gt;
+                                            &lt;span class=&quot;pull-right text-muted&quot;&gt;40% Complete&lt;/span&gt;
+                                        &lt;/p&gt;
+                                        &lt;div class=&quot;progress progress-striped active&quot;&gt;
+                                            &lt;div class=&quot;progress-bar progress-bar-success&quot; role=&quot;progressbar&quot; aria-valuenow=&quot;40&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; style=&quot;width: 40%&quot;&gt;
+                                                &lt;span class=&quot;sr-only&quot;&gt;40% Complete (success)&lt;/span&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href=&quot;javascript:void(0);&quot;&gt;
+                                    &lt;div&gt;
+                                        &lt;p&gt;
+                                            &lt;strong&gt;Task 2&lt;/strong&gt;
+                                            &lt;span class=&quot;pull-right text-muted&quot;&gt;20% Complete&lt;/span&gt;
+                                        &lt;/p&gt;
+                                        &lt;div class=&quot;progress progress-striped active&quot;&gt;
+                                            &lt;div class=&quot;progress-bar progress-bar-info&quot; role=&quot;progressbar&quot; aria-valuenow=&quot;20&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; style=&quot;width: 20%&quot;&gt;
+                                                &lt;span class=&quot;sr-only&quot;&gt;20% Complete&lt;/span&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href=&quot;javascript:void(0);&quot;&gt;
+                                    &lt;div&gt;
+                                        &lt;p&gt;
+                                            &lt;strong&gt;Task 3&lt;/strong&gt;
+                                            &lt;span class=&quot;pull-right text-muted&quot;&gt;60% Complete&lt;/span&gt;
+                                        &lt;/p&gt;
+                                        &lt;div class=&quot;progress progress-striped active&quot;&gt;
+                                            &lt;div class=&quot;progress-bar progress-bar-warning&quot; role=&quot;progressbar&quot; aria-valuenow=&quot;60&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; style=&quot;width: 60%&quot;&gt;
+                                                &lt;span class=&quot;sr-only&quot;&gt;60% Complete (warning)&lt;/span&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href=&quot;javascript:void(0);&quot;&gt;
+                                    &lt;div&gt;
+                                        &lt;p&gt;
+                                            &lt;strong&gt;Task 4&lt;/strong&gt;
+                                            &lt;span class=&quot;pull-right text-muted&quot;&gt;80% Complete&lt;/span&gt;
+                                        &lt;/p&gt;
+                                        &lt;div class=&quot;progress progress-striped active&quot;&gt;
+                                            &lt;div class=&quot;progress-bar progress-bar-danger&quot; role=&quot;progressbar&quot; aria-valuenow=&quot;80&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; style=&quot;width: 80%&quot;&gt;
+                                                &lt;span class=&quot;sr-only&quot;&gt;80% Complete (danger)&lt;/span&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a class=&quot;text-center&quot; href=&quot;javascript:void(0);&quot;&gt;
+                                    &lt;strong&gt;See All Tasks&lt;/strong&gt;
+                                    &lt;i class=&quot;fa fa-angle-right&quot;&gt;&lt;/i&gt;
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;right-side-toggle&quot;&gt;
+                        &lt;a class=&quot;right-side-toggler waves-effect waves-light b-r-0 font-20&quot; href=&quot;javascript:void(0)&quot;&gt;
+                            &lt;i class=&quot;icon-settings&quot;&gt;&lt;/i&gt;
+                        &lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;/nav&gt;
+        &lt;!-- ===== Top-Navigation-End ===== --&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// HTML Header Module
+///////////////////////////////////////////////////////////////////////////////
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;meta name=&quot;keywords&quot; content=&quot;&quot;&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;&quot;&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;&quot;&gt;
+    &lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;16x16&quot; href=&quot;/assets/images/favicon.png&quot;&gt;
+    &lt;title&gt;&lt;?php echo __SITENAME__; if (isset($SUBTITLE)) { echo &quot; {$SUBTITLE}&quot;; } ?&gt;&lt;/title&gt;
+    &lt;!-- ===== Bootstrap CSS ===== --&gt;
+    &lt;link href=&quot;/vendor/bootstrap/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;!-- ===== Plugin CSS ===== --&gt;
+&lt;?php if ($PLUGIN_CHARTIST) { ?&gt;
+    &lt;link href=&quot;/vendor/chartist-js/dist/chartist.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;link href=&quot;/vendor/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;?php } ?&gt;
+&lt;?php if ($PLUGIN_DATATABLES) { ?&gt;
+    &lt;link href=&quot;/vendor/datatables/jquery.dataTables.min.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+    &lt;link href=&quot;https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+&lt;?php } ?&gt;
+    &lt;!-- ===== Animation CSS ===== --&gt;
+    &lt;link href=&quot;/css/animate.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;!-- ===== Custom CSS ===== --&gt;
+    &lt;link href=&quot;/css/style.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;!-- ===== Color CSS ===== --&gt;
+    &lt;link href=&quot;/css/colors/default.css&quot; id=&quot;theme&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --&gt;
+    &lt;!-- WARNING: Respond.js doesn't work if you view the page via file:// --&gt;
+    &lt;!--[if lt IE 9]&gt;
+    &lt;script src=&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js&quot;&gt;&lt;/script&gt;
+    &lt;![endif]--&gt;
+&lt;/head&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

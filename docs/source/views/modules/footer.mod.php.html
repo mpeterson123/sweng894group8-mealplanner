@@ -1,0 +1,108 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// HTML Footer Module
+///////////////////////////////////////////////////////////////////////////////
+?&gt;
+    &lt;!-- ==============================
+        Required JS Files
+    =============================== --&gt;
+    &lt;!-- ===== jQuery ===== --&gt;
+    &lt;script src=&quot;/vendor/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
+    &lt;!-- ===== Bootstrap JavaScript ===== --&gt;
+    &lt;script src=&quot;/vendor/bootstrap/dist/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;?php if ($PLUGIN_SIDEBARMENU) { ?&gt;
+    &lt;!-- ===== Menu Plugin JavaScript ===== --&gt;
+    &lt;script src=&quot;/vendor/sidebarmenu.js&quot;&gt;&lt;/script&gt;
+&lt;?php } ?&gt;
+&lt;?php if ($PLUGIN_SLIMSCROLL) { ?&gt;
+    &lt;!-- ===== Slimscroll JavaScript ===== --&gt;
+    &lt;script src=&quot;/vendor/jquery.slimscroll.js&quot;&gt;&lt;/script&gt;
+&lt;?php } ?&gt;
+&lt;?php if ($PLUGIN_WAVES) { ?&gt;
+    &lt;!-- ===== Wave Effects JavaScript ===== --&gt;
+    &lt;script src=&quot;/vendor/waves.js&quot;&gt;&lt;/script&gt;
+&lt;?php } ?&gt;
+    &lt;!-- ===== Custom JavaScript ===== --&gt;
+    &lt;script src=&quot;/vendor/custom.js&quot;&gt;&lt;/script&gt;
+    &lt;!-- ===== Plugin JS ===== --&gt;
+&lt;?php if ($PLUGIN_CHARTIST) { ?&gt;
+    &lt;script src=&quot;/vendor/chartist-js/dist/chartist.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;/vendor/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;/vendor/sparkline/jquery.sparkline.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;/vendor/sparkline/jquery.charts-sparkline.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;/vendor/knob/jquery.knob.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;/vendor/easypiechart/dist/jquery.easypiechart.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;/vendor/db1.js&quot;&gt;&lt;/script&gt;
+&lt;?php } ?&gt;
+&lt;?php if ($PLUGIN_DATATABLES) { ?&gt;
+    &lt;script src=&quot;/vendor/datatables/jquery.dataTables.min.js&quot;&gt;&lt;/script&gt;
+&lt;?php } ?&gt;
+&lt;?php if ($PLUGIN_EXPORT) { ?&gt;
+    &lt;!-- start - This is for export functionality only --&gt;
+    &lt;script src=&quot;https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js&quot;&gt;&lt;/script&gt;
+    &lt;!-- end - This is for export functionality only --&gt;
+    &lt;script&gt;
+
+    $('#export-table').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+    &lt;/script&gt;
+&lt;?php } ?&gt;
+    &lt;!-- ===== Style Switcher JS ===== --&gt;
+    &lt;script src=&quot;/vendor/styleswitcher/jQuery.style.switcher.js&quot;&gt;&lt;/script&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

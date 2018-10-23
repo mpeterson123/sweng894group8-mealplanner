@@ -1,0 +1,144 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+namespace Base\Helpers;
+require_once __DIR__.'/../../vendor/autoload.php';
+
+class Session{
+
+    /**
+     * Stores temporary messages in the session
+     * @param  string $status  Type of alert. Must be one of: info, success, danger, warning
+     * @param  string $message Message to show to user.
+     * @return void
+     */
+    public static function flashMessage($status, $message){
+        self::add('status', $status);
+        self::add('message', $message);
+    }
+
+    /**
+     * Displays a flashed (temporary) message and removes it from the session.
+     * The message is displayed as a Bootstrap alert.
+     * @return void
+     */
+    public static function renderMessage(){
+        if(self::get('status') &amp;&amp; self::get('message')){
+            $html = '&lt;div class=&quot;alert alert-dismissable alert-'.self::get('status').'&quot; role=&quot;alert&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;'.self::get('message').'&lt;/div&gt;';
+            echo $html;
+            self::remove('status');
+            self::remove('message');
+        }
+    }
+
+    /**
+     * Add a key-value pair to the session
+     * @param string $key   Identifier to access value
+     * @param string $value Value to be stored
+     */
+    public static function add($key, $value){
+        $_SESSION[$key] = $value;
+    }
+
+    public static function remove($key){
+        unset ($_SESSION[$key]);
+    }
+
+    /**
+     * Retrieve a key-value pair from the session
+     * @param string $key   Identifier to access value
+     * @return mixed        Value corresponding to key
+     */
+    public static function get($key){
+        if(isset($_SESSION[$key])){
+            return $_SESSION[$key];
+        }
+        return;
+    }
+
+    /**
+     * Store old input in the session. Used in combination with getOldInput to
+     * repopulate forms that have errors.
+     *
+     * @param  array $oldInputs     Array of inputs to store for repopulation
+     * @return void
+     */
+    public static function flashOldInput($oldInputs)
+    {
+        $_SESSION['old'] = array();
+        foreach($oldInputs as $key =&gt; $value){
+            $_SESSION['old'][$key] = $value;
+        }
+    }
+
+    /**
+     * Store old input in the session. Used in combination with getOldInput to
+     * repopulate forms that have errors.
+     *
+     * @param  string $oldInputKey Field name in form
+     * @return string              Old input value
+     */
+    public static function getOldInput($oldInputKey)
+    {
+        if(isset($_SESSION['old'][$oldInputKey])){
+            $value = $_SESSION['old'][$oldInputKey];
+            return $value;
+        }
+        return;
+    }
+
+    /**
+     * Remove old input from session
+     */
+    public static function flushOldInput():void{
+        unset($_SESSION['old']);
+    }
+
+
+
+
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

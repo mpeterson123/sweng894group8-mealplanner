@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Core;
+require_once __DIR__.'/../../vendor/autoload.php';
+
+/**
+ * Handle database connection
+ */
+class DatabaseHandler
+{
+    private static $host = '34.207.226.165';
+    private static $dbName   = 'capstone';
+    private static $user = 'capstone_remote';
+    private static $pass = 'CmklPrew!';
+    private static $charset = 'utf8';
+
+    private static $instance = NULL;
+    private $db;
+
+    /**
+     * Private constructor to prevent outside use
+     */
+    private function __construct(){}
+
+    /**
+     * Return an instance of itself, creating it if necessary
+     * @return Base\Core\DatabaseHandler Instance of itself
+     */
+    public static function getInstance(){
+        if(!self::$instance)
+        {
+            self::$instance = new DatabaseHandler();
+            self::$instance-&gt;connect();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Connect to the database
+     * @return boolean Whether connection was successful
+     */
+    private function connect()
+    {
+        $this-&gt;db = new \mysqli(self::$host, self::$user, self::$pass, self::$dbName);
+
+        if($this-&gt;db-&gt;connect_errno &gt; 0){
+            return false;
+        };
+        return true;
+    }
+
+    /**
+     * Return instance of database connection object
+     * @return [type] [description]
+     */
+    public function getDB(){
+        return $this-&gt;db;
+    }
+
+    /**
+     * Disconnect from database
+     * @return [type] [description]
+     */
+    public function disconnect()
+    {
+        $this-&gt;db-&gt;close();
+    }
+
+    public function __destruct()
+    {
+        if($this-&gt;db &amp;&amp; $this-&gt;db-&gt;ping()){
+            $this-&gt;disconnect();
+        };
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+namespace Base\Core;
+
+// Autoload dependencies
+require_once __DIR__.'/../../vendor/autoload.php';
+
+////////////////////
+// Use statements //
+////////////////////
+use Base\Core\DatabaseHandler;
+use Base\Helpers\Session;
+
+/**
+ * Entry point to the application
+ *
+ * This class receives all requests and calls the appropriate controller methods
+ * to handle them.
+ */
+class App {
+	protected $controller = 'Home';
+	protected $method = 'index';
+	protected $params = [];
+
+	public function __construct(){
+
+		session_start();
+		// set timezone
+		date_default_timezone_set('America/New_York');
+
+		$dbh = DatabaseHandler::getInstance();
+		$url = $this-&gt;parseUrl();
+
+		// If controller file exists, set it and remove the name from the URL
+		if(file_exists(__DIR__.'/../controllers/'.$url[0].'.php')){
+			$this-&gt;controller = $url[0];
+			unset($url[0]);
+		}
+
+		// Require controller file
+		$path = __DIR__.'/../controllers/'.$this-&gt;controller.'.php';
+		require_once($path);
+
+		// Instantiate controller
+		$namespacedController = &quot;Base\Controllers\\&quot;.$this-&gt;controller;
+		$this-&gt;controller = new $namespacedController($dbh);
+
+		// If method exists, set it and remove the name from the URL
+		if(isset($url[1])){
+			if(method_exists($this-&gt;controller,$url[1])){
+				$this-&gt;method = $url[1];
+				unset($url[1]);
+			}
+		}
+		// Get params if any
+		$this-&gt;params = $url ? array_values($url) : [];
+
+		// Invoke controller method with parameters
+		call_user_func_array([$this-&gt;controller,$this-&gt;method],$this-&gt;params);
+
+	}
+
+	public function parseUrl(){
+		if(isset($_GET['url'])){
+			return $url = explode('/',filter_var(rtrim($_GET['url'],'/'),FILTER_SANITIZE_URL));
+		}
+	}
+}
+?&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

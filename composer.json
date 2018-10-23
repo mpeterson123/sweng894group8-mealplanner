@@ -1,5 +1,22 @@
 {
     "require-dev": {
         "phpunit/phpunit": "^7"
+    },
+    "require": {
+        "swiftmailer/swiftmailer": "^6.0",
+        "vlucas/valitron": "^1.4",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Base\\Controllers\\":"app/controllers",
+            "Base\\Models\\":"app/models",
+            "Base\\Core\\":"app/core",
+            "Base\\Helpers\\":"app/helpers",
+            "Base\\Repositories\\":"app/repositories",
+            "Base\\Factories\\":"app/factories"
+        }
     }
 }

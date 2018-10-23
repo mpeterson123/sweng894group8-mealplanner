@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// For handling 503 server errors
+///////////////////////////////////////////////////////////////////////////////
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;meta name=&quot;keywords&quot; content=&quot;&quot;&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;&quot;&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;&quot;&gt;
+    &lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;16x16&quot; href=&quot;/images/favicon.png&quot;&gt;
+    &lt;title&gt;&lt;?php echo __SITENAME__; ?&gt; - 503 Service Unavailable&lt;/title&gt;
+    &lt;!-- ===== Bootstrap CSS ===== --&gt;
+    &lt;link href=&quot;/vendor/bootstrap/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;!-- ===== Plugin CSS ===== --&gt;
+    &lt;!-- ===== Animation CSS ===== --&gt;
+    &lt;link href=&quot;/css/animate.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;!-- ===== Custom CSS ===== --&gt;
+    &lt;link href=&quot;/css/style.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;!-- ===== Color CSS ===== --&gt;
+    &lt;link href=&quot;/css/colors/default.css&quot; id=&quot;theme&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --&gt;
+    &lt;!-- WARNING: Respond.js doesn't work if you view the page via file:// --&gt;
+    &lt;!--[if lt IE 9]&gt;
+    &lt;script src=&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js&quot;&gt;&lt;/script&gt;
+    &lt;![endif]--&gt;
+&lt;/head&gt;
+
+&lt;body class=&quot;mini-sidebar&quot;&gt;
+    &lt;!-- Preloader --&gt;
+    &lt;div class=&quot;preloader&quot;&gt;
+        &lt;div class=&quot;cssload-speeding-wheel&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;section id=&quot;wrapper&quot; class=&quot;error-page&quot;&gt;
+        &lt;div class=&quot;error-box&quot;&gt;
+            &lt;div class=&quot;error-body text-center&quot;&gt;
+                &lt;h1&gt;503&lt;/h1&gt;
+                &lt;h3 class=&quot;text-uppercase&quot;&gt;Service Unavailable&lt;/h3&gt;
+                &lt;p class=&quot;text-muted m-t-30 m-b-30&quot;&gt;Hold your horses! We'll be ready soon.&lt;/p&gt;
+                &lt;a href=&quot;&lt;?php echo __REDIRECT__; ?&gt;&quot; class=&quot;btn btn-info btn-rounded waves-effect waves-light m-b-40&quot;&gt;Back to home&lt;/a&gt; &lt;/div&gt;
+            &lt;footer class=&quot;footer text-center&quot;&gt;&lt;?php echo __COPYRITE__; ?&gt;&lt;/footer&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
+    &lt;!-- jQuery --&gt;
+    &lt;script src=&quot;/vendor/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
+    &lt;!-- Bootstrap Core JavaScript --&gt;
+    &lt;script src=&quot;/vendor/bootstrap/dist/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() {
+        $(&quot;.preloader&quot;).fadeOut();
+    });
+    &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

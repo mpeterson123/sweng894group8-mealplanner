@@ -1,0 +1,107 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// Login
+///////////////////////////////////////////////////////////////////////////////
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once(__DIR__ . '/../modules/main.mod.php' );
+
+// Sub Title
+$SUBTITLE = 'Register';
+
+// Plugins
+$PLUGIN_SLIMSCROLL = FALSE;
+$PLUGIN_WAVES      = FALSE;
+$PLUGIN_SIDEBARMENU= FALSE;
+?&gt;
+&lt;?php require_once( __HEADER__ ); ?&gt;
+&lt;?php
+  foreach($data as $d){
+    echo $d.'&lt;br&gt;';
+  }
+ ?&gt;
+&lt;body class=&quot;mini-sidebar&quot;&gt;
+    &lt;!-- Preloader --&gt;
+    &lt;div class=&quot;preloader&quot;&gt;
+        &lt;div class=&quot;cssload-speeding-wheel&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;section id=&quot;wrapper&quot; &gt;
+        &lt;div class=&quot;login-box&quot;&gt;
+            &lt;div class=&quot;white-box&quot;&gt;
+                &lt;form class=&quot;form-horizontal form-material&quot; id=&quot;registerform&quot; action=&quot;Account/register/&quot; method=&quot;POST&quot;&gt;
+                    &lt;h3 class=&quot;box-title m-b-20&quot;&gt;Register&lt;/h3&gt;
+                    &lt;div class=&quot;form-group &quot;&gt;
+                        &lt;div class=&quot;col-xs-12&quot;&gt;
+                            &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;reg_username&quot; required=&quot;&quot; placeholder=&quot;Username&quot;&gt;
+                            &lt;input class=&quot;form-control&quot; type=&quot;password&quot; name=&quot;reg_password&quot; required=&quot;&quot; placeholder=&quot;Password&quot;&gt;
+                            &lt;input class=&quot;form-control&quot; type=&quot;password&quot; name=&quot;reg_password2&quot; required=&quot;&quot; placeholder=&quot;Confirm Password&quot;&gt;
+                            &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;reg_namefirst&quot; required=&quot;&quot; placeholder=&quot;First Name&quot;&gt;
+                            &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;reg_namelast&quot; required=&quot;&quot; placeholder=&quot;Last Name&quot;&gt;
+                            &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;reg_email&quot; required=&quot;&quot; placeholder=&quot;Email Address&quot;&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;form-group text-center m-t-20&quot;&gt;
+                        &lt;div class=&quot;col-xs-12&quot;&gt;
+                            &lt;button class=&quot;btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light&quot; type=&quot;submit&quot;&gt;Register&lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;form-group m-b-0&quot;&gt;
+                        &lt;div class=&quot;col-sm-12 text-center&quot;&gt;
+                            &lt;p&gt;Already have an account? &lt;a href=&quot;/&quot; class=&quot;text-primary m-l-5&quot;&gt;&lt;b&gt;Log In&lt;/b&gt;&lt;/a&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/form&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
+
+&lt;?php require_once( __FOOTER__ ); ?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

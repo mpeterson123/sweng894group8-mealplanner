@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// Sidebar Module
+///////////////////////////////////////////////////////////////////////////////
+
+?&gt;
+        &lt;!-- ===== Left-Sidebar ===== --&gt;
+        &lt;aside class=&quot;sidebar&quot;&gt;
+            &lt;div class=&quot;scroll-sidebar&quot;&gt;
+                &lt;div class=&quot;user-profile&quot;&gt;
+                    &lt;div class=&quot;dropdown user-pro-body&quot;&gt;
+                        &lt;div class=&quot;profile-image&quot;&gt;
+                            &lt;img src=&quot;/images/users/&lt;?php echo $data['profile_pic']; ?&gt;&quot; alt=&quot;user-img&quot; class=&quot;img-circle&quot;&gt;
+                            &lt;a href=&quot;javascript:void(0);&quot; class=&quot;dropdown-toggle u-dropdown text-blue&quot; data-toggle=&quot;dropdown&quot; role=&quot;button&quot; aria-haspopup=&quot;true&quot; aria-expanded=&quot;false&quot;&gt;
+                                &lt;span class=&quot;badge badge-danger&quot;&gt;
+                                    &lt;i class=&quot;fa fa-angle-down&quot;&gt;&lt;/i&gt;
+                                &lt;/span&gt;
+                            &lt;/a&gt;
+                            &lt;ul class=&quot;dropdown-menu animated flipInY&quot;&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0);&quot;&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt; Profile&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0);&quot;&gt;&lt;i class=&quot;fa fa-inbox&quot;&gt;&lt;/i&gt; Inbox&lt;/a&gt;&lt;/li&gt;
+                                &lt;li role=&quot;separator&quot; class=&quot;divider&quot;&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;/Account/settings&quot;&gt;&lt;i class=&quot;fa fa-cog&quot;&gt;&lt;/i&gt; Account Settings&lt;/a&gt;&lt;/li&gt;
+                                &lt;li role=&quot;separator&quot; class=&quot;divider&quot;&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;Account/logout&quot;&gt;&lt;i class=&quot;fa fa-power-off&quot;&gt;&lt;/i&gt; Logout&lt;/a&gt;&lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/div&gt;
+                        &lt;p class=&quot;profile-text m-t-15 font-16&quot;&gt;&lt;a href=&quot;javascript:void(0);&quot;&gt;&lt;?php echo $data['user']['namefirst']; echo ' ' . $data['user']['namelast'] ?&gt;&lt;/a&gt;&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;nav class=&quot;sidebar-nav&quot;&gt;
+                    &lt;ul id=&quot;side-menu&quot;&gt;
+                        &lt;li&gt;
+                            &lt;a class=&quot;active waves-effect&quot; href=&quot;javascript:void(0);&quot; aria-expanded=&quot;false&quot;&gt;&lt;i class=&quot;icon-screen-desktop fa-fw&quot;&gt;&lt;/i&gt; &lt;span class=&quot;hide-menu&quot;&gt; Dashboard &lt;span class=&quot;label label-rounded label-info pull-right&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+                            &lt;ul aria-expanded=&quot;false&quot; class=&quot;collapse&quot;&gt;
+                                &lt;li&gt; &lt;a href=&quot;/dashboard/&quot;&gt;Modern Version&lt;/a&gt; &lt;/li&gt;
+                                &lt;li&gt; &lt;a href=&quot;javascript:void();&quot;&gt;Clean Version&lt;/a&gt; &lt;/li&gt;
+                                &lt;li&gt; &lt;a href=&quot;javascript:void();&quot;&gt;Analytical Version&lt;/a&gt; &lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/li&gt;
+                        &lt;li&gt;
+                            &lt;a class=&quot;waves-effect&quot; href=&quot;javascript:void(0);&quot; aria-expanded=&quot;false&quot;&gt;&lt;i class=&quot;icon-cup fa-fw&quot;&gt;&lt;/i&gt; &lt;span class=&quot;hide-menu&quot;&gt; Food&lt;span class=&quot;label label-rounded label-success pull-right&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+                            &lt;ul aria-expanded=&quot;false&quot; class=&quot;collapse&quot;&gt;
+                                &lt;li&gt;&lt;a href=&quot;/FoodItems/&quot;&gt;All Foods&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;/FoodItems/create&quot;&gt;Add Food Item&lt;/a&gt;&lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/li&gt;
+                        &lt;li&gt;
+                            &lt;a class=&quot;waves-effect&quot; href=&quot;javascript:void(0);&quot; aria-expanded=&quot;false&quot;&gt;&lt;i class=&quot;icon-book-open fa-fw&quot;&gt;&lt;/i&gt; &lt;span class=&quot;hide-menu&quot;&gt; Recipes&lt;span class=&quot;label label-rounded label-danger pull-right&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+                            &lt;ul aria-expanded=&quot;false&quot; class=&quot;collapse&quot;&gt;
+                                &lt;li&gt;&lt;a href=&quot;/Recipes/&quot;&gt;View Recipes&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;/Recipes/create&quot;&gt;Add Recipe&lt;/a&gt;&lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/li&gt;
+                        &lt;li&gt;
+                            &lt;a class=&quot;waves-effect&quot; href=&quot;javascript:void(0);&quot; aria-expanded=&quot;false&quot;&gt;&lt;i class=&quot;icon-book-open fa-fw&quot;&gt;&lt;/i&gt; &lt;span class=&quot;hide-menu&quot;&gt; Meals&lt;span class=&quot;label label-rounded label-danger pull-right&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+                            &lt;ul aria-expanded=&quot;false&quot; class=&quot;collapse&quot;&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0);&quot;&gt;View Meal Plan&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0);&quot;&gt;Add Meal Plan&lt;/a&gt;&lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/li&gt;
+                        &lt;li&gt;
+                            &lt;a class=&quot;waves-effect&quot; href=&quot;javascript:void(0);&quot; aria-expanded=&quot;false&quot;&gt;&lt;i class=&quot;icon-book-open fa-fw&quot;&gt;&lt;/i&gt; &lt;span class=&quot;hide-menu&quot;&gt; Groceries&lt;span class=&quot;label label-rounded label-danger pull-right&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+                            &lt;ul aria-expanded=&quot;false&quot; class=&quot;collapse&quot;&gt;
+                                &lt;li&gt;&lt;a href=&quot;javascript:void(0);&quot;&gt;View Grocery List&lt;/a&gt;&lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/li&gt;
+                    &lt;/ul&gt;
+                &lt;/nav&gt;
+                &lt;div class=&quot;p-30&quot;&gt;
+                    &lt;span class=&quot;hide-menu&quot;&gt;
+                        &lt;a href=&quot;https://www.cubictheme.ga/cubic-html/&quot; target=&quot;_blank&quot; class=&quot;btn btn-default m-t-15&quot;&gt;Help / Reference&lt;/a&gt;
+                    &lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/aside&gt;
+        &lt;!-- ===== Left-Sidebar-End ===== --&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

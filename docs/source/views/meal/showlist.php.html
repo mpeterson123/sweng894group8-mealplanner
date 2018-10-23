@@ -1,0 +1,162 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// Food (listing)
+///////////////////////////////////////////////////////////////////////////////
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
+
+// Sub Title
+$SUBTITLE = 'Meal';
+
+// Plugins
+$PLUGIN_SLIMSCROLL  = TRUE;
+$PLUGIN_WAVES       = TRUE;
+$PLUGIN_DATATABLES  = TRUE;
+$PLUGIN_SIDEBARMENU = TRUE;
+$PLUGIN_EXPORT      = TRUE;
+
+// Food
+$User['id'] = 1;  // Default to 1 for testing purposes
+$MealPlan = sqlRequestWhere('MealPlan', 'userid', $User['id']);
+$Meals = sqlRequestWhere('Meal', 'planid', $MealPlan['id']);
+$Recipes = sqlRequestWhere('Recipe', 'id', $Meals['recipe']);
+// $Ingredents = sqlRequestWhere('ingredent', 'recipeid', $Recipes['id']);
+// $Foods = sqlRequestWhere('food', 'foodid', $Ingredents['id']);
+
+?&gt;
+&lt;?php require_once( __HEADER__ ); ?&gt;
+
+&lt;body class=&quot;mini-sidebar&quot;&gt;
+    &lt;!-- ===== Main-Wrapper ===== --&gt;
+    &lt;div id=&quot;wrapper&quot;&gt;
+        &lt;div class=&quot;preloader&quot;&gt;
+            &lt;div class=&quot;cssload-speeding-wheel&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+&lt;?php require_once( __NAVBAR__ ); ?&gt;
+
+&lt;?php require_once( __SIDEBAR__ ); ?&gt;
+
+        &lt;!-- ===== Page-Content ===== --&gt;
+        &lt;div class=&quot;page-wrapper&quot;&gt;
+
+            &lt;!-- ===== Page-Container ===== --&gt;
+            &lt;div class=&quot;container-fluid&quot;&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-sm-4&quot;&gt;
+                        &lt;div class=&quot;white-box&quot;&gt;
+                            &lt;h3 class=&quot;box-title m-b-0&quot;&gt;Meal Plan Schedule&lt;/h3&gt;
+                            &lt;p class=&quot;text-muted m-b-30&quot;&gt;Export data to Copy, CSV, Excel, PDF &amp; Print&lt;/p&gt;
+                            &lt;div class=&quot;table-responsive&quot;&gt;
+                                &lt;table id=&quot;export-table&quot; class=&quot;display nowrap&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;
+                                    &lt;thead&gt;
+                                        &lt;tr&gt;
+                                            &lt;th&gt;Date&lt;/th&gt;
+                                            &lt;th&gt;Recipe&lt;/th&gt;
+                                            &lt;th&gt;Scale Factor&lt;/th&gt;
+                                            &lt;th&gt;Complete&lt;/th&gt;
+                                            &lt;th&gt;Date Added&lt;/th&gt;
+                                        &lt;/tr&gt;
+                                    &lt;/thead&gt;
+                                    &lt;tfoot&gt;
+                                        &lt;tr&gt;
+                                          &lt;th&gt;Date&lt;/th&gt;
+                                          &lt;th&gt;Recipe&lt;/th&gt;
+                                          &lt;th&gt;Scale Factor&lt;/th&gt;
+                                          &lt;th&gt;Complete&lt;/th&gt;
+                                          &lt;th&gt;Date Added&lt;/th&gt;
+                                        &lt;/tr&gt;
+                                    &lt;/tfoot&gt;
+                                    &lt;tbody&gt;
+
+                        &lt;?php
+                        foreach ($Meals as $meal) {
+                              echo $meal['date'];
+                              $Temp = sqlRequestWhere($Recipes, 'id', $meal['recipe']);
+                              echo $Temp['name']
+                              echo $meal['scaleFactor'];
+                              echo $meal['isComplete'];
+                              echo $meal['addedDate'];
+                            }
+                        }
+                        ?&gt;
+
+                                    &lt;/tbody&gt;
+                                &lt;/table&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-sm-2&quot;&gt;
+                        &lt;div class=&quot;white-box&quot;&gt;
+                            &lt;h3 class=&quot;box-title m-b-0&quot;&gt;Options&lt;/h3&gt;
+                            &lt;a href=&quot;/foods/add/&quot; class=&quot;btn btn-success m-t-15&quot;&gt;+ Add Food Item&lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+
+&lt;?php require_once( __SPANEL__ ); ?&gt;
+
+            &lt;/div&gt;
+            &lt;!-- ===== Page-Container-End ===== --&gt;
+
+            &lt;footer class=&quot;footer t-a-c&quot;&gt;
+                &lt;?php echo __COPYRITE__; ?&gt;
+            &lt;/footer&gt;
+        &lt;/div&gt;
+        &lt;!-- ===== Page-Content-End ===== --&gt;
+
+    &lt;/div&gt;
+    &lt;!-- ===== Main-Wrapper-End ===== --&gt;
+
+&lt;?php require_once( __FOOTER__ ); ?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

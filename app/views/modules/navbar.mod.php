@@ -15,10 +15,10 @@
                 <div class="top-left-part">
                     <a class="logo" href="/dashboard/">
                         <b>
-                            <img src="/plugins/images/logo.png" alt="home" />
+                            <img src="/images/logo.png" alt="home" />
                         </b>
                         <span>
-                            <img src="/plugins/images/logo-text.png" alt="homepage" class="dark-logo" />
+                            <img src="/images/logo-text.png" alt="homepage" class="dark-logo" />
                         </span>
                     </a>
                 </div>
@@ -47,7 +47,7 @@
                                 <div class="message-center">
                                     <a href="javascript:void(0);">
                                         <div class="user-img">
-                                            <img src="/plugins/images/users/avatar4.jpg" alt="user" class="img-circle">
+                                            <img src="/images/users/avatar4.jpg" alt="user" class="img-circle">
                                             <span class="profile-status online pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
@@ -58,7 +58,7 @@
                                     </a>
                                     <a href="javascript:void(0);">
                                         <div class="user-img">
-                                            <img src="/plugins/images/users/avatar2.jpg" alt="user" class="img-circle">
+                                            <img src="/images/users/avatar2.jpg" alt="user" class="img-circle">
                                             <span class="profile-status busy pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
@@ -69,7 +69,7 @@
                                     </a>
                                     <a href="javascript:void(0);">
                                         <div class="user-img">
-                                            <img src="/plugins/images/users/avatar5.jpg" alt="user" class="img-circle"><span class="profile-status away pull-right"></span>
+                                            <img src="/images/users/avatar5.jpg" alt="user" class="img-circle"><span class="profile-status away pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
                                             <h5>Andrew Drake</h5>
@@ -79,7 +79,7 @@
                                     </a>
                                     <a href="javascript:void(0);">
                                         <div class="user-img">
-                                            <img src="/plugins/images/users/avatar4.jpg" alt="user" class="img-circle">
+                                            <img src="/images/users/avatar4.jpg" alt="user" class="img-circle">
                                             <span class="profile-status offline pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">

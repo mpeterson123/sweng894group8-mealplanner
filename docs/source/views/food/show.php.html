@@ -1,0 +1,201 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+///////////////////////////////////////////////////////////////////////////////
+// MealPlanner                             Penn State - Cohorts 19 &amp; 20 @ 2018
+///////////////////////////////////////////////////////////////////////////////
+// View/Edit Food
+///////////////////////////////////////////////////////////////////////////////
+require_once __DIR__.'/../../../vendor/autoload.php';
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
+
+// Externals
+$FoodID   = $_REQUEST['foodid'] ?? substr($_SERVER['REDIRECT_URL'], strrpos($_SERVER['REDIRECT_URL'], '/')+1) ?? 0;
+$EditItem = $_REQUEST['edit'] ?? FALSE;
+$EditName = $_REQUEST['name'] ?? NULL;
+$EditCost = $_REQUEST['cost'] ?? NULL;
+
+// Globals
+$Success = FALSE;
+
+// Check for valid Food Item
+if (!$FoodID)
+{
+?&gt;
+&lt;script&gt;document.location='/foods/';&lt;/script&gt;
+&lt;?php
+   exit(0);
+}
+
+// Check to see if User can see this food (SECURITY check)
+// ...
+
+// Plugins
+$PLUGIN_SLIMSCROLL  = TRUE;
+$PLUGIN_WAVES       = TRUE;
+$PLUGIN_SIDEBARMENU = TRUE;
+
+// Update the Food Item?
+if ($EditItem)
+{
+    $Errors = array();
+
+    // Missing Fields
+    if (!$EditName)
+    {
+        $Errors[] = 'Missing name.';
+    }
+
+    if (!$EditCost)
+    {
+        $Errors[] = 'Missing item cost.';
+    }
+
+    // Sanitization (e.g. mysql_real_escape_string)
+
+    // Are we good to go?
+    if (count($Errors) == 0)
+    {
+        sqlQuery(&quot;UPDATE food SET name = '{$EditName}', unitcost = {$EditCost} WHERE id = {$FoodID}&quot;);
+        $Success = TRUE;
+    }
+}
+
+// Retrieve Food (needs to be done AFTER update)
+$Food = sqlRequestArrayByID('food', $FoodID, '*');
+
+// Sub Title
+$SUBTITLE = &quot;Viewing Food {$Food['name']}&quot;;
+
+?&gt;
+&lt;?php require_once( __HEADER__ ); ?&gt;
+
+&lt;body class=&quot;mini-sidebar&quot;&gt;
+    &lt;!-- ===== Main-Wrapper ===== --&gt;
+    &lt;div id=&quot;wrapper&quot;&gt;
+        &lt;div class=&quot;preloader&quot;&gt;
+            &lt;div class=&quot;cssload-speeding-wheel&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+&lt;?php require_once( __NAVBAR__ ); ?&gt;
+
+&lt;?php require_once( __SIDEBAR__ ); ?&gt;
+
+        &lt;!-- ===== Page-Content ===== --&gt;
+        &lt;div class=&quot;page-wrapper&quot;&gt;
+
+            &lt;!-- ===== Page-Container ===== --&gt;
+            &lt;div class=&quot;container-fluid&quot;&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-md-4 col-sm-12&quot;&gt;
+                        &lt;div class=&quot;white-box&quot;&gt;
+                            &lt;h3 class=&quot;box-title m-b-0&quot;&gt;&lt;?php echo $Food['name']; ?&gt;&lt;/h3&gt;
+&lt;?php if (isset($Errors)) { ?&gt;
+                            &lt;p class=&quot;text-danger m-b-30 font-13&quot;&gt;
+&lt;?php     foreach($Errors as $error) { ?&gt;
+                            &lt;?php echo $error; ?&gt;&lt;br/&gt;
+&lt;?php     } ?&gt;
+                            &lt;/p&gt;
+&lt;?php } ?&gt;
+&lt;?php if ($Success) { ?&gt;
+                            &lt;p class=&quot;text-success m-b-30 font-13&quot;&gt; Update successful
+                            &lt;a href=&quot;/foods/&quot;&gt;&amp;laquo; Return to foods&lt;/a&gt;
+                            &lt;/p&gt;
+&lt;?php } else { ?&gt;
+                            &lt;p class=&quot;text-muted m-b-30 font-13&quot;&gt; Food Item Properties
+                            &lt;a href=&quot;/foods/&quot;&gt;&amp;laquo; Return to foods&lt;/a&gt;
+                            &lt;/p&gt;
+&lt;?php } ?&gt;
+                            &lt;div class=&quot;row&quot;&gt;
+                                &lt;div class=&quot;col-sm-12 col-xs-12&quot;&gt;
+                                    &lt;form method=&quot;post&quot; action=&quot;/foods/food/&quot;&gt;
+                                        &lt;input type=&quot;hidden&quot; name=&quot;edit&quot; value=&quot;1&quot;&gt;
+                                        &lt;input type=&quot;hidden&quot; name=&quot;foodid&quot; value=&quot;&lt;?php echo $Food['id']; ?&gt;&quot;&gt;
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputName&quot;&gt;Name&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-font&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;inputName&quot; placeholder=&quot;Name of Food or Grocery Item&quot; name=&quot;name&quot; value=&quot;&lt;?php echo $Food['name']; ?&gt;&quot;&gt; &lt;/div&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class=&quot;form-group&quot;&gt;
+                                            &lt;label for=&quot;inputUnitCost&quot;&gt;Cost&lt;/label&gt;
+                                            &lt;div class=&quot;input-group&quot;&gt;
+                                                &lt;div class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-money&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+                                                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;inputUnitCost&quot; placeholder=&quot;Enter Cost (e.g. 2.99)&quot; name=&quot;cost&quot; value=&quot;&lt;?php echo $Food['unitcost']; ?&gt;&quot;&gt; &lt;/div&gt;
+                                        &lt;/div&gt;
+                                        &lt;button type=&quot;submit&quot; class=&quot;btn btn-success waves-effect waves-light m-r-10&quot;&gt;Update&lt;/button&gt;
+                                    &lt;/form&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-sm-2&quot;&gt;
+                        &lt;div class=&quot;white-box&quot;&gt;
+                            &lt;h3 class=&quot;box-title m-b-0&quot;&gt;Options&lt;/h3&gt;
+                            &lt;a href=&quot;/foods/food/?foodid=&lt;?php echo $Food['id']; ?&gt;&amp;delete=1&quot; class=&quot;btn btn-danger m-t-15&quot;&gt;Remove Item&lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+&lt;?php require_once( __SPANEL__ ); ?&gt;
+
+            &lt;/div&gt;
+            &lt;!-- ===== Page-Container-End ===== --&gt;
+
+            &lt;footer class=&quot;footer t-a-c&quot;&gt;
+                &lt;?php echo __COPYRITE__; ?&gt;
+            &lt;/footer&gt;
+
+        &lt;/div&gt;
+        &lt;!-- ===== Page-Content-End ===== --&gt;
+
+    &lt;/div&gt;
+    &lt;!-- ===== Main-Wrapper-End ===== --&gt;
+
+&lt;?php require_once( __FOOTER__ ); ?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

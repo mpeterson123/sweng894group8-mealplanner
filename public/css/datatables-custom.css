@@ -1,0 +1,29 @@
+a.dt-button.buttons-columnVisibility.active {
+    color: black !important;
+}
+
+.dt-buttons
+{
+    float:right!important;
+    margin:0 0 0 25px!important;
+}
+
+.column-search input,column-search .column-search-select
+{
+    width:100%!important;
+    max-width:100%;
+    box-sizing:border-box}
+
+.dataTables_filter {
+    margin-bottom: 10px;
+}
+
+.dataTables_filter input {
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-left: 5px;
+}
+
+tfoot {
+    display:table-header-group;
+}
