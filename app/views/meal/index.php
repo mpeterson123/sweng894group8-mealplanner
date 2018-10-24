@@ -75,12 +75,12 @@ $Recipes = sqlRequestWhere('Recipe', 'id', $Meals['recipe']);
                         foreach ($Meals as $meal) {
                               echo $meal['date'];
                               $Temp = sqlRequestWhere($Recipes, 'id', $meal['recipe']);
-                              echo $Temp['name']
+                              echo $Temp['name'];
                               echo $meal['scaleFactor'];
                               echo $meal['isComplete'];
                               echo $meal['addedDate'];
                             }
-                        }
+                        
                         ?>
 
                                     </tbody>
