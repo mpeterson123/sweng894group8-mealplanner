@@ -99,8 +99,6 @@ $SUBTITLE = "Add Recipe";
                                             <p class="help-block"></p>
                                         </div>
 
-
-
                                     <hr>
                                         <label for="ingredientsWrapper">Ingredients</label>
                                         <div id="ingredientsWrapper">
@@ -235,33 +233,7 @@ $SUBTITLE = "Add Recipe";
         </div>
 
     </div>`; //end ingredientFormGroup -->
-      /*
-                `<div class="form-group ingredientFormGroup">
-                    <div class="col-xs-3">
-                       <input class="form-control" type="number" step="0.01" min="0.01">
-                    </div>
-                    <div class="col-xs-3">
-                       <select class="form-control" name="ingredientUnits[]" id="">
-                          <option value="1">Unit 1</option>
-                          <option value="2">Unit 2</option>
-                          <option value="1">Unit 3</option>
-                        </select>
-                    </div>
-                    <div class="col-xs-5">
-                       <select class="form-control" name="ingredientNames[]" id="">
-                          <option value="1">Food item 1</option>
-                          <option value="2">Food item 2</option>
-                          <option value="1">Food item 3</option>
-                       </select>
-                    </div>
-                     <div class="col-xs-1">
-                         <buttton class="btn-sm btn-danger btn removeIngredientBtn">
-                             <span class="glyphicon glyphicon-remove"></span>
-                         </buttton>
-
-                     </div>
-                 </div>`;
-                 */
+    
       $("#addIngredientBtn").on("click", function(e) {
           e.preventDefault();
           $('#ingredientsWrapper').append(ingredientHTML);

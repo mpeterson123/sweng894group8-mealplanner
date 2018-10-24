@@ -127,16 +127,17 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <div class="form-group ingredientFormGroup">
 
 
-                                          <!--  for(i=0;i<$data['ingredients'].length;i++)-->
+                                          <?php foreach($data['ingredients'] as $ingredient) {?>
+                                          <!--  for(i=0;i<$data['ingredients'].length;i++) -->
                                           <!--  {-->
 
                                               <div class="col-sm-3">
-                                                        <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo $data['ingredients'][0]->getQuantity()->getValue(); ?>">
+                                                        <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo $ingredient->getQuantity()->getValue(); ?>">
                                               </div>
 
                                               <div class="col-sm-4">
                                                     <select class="form-control" name="unit_id[]">
-                                                        <option value="0"><?php echo $data['ingredients'][0]->getUnit()->getName();?></option>
+                                                        <option value="0"><?php echo $ingredient->getUnit()->getName();?></option>
                                                         <?php
                                                             foreach($data['units'] as $unit){
                                                                 echo '<option ';
@@ -153,7 +154,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 
                                               <div class="col-sm-4">
                                                 <select class="form-control" name="foodid[]">
-                                                    <option value="0"><?php echo $data['ingredients'][0]->getFood()->getName();?></option>
+                                                    <option value="0"><?php echo $ingredient->getFood()->getName();?></option>
                                                     <?php
                                                         foreach($data['fooditems'] as $fooditem){
                                                             echo '<option ';
@@ -173,7 +174,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                 </button>
                                               </div>
 
-                                          <!--  }-->
+                                          <?php } ?>
 
                                             </div> <!-- end ingredientFormGroup -->
                                           </div> <!-- end ingredientsWrapper -->
@@ -238,11 +239,11 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                       foreach($data['units'] as $unit){
                           echo '<option ';
 
-                          if((new Session())->getOldInput('unit_id') == $unit['id']){
+                          if((new Session())->getOldInput('unit_id') == $unit->getId()){
                               echo 'selected="selected" ';
                           }
 
-                          echo 'value="'.$unit['id'].'">'.$unit['name'].' � '.$unit['abbreviation'].'</option>';
+                          echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
                       }
                   ?>
               </select>
@@ -271,33 +272,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
         </div>
 
     </div>`; //end ingredientFormGroup -->
-      /*
-                `<div class="form-group ingredientFormGroup">
-                    <div class="col-xs-3">
-                       <input class="form-control" type="number" step="0.01" min="0.01">
-                    </div>
-                    <div class="col-xs-3">
-                       <select class="form-control" name="ingredientUnits[]" id="">
-                          <option value="1">Unit 1</option>
-                          <option value="2">Unit 2</option>
-                          <option value="1">Unit 3</option>
-                        </select>
-                    </div>
-                    <div class="col-xs-5">
-                       <select class="form-control" name="ingredientNames[]" id="">
-                          <option value="1">Food item 1</option>
-                          <option value="2">Food item 2</option>
-                          <option value="1">Food item 3</option>
-                       </select>
-                    </div>
-                     <div class="col-xs-1">
-                         <buttton class="btn-sm btn-danger btn removeIngredientBtn">
-                             <span class="glyphicon glyphicon-remove"></span>
-                         </buttton>
 
-                     </div>
-                 </div>`;
-                 */
       $("#addIngredientBtn").on("click", function(e) {
           e.preventDefault();
           $('#ingredientsWrapper').append(ingredientHTML);
