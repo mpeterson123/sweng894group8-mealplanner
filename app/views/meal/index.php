@@ -2,7 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // MealPlanner                             Penn State - Cohorts 19 & 20 @ 2018
 ///////////////////////////////////////////////////////////////////////////////
-// Meal (listing)
+// Meals (listing)
 ///////////////////////////////////////////////////////////////////////////////
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
@@ -10,7 +10,8 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' )
 use Base\Helpers\Session;
 
 // Sub Title
-$SUBTITLE = 'Meal';
+$SUBTITLE = 'Meal Plan';
+
 
 // Plugins
 $PLUGIN_SLIMSCROLL  = TRUE;
@@ -19,13 +20,6 @@ $PLUGIN_DATATABLES  = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
 $PLUGIN_EXPORT      = TRUE;
 
-// Meal
-$User['id'] = 1;  // Default to 1 for testing purposes
-$MealPlan = sqlRequestWhere('MealPlan', 'userid', $User['id']);
-$Meals = sqlRequestWhere('Meal', 'planid', $MealPlan['id']);
-$Recipes = sqlRequestWhere('Recipe', 'id', $Meals['recipe']);
-
-?>
 <?php require_once( __HEADER__ ); ?>
 
 <body class="mini-sidebar">
@@ -44,54 +38,55 @@ $Recipes = sqlRequestWhere('Recipe', 'id', $Meals['recipe']);
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
+
+                <?php (new Session())->renderMessage(); ?>
+
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Meal Plan Schedule</h3>
+                            <h3 class="box-title m-b-0">Meal Plan</h3>
                             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
                             <div class="table-responsive">
-                                <table id="export-table" class="table table-striped">
+                                <table id="export-table" class="table table-striped" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Date</th>
                                             <th>Recipe</th>
-                                            <th>Scale Factor</th>
-                                            <th>Complete</th>
+                                            <th>Scale</th>
                                             <th>Date Added</th>
+                                            <th>Complete</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                        <tr>
-                                          <th>Date</th>
-                                          <th>Recipe</th>
-                                          <th>Scale Factor</th>
-                                          <th>Complete</th>
-                                          <th>Date Added</th>
+                                        <tr class="column-search">
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-
-                        <?php
-                        foreach ($Meals as $meal) {
-                              echo $meal['date'];
-                              $Temp = sqlRequestWhere($Recipes, 'id', $meal['recipe']);
-                              echo $Temp['name']
-                              echo $meal['scaleFactor'];
-                              echo $meal['isComplete'];
-                              echo $meal['addedDate'];
-                            }
-                        }
-                        ?>
-
+                                        <?php
+                                            if($data['meal']){
+                                                foreach ($data['meal'] as $meal) { ?>
+                                                <tr>
+                                                    <td><a href="/Meal/edit/<?php echo $meal['id']; ?>"><?php echo $meal['date']; ?></a></td>
+                                                    <td><?php echo $meal['recipe']; ?></td>
+                                                    <td><?php echo $meal['scale']; ?></td>
+                                                    <td><?php echo $meal['addedDate']; ?></td>
+                                                    <td><?php echo $meal['isComplete']; ?></td>
+                                                </tr>
+                                                <?php
+                                                }
+                                            }
+                                            ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Options</h3>
-                            <a href="/meal/create/" class="btn btn-success m-t-15">+ Create Meal</a>
+                            <h3 class="box-title m-b-0">Actions</h3>
+                            <a href="/Meal/create" class="btn btn-success m-t-15">+ Create Meal</a>
                         </div>
                     </div>
                 </div>
