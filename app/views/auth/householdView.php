@@ -47,22 +47,25 @@ $PLUGIN_EXPORT      = TRUE;
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="white-box">
-                          <h3 class="box-title m-b-0">Household</h3>
+                          <h3 class="box-title m-b-0"><?php echo $data['name']; ?></h3>
                           <div class="table-responsive">
                                 <table class="display nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Invite Code</th>
+                                            <th>Members</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            if($data['households']){
-                                                foreach ($data['households'] as $hh) { ?>
+                                            if($data['members']){
+                                                foreach ($data['members'] as $m) { ?>
                                                 <tr>
-                                                    <td><a href="/Household/detail/<?php echo $hh['id']; ?>"><?php echo $hh['name']; ?></a></td>
-                                                    <td><?php echo $hh['code']; ?></td>
+                                                    <td><?php echo $m['name']; ?></td>
+                                                    <?php
+                                                    if($data['owner'] == $m['username'])  echo '<td style="color:gray;text-align:right;">Owner</td>';
+                                                    else if($data['isOwner']) echo '<td style="text-align:right;"><a href="/Household/removeUser/'.$m['id'].'" style="color:red;">x</a></td>';
+                                                    ?>
                                                 </tr>
                                                 <?php
                                                 }
@@ -71,9 +74,14 @@ $PLUGIN_EXPORT      = TRUE;
                                     </tbody>
                                 </table>
                             </div>
-                            <hr>
-                            <br>
-                            <a href="/Household/index">+ Add Household</a>
+                            <br><br>
+                            <?php
+                            if($data['isOwner'])
+                              echo '<a href="/Household/delete/'.$data['hhId'].'">Delete Household</a>';
+                            else{
+                              echo '<a href="/Household/leave/'.$data['hhId'].'">Leave Household</a>';
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>

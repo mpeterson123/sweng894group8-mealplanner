@@ -87,5 +87,30 @@ class Household extends Controller{
 		(new Session())->flashMessage('success', 'You have joined a household.');
 		Redirect::toControllerMethod('Account', 'dashboard');
 	}
+	public function detail($hhID){
+		// Get User
+		$user = (new Session())->get('user');
+		// Get Household
+		$household = $this->hhRepo->find($hhID);
+		// Get all members of household
+		$members = $this->hhRepo->allForHousehold($household);
+		$memberArray = array(); // Simple array for passing to the view
+		// Check if user is in household
+		$in_hh = false;
+		foreach($members as $m){
+			$memberArray[] = array('id'=>$m->getId(),'name'=>$m->getName(),'username'=>$m->getUsername());
+			if($m->getId() == $user->getId())
+				$in_hh = true;
+		}
+		if(!$in_hh){
+			die('You do not have access to this household');
+		}
+		// Check if is owner
+		$isOwner = false;
+		if($household->getOwner() == $user->getUsername())
+			$isOwner = true;
+
+		$this->view('/auth/householdView',['message' => '','hhId'=>$household->getId(),'name'=>$household->getName(),'owner'=>$household->getOwner(),'isOwner'=>$isOwner,'members'=>$memberArray]);
+	}
 }
 ?>

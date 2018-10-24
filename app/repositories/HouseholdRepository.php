@@ -7,16 +7,19 @@ use Base\Helpers\Session;
 
 // File-specific classes
 use Base\Factories\HouseholdFactory;
+use Base\Factories\UserFactory;
 
 class HouseholdRepository extends Repository {
     private $db,
-        $householdFactory;
+        $householdFactory,
+        $userFactory;
 
     public function __construct($db){
         $this->db = $db;
 
         // TODO Use dependeny injection
         $this->householdFactory = new HouseholdFactory();
+        $this->userFactory = new UserFactory($db);
     }
 
 
@@ -43,7 +46,18 @@ class HouseholdRepository extends Repository {
         }
         return $households;
     }
+    public function allForHousehold($hh){
+        $query = $this->db->prepare('SELECT users.* FROM users JOIN usersHouseholds ON usersHouseholds.userId = users.id WHERE usersHouseholds.householdId = ?');
+        @$query->bind_param("i",$hh->getId());
+        $query->execute();
+        $result = $query->get_result();
 
+        $users = array();
+        while($userRow = $result->fetch_assoc()){
+            $users[] = $this->userFactory->make($userRow);
+        }
+        return $users;
+    }
 
 
     public function save($household){
