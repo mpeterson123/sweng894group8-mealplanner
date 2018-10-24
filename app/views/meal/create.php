@@ -54,7 +54,7 @@ $SUBTITLE = "Create Meal";
 <?php } ?>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
-                            <a href="/Meal/">&laquo; Return to meals</a>
+                            <a href="/Meals/index">&laquo; Return to meals</a>
                             </p>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">

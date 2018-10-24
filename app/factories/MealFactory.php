@@ -20,7 +20,7 @@ class MealFactory {
             $newMeal->setId($mealArray['id']);
         }
 
-        $newMeal->createMeal($mealArray['recipe'],$mealArray['date'],$mealArray['scale'])
+        $newMeal->createMeal($mealArray['recipe'],$mealArray['date'],$mealArray['scale']);
 
         return $newMeal;
     }
