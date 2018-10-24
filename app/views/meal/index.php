@@ -2,7 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // MealPlanner                             Penn State - Cohorts 19 & 20 @ 2018
 ///////////////////////////////////////////////////////////////////////////////
-// Food (listing)
+// Meals (listing)
 ///////////////////////////////////////////////////////////////////////////////
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
@@ -10,7 +10,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' )
 use Base\Helpers\Session;
 
 // Sub Title
-$SUBTITLE = 'Recipe Directory';
+$SUBTITLE = 'Meal Plan';
 
 
 // Plugins
