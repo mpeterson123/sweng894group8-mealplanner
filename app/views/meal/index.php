@@ -19,7 +19,7 @@ $PLUGIN_WAVES       = TRUE;
 $PLUGIN_DATATABLES  = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
 $PLUGIN_EXPORT      = TRUE;
-
+?>
 <?php require_once( __HEADER__ ); ?>
 
 <body class="mini-sidebar">
