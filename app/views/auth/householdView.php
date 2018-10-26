@@ -24,6 +24,52 @@ $PLUGIN_EXPORT      = TRUE;
 
 ?>
 <?php require_once( __HEADER__ ); ?>
+<style>
+  .selectBox{
+    width:200px;
+    height:150px;
+    border:1px solid black;
+    text-align:center;
+    line-height:150px;
+    float:left;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: white;
+    border-radius: 10px;
+  }
+</style>
+<script type="text/javascript">
+  function popupUser(open){
+    if(open>0){
+      document.getElementById("confirmUserBox").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+    else{
+      document.getElementById("confirmUserBox").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  }
+  function popupDelete(open){
+    if(open>0){
+      document.getElementById("confirmDeleteBox").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+    else{
+      document.getElementById("confirmDeleteBox").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  }
+  function popupLeave(open){
+    if(open>0){
+      document.getElementById("confirmLeaveBox").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+    else{
+      document.getElementById("confirmLeaveBox").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  }
+</script>
 
 <body class="mini-sidebar">
     <!-- ===== Main-Wrapper ===== -->
@@ -64,7 +110,7 @@ $PLUGIN_EXPORT      = TRUE;
                                                     <td><?php echo $m['name']; ?></td>
                                                     <?php
                                                     if($data['owner'] == $m['username'])  echo '<td style="color:gray;text-align:right;">Owner</td>';
-                                                    else if($data['isOwner']) echo '<td style="text-align:right;"><a href="/Household/removeUser/'.$m['id'].'" style="color:red;">x</a></td>';
+                                                    else if($data['isOwner']) echo '<td style="text-align:right;"><a href="javascript:void(0);" onclick="popupUser('.$m['id'].')" style="color:red;">x</a></td>';
                                                     ?>
                                                 </tr>
                                                 <?php
@@ -77,20 +123,42 @@ $PLUGIN_EXPORT      = TRUE;
                             <br><br>
                             <?php
                             if($data['isOwner'])
-                              echo '<a href="/Household/delete/'.$data['hhId'].'">Delete Household</a>';
+                              echo '<a href="javascript:void(0);" onclick="popupDelete(1)">Delete Household</a>';
                             else{
-                              echo '<a href="/Household/leave/'.$data['hhId'].'">Leave Household</a>';
+                              echo '<a href="javascript:void(0);" onclick="popupLeave(1)">Leave Household</a>';
                             }
                             ?>
                         </div>
                     </div>
+                </div>
+                <div id="overlay" style="top: 0%; left: 0%;position: absolute;z=2;display:none; width:100%;height:100%;background-color: gray;opacity:0.5;"></div>
+                <div id="confirmUserBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
+                  <div class="selectBox" style="line-height:25px;width:420px;">
+                      <br><p><h3>Are you sure you want to remove this user?</h3><p>
+                      <a href="/Household/remove/">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="javascript:void(0);"  onclick="popupUser(0)">No</a>
+                  </div>
+                </div>
+                <div id="confirmDeleteBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
+                  <div class="selectBox" style="line-height:25px;width:420px;height:200px;">
+                      <br><p><h3>Are you sure you want to delete this household?</h3><br>This action cannot be undone!<p>
+                      <a href="/Household/delete/<?php echo $data['hhId']; ?>">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="javascript:void(0);"  onclick="popupDelete(0)">No</a>
+                  </div>
+                </div>
+                <div id="confirmLeaveBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
+                  <div class="selectBox" style="line-height:25px;width:420px;">
+                      <br><p><h3>Are you sure you want to leave this household?</h3><p>
+                      <a href="/Household/leave/<?php echo $data['hhId']; ?>">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="javascript:void(0);"  onclick="popupLeave(0)">No</a>
+                  </div>
                 </div>
 
 
 <?php require_once( __SPANEL__ ); ?>
 
             </div>
-            <!-- ===== Page-Container-End ===== -->
+              <!-- ===== Page-Container-End ===== -->
 
             <footer class="footer t-a-c">
                 <?php echo __COPYRITE__; ?>
