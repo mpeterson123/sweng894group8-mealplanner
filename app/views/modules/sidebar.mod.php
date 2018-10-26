@@ -65,7 +65,7 @@
                         <li>
                             <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Groceries<span class="label label-rounded label-danger pull-right">0</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="javascript:void(0);">View Grocery List</a></li>
+                                <li><a href="/Groceries/index">View Grocery List</a></li>
                             </ul>
                         </li>
                     </ul>

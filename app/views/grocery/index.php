@@ -67,16 +67,16 @@ $Foods = sqlRequestWhere('food', 'foodid', $Ingredents['id']);
                                     </tfoot>
                                     <tbody>
 
-<?php
-foreach ($Ingredents as $ingredent) {
-    if ($ingredent['quantity'] > $food['stock']) {
-      echo $food['id'];
-      echo $food['unitcost'];
-      echo $food['name'];
-      echo ($food['unitcost'] * ($ingredent['quantity']) - $food['stock']);
-    }
-}
-?>
+                                    <?php
+                                    foreach ($Ingredents as $ingredent) {
+                                        if ($ingredent['quantity'] > $food['stock']) {
+                                          echo $food['id'];
+                                          echo $food['unitcost'];
+                                          echo $food['name'];
+                                          echo ($food['unitcost'] * ($ingredent['quantity']) - $food['stock']);
+                                        }
+                                    }
+                                    ?>
 
                                     </tbody>
                                 </table>
