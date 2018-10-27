@@ -76,11 +76,11 @@ class FoodItemFactoryTest extends TestCase {
         $foodItemArray = array(
             'id' => 1234,
             'name' => 'Bread',
-            'category_id' => 1,
+            'categoryId' => 1,
             'stock' => 1.00,
-            'unit_id' => 1,
-            'units_in_container' => 1.00,
-            'container_cost' => 1.00,
+            'unitId' => 1,
+            'unitsInContainer' => 1.00,
+            'containerCost' => 1.00,
             'householdId' => 1
         );
 
@@ -101,19 +101,19 @@ class FoodItemFactoryTest extends TestCase {
             'Base\Models\Unit',
             $foodItem->getUnit(),
             'Object must be instance of Unit');
-        $this->assertEquals($foodItem->getUnitsInContainer(), $foodItemArray['units_in_container']);
-        $this->assertEquals($foodItem->getContainerCost(), $foodItemArray['container_cost']);
+        $this->assertEquals($foodItem->getUnitsInContainer(), $foodItemArray['unitsInContainer']);
+        $this->assertEquals($foodItem->getContainerCost(), $foodItemArray['containerCost']);
         $this->assertEquals($foodItem->getUnitCost(), 1.00);
     }
 
     public function testMakeFoodItemWithoutId(){
         $foodItemArray = array(
             'name' => 'Bread',
-            'category_id' => 1,
+            'categoryId' => 1,
             'stock' => 1.00,
-            'unit_id' => 1,
-            'units_in_container' => 1.00,
-            'container_cost' => 1.00,
+            'unitId' => 1,
+            'unitsInContainer' => 1.00,
+            'containerCost' => 1.00,
             'householdId' => 1
         );
 
@@ -134,8 +134,8 @@ class FoodItemFactoryTest extends TestCase {
             'Base\Models\Unit',
             $foodItem->getUnit(),
             'Object must be instance of Unit');
-        $this->assertEquals($foodItem->getUnitsInContainer(), $foodItemArray['units_in_container']);
-        $this->assertEquals($foodItem->getContainerCost(), $foodItemArray['container_cost']);
+        $this->assertEquals($foodItem->getUnitsInContainer(), $foodItemArray['unitsInContainer']);
+        $this->assertEquals($foodItem->getContainerCost(), $foodItemArray['containerCost']);
         $this->assertEquals($foodItem->getUnitCost(), 1.00);
     }
 }

@@ -105,7 +105,7 @@ class FoodItemRepository extends Repository {
     protected function insert($food){
         $query = $this->db
             ->prepare('INSERT INTO foods
-                (name, stock, unit_id, category_id, units_in_container, container_cost, unit_cost, householdId)
+                (name, stock, unitId, categoryId, unitsInContainer, containerCost, unitCost, householdId)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ');
 
@@ -135,11 +135,11 @@ class FoodItemRepository extends Repository {
                 SET
                     name = ?,
                     stock = ?,
-                    unit_id = ?,
-                    category_id = ?,
-                    units_in_container = ?,
-                    container_cost = ?,
-                    unit_cost = ?
+                    unitId = ?,
+                    categoryId = ?,
+                    unitsInContainer = ?,
+                    containerCost = ?,
+                    unitCost = ?
                 WHERE id = ?
             ');
 

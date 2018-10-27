@@ -67,13 +67,13 @@ $SUBTITLE = "Add Food Item";
                                         </div>
                                         <div class="form-group">
                                             <label for="inputCategory">Category</label>
-                                            <select class="form-control" id="inputCategory" name="category_id">
+                                            <select class="form-control" id="inputCategory" name="categoryId">
                                                 <option value="0">Select one</option>
                                                 <?php
                                                     foreach($data['categories'] as $category){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('category_id') == $category['id']){
+                                                        if((new Session())->getOldInput('categoryId') == $category['id']){
                                                             echo 'selected="selected"';
                                                         }
 
@@ -85,13 +85,13 @@ $SUBTITLE = "Add Food Item";
 
                                         <div class="form-group">
                                             <label for="inputUnit">Unit</label>
-                                            <select class="form-control" id="inputUnit" name="unit_id">
+                                            <select class="form-control" id="inputUnit" name="unitId">
                                                 <option value="0">Select one</option>
                                                 <?php
                                                     foreach($data['units'] as $unit){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('unit_id') == $unit->getId()){
+                                                        if((new Session())->getOldInput('unitId') == $unit->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
@@ -105,7 +105,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputUnitsInContainer">Number of Units in Container</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="" name="units_in_container" value="<?php echo (new Session())->getOldInput('units_in_container'); ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="" name="unitsInContainer" value="<?php echo (new Session())->getOldInput('unitsInContainer'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -114,7 +114,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="" name="container_cost" value="<?php echo (new Session())->getOldInput('container_cost'); ?>">
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="" name="containerCost" value="<?php echo (new Session())->getOldInput('containerCost'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -129,7 +129,7 @@ $SUBTITLE = "Add Food Item";
 
                                         <div class="form-group">
                                             <label for="inputUnitCost">Unit Cost</label>
-                                            <p class="form-control-static" id="inputUnitCost" name="unit_cost">$<?php echo (new Session())->getOldInput('unit_cost'); ?></p>
+                                            <p class="form-control-static" id="inputUnitCost" name="unitCost">$<?php echo (new Session())->getOldInput('unitCost'); ?></p>
                                         </div>
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save</button>
                                     </form>

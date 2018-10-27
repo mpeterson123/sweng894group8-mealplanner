@@ -185,27 +185,27 @@ class FoodItems extends Controller {
         $rules = [
             'required' => [
                 ['name'],
-                ['category_id'],
-                ['unit_id'],
-                ['units_in_container'],
-                ['container_cost'],
+                ['categoryId'],
+                ['unitId'],
+                ['unitsInContainer'],
+                ['containerCost'],
                 ['stock']
             ],
             'integer' => [
-                ['category_id'],
-                ['unit_id']
+                ['categoryId'],
+                ['unitId']
             ],
             'regex' => [
                 ['name', $safeStringRegex],
-                ['units_in_container', $twoSigDigFloatRegex],
-                ['container_cost', $twoSigDigFloatRegex],
+                ['unitsInContainer', $twoSigDigFloatRegex],
+                ['containerCost', $twoSigDigFloatRegex],
                 ['stock', $twoSigDigFloatRegex]
             ]
         ];
         $validator->rules($rules);
         $validator->labels(array(
-            'category_id' => 'Category',
-            'unit_id' => 'Unit'
+            'categoryId' => 'Category',
+            'unitId' => 'Unit'
         ));
 
         if(!$validator->validate()) {

@@ -191,7 +191,7 @@ class Recipes extends Controller {
         //$unitRepository = new UnitRepository($db);
 
         // Get user's categories
-        //$category = $categoryRepository->find($input['category_id']);
+        //$category = $categoryRepository->find($input['categoryId']);
         //$unit = $unitRepository->find($input['unit_id']);
 
         $recipe->setId($id);

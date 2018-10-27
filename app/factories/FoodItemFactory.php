@@ -26,8 +26,8 @@ class FoodItemFactory {
      */
     public function make(array $foodItemArray):FoodItem
     {
-        $category = $this->categoryRepository->find($foodItemArray['category_id']);
-        $unit = $this->unitRepository->find($foodItemArray['unit_id']);
+        $category = $this->categoryRepository->find($foodItemArray['categoryId']);
+        $unit = $this->unitRepository->find($foodItemArray['unitId']);
 
         $foodItem = new FoodItem();
         if(isset($foodItemArray['id'])){
@@ -37,8 +37,8 @@ class FoodItemFactory {
         $foodItem->setStock(floatval($foodItemArray['stock']));
         $foodItem->setCategory($category);
         $foodItem->setUnit($unit);
-        $foodItem->setUnitsInContainer(floatval($foodItemArray['units_in_container']));
-        $foodItem->setContainerCost(floatval($foodItemArray['container_cost']));
+        $foodItem->setUnitsInContainer(floatval($foodItemArray['unitsInContainer']));
+        $foodItem->setContainerCost(floatval($foodItemArray['containerCost']));
         $foodItem->setUnitCost();
 
         return $foodItem;
