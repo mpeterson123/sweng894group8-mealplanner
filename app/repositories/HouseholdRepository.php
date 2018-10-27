@@ -35,7 +35,7 @@ class HouseholdRepository extends Repository {
     }
 
     public function allForUser($user){
-        $query = $this->db->prepare('SELECT household.* FROM household JOIN usersHouseholds ON usersHouseholds.householdId = household.id WHERE usersHouseholds.userId = ?');
+        $query = $this->db->prepare('SELECT household.* FROM household JOIN usersHouseholds ON usersHouseholds.householdId = household.id AND usersHouseholds.userId = ?');
         @$query->bind_param("i",$user->getId());
         $query->execute();
         $result = $query->get_result();

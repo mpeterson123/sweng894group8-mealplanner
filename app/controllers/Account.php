@@ -75,6 +75,7 @@ class Account extends Controller{
 		(new Session())->remove('user');
 		(new Session())->remove('username');
 		(new Session())->remove('id');
+		session_destroy();
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
@@ -246,7 +247,7 @@ class Account extends Controller{
 
 	public function showLogin(){
 		$user = (new Session())->get('user');
-		
+
 		// Active session
 		if($user){
 			Redirect::toControllerMethod('Account', 'dashboard');
