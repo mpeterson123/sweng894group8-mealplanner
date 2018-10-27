@@ -64,7 +64,7 @@ class Objects extends Controller {
         // Get object details
         $object = $this->objectRepository->find($id);
 
-        $this->view('object/edit', compact('object', /*whatever variables need to be sent to the view*/ ));
+        $this->view('object/edit', compact('object' /*, whatever variables need to be sent to the view*/ ));
     }
 
     /**
