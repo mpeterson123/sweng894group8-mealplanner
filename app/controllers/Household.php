@@ -153,8 +153,10 @@ class Household extends Controller{
 	/*
 	 * Delete household
 	 */
-	public function delete(){
-
+	public function delete($hhId){
+		$this->hhRepo->remove($hhId);
+		
+		Redirect::toControllerMethod('Household', 'list');
 	}
 
 }
