@@ -81,7 +81,7 @@ class FoodItemFactoryTest extends TestCase {
             'unit_id' => 1,
             'units_in_container' => 1.00,
             'container_cost' => 1.00,
-            'user_id' => 1
+            'householdId' => 1
         );
 
         $foodItem = $this->foodItemFactory->make($foodItemArray);
@@ -114,7 +114,7 @@ class FoodItemFactoryTest extends TestCase {
             'unit_id' => 1,
             'units_in_container' => 1.00,
             'container_cost' => 1.00,
-            'user_id' => 1
+            'householdId' => 1
         );
 
         $foodItem = $this->foodItemFactory->make($foodItemArray);
