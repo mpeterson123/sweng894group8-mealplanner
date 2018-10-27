@@ -17,7 +17,6 @@ class IngredientFactory {
         $unit = (new UnitRepository($this->db))->find($ingredientArray['unit_id']);
         $quantity = new Quantity($ingredientArray['quantity'], $unit);
 
-
         $ingredient = new Ingredient($foodItem, $quantity, $ingredientArray['recipeid'], $unit);
         if(isset($ingredientArray['id'])){
             $ingredient->setId($ingredientArray['id']);
