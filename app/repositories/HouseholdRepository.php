@@ -107,6 +107,19 @@ class HouseholdRepository extends Repository {
           $hhId);
       $query->execute();
     }
+    /**
+     * Remove a user to a household
+     * @param  integer $userId Id of user to connect
+     * @param  integer $hhId   Id of household to connect
+     */
+    public function disconnect($userId,$hhId):void{
+      $query = $this->db->prepare('Delete from usersHouseholds where userId=? AND householdId=?');
+      $query->bind_param(
+          "ii",
+          $userId,
+          $hhId);
+      $query->execute();
+    }
 
     // Not Implemented yet
     protected function update($object){

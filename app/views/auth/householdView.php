@@ -19,9 +19,6 @@ $PLUGIN_WAVES       = TRUE;
 $PLUGIN_DATATABLES  = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
 $PLUGIN_EXPORT      = TRUE;
-
-// echo "<pre>".print_r($data)."</pre>";
-
 ?>
 <?php require_once( __HEADER__ ); ?>
 <style>
@@ -39,8 +36,10 @@ $PLUGIN_EXPORT      = TRUE;
   }
 </style>
 <script type="text/javascript">
+  var selectedMemberId = 0;
   function popupUser(open){
     if(open>0){
+      document.getElementById('remUser').setAttribute("href","/Household/remove/<?php echo $data['hhId']; ?>/"+open);
       document.getElementById("confirmUserBox").style.display = "block";
       document.getElementById("overlay").style.display = "block";
     }
@@ -135,7 +134,7 @@ $PLUGIN_EXPORT      = TRUE;
                 <div id="confirmUserBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
                   <div class="selectBox" style="line-height:25px;width:420px;">
                       <br><p><h3>Are you sure you want to remove this user?</h3><p>
-                      <a href="/Household/remove/">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a id="remUser" href="/Household/remove/">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <a href="javascript:void(0);"  onclick="popupUser(0)">No</a>
                   </div>
                 </div>

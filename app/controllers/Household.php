@@ -129,8 +129,14 @@ class Household extends Controller{
 	/*
 	 * Remove user from household
 	 */
-	public function remove($user){
+	public function remove($hhId,$userId){
+		// Get Household
+		$household = $this->hhRepo->find($hhId);
 
+		// disconnect
+		$this->hhRepo->disconnect($userId,$hhId);
+
+		Redirect::toControllerMethod('Household', 'detail', array($hhId));
 	}
 	/*
 	 * Leave househould / User remove themself from household
