@@ -109,33 +109,32 @@ class Recipes extends Controller {
 
         //Save the recipe in the database:
         if ($this->recipeRepository->save($recipe)) {
-          // Flash success message
-          $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
+            // Flash success message
+            $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
 
-        for($i=0;$i<count($input['foodid']);$i++){
-          //Create the ingredient array:
+            for($i=0;$i<count($input['foodid']);$i++){
+                //Create the ingredient array:
+                $ingredientInput = array("foodid" => $input['foodid'][$i],
+                                      "quantity" => $input['quantity'][$i],
+                                      "recipeid" => $recipe->getId(),
+                                      "unit_id" => $input['unit_id'][$i]);
 
-          $ingredientInput = array("foodid" => $input['foodid'][$i],
-                                  "quantity" => $input['quantity'][$i],
-                                  "recipeid" => $recipe->getId(),
-                                  "unit_id" => $input['unit_id'][$i]);
+                //Create the ingredient object:
+                $ingredient = $ingredientFactory->make($ingredientInput);
 
-            //Create the ingredient object:
-            $ingredient = $ingredientFactory->make($ingredientInput);
+                //Save the ingredient in the database:
+                if($this->ingredientRepository->save($ingredient)) {
 
-            //Save the ingredient in the database:
-            if($this->ingredientRepository->save($ingredient)) {
+                    //Add the ingredient to the recipe object:
+                    $recipe->addIngredient($ingredient);
 
-              //Add the ingredient to the recipe object:
-              $recipe->addIngredient($ingredient);
-
-              // Flash success message
-              $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+                    // Flash success message
+                    $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+                }
+                else {
+                  $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
+                }
             }
-            else {
-              $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
-            }
-          }
         }
         else {
           $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');

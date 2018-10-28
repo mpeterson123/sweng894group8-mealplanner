@@ -247,7 +247,6 @@ class Account extends Controller{
 
 	public function logInUser(){
 		$user = $this->session->get('user');
-		var_dump($user);
 		$input = $_POST;
 
 		// Redirect to dashboard if user is already logged in

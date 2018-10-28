@@ -12,12 +12,12 @@ class Recipe{
 	private $notes;
 
 	public function __construct($theName='',$theDescription='',$theServings='',$theSource='',$theNotes=''){
-		$this->name = $this->setName($theName);
-		$this->description = $this->setDescription($theDescription);
-		$this->servings = $this->setServings($theServings);
+		$this->setName($theName);
+		$this->setDescription($theDescription);
+		$this->setServings($theServings);
 		$this->ingredients = array();
-		$this->source = $this->setSource($theSource);
-		$this->notes = $this->setNotes($theNotes);
+		$this->setSource($theSource);
+		$this->setNotes($theNotes);
 	}
 
 	public function addIngredient($anIngredient){

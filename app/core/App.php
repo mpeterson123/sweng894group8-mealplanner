@@ -77,7 +77,7 @@ class App {
 		catch(\Exception $e) {
 			// Instantiate controller
 			$namespacedController = "Base\Controllers\\Errors";
-			$controller = new $namespacedController();
+			$controller = new $namespacedController($this->dbh, $this->session);
 			$methodName = 'show';
 			$params = array('errorCode'=>404);
 		}
