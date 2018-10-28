@@ -25,12 +25,16 @@ use Base\Factories\UserFactory;
 use Base\Models\Household;
 
 class Account extends Controller{
-	private $userRepo;
-	private $dbh;
+	protected $dbh,
+        $session;
 
-	public function __construct() {
-      	parent::__construct(...func_get_args());
-		$this->dbh = DatabaseHandler::getInstance();
+	private $userRepo;
+
+	public function __construct(DatabaseHandler $dbh, Session $session){
+		$this->dbh = $dbh;
+		$this->session = $session;
+
+        // TODO Use dependecy injection
 		$this->userRepo = new UserRepository($this->dbh->getDB());
   	}
 
@@ -50,7 +54,7 @@ class Account extends Controller{
 			$email->sendEmailAddrConfirm($user->getEmail());
 			$this->userRepo->save($user);
 
-			(new Session())->flashMessage('success', 'Your account has been created. A confirmation link has been sent to you. Please confirm your email address to activate your account.');
+			$this->session->flashMessage('success', 'Your account has been created. A confirmation link has been sent to you. Please confirm your email address to activate your account.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 	}
@@ -60,9 +64,9 @@ class Account extends Controller{
 	}
 
 	public function logout(){
-		(new Session())->remove('user');
-		(new Session())->remove('username');
-		(new Session())->remove('id');
+		$this->session->remove('user');
+		$this->session->remove('username');
+		$this->session->remove('id');
 		session_destroy();
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
@@ -76,7 +80,7 @@ class Account extends Controller{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt) != $code)){
-			(new Session())->flashMessage('danger', 'Your password reset link is invalid. Please reset your password again.');
+			$this->session->flashMessage('danger', 'Your password reset link is invalid. Please reset your password again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 
@@ -84,7 +88,7 @@ class Account extends Controller{
 		$this->userRepo->confirmEmail($email);
 
 		// Redirect to login
-		(new Session())->flashMessage('success', 'Your email address has been confirmed. Please log in.');
+		$this->session->flashMessage('success', 'Your email address has been confirmed. Please log in.');
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
@@ -109,7 +113,7 @@ class Account extends Controller{
 			$emailHandler->sendPasswordReset($email,$code);
 
 			// Redirect to login
-			(new Session())->flashMessage('success', 'An email has been sent with instructions to reset your password..');
+			$this->session->flashMessage('success', 'An email has been sent with instructions to reset your password..');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 	}
@@ -143,12 +147,12 @@ class Account extends Controller{
 	}
 
 	public function settings(){
-		// $user = (new Session())->get('user');
+		// $user = $this->session->get('user');
 		$this->view('auth/settings', compact($user));
 	}
 
 	public function update(){
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 
 		// Check for blank fields
 		$fields = array('firstName','lastName','email');
@@ -173,19 +177,19 @@ class Account extends Controller{
 		$this->userRepo->save($user);
 
 		// Update user in the session
-		(new Session())->add('user', $user);
+		$this->session->add('user', $user);
 
 		// Handle email updated
 		if($_POST['email'] != $user->getEmail()){
 			// send Email
 			$emailHandler = new Email();
 			$emailHandler->sendEmailUpdateConfirm($_POST['email'],$user->getEmail());
-			(new Session())->flashMessage('success', 'A confirmation email has been sent to '.$_POST['email'].'. Please confirm to update.');
+			$this->session->flashMessage('success', 'A confirmation email has been sent to '.$_POST['email'].'. Please confirm to update.');
 			Redirect::toControllerMethod('Account', 'settings');
 			return;
 		}
 
-		(new Session())->flashMessage('success', 'Your account has been updated. Return to <a href="/Account/dashboard/">Dashboard</a>.');
+		$this->session->flashMessage('success', 'Your account has been updated. Return to <a href="/Account/dashboard/">Dashboard</a>.');
 		Redirect::toControllerMethod('Account', 'settings');
 
 	}
@@ -194,7 +198,7 @@ class Account extends Controller{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt.$old_email) != $code)){
-			(new Session())->flashMessage('danger', 'Your email confirmation link is invalid.');
+			$this->session->flashMessage('danger', 'Your email confirmation link is invalid.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 
@@ -202,25 +206,25 @@ class Account extends Controller{
 		$this->userRepo->setValue('email',$email,'email',$old_email);
 
 		// Redirect to login
-		(new Session())->flashMessage('success', 'Your email address has been updated.');
+		$this->session->flashMessage('success', 'Your email address has been updated.');
 		Redirect::toControllerMethod('Account', 'dashboard');
 
 	}
 
 	public function delete(){
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 
 		$this->userRepo->remove($user);
 		// Remove everything from session
-		(new Session())->flush();
+		$this->session->flush();
 
-		(new Session())->flashMessage('success', 'Your account has been deleted.');
+		$this->session->flashMessage('success', 'Your account has been deleted.');
 		Redirect::toControllerMethod('Account', 'showLogin');
 
 	}
 
 	public function dashboard(){
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 
 		if(empty($user->getHouseholds())){
 			$this->view('/auth/newHousehold');
@@ -231,7 +235,7 @@ class Account extends Controller{
 	}
 
 	public function showLogin(){
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 
 		// Active session
 		if($user){
@@ -242,7 +246,8 @@ class Account extends Controller{
 	}
 
 	public function logInUser(){
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
+		var_dump($user);
 		$input = $_POST;
 
 		// Redirect to dashboard if user is already logged in
@@ -270,15 +275,15 @@ class Account extends Controller{
 		}
 		else {
 			// If credentials are valid and user is active, log in user
-			// (new Session())->add('username', $user->getUsername());
-			// (new Session())->add('id', $user->getId());
-			(new Session())->add('user', $user);
+			// $this->session->add('username', $user->getUsername());
+			// $this->session->add('id', $user->getId());
+			$this->session->add('user', $user);
 
 			Redirect::toControllerMethod('Account', 'dashboard');
 			return;
 		}
 
-		(new Session())->flashMessage('danger', $message);
+		$this->session->flashMessage('danger', $message);
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
@@ -290,7 +295,7 @@ class Account extends Controller{
      * @param array $params 	Parameters for the redirection method
      */
     private function validateLoginInput($input, $method, $params = NULL):void {
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
         $validator = new Validator($input);
@@ -320,7 +325,7 @@ class Account extends Controller{
 
             $errorMessage = Format::validatorErrors($validator->errors());
             // Flash danger message
-            (new Session())->flashMessage('danger', $errorMessage);
+            $this->session->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
             Redirect::toControllerMethod('Account', $method, $params);
@@ -335,7 +340,7 @@ class Account extends Controller{
      * @param array $params 	Parameters for the redirection method
      */
     private function validateRegistrationInput($input, $method, $params = NULL):void {
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
         $validator = new Validator($input);
@@ -388,7 +393,7 @@ class Account extends Controller{
 
             $errorMessage = Format::validatorErrors($validator->errors());
             // Flash danger message
-            (new Session())->flashMessage('danger', $errorMessage);
+            $this->session->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
             Redirect::toControllerMethod('Account', $method, $params);

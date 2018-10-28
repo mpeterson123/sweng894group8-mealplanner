@@ -23,19 +23,23 @@ use Base\Factories\MealFactory;
 
 class Meals extends Controller {
 
-    private $mealRepository;
-    private $dbh;
+    protected $dbh,
+        $session;
 
-    public function __construct()
-    {
-        parent::__construct(...func_get_args());
+    private $mealRepository,
+        $mealFactory;
 
-        $this->dbh = DatabaseHandler::getInstance();
+    public function __construct(DatabaseHandler $dbh, Session $session){
+		$this->dbh = $dbh;
+		$this->session = $session;
+
+        // TODO Use dependecy injection
         $this->mealRepository = new MealRepository($this->dbh->getDB());
+        $this->mealFactory = new MealFactory($this->dbh->getDB());
     }
 
     public function index():void{
-        $user = (new Session())->get('user');
+        $user = $this->session->get('user');
 
         $meals = $this->mealRepository->allForUser($user);
         $this->view('meal/index', compact('meals'));
@@ -58,20 +62,20 @@ class Meals extends Controller {
     public function store():void{
 
         $input = $_POST;
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
         $this->validateInput($input, 'create');
 
         // Make meal
-        $meal = (new MealFactory($this->dbh->getDB()))->make($input);
+        $meal = $this->mealFactory->make($input);
 
         // Save to DB
         $this->mealRepository->save($meal);
 
         // Flash success message and flush old input
-        (new Session())->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was added to your list.');
-        (new Session())->flushOldInput();
+        $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was added to your list.');
+        $this->session->flushOldInput();
 
         // Redirect back after updating
         Redirect::toControllerMethod('Meal', 'index');
@@ -90,7 +94,7 @@ class Meals extends Controller {
         $this->checkMealBelongsToUser($id);
         $this->mealRepository->remove($id);
 
-        (new Session())->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
+        $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
 
         // Redirect to list after deleting
         Redirect::toControllerMethod('Meal', 'index');
@@ -106,7 +110,7 @@ class Meals extends Controller {
         $this->mealRepository->save($meal);
 
         // Flash success message
-        (new Session())->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
+        $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
 
         // Redirect back after updating
         Redirect::toControllerMethod('Meal', 'edit', array('Meal' => $meal->getId()));
@@ -114,8 +118,8 @@ class Meals extends Controller {
     }
 
     public function checkMealBelongsToUser($id):void{
-        $user = (new Session())->get('user');
-        
+        $user = $this->session->get('user');
+
         // If meal doesn't belong to user, show forbidden error
         if(!$this->mealRepository->mealBelongsToUser($id, $user)){
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => '403'));
@@ -124,7 +128,7 @@ class Meals extends Controller {
     }
 
     private function validateInput($input, $method, $params = NULL):void{
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
         $validator = new Validator($input);
@@ -155,7 +159,7 @@ class Meals extends Controller {
 
             $errorMessage = Format::validatorErrors($validator->errors());
             // Flash danger message
-            (new Session())->flashMessage('danger', $errorMessage);
+            $this->session->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
             Redirect::toControllerMethod('Meal', $method, $params);

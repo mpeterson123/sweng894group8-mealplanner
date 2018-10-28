@@ -17,65 +17,72 @@ use Base\Helpers\Session;
  * to handle them.
  */
 class App {
-	protected $defaultControllerName = 'Account';
-	protected $controllerName = 'Account';
-	protected $methodName = 'showLogin';
-	protected $controller;
-	protected $params = [];
+	protected $dbh;
+	protected $session;
+	protected $url;
 
-	public function __construct(){
+	public function __construct($dbh, $session, $url){
+		$this->dbh = $dbh;
+		$this->session = $session;
+		$this->url = $url;
+	}
 
-		session_start();
-		// set timezone
-		date_default_timezone_set('America/New_York');
+	/**
+	 * Sanitizes and break URL into chunks
+	 */
+	private function parseUrl():void{
+		if(isset($this->url)){
+			$this->url = explode('/',filter_var(rtrim($this->url,'/'),FILTER_SANITIZE_URL));
+		}
+	}
 
-		$dbh = DatabaseHandler::getInstance();
-		$url = $this->parseUrl();
+	/**
+	 * Runs the app by transfering control to the correct controller method
+	 */
+	public function run():void {
+		$defaultControllerName = 'Account';
+		$controllerName = 'Account';
+		$methodName = 'showLogin';
+		$controller;
+		$params = [];
+
+		$this->parseUrl();
 
 		try{
 			// If controller file exists, set it and remove the name from the URL
-			if(file_exists(__DIR__.'/../controllers/'.$url[0].'.php')){
-				$this->controllerName = $url[0];
-				unset($url[0]);
+			if(file_exists(__DIR__.'/../controllers/'.$this->url[0].'.php')){
+				$controllerName = $this->url[0];
+				unset($this->url[0]);
 
 				// Instantiate controller
-				$namespacedController = "Base\Controllers\\".$this->controllerName;
-				$this->controller = new $namespacedController($dbh);
+				$namespacedController = "Base\Controllers\\".$controllerName;
+				$controller = new $namespacedController($this->dbh, $this->session);
 
 				// If methodName exists, set it and remove the name from the URL
-				if(isset($url[1]) && method_exists($this->controller,$url[1]))
+				if(isset($this->url[1]) && method_exists($controller,$this->url[1]))
 				{
-					$this->methodName = $url[1];
-					unset($url[1]);
+					$methodName = $this->url[1];
+					unset($this->url[1]);
 				}
 				else {
-					throw new \Exception("Error Processing Request", 1);
+					throw new \Exception("Method does not exist", 1);
 				}
 				// Get params if any
-				$this->params = $url ? array_values($url) : [];
+				$params = $this->url ? array_values($this->url) : [];
 			}
 			else{
-				throw new \Exception("Error Processing Request", 1);
+				throw new \Exception("Controller does not exist", 1);
 			}
 		}
 		catch(\Exception $e) {
-
 			// Instantiate controller
 			$namespacedController = "Base\Controllers\\Errors";
-			$this->controller = new $namespacedController($dbh);
-			$this->methodName = 'show';
-			$this->params = array('errorCode'=>404);
+			$controller = new $namespacedController();
+			$methodName = 'show';
+			$params = array('errorCode'=>404);
 		}
 
 		// Invoke controller methodName with parameters
-		call_user_func_array([$this->controller,$this->methodName],$this->params);
-
-	}
-
-	private function parseUrl(){
-		if(isset($_GET['url'])){
-			return $url = explode('/',filter_var(rtrim($_GET['url'],'/'),FILTER_SANITIZE_URL));
-		}
+		call_user_func_array([$controller,$methodName],$params);
 	}
 }
-?>
