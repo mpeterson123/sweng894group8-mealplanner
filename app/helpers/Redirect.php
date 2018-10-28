@@ -12,9 +12,7 @@ class Redirect{
      * @return void
      */
     public static function toControllerMethod($controllerName, $methodName, $params = NULL){
-
         $queryStringParams = self::queryStringifyParams($params);
-
         header('Location: /'.$controllerName.'/'.$methodName.'/'.$queryStringParams);
         exit();
     }

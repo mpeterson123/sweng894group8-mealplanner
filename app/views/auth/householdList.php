@@ -61,7 +61,7 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['households']){
                                                 foreach ($data['households'] as $hh) { ?>
                                                 <tr>
-                                                    <td><a href="/Household/edit/<?php echo $hh['id']; ?>"><?php echo $hh['name']; ?></a></td>
+                                                    <td><a href="/Household/detail/<?php echo $hh['id']; ?>"><?php echo $hh['name']; ?></a></td>
                                                     <td><?php echo $hh['code']; ?></td>
                                                 </tr>
                                                 <?php

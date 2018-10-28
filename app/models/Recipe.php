@@ -12,12 +12,12 @@ class Recipe{
 	private $notes;
 
 	public function __construct($theName='',$theDescription='',$theServings='',$theSource='',$theNotes=''){
-		$this->name = $theName;
-		$this->description = $theDescription;
-		$this->servings = $theServings;
+		$this->name = $this->setName($theName);
+		$this->description = $this->setDescription($theDescription);
+		$this->servings = $this->setServings($theServings);
 		$this->ingredients = array();
-		$this->source = $theSource;
-		$this->notes = $theNotes;
+		$this->source = $this->setSource($theSource);
+		$this->notes = $this->setNotes($theNotes);
 	}
 
 	public function addIngredient($anIngredient){
@@ -32,8 +32,8 @@ class Recipe{
 	}
 
 	public function swapIngredient($old,$new){
-		removeIngredient($old);
-		addIngredient($new);
+		$this->removeIngredient($old);
+		$this->addIngredient($new);
 	}
 
 	public function getIngredientByName($anIngredientName){

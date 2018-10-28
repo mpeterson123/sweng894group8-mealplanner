@@ -52,8 +52,9 @@ class FoodItems extends Controller {
      * Lists all food items belonging to a user
      */
     public function index():void{
-        $user = (new Session())->get('user');
-        $foods = $this->foodItemRepository->allForUser($user);
+        // TODO Choose current household, not first one
+        $household = (new Session())->get('user')->getHouseholds()[0];
+        $foods = $this->foodItemRepository->allForHousehold($household);
         $this->view('food/index', compact('foods'));
     }
 
@@ -123,7 +124,7 @@ class FoodItems extends Controller {
             return;
         }
 
-        $this->checkFoodBelongsToUser($id);
+        $this->checkFoodBelongsToHousehold($id);
 
         $this->foodItemRepository->remove($id);
 
@@ -140,7 +141,7 @@ class FoodItems extends Controller {
      */
     public function update($id):void{
         $foodItem = $this->foodItemRepository->find($id);
-        $this->checkFoodBelongsToUser($id);
+        $this->checkFoodBelongsToHousehold($id);
 
         $this->validateInput($_POST, 'edit', [$id]);
 
@@ -155,14 +156,14 @@ class FoodItems extends Controller {
     }
 
     /**
-     * Check if a food items belongs to the current user
-     * @param string $id Food item's id
+     * Check if a food items belongs to the current household
+     * @param string $foodItemId Food item's id
      */
-    public function checkFoodBelongsToUser($id):void{
-        $user = (new Session())->get('user');
+    public function checkFoodBelongsToHousehold($foodItemId):void{
+        $household = (new Session())->get('user')->getHouseholds()[0];
 
-        // If food doesn't belong to user, show forbidden error
-        if(!$this->foodItemRepository->foodBelongsToUser($id, $user)){
+        // If food doesn't belong to household, show forbidden error
+        if(!$this->foodItemRepository->foodBelongsToHousehold($foodItemId, $household)){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }
@@ -184,27 +185,27 @@ class FoodItems extends Controller {
         $rules = [
             'required' => [
                 ['name'],
-                ['category_id'],
-                ['unit_id'],
-                ['units_in_container'],
-                ['container_cost'],
+                ['categoryId'],
+                ['unitId'],
+                ['unitsInContainer'],
+                ['containerCost'],
                 ['stock']
             ],
             'integer' => [
-                ['category_id'],
-                ['unit_id']
+                ['categoryId'],
+                ['unitId']
             ],
             'regex' => [
                 ['name', $safeStringRegex],
-                ['units_in_container', $twoSigDigFloatRegex],
-                ['container_cost', $twoSigDigFloatRegex],
+                ['unitsInContainer', $twoSigDigFloatRegex],
+                ['containerCost', $twoSigDigFloatRegex],
                 ['stock', $twoSigDigFloatRegex]
             ]
         ];
         $validator->rules($rules);
         $validator->labels(array(
-            'category_id' => 'Category',
-            'unit_id' => 'Unit'
+            'categoryId' => 'Category',
+            'unitId' => 'Unit'
         ));
 
         if(!$validator->validate()) {

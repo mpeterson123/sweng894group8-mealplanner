@@ -56,14 +56,15 @@ class Recipes extends Controller {
 
     public function edit($id){
 
-        $user = (new Session())->get('user');
+        // TODO Choose current household, not first one
+        $household = (new Session())->get('user')->getHouseholds()[0];
         $db = $this->dbh->getDB();
 
         $foodItemRepository = new FoodItemRepository($db);
         $unitRepository = new UnitRepository($db);
 
         // Get user's fooditems and list of units
-        $fooditems = $foodItemRepository->allForUser($user);
+        $fooditems = $foodItemRepository->allForHousehold($household);
         $units = $unitRepository->all();
 
         // Get recipe Object
@@ -86,10 +87,10 @@ class Recipes extends Controller {
         $foodItemRepository = new FoodItemRepository($db);
         $unitRepository = new UnitRepository($db);
 
-        $user = (new Session())->get('user');
+        $household = (new Session())->get('user')->getHouseholds()[0];
 
         // Get user's foodItems and list of units
-        $fooditems = $foodItemRepository->allForUser($user);
+        $fooditems = $foodItemRepository->allForHousehold($household);
         $units = $unitRepository->all();
 
         $this->view('recipe/create', compact('fooditems', 'units'));

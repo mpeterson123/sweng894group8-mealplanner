@@ -65,13 +65,13 @@ class FoodItemRepository extends Repository {
     }
 
     /**
-     * Get all food items added by a user
-     * @param  User $user [description]
+     * Get all food items added by a household
+     * @param  Household $household [description]
      * @return array Associative array of food items
      */
-    public function allForUser($user){
-        $query = $this->db->prepare('SELECT * FROM foods WHERE user_id = ? ORDER by name');
-        @$query->bind_param("s", $user->getId());
+    public function allForHousehold($household){
+        $query = $this->db->prepare('SELECT * FROM foods WHERE householdId = ? ORDER by name');
+        @$query->bind_param("s", $household->getId());
         $query->execute();
 
         $result = $query->get_result();
@@ -105,7 +105,7 @@ class FoodItemRepository extends Repository {
     protected function insert($food){
         $query = $this->db
             ->prepare('INSERT INTO foods
-                (name, stock, unit_id, category_id, units_in_container, container_cost, unit_cost, user_id)
+                (name, stock, unitId, categoryId, unitsInContainer, containerCost, unitCost, householdId)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ');
 
@@ -119,7 +119,7 @@ class FoodItemRepository extends Repository {
             $food->getUnitsInContainer(),
             $food->getContainerCost(),
             $food->getUnitCost(),
-            (new Session())->get('user')->getId()
+            (new Session())->get('user')->getHouseholds()[0]->getId()
         );
         return $query->execute();
     }
@@ -135,11 +135,11 @@ class FoodItemRepository extends Repository {
                 SET
                     name = ?,
                     stock = ?,
-                    unit_id = ?,
-                    category_id = ?,
-                    units_in_container = ?,
-                    container_cost = ?,
-                    unit_cost = ?
+                    unitId = ?,
+                    categoryId = ?,
+                    unitsInContainer = ?,
+                    containerCost = ?,
+                    unitCost = ?
                 WHERE id = ?
             ');
 
@@ -160,15 +160,15 @@ class FoodItemRepository extends Repository {
     }
 
     /**
-     * Check if food items belongs to a user_id
-     * @param  integer $foodId  Food item's id
-     * @param  User $user       Current user
-     * @return bool             Whether food belongs to user
+     * Check if food items belongs to a household
+     * @param  integer $foodId          Food item's id
+     * @param  Household $household     Current user
+     * @return bool                     Whether food belongs to user
      */
-    public function foodBelongsToUser($foodId, $user)
+    public function foodBelongsToHousehold($foodId, $household)
     {
-        $query = $this->db->prepare('SELECT * FROM foods WHERE id = ? AND user_id = ?');
-        @$query->bind_param("ii", $foodId, $user->getId());
+        $query = $this->db->prepare('SELECT * FROM foods WHERE id = ? AND householdId = ?');
+        @$query->bind_param("ii", $foodId, $household->getId());
         $query->execute();
 
         $result = $query->get_result();

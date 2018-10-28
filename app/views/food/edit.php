@@ -80,7 +80,7 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
                                         </div>
                                         <div class="form-group">
                                             <label for="inputCategory">Category</label>
-                                            <select class="form-control" id="inputCategory" name="category_id">
+                                            <select class="form-control" id="inputCategory" name="categoryId">
                                                 <option value="0">Select one</option>
                                                 <?php
                                                     foreach($data['categories'] as $category){
@@ -98,7 +98,7 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
 
                                         <div class="form-group">
                                             <label for="inputUnit">Unit</label>
-                                            <select class="form-control" id="inputUnit" name="unit_id">
+                                            <select class="form-control" id="inputUnit" name="unitId">
                                                 <option value="0">Select one</option>
                                                 <?php
                                                     foreach($data['units'] as $unit){
@@ -118,7 +118,7 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
                                             <label for="inputUnitsInContainer">Number of Units in Container</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="1" name="units_in_container" value="<?php echo ((new Session())->getOldInput('units_in_container') != NULL)? (new Session())->getOldInput('units_in_container') : $data['food']->getUnitsInContainer(); ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="1" name="unitsInContainer" value="<?php echo ((new Session())->getOldInput('unitsInContainer') != NULL)? (new Session())->getOldInput('unitsInContainer') : $data['food']->getUnitsInContainer(); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -127,7 +127,7 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
                                             <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="1" name="container_cost" value="<?php echo ((new Session())->getOldInput('container_cost') != NULL)? (new Session())->getOldInput('container_cost') : $data['food']->getContainerCost(); ?>">
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="1" name="containerCost" value="<?php echo ((new Session())->getOldInput('containerCost') != NULL)? (new Session())->getOldInput('containerCost') : $data['food']->getContainerCost(); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -142,7 +142,7 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
 
                                         <div class="form-group">
                                             <label for="inputUnitCost">Unit Cost</label>
-                                            <p class="form-control-static" id="inputUnitCost" name="unit_cost">$<?php echo ((new Session())->getOldInput('unit_cost') != NULL)? (new Session())->getOldInput('unit_cost') : $data['food']->getUnitCost(); ?></p>
+                                            <p class="form-control-static" id="inputUnitCost" name="unitCost">$<?php echo ((new Session())->getOldInput('unitCost') != NULL)? (new Session())->getOldInput('unitCost') : $data['food']->getUnitCost(); ?></p>
                                         </div>
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
                                     </form>

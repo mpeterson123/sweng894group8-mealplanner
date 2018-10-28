@@ -30,17 +30,18 @@ $PLUGIN_SIDEBARMENU= FALSE;
     <section id="wrapper" >
         <div class="login-box">
             <div class="white-box">
-                <form class="form-horizontal form-material" id="registerform" action="/Account/register/" method="POST">
+                <form class="form-horizontal form-material" id="registerform" action="/Account/store/" method="POST">
                     <h3 class="box-title m-b-20">Register</h3>
                     <?php (new Session())->renderMessage(); ?>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" name="reg_username" required="" placeholder="Username">
+                            <input class="form-control" type="text" name="reg_username" required="" placeholder="Username" value="<?php echo (new Session())->getOldInput('reg_username'); ?>">
+                            <input class="form-control" type="text" name="reg_namefirst" required="" placeholder="First Name" value="<?php echo (new Session())->getOldInput('reg_namefirst'); ?>">
+                            <input class="form-control" type="text" name="reg_namelast" required="" placeholder="Last Name" value="<?php echo (new Session())->getOldInput('reg_namelast'); ?>">
+                            <input class="form-control" type="email" name="reg_email" required="" placeholder="Email" value="<?php echo (new Session())->getOldInput('reg_email'); ?>">
                             <input class="form-control" type="password" name="reg_password" required="" placeholder="Password">
-                            <input class="form-control" type="password" name="reg_password2" required="" placeholder="Confirm Password">
-                            <input class="form-control" type="text" name="reg_namefirst" required="" placeholder="First Name">
-                            <input class="form-control" type="text" name="reg_namelast" required="" placeholder="Last Name">
-                            <input class="form-control" type="text" name="reg_email" required="" placeholder="Email Address">
+                            <input class="form-control" type="password" name="reg_password2" required="" placeholder="Password Confirmation">
+
                         </div>
                     </div>
                     <div class="form-group text-center m-t-20">

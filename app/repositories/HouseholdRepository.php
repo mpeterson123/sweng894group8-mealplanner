@@ -7,16 +7,19 @@ use Base\Helpers\Session;
 
 // File-specific classes
 use Base\Factories\HouseholdFactory;
+use Base\Factories\UserFactory;
 
 class HouseholdRepository extends Repository {
     private $db,
-        $householdFactory;
+        $householdFactory,
+        $userFactory;
 
     public function __construct($db){
         $this->db = $db;
 
         // TODO Use dependeny injection
         $this->householdFactory = new HouseholdFactory();
+        $this->userFactory = new UserFactory($db);
     }
 
 
@@ -32,7 +35,7 @@ class HouseholdRepository extends Repository {
     }
 
     public function allForUser($user){
-        $query = $this->db->prepare('SELECT household.* FROM household JOIN usersHouseholds ON usersHouseholds.householdId = household.id WHERE usersHouseholds.userId = ?');
+        $query = $this->db->prepare('SELECT household.* FROM household JOIN usersHouseholds ON usersHouseholds.householdId = household.id AND usersHouseholds.userId = ?');
         @$query->bind_param("i",$user->getId());
         $query->execute();
         $result = $query->get_result();
@@ -43,7 +46,18 @@ class HouseholdRepository extends Repository {
         }
         return $households;
     }
+    public function allForHousehold($hh){
+        $query = $this->db->prepare('SELECT users.* FROM users JOIN usersHouseholds ON usersHouseholds.userId = users.id WHERE usersHouseholds.householdId = ?');
+        @$query->bind_param("i",$hh->getId());
+        $query->execute();
+        $result = $query->get_result();
 
+        $users = array();
+        while($userRow = $result->fetch_assoc()){
+            $users[] = $this->userFactory->make($userRow);
+        }
+        return $users;
+    }
 
 
     public function save($household){
@@ -87,6 +101,19 @@ class HouseholdRepository extends Repository {
       $query = $this->db->prepare('INSERT INTO usersHouseholds
               (userId,householdId)
               VALUES(?,?)');
+      $query->bind_param(
+          "ii",
+          $userId,
+          $hhId);
+      $query->execute();
+    }
+    /**
+     * Remove a user to a household
+     * @param  integer $userId Id of user to connect
+     * @param  integer $hhId   Id of household to connect
+     */
+    public function disconnect($userId,$hhId):void{
+      $query = $this->db->prepare('Delete from usersHouseholds where userId=? AND householdId=?');
       $query->bind_param(
           "ii",
           $userId,

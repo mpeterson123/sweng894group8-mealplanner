@@ -99,7 +99,4 @@ class Session{
     public function flush():void{
         $_SESSION = NULL;
     }
-
-
-
 }

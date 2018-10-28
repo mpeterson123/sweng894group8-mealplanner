@@ -34,40 +34,28 @@ class Account extends Controller{
 		$this->userRepo = new UserRepository($this->dbh->getDB());
   	}
 
-	public function register(){
+	public function store(){
 		if(isset($_POST['reg_username'])){
 			$error = array();
 
 			$userFactory = new UserFactory($this->dbh);
-			$userRow = array();
-			$fields = array('username','password','namefirst','namelast','email');
-			foreach($fields as $field){
-				$userRow[$field] = $_POST['reg_'.$field];
-				if(!isset($userRow[$field])){
-					$error[] = 'All fields are required';
-				}
-			}
-			if($_POST['reg_password'] != $_POST['reg_password2']){
-				$error[] = 'Passwords don\'t match';
-			}
-			if(empty($error)){
-					$userRow['password'] = $this->pass_hash($userRow['password']);
+			$input = $_POST;
 
-					$user = $userFactory->make($userRow);
+			$this->validateRegistrationInput($input, 'create');
 
-					$email = new Email();
-					$email->sendEmailAddrConfirm($user->getEmail());
-					$this->userRepo->save($user);
+			$input['password'] = $this->pass_hash($input['password']);
+			$user = $userFactory->make($input);
 
-					(new Session())->flashMessage('success', 'Your account has been created. A confirmation link has been sent to you. Please confirm your email address to activate your account.');
-					Redirect::toControllerMethod('Account', 'showLogin');
-			}
-			else {
-				(new Session())->flashMessage('danger', 'An error occured');
-				$this->view('auth/register',$error);
-			}
+			$email = new Email();
+			$email->sendEmailAddrConfirm($user->getEmail());
+			$this->userRepo->save($user);
+
+			(new Session())->flashMessage('success', 'Your account has been created. A confirmation link has been sent to you. Please confirm your email address to activate your account.');
+			Redirect::toControllerMethod('Account', 'showLogin');
 		}
-		else
+	}
+
+	public function create(){
 			$this->view('auth/register');
 	}
 
@@ -75,6 +63,7 @@ class Account extends Controller{
 		(new Session())->remove('user');
 		(new Session())->remove('username');
 		(new Session())->remove('id');
+		session_destroy();
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
@@ -111,7 +100,7 @@ class Account extends Controller{
 			$this->view('auth/login',['message'=>'No email has been supplied.']);
 		}
 		else if(!$u){
-			$this->view('auth/login',['message'=>'Not Found. An email has been sent with instruction to reset your password.']);
+			$this->view('auth/login',['message'=>'Not Found. An email has been sent with instructions to reset your password.']);
 		}
 		else {
 			$this->userRepo->setPassTemp($email,$code);
@@ -158,7 +147,6 @@ class Account extends Controller{
 		$this->view('auth/settings', compact($user));
 	}
 
-
 	public function update(){
 		$user = (new Session())->get('user');
 
@@ -202,7 +190,6 @@ class Account extends Controller{
 
 	}
 
-
 	public function confirmNewEmail($email,$old_email,$code){
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
@@ -219,7 +206,6 @@ class Account extends Controller{
 		Redirect::toControllerMethod('Account', 'dashboard');
 
 	}
-
 
 	public function delete(){
 		$user = (new Session())->get('user');
@@ -246,7 +232,7 @@ class Account extends Controller{
 
 	public function showLogin(){
 		$user = (new Session())->get('user');
-		
+
 		// Active session
 		if($user){
 			Redirect::toControllerMethod('Account', 'dashboard');
@@ -257,35 +243,158 @@ class Account extends Controller{
 
 	public function logInUser(){
 		$user = (new Session())->get('user');
+		$input = $_POST;
 
-		// Active session
+		// Redirect to dashboard if user is already logged in
 		if($user){
 			Redirect::toControllerMethod('Account', 'dashboard');
 			return;
 		}
 
-		// Submitted login form
-		if(isset($_POST['login_username'])){
-			$pwd = $this->pass_hash($_POST['login_password']);
-			$user = $this->userRepo->checkUser($_POST['login_username'],$pwd);
-			if(!$user){
-				$message = 'Incorrect username or password.';
-			}
-			else if(!$user->getActivated()){
-				$message = 'Please confirm email before you can log in.';
-			}
-			else{
-				(new Session())->add('username', $user->getUsername());
-				(new Session())->add('id', $user->getId());
-				(new Session())->add('user', $user);
+		// Validate input
+		$this->validateLoginInput($input, 'showLogin');
 
-				Redirect::toControllerMethod('Account', 'dashboard');
-				return;
-			}
+		// Hash password
+		$password = $this->pass_hash($input['login_password']);
+
+		// Check credentials
+		$user = $this->userRepo->checkUser($input['login_username'],$password);
+
+		if(!$user) {
+			// If credentials are not valid, set error message
+			$message = 'Incorrect username or password.';
 		}
+		else if(!$user->getActivated()){
+			// If credentials are valid, but user is inactive, set error message
+			$message = 'Please confirm your email before you can log in.';
+		}
+		else {
+			// If credentials are valid and user is active, log in user
+			// (new Session())->add('username', $user->getUsername());
+			// (new Session())->add('id', $user->getId());
+			(new Session())->add('user', $user);
+
+			Redirect::toControllerMethod('Account', 'dashboard');
+			return;
+		}
+
 		(new Session())->flashMessage('danger', $message);
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
+
+
+	/**
+     * Validates user input from login form
+     * @param array $input  	Login form input
+     * @param string $method 	Method to redirect to
+     * @param array $params 	Parameters for the redirection method
+     */
+    private function validateLoginInput($input, $method, $params = NULL):void {
+        (new Session())->flashOldInput($input);
+
+        // Validate input
+        $validator = new Validator($input);
+        $rules = [
+            'required' => [
+				['login_username'],
+                ['login_password'],
+            ],
+            'slug' => [
+                ['login_username'],
+            ],
+			'lengthMin' => [
+				['login_username', 5],
+		        ['login_password', 6]
+		    ],
+			'lengthMax' => [
+		        ['login_password', 30]
+		    ]
+        ];
+        $validator->rules($rules);
+        $validator->labels(array(
+            'login_username' => 'Username',
+            'login_password' => 'Password'
+        ));
+
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            (new Session())->flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('Account', $method, $params);
+            return;
+        }
+    }
+
+	/**
+     * Validates user input from registration form
+     * @param array $input  	Login form input
+     * @param string $method 	Method to redirect to
+     * @param array $params 	Parameters for the redirection method
+     */
+    private function validateRegistrationInput($input, $method, $params = NULL):void {
+        (new Session())->flashOldInput($input);
+
+        // Validate input
+        $validator = new Validator($input);
+        $rules = [
+            'required' => [
+				['reg_username'],
+				['reg_namefirst'],
+				['reg_namelast'],
+				['reg_email'],
+				['reg_password'],
+				['reg_password2']
+            ],
+            'equals' => [
+                ['reg_password', 'reg_password2'],
+            ],
+			'email' => [
+                ['reg_email'],
+            ],
+			'slug' => [
+                ['reg_username'],
+            ],
+			'lengthMin' => [
+				['reg_username', 5],
+				['reg_namefirst', 2],
+				['reg_namelast', 2],
+				['reg_email', 5],
+				['reg_password', 6],
+		        ['reg_password2', 6]
+		    ],
+			'lengthMax' => [
+				['reg_username', 32],
+				['reg_namefirst', 32],
+				['reg_namelast', 32],
+				['reg_email', 64],
+				['reg_password', 30],
+		        ['reg_password2', 30]
+		    ]
+        ];
+        $validator->rules($rules);
+        $validator->labels(array(
+			'reg_username' => 'Username',
+			'reg_namefirst' => 'First Name',
+			'reg_namelast' => 'Last Name',
+			'reg_email' => 'Email Address',
+			'reg_password' => 'Password',
+			'reg_password2' => 'Password Confirmation'
+        ));
+
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            (new Session())->flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('Account', $method, $params);
+            return;
+        }
+    }
 
 
 }
