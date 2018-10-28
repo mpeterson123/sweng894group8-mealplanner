@@ -12,6 +12,9 @@ class RecipeRepository extends Repository {
 
     public function __construct($db){
         $this->db = $db;
+
+        // TODO Use dependecy injection
+        $this->recipeFactory = new RecipeFactory($this->db);
     }
 
     /**
@@ -38,7 +41,8 @@ class RecipeRepository extends Repository {
      */
     public function save($recipe){
 
-        if( $recipe->getId() && $this->find($recipe->getId()))
+        $success = false;
+        if($recipe->getId() && $this->find($recipe->getId()))
         {
             $success = $this->update($recipe);
         }
@@ -57,6 +61,7 @@ class RecipeRepository extends Repository {
         return $this->db->query('SELECT * FROM recipes ORDER by name')->fetch_all(MYSQLI_ASSOC);
     }
 
+    // TODO Remove this method
     /**
      * Get all recipes added by a user
      * @param  User $user [description]
@@ -70,6 +75,28 @@ class RecipeRepository extends Repository {
         $result = $query->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    /**
+     * Get all recipes for a household
+     * @param  Household $household [description]
+     * @return array Associative array of recipes
+     */
+     public function allForHousehold($household){
+         $query = $this->db->prepare('SELECT * FROM recipes WHERE householdId = ? ORDER by name');
+         @$query->bind_param("i", $household->getId());
+         $query->execute();
+
+         $result = $query->get_result();
+         $recipeRows = $result->fetch_all(MYSQLI_ASSOC);
+
+         $collection = array();
+
+         foreach($recipeRows as $recipeRow){
+             $collection[] = $this->recipeFactory->make($recipeRow);
+         }
+
+         return $collection;
+     }
 
     /**
      * Delete a recipe from the database
@@ -109,6 +136,7 @@ class RecipeRepository extends Repository {
 
         //$query->insert_id should return the id of the newly inserted row.
         $bool = $query->execute();
+
         if($bool) {
           echo "\nrecipe id = ". $query->insert_id . "\n";
           $recipe->setId($query->insert_id);
