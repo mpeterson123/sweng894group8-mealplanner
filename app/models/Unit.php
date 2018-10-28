@@ -104,7 +104,7 @@ class Unit
 
         if(!preg_match_all($regex, $baseUnit, $matches)){
             throw new \Exception(
-                "Food Item name must alphabetical, and must be 1-4 characters in length", 1);
+                "Base unit must alphabetical, and must be 1-4 characters in length", 1);
         }
 
         $this->baseUnit = $baseUnit;

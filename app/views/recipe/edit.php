@@ -107,7 +107,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <label for="inputSource">Source</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputSource" placeholder="" name="source" value="<?php echo (new Session())->getOldInput('source'); ?>">
+                                                <input type="text" class="form-control" id="inputSource" placeholder="" name="source" value="<?php echo $data['recipe']->getSource(); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -126,13 +126,11 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 
                                             <div class="form-group ingredientFormGroup">
 
-
-                                          <?php foreach($data['ingredients'] as $ingredient) {?>
-                                          <!--  for(i=0;i<$data['ingredients'].length;i++) -->
-                                          <!--  {-->
+                                          <?php foreach($data['ingredients'] as $ingredient) { ?>
 
                                               <div class="col-sm-3">
                                                         <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo $ingredient->getQuantity()->getValue(); ?>">
+                                                        <input type="hidden" name="ingredientIds[]" value="<?php echo $ingredient->getId(); ?>">
                                               </div>
 
                                               <div class="col-sm-4">
