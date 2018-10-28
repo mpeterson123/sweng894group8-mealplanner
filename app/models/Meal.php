@@ -10,11 +10,11 @@ class Meal{
 	private $addedDate;
 	private $scale;
 
-	public function __construct($r,$d,$s){
+	public function __construct($recipe,$date,$scale){
 
-		$this->setRecipe($r);
-		$this->setDate($d);
-		$this->setScale($s);
+		$this->setRecipe($recipe);
+		$this->setDate($date);
+		$this->setScale($scale);
 		$this->isComplete = false;
 		$this->addedDate = date('Y-m-d H-i-s');
 	}
@@ -26,8 +26,9 @@ class Meal{
 				throw new \Exception("Scale cannot be empty. Defaulting to 1.0", 1);
 		}
 
+		$newScale = floatval($newScale);
 		if(gettype($newScale) !== 'double' AND gettype($newScale) !== 'integer' AND gettype($newScale) !== 'float'){
-				throw new \Exception("Id must be a number", 1);
+				throw new \Exception("Scale must be a number", 1);
 		}
 
 		$this->scale = $newScale;

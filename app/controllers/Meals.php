@@ -19,7 +19,9 @@ use \Valitron\Validator;
 ///////////////////////////
 use Base\Models\Meal;
 use Base\Repositories\MealRepository;
+use Base\Repositories\RecipeRepository;
 use Base\Factories\MealFactory;
+use Base\Factories\RecipeFactory;
 
 class Meals extends Controller {
 
@@ -27,15 +29,19 @@ class Meals extends Controller {
         $session;
 
     private $mealRepository,
-        $mealFactory;
+        $mealFactory,
+        $recipeRepository,
+        $recipeFactory;
 
     public function __construct(DatabaseHandler $dbh, Session $session){
 		$this->dbh = $dbh;
 		$this->session = $session;
 
         // TODO Use dependecy injection
+        $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
         $this->mealRepository = new MealRepository($this->dbh->getDB());
-        $this->mealFactory = new MealFactory($this->dbh->getDB());
+        $this->mealFactory = new MealFactory($this->recipeRepository);
+        $this->recipeFactory = new RecipeFactory($this->dbh->getDB());
     }
 
     public function index():void{
@@ -56,7 +62,11 @@ class Meals extends Controller {
     public function create():void{
         $db = $this->dbh->getDB();
 
-        $this->view('meal/create', compact('meal'));
+        $household = $this->session->get('user')->getHouseholds()[0];
+        $recipes = $this->recipeRepository->allForHousehold($household);
+
+        $this->view('meal/create', compact('recipes'));
+
     }
 
     public function store():void{
@@ -65,20 +75,25 @@ class Meals extends Controller {
         $this->session->flashOldInput($input);
 
         // Validate input
-        $this->validateInput($input, 'create');
+        $this->validateCreateInput($input, 'create');
+
+        $input['recipe'] = $input['recipeid'];
 
         // Make meal
         $meal = $this->mealFactory->make($input);
 
         // Save to DB
-        $this->mealRepository->save($meal);
+        if(!$this->mealRepository->save($meal)){
+            $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.');
+            Redirect::toControllerMethod('Meals', 'create');
+        }
 
         // Flash success message and flush old input
-        $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was added to your list.');
+        $this->session->flashMessage('success', ucfirst($meal->getRecipe()->getName()).' was added to your meal plan.');
         $this->session->flushOldInput();
 
         // Redirect back after updating
-        Redirect::toControllerMethod('Meal', 'index');
+        Redirect::toControllerMethod('Meals', 'index');
         return;
     }
 
@@ -97,7 +112,7 @@ class Meals extends Controller {
         $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
 
         // Redirect to list after deleting
-        Redirect::toControllerMethod('Meal', 'index');
+        Redirect::toControllerMethod('Meals', 'index');
         return;
     }
 
@@ -113,7 +128,7 @@ class Meals extends Controller {
         $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
 
         // Redirect back after updating
-        Redirect::toControllerMethod('Meal', 'edit', array('Meal' => $meal->getId()));
+        Redirect::toControllerMethod('Meals', 'edit', array('Meals' => $meal->getId()));
         return;
     }
 
@@ -123,6 +138,40 @@ class Meals extends Controller {
         // If meal doesn't belong to user, show forbidden error
         if(!$this->mealRepository->mealBelongsToUser($id, $user)){
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => '403'));
+            return;
+        }
+    }
+
+
+    private function validateCreateInput($input, $method, $params = NULL):void{
+        $this->session->flashOldInput($input);
+
+        // Validate input
+        $validator = new Validator($input);
+        $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
+        $rules = [
+            'required' => [
+                ['recipeid'],
+                ['date'],
+                ['scaleFactor']
+            ],
+            'dateFormat' => [
+                ['date', 'm/d/Y']
+            ],
+            'regex' => [
+                ['scaleFactor', $twoSigDigFloatRegex]
+            ]
+        ];
+        $validator->rules($rules);
+
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            $this->session->flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('Meals', $method, $params);
             return;
         }
     }
@@ -162,7 +211,7 @@ class Meals extends Controller {
             $this->session->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
-            Redirect::toControllerMethod('Meal', $method, $params);
+            Redirect::toControllerMethod('Meals', $method, $params);
             return;
         }
     }
