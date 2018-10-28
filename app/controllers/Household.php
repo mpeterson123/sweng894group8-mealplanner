@@ -156,8 +156,25 @@ class Household extends Controller{
 	 * Delete household
 	 */
 	public function delete($hhId){
+		// Delete Household
 		$this->hhRepo->remove($hhId);
 
+		// Create default household if only household was deleted
+		$user = $this->session->get('user');
+		$households = 	$this->hhRepo->allForUser($user);
+		if(empty($households)){
+			// Generate household name, and create household with that, and current user as owner
+			$householdName = $user->getLastName().' Household';
+			$household = $this->householdFactory->make(array('name' => $householdName, 'owner' => $user->getUsername()));
+			$this->hhRepo->save($household);
+			// Update user in the session
+			$updatedUser = $this->userRepo->find($user->getUsername());
+			$this->session->add('user', $updatedUser);
+			// Display message and redirect
+			$this->session->flashMessage('success', 'This household was deleted. Since this was your only household, an empty default household was created for you.');
+		}
+
+		// Redirect to list
 		Redirect::toControllerMethod('Household', 'list');
 	}
 
