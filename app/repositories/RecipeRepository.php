@@ -184,8 +184,10 @@ class RecipeRepository extends Repository {
      */
     public function recipeBelongsToUser($recipeId, $user)
     {
+        $id = $user->getId();
+
         $query = $this->db->prepare('SELECT * FROM recipes WHERE id = ? AND user_id = ?');
-        $query->bind_param("si", $recipeId, $user->getId());
+        $query->bind_param("si", $recipeId, $id);
         $query->execute();
 
         $result = $query->get_result();

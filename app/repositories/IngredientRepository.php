@@ -38,7 +38,7 @@ class IngredientRepository extends Repository {
      * @return void
      */
     public function save($ingredient){
-        if($ingredient->getId() && $this->find($ingredient>getId()))
+        if($ingredient->getId() && $this->find($ingredient->getId()))
         {
           $success =   $this->update($ingredient);
         }
@@ -127,39 +127,38 @@ class IngredientRepository extends Repository {
     }
 
     /**
-     * Update recipe in database
-     * @param  Base\Models\Recipe $recipe Recipe to be updated
+     * Update ingredient in database
+     * @param  Base\Models\Ingredient $ingredient Ingredient to be updated
      * @return bool                 Whether query was successful
      */
-    protected function update($recipe){
-      /*
+    public function update($ingredient){
+
         $query = $this->db
-            ->prepare('UPDATE recipes
+            ->prepare('UPDATE ingredients
                 SET
-                    name = ?,
-                    description = ?,
-                    servings = ?,
-                    ingredients = ?,
-                    source = ?,
-                    notes = ?,
+                    foodid = ?,
+                    recipeid = ?,
+                    quantity = ?,
+                    unit_id = ?
                 WHERE id = ?
             ');
 
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
-        @$query->bind_param("ssisssi",
-            $recipe->getName(),
-            $recipe->getDescription(),
-            $recipe->getServings(),
-            $recipe->getIngredients(),
-            $recipe->getSource(),
-            $recipe->getNotes(),
-            $recipe->getId()
+        @$query->bind_param("iidii",
+            $ingredient->getFood()->getId(),
+            $ingredient->getRecipeId(),
+            $ingredient->getQuantity()->getValue(),
+            $ingredient->getUnit()->getId(),
+            $ingredient->getId()
         );
-        $query->execute();
-*/
+
+        $bool = $query->execute();
+
+        if(!$bool) {
+          $error = $query->error;
+        }
+
+        return $bool;
     }
-
-
-
 }

@@ -12,7 +12,7 @@
                 <div class="user-profile">
                     <div class="dropdown user-pro-body">
                         <div class="profile-image">
-                            <img src="/images/users/<?php echo $data['profile_pic']; ?>" alt="user-img" class="img-circle">
+                            <img src="/images/users/<?php echo $data['user']->getUsername().".jpg"; ?>" alt="user-img" class="img-circle">
                             <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <span class="badge badge-danger">
                                     <i class="fa fa-angle-down"></i>
@@ -68,13 +68,17 @@
                                 <li><a href="/Groceries/index">View Grocery List</a></li>
                             </ul>
                         </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-
+expanded="false"><i class="icon-envelope-letter fa-fw"></i> <span class="hide-menu"> Inbox<span class="label label-rounded label-<?php if ($NumUnread ?? 0) { echo 'success'; } else { echo 'info'; } ?> pull-right"><?php echo number_format($NumUnread ?? 0); ?></span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/Messages/inbox/">Inbox</a></li>
+                                <li><a href="/Messages/outbox/">Sent Messages</a></li>
+                                <li><a href="/Messages/compose/">Compose</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
-                <div class="p-30">
-                    <span class="hide-menu">
-                        <a href="https://www.cubictheme.ga/cubic-html/" target="_blank" class="btn btn-default m-t-15">Help / Reference</a>
-                    </span>
-                </div>
             </div>
         </aside>
         <!-- ===== Left-Sidebar-End ===== -->
