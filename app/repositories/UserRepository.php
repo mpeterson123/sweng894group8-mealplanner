@@ -15,9 +15,9 @@ class UserRepository extends Repository {
     }
 
 
-    public function checkUser($uname,$pwd){
+    public function checkUser($username, $password){
         $query = $this->db->prepare('SELECT * FROM users WHERE username = ? AND password = ?');
-		$query->bind_param("ss",$uname,$pwd);
+		$query->bind_param("ss",$username, $password);
         $query->execute();
         $result = $query->get_result();
         $userRow = $result->fetch_assoc();

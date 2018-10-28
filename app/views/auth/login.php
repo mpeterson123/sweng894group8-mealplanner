@@ -35,7 +35,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                     <?php (new Session())->renderMessage(); ?>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" name="login_username" required="" placeholder="Username">
+                            <input class="form-control" type="text" name="login_username" required="" placeholder="Username" value="<?php echo (new Session())->getOldInput('login_username'); ?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -68,7 +68,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                 -->
                     <div class="form-group m-b-0">
                         <div class="col-sm-12 text-center">
-                            <p>Don't have an account? <a href="/Account/register/" class="text-primary m-l-5"><b>Sign Up</b></a></p>
+                            <p>Don't have an account? <a href="/Account/create/" class="text-primary m-l-5"><b>Sign Up</b></a></p>
                         </div>
                     </div>
                 </form>
@@ -76,7 +76,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                     <div class="form-group ">
                         <div class="col-xs-12">
                             <h3>Recover Password</h3>
-                            <p class="text-muted">Enter your Email and instructions will be sent to you! </p>
+                            <p class="text-muted">Enter your email and instructions will be sent to you! </p>
                         </div>
                     </div>
                     <div class="form-group ">
