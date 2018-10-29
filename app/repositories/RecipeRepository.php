@@ -203,7 +203,7 @@ class RecipeRepository extends Repository {
         );
         $bool = $query->execute();
 
-        if(!bool) {
+        if(!$bool) {
           $query->error;
           echo "\n" . __CLASS__ ."::" . __FUNCTION__ . ":" . $error . "\n";
         }
