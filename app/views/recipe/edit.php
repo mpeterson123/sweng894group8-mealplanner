@@ -135,7 +135,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 
                                               <div class="col-sm-4">
                                                     <select class="form-control" name="unit_id[]">
-                                                        <option value="0"><?php echo $ingredient->getUnit()->getName();?></option>
+                                                        <option value="<?php echo $ingredient->getUnit()->getId();?>"><?php echo $ingredient->getUnit()->getName();?></option>
                                                         <?php
                                                             foreach($data['units'] as $unit){
                                                                 echo '<option ';
@@ -152,7 +152,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 
                                               <div class="col-sm-4">
                                                 <select class="form-control" name="foodid[]">
-                                                    <option value="0"><?php echo $ingredient->getFood()->getName();?></option>
+                                                    <option value="<?php echo $ingredient->getFood()->getId();?>"><?php echo $ingredient->getFood()->getName();?></option>
                                                     <?php
                                                         foreach($data['fooditems'] as $fooditem){
                                                             echo '<option ';
