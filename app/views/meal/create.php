@@ -45,31 +45,32 @@ $SUBTITLE = "Create Meal";
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0"><?php echo $SUBTITLE; ?></h3>
-<?php if (isset($Errors)) { ?>
-                            <p class="text-danger m-b-30 font-13">
-<?php     foreach($Errors as $error) { ?>
-                            <?php echo $error; ?><br/>
-<?php     } ?>
-                            </p>
-<?php } ?>
+                                <?php if (isset($Errors)) { ?>
+                                                            <p class="text-danger m-b-30 font-13">
+                                <?php     foreach($Errors as $error) { ?>
+                                                            <?php echo $error; ?><br/>
+                                <?php     } ?>
+                                                            </p>
+                                <?php } ?>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
                             <a href="/Meals/index">&laquo; Return to meals</a>
                             </p>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
-                                    <form method="post" action="/Meal/store">
-                                      <!--DATE-->
+                                    <form method="post" action="/Meals/store">
+                                        <!--DATE-->
                                         <div class="form-group">
                                             <label for="inputDate">Date</label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputDate" placeholder="Date of Meal" name="name" value="<?php echo (new Session())->getOldInput('date') ?>"> </div>
+                                                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                                <input type="text" class="form-control mydatepicker complex-colorpicker" placeholder="mm/dd/yyyy" id="inputDate" placeholder="Date of Meal" name="date" value="<?php echo (new Session())->getOldInput('date') ?>">
+                                            </div>
                                         </div>
 
-                                      <!--RECIPE-->
+                                        <!--RECIPE-->
                                         <div class="form-group">
-                                          <h3 class="box-title m-b-0">Recipe</h3>
+                                            <h3 class="box-title m-b-0">Recipe</h3>
                                             <label for="inputRecipe">Recipe</label>
                                             <select class="form-control" id="inputRecipe" name="recipeid">
                                                 <option value="0">Select one</option>
@@ -77,33 +78,36 @@ $SUBTITLE = "Create Meal";
                                                     foreach($data['recipes'] as $recipe){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('recipeid') == $recipe['id']){
+                                                        if((new Session())->getOldInput('recipeid') == $recipe->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
-                                                        echo 'value="'.$recipe['id'].'">'.$recipe['name'].'</option>';
+                                                        echo 'value="'.$recipe->getId().'">'.$recipe->getName().'</option>';
                                                     }
                                                 ?>
                                             </select>
 
-                                            <!--SCALE-->
-                                            <!--<div class="form-group">-->
-                                                <label for="inputScale">Scale</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                    <input type="number" step="0.01" min="1" class="form-control" id="inputScale" placeholder="" name="scale" value="<?php echo (new Session())->getOldInput('scale'); ?>">
-                                                </div>
-                                                <p class="help-block"></p>
-                                            <!--</div>-->
+                                        </div>
+                                        <!--SCALE-->
+                                        <div class="form-group">
+                                            <label for="inputScaleFactor">ScaleFactor</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputScaleFactor" placeholder="" name="scaleFactor" value="<?php echo (new Session())->getOldInput('scaleFactor'); ?>">
+                                            </div>
+                                            <p class="help-block"></p>
+                                        </div>
 
-                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save</button>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save</button>
+                                        </div>
                                     </form>
+                                </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-              </div>
 
 <?php require_once( __SPANEL__ ); ?>
 

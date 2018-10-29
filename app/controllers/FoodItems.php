@@ -30,18 +30,19 @@ use Base\Factories\FoodItemFactory;
  */
 class FoodItems extends Controller {
 
-    private $foodItemRepository;
-    private $dbh;
+    protected $dbh,
+        $session;
 
-    public function __construct()
-    {
-        parent::__construct(...func_get_args());
+    private $unitRepository,
+        $categoryRepository,
+        $foodItemRepository,
+        $foodItemFactory;
 
-        // Set FoodItemRepository
-        /* TODO Find a way to inject it using the constructor (or other methods)
-         * instead of creating it here
-         */
-        $this->dbh = DatabaseHandler::getInstance();
+    public function __construct(DatabaseHandler $dbh, Session $session){
+		$this->dbh = $dbh;
+		$this->session = $session;
+
+        // TODO Use dependecy injection
         $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB());
         $this->categoryRepository = new CategoryRepository($this->dbh->getDB());
         $this->unitRepository = new UnitRepository($this->dbh->getDB());
@@ -53,7 +54,7 @@ class FoodItems extends Controller {
      */
     public function index():void{
         // TODO Choose current household, not first one
-        $household = (new Session())->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getHouseholds()[0];
         $foods = $this->foodItemRepository->allForHousehold($household);
         $this->view('food/index', compact('foods'));
     }
@@ -91,7 +92,7 @@ class FoodItems extends Controller {
 
         $input = $_POST;
 
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
         $this->validateInput($input, 'create');
@@ -103,8 +104,8 @@ class FoodItems extends Controller {
         $this->foodItemRepository->save($foodItem);
 
         // Flash success message and flush old input
-        (new Session())->flashMessage('success', ucfirst($foodItem->getName()).' was added to your list.');
-        (new Session())->flushOldInput();
+        $this->session->flashMessage('success', ucfirst($foodItem->getName()).' was added to your list.');
+        $this->session->flushOldInput();
 
         // Redirect back after updating
         Redirect::toControllerMethod('FoodItems', 'index');
@@ -128,7 +129,7 @@ class FoodItems extends Controller {
 
         $this->foodItemRepository->remove($id);
 
-        (new Session())->flashMessage('success', $foodItem->getName().' was removed from your items.');
+        $this->session->flashMessage('success', $foodItem->getName().' was removed from your items.');
 
         // Redirect to list after deleting
         Redirect::toControllerMethod('FoodItems', 'index');
@@ -148,7 +149,7 @@ class FoodItems extends Controller {
         $this->foodItemRepository->save($foodItem);
 
         // Flash success message
-        (new Session())->flashMessage('success', ucfirst($foodItem->getName()).' was updated.');
+        $this->session->flashMessage('success', ucfirst($foodItem->getName()).' was updated.');
 
         // Redirect back after updating
         Redirect::toControllerMethod('FoodItems', 'edit', array('foodId' => $foodItem->getId()));
@@ -160,7 +161,7 @@ class FoodItems extends Controller {
      * @param string $foodItemId Food item's id
      */
     public function checkFoodBelongsToHousehold($foodItemId):void{
-        $household = (new Session())->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getHouseholds()[0];
 
         // If food doesn't belong to household, show forbidden error
         if(!$this->foodItemRepository->foodBelongsToHousehold($foodItemId, $household)){
@@ -176,7 +177,7 @@ class FoodItems extends Controller {
      * @param array $params Parameters for the redirection method
      */
     private function validateInput($input, $method, $params = NULL):void{
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
         $validator = new Validator($input);
@@ -212,7 +213,7 @@ class FoodItems extends Controller {
 
             $errorMessage = Format::validatorErrors($validator->errors());
             // Flash danger message
-            (new Session())->flashMessage('danger', $errorMessage);
+            $this->session->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
             Redirect::toControllerMethod('FoodItems', $method, $params);

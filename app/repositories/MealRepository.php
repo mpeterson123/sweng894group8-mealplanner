@@ -11,29 +11,35 @@ class MealRepository extends Repository {
 
     public function __construct($db){
         $this->db = $db;
+
+        // TODO use dependecy injection
+        $this->recipeRepository = new RecipeRepository($this->db);
+        $this->mealFactory = new MealFactory($this->recipeRepository);
     }
 
     public function find($id){
-
         $query = $this->db->prepare('SELECT * FROM meal WHERE id = ?');
         $query->bind_param("s", $id);
         $query->execute();
         $result = $query->get_result();
         $mealRow = $result->fetch_assoc();
 
-        $meal = (new MealFactory($this->db))->make($mealRow);
+        $meal = $this->mealFactory->make($mealRow);
         return $meal;
     }
 
     public function save($meal){
 
+        $success = false;
         if($meal->getId() && $this->find($meal->getId()))
         {
-            $this->update($meal);
+            $success = $this->update($meal);
         }
         else {
-            $this->insert($meal);
+            $success = $this->insert($meal);
         }
+
+        return $success;
     }
 
     public function all(){
@@ -49,9 +55,8 @@ class MealRepository extends Repository {
         $mealRows = $result->fetch_all(MYSQLI_ASSOC);
 
         $collection = array();
-        $mealFactory = new MealFactory($this->db);
         foreach($mealRows as $mealRow){
-            $collection[] = $MealFactory->make($mealRow);
+            $collection[] = $this->mealFactory->make($mealRow);
         }
 
         return $collection;
@@ -64,22 +69,25 @@ class MealRepository extends Repository {
     }
 
     protected function insert($meal){
-        $query = $this->db
-            ->prepare('INSERT INTO meal
-                (id, date, addedDate, isComplete, recipe, scaleFactor)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ');
+        try {
+            $query = $this->db
+                ->prepare('INSERT INTO meal
+                    (date, addedDate, isComplete, recipe, scaleFactor)
+                    VALUES (?, ?, ?, ?, ?)
+                ');
+            @$query->bind_param(
+                'ssiis',
+                $meal->getDate(),
+                $meal->getAddedDate(),
+                $meal->isComplete(),
+                $meal->getRecipe()->getId(),
+                $meal->getScale()
+            );
+            return $query->execute();
+        } catch (\Exception $e) {
+            return false;
+        }
 
-        @$query->bind_param(
-            $meal->getId(),
-            $meal->getDate(),
-            $meal->getAddedDate(),
-            $meal->isComplete(),
-            $meal->getRecipeId(),
-            $meal->getScale()
-        );
-
-        return $query->execute();
     }
 
     protected function update($meal){

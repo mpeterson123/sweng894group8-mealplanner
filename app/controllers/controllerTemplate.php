@@ -27,21 +27,18 @@ use \Valitron\Validator;
  */
 class Objects extends Controller {
 
-    private $objectRepository;
-    private $dbh;
+    protected $dbh,
+        $session;
 
-    public function __construct()
-    {
-        parent::__construct(...func_get_args());
+    private $objectRepository,
+        $objectFactory;
 
-        // Set ObjectRepository
-        /* TODO Find a way to inject it using the constructor (or other methods)
-         * instead of creating it here
-         */
-        $this->dbh = DatabaseHandler::getInstance();
+    public function __construct(DatabaseHandler $dbh, Session $session){
+		$this->dbh = $dbh;
+		$this->session = $session;
+
+        // TODO Use dependecy injection
         $this->objectRepository = new ObjectRepository($this->dbh->getDB());
-        $this->categoryRepository = new CategoryRepository($this->dbh->getDB());
-        $this->unitRepository = new UnitRepository($this->dbh->getDB());
         $this->objectFactory = new ObjectFactory($this->categoryRepository, $this->unitRepository);
     }
 

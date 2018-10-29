@@ -19,23 +19,33 @@ use \Valitron\Validator;
 ///////////////////////////
 use Base\Models\Meal;
 use Base\Repositories\MealRepository;
+use Base\Repositories\RecipeRepository;
 use Base\Factories\MealFactory;
+use Base\Factories\RecipeFactory;
 
 class Meals extends Controller {
 
-    private $mealRepository;
-    private $dbh;
+    protected $dbh,
+        $session;
 
-    public function __construct()
-    {
-        parent::__construct(...func_get_args());
+    private $mealRepository,
+        $mealFactory,
+        $recipeRepository,
+        $recipeFactory;
 
-        $this->dbh = DatabaseHandler::getInstance();
+    public function __construct(DatabaseHandler $dbh, Session $session){
+		$this->dbh = $dbh;
+		$this->session = $session;
+
+        // TODO Use dependecy injection
+        $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
         $this->mealRepository = new MealRepository($this->dbh->getDB());
+        $this->mealFactory = new MealFactory($this->recipeRepository);
+        $this->recipeFactory = new RecipeFactory($this->dbh->getDB());
     }
 
     public function index():void{
-        $user = (new Session())->get('user');
+        $user = $this->session->get('user');
 
         $meals = $this->mealRepository->allForUser($user);
         $this->view('meal/index', compact('meals'));
@@ -52,29 +62,38 @@ class Meals extends Controller {
     public function create():void{
         $db = $this->dbh->getDB();
 
-        $this->view('meal/create', compact('meal'));
+        $household = $this->session->get('user')->getHouseholds()[0];
+        $recipes = $this->recipeRepository->allForHousehold($household);
+
+        $this->view('meal/create', compact('recipes'));
+
     }
 
     public function store():void{
 
         $input = $_POST;
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
-        $this->validateInput($input, 'create');
+        $this->validateCreateInput($input, 'create');
+
+        $input['recipe'] = $input['recipeid'];
 
         // Make meal
-        $meal = (new MealFactory($this->dbh->getDB()))->make($input);
+        $meal = $this->mealFactory->make($input);
 
         // Save to DB
-        $this->mealRepository->save($meal);
+        if(!$this->mealRepository->save($meal)){
+            $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.');
+            Redirect::toControllerMethod('Meals', 'create');
+        }
 
         // Flash success message and flush old input
-        (new Session())->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was added to your list.');
-        (new Session())->flushOldInput();
+        $this->session->flashMessage('success', ucfirst($meal->getRecipe()->getName()).' was added to your meal plan.');
+        $this->session->flushOldInput();
 
         // Redirect back after updating
-        Redirect::toControllerMethod('Meal', 'index');
+        Redirect::toControllerMethod('Meals', 'index');
         return;
     }
 
@@ -90,10 +109,10 @@ class Meals extends Controller {
         $this->checkMealBelongsToUser($id);
         $this->mealRepository->remove($id);
 
-        (new Session())->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
+        $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
 
         // Redirect to list after deleting
-        Redirect::toControllerMethod('Meal', 'index');
+        Redirect::toControllerMethod('Meals', 'index');
         return;
     }
 
@@ -106,16 +125,16 @@ class Meals extends Controller {
         $this->mealRepository->save($meal);
 
         // Flash success message
-        (new Session())->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
+        $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
 
         // Redirect back after updating
-        Redirect::toControllerMethod('Meal', 'edit', array('Meal' => $meal->getId()));
+        Redirect::toControllerMethod('Meals', 'edit', array('Meals' => $meal->getId()));
         return;
     }
 
     public function checkMealBelongsToUser($id):void{
-        $user = (new Session())->get('user');
-        
+        $user = $this->session->get('user');
+
         // If meal doesn't belong to user, show forbidden error
         if(!$this->mealRepository->mealBelongsToUser($id, $user)){
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => '403'));
@@ -123,8 +142,42 @@ class Meals extends Controller {
         }
     }
 
+
+    private function validateCreateInput($input, $method, $params = NULL):void{
+        $this->session->flashOldInput($input);
+
+        // Validate input
+        $validator = new Validator($input);
+        $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
+        $rules = [
+            'required' => [
+                ['recipeid'],
+                ['date'],
+                ['scaleFactor']
+            ],
+            'dateFormat' => [
+                ['date', 'm/d/Y']
+            ],
+            'regex' => [
+                ['scaleFactor', $twoSigDigFloatRegex]
+            ]
+        ];
+        $validator->rules($rules);
+
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            $this->session->flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('Meals', $method, $params);
+            return;
+        }
+    }
+
     private function validateInput($input, $method, $params = NULL):void{
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
         $validator = new Validator($input);
@@ -155,10 +208,10 @@ class Meals extends Controller {
 
             $errorMessage = Format::validatorErrors($validator->errors());
             // Flash danger message
-            (new Session())->flashMessage('danger', $errorMessage);
+            $this->session->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
-            Redirect::toControllerMethod('Meal', $method, $params);
+            Redirect::toControllerMethod('Meals', $method, $params);
             return;
         }
     }

@@ -8,9 +8,20 @@ if($DEBUG){
 
 require_once __DIR__.'/../vendor/autoload.php';
 use Base\Core\App;
+use Base\Core\DatabaseHandler;
+use Base\Helpers\Session;
 
 // Set default timezone
 date_default_timezone_set('America/New_York');
 
+// Start session
+session_start();
+
+// Instantiate global dependencies
+$dbh = DatabaseHandler::getInstance();
+$session = new Session();
+$url = $_GET['url'];
+
 // Run app
-$app = new App();
+$app = new App($dbh, $session, $url);
+$app->run();

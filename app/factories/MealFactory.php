@@ -7,20 +7,21 @@ use Base\Repositories\MealRepository;
 
 class MealFactory {
 
-    private $db;
+    private $recipeRepository;
 
-    public function __construct($db){
-        $this->db = $db;
+    public function __construct($recipeRepository){
+        $this->recipeRepository = $recipeRepository;
+
     }
 
     public function make(array $mealArray):Meal
     {
-        $newMeal = new Meal();
+        $recipe = $this->recipeRepository->find($mealArray['recipe']);
+
+        $newMeal = new Meal($recipe,$mealArray['date'],$mealArray['scaleFactor']);
         if(isset($mealArray['id'])){
             $newMeal->setId($mealArray['id']);
         }
-
-        $newMeal->createMeal($mealArray['recipe'],$mealArray['date'],$mealArray['scale']);
 
         return $newMeal;
     }

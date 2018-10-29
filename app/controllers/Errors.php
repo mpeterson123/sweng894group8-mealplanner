@@ -23,11 +23,12 @@ use \Valitron\Validator;
  */
 class Errors extends Controller {
 
-    private $dbh;
+    protected $dbh,
+        $session;
 
-    public function __construct()
-    {
-        parent::__construct(...func_get_args());
+    public function __construct(DatabaseHandler $dbh, Session $session){
+		$this->dbh = $dbh;
+		$this->session = $session;
     }
 
     /**

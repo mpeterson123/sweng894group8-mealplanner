@@ -24,16 +24,18 @@ use Base\Repositories\HouseholdRepository;
 use Base\Factories\HouseholdFactory;
 
 class Household extends Controller{
-	private $userRepo;
-	private $hhRepo;
-	private $dbh;
-	private $householdFactory;
+	protected $dbh,
+		$session;
 
-	public function __construct()
-    {
-        parent::__construct(...func_get_args());
+	private	$userRepo,
+		$hhRepo,
+		$householdFactory;
+
+	public function __construct(DatabaseHandler $dbh, Session $session){
+		$this->dbh = $dbh;
+		$this->session = $session;
+
 		// TODO use dependecy injection
-		$this->dbh = DatabaseHandler::getInstance();
 		$this->userRepo = new UserRepository($this->dbh->getDB());
 		$this->hhRepo = new HouseholdRepository($this->dbh->getDB());
 		$this->householdFactory = new HouseholdFactory();
@@ -42,7 +44,7 @@ class Household extends Controller{
 	 * Select to create or join a household
 	 */
 	public function index(){
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 		$message = '';
 
 		$this->view('/auth/newHousehold',['message' => $message]);
@@ -51,7 +53,7 @@ class Household extends Controller{
 	 * Create a household
 	 */
 	public function create(){
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 		// Generate household name, and create household with that, and current user as owner
 		$householdName = $user->getLastName().' Household';
 		$household = $this->householdFactory->make(array('name' => $householdName, 'owner' => $user->getUsername()));
@@ -59,9 +61,9 @@ class Household extends Controller{
 
 		// Update user in the session
 		$updatedUser = $this->userRepo->find($user->getUsername());
-		(new Session())->add('user', $updatedUser);
+		$this->session->add('user', $updatedUser);
 		// Display message and redirect
-		(new Session())->flashMessage('success', $household->getName().' was created. Check the Household Settings page to see the invite code for other users.');
+		$this->session->flashMessage('success', $household->getName().' was created. Check the Household Settings page to see the invite code for other users.');
 		Redirect::toControllerMethod('Account', 'dashboard');
 
 	}
@@ -69,7 +71,7 @@ class Household extends Controller{
 	 * List all households the current user is apart of
 	 */
 	public function list(){
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 		// Get all households for a user
 		$households = 	$this->hhRepo->allForUser($user);
 		// Convert to an array for passing to the view
@@ -84,7 +86,7 @@ class Household extends Controller{
 	 * User join household
 	 */
 	public function join(){
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 		// Get household id
 		$inviteCode = trim($_POST['invite_code']);
 		$household = new HH();
@@ -93,9 +95,9 @@ class Household extends Controller{
 		$this->hhRepo->connect($user->getId(),$hhId);
 		// Update user in the session
 		$updatedUser = $this->userRepo->find($user->getUsername());
-		(new Session())->add('user', $updatedUser);
+		$this->session->add('user', $updatedUser);
 		// Diplay message and redirect
-		(new Session())->flashMessage('success', 'You have joined a household.');
+		$this->session->flashMessage('success', 'You have joined a household.');
 		Redirect::toControllerMethod('Account', 'dashboard');
 	}
 	/*
@@ -103,7 +105,7 @@ class Household extends Controller{
 	 */
 	public function detail($hhID){
 		// Get User
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 		// Get Household
 		$household = $this->hhRepo->find($hhID);
 		// Get all members of household
@@ -143,7 +145,7 @@ class Household extends Controller{
 	 */
 	public function leave($hhId){
 		// Get User
-		$user = (new Session())->get('user');
+		$user = $this->session->get('user');
 
 		// disconnect
 		$this->hhRepo->disconnect($user->getId(),$hhId);
@@ -154,8 +156,25 @@ class Household extends Controller{
 	 * Delete household
 	 */
 	public function delete($hhId){
+		// Delete Household
 		$this->hhRepo->remove($hhId);
-		
+
+		// Create default household if only household was deleted
+		$user = $this->session->get('user');
+		$households = 	$this->hhRepo->allForUser($user);
+		if(empty($households)){
+			// Generate household name, and create household with that, and current user as owner
+			$householdName = $user->getLastName().' Household';
+			$household = $this->householdFactory->make(array('name' => $householdName, 'owner' => $user->getUsername()));
+			$this->hhRepo->save($household);
+			// Update user in the session
+			$updatedUser = $this->userRepo->find($user->getUsername());
+			$this->session->add('user', $updatedUser);
+			// Display message and redirect
+			$this->session->flashMessage('success', 'This household was deleted. Since this was your only household, an empty default household was created for you.');
+		}
+
+		// Redirect to list
 		Redirect::toControllerMethod('Household', 'list');
 	}
 

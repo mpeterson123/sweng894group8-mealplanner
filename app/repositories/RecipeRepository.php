@@ -12,6 +12,9 @@ class RecipeRepository extends Repository {
 
     public function __construct($db){
         $this->db = $db;
+
+        // TODO Use dependecy injection
+        $this->recipeFactory = new RecipeFactory($this->db);
     }
 
     /**
@@ -45,7 +48,8 @@ class RecipeRepository extends Repository {
      */
     public function save($recipe){
 
-        if( $recipe->getId() && $this->find($recipe->getId()))
+        $success = false;
+        if($recipe->getId() && $this->find($recipe->getId()))
         {
             $success = $this->update($recipe);
         }
@@ -67,6 +71,7 @@ class RecipeRepository extends Repository {
         echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
     }
 
+    // TODO Remove this method
     /**
      * Get all recipes added by a user
      * @param  User $user [description]
@@ -87,6 +92,28 @@ class RecipeRepository extends Repository {
         }
 
     }
+
+    /**
+     * Get all recipes for a household
+     * @param  Household $household [description]
+     * @return array Associative array of recipes
+     */
+     public function allForHousehold($household){
+         $query = $this->db->prepare('SELECT * FROM recipes WHERE householdId = ? ORDER by name');
+         @$query->bind_param("i", $household->getId());
+         $query->execute();
+
+         $result = $query->get_result();
+         $recipeRows = $result->fetch_all(MYSQLI_ASSOC);
+
+         $collection = array();
+
+         foreach($recipeRows as $recipeRow){
+             $collection[] = $this->recipeFactory->make($recipeRow);
+         }
+
+         return $collection;
+     }
 
     /**
      * Delete a recipe from the database
