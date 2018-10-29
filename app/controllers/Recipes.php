@@ -137,7 +137,7 @@ class Recipes extends Controller {
             }
           }
         }
-        else {
+       else {
           (new Session())->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
         }
 

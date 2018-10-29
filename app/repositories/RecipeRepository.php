@@ -23,12 +23,19 @@ class RecipeRepository extends Repository {
 
         $query = $this->db->prepare('SELECT * FROM recipes WHERE id = ?');
         $query->bind_param("s", $id);
-        $query->execute();
-        $result = $query->get_result();
-        $recipeRow = $result->fetch_assoc();
+        if($query->execute()) {
+          $result = $query->get_result();
+          $recipeRow = $result->fetch_assoc();
 
-        $recipe = (new RecipeFactory($this->db))->make($recipeRow);
-        return $recipe;
+          $recipe = (new RecipeFactory($this->db))->make($recipeRow);
+          return $recipe;
+        }
+        else {
+          $error = $query->error;
+          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
+          return null;
+        }
+
     }
 
     /**
@@ -55,6 +62,9 @@ class RecipeRepository extends Repository {
      */
     public function all(){
         return $this->db->query('SELECT * FROM recipes ORDER by name')->fetch_all(MYSQLI_ASSOC);
+
+        $error = $query->error;
+        echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
     }
 
     /**
@@ -65,10 +75,17 @@ class RecipeRepository extends Repository {
     public function allForUser($user){
         $query = $this->db->prepare('SELECT * FROM recipes WHERE user_id = ? ORDER by name');
         @$query->bind_param("s", $user->getId());
-        $query->execute();
 
-        $result = $query->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if($query->execute()) {
+          $result = $query->get_result();
+          return $result->fetch_all(MYSQLI_ASSOC);
+        }
+        else {
+          $error = $query->error;
+          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
+          return null;
+        }
+
     }
 
     /**
@@ -80,7 +97,14 @@ class RecipeRepository extends Repository {
 
         $query = $this->db->prepare('DELETE FROM recipes WHERE id = ?');
         $query->bind_param("s", $id);
-        return $query->execute();
+        $bool = $query->execute();
+
+        if(!bool) {
+          $error = $query->error;
+          echo "\n" . __CLASS__ ."::" . __FUNCTION__ . ":" . $error . "\n";
+        }
+
+        return $bool;
     }
 
     /**
@@ -109,9 +133,15 @@ class RecipeRepository extends Repository {
 
         //$query->insert_id should return the id of the newly inserted row.
         $bool = $query->execute();
+
         if($bool) {
           echo "\nrecipe id = ". $query->insert_id . "\n";
           $recipe->setId($query->insert_id);
+        }
+        else {
+          $query->error;
+          echo "\n" . __CLASS__ ."::" . __FUNCTION__ . ":" . $error . "\n";
+
         }
 
         return $bool;
@@ -144,7 +174,13 @@ class RecipeRepository extends Repository {
             $recipe->getNotes(),
             $recipe->getId()
         );
-      return $query->execute();
+        $bool = $query->execute();
+
+        if(!bool) {
+          $query->error;
+          echo "\n" . __CLASS__ ."::" . __FUNCTION__ . ":" . $error . "\n";
+        }
+      return $bool;
 
     }
 
