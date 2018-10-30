@@ -23,12 +23,19 @@ class IngredientRepository extends Repository {
 
         $query = $this->db->prepare('SELECT * FROM ingredients WHERE id = ?');
         $query->bind_param("s", $id);
-        $query->execute();
-        $result = $query->get_result();
-        $ingredientRow = $result->fetch_assoc();
 
-        $ingredient = (new IngredientFactory($this->db))->make($ingredientRow);
-        return $ingredient;
+        if($query->execute()) {
+          $result = $query->get_result();
+          $ingredientRow = $result->fetch_assoc();
+
+          $ingredient = (new IngredientFactory($this->db))->make($ingredientRow);
+          return $ingredient;
+        }
+        else {
+          $query->error;
+          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
+          return null;
+        }
 
     }
 
@@ -64,19 +71,27 @@ class IngredientRepository extends Repository {
     public function allForRecipe($recipeId){
         $query = $this->db->prepare('SELECT * FROM ingredients WHERE recipeid = ? ORDER by foodid');
         $query->bind_param("s", $recipeId);
-        $query->execute();
-        $result = $query->get_result();
-        $ingredientRows = $result->fetch_all(MYSQLI_ASSOC);
 
-        $collection = array();
+        if($query->execute()) {
+          $result = $query->get_result();
+          $ingredientRows = $result->fetch_all(MYSQLI_ASSOC);
 
-        $ingredientFactory = new IngredientFactory($this->db);
+          $collection = array();
 
-        foreach($ingredientRows as $ingredientRow){
-            $collection[] = $ingredientFactory->make($ingredientRow);
+          $ingredientFactory = new IngredientFactory($this->db);
+
+          foreach($ingredientRows as $ingredientRow){
+              $collection[] = $ingredientFactory->make($ingredientRow);
+          }
+
+          return $collection;
+        }
+        else {
+          $error = $query->error;
+          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
+          return null;
         }
 
-        return $collection;
       }
 
         /**
@@ -89,7 +104,17 @@ class IngredientRepository extends Repository {
 
         $query = $this->db->prepare('DELETE FROM recipes WHERE id = ?');
         $query->bind_param("s", $id);
-        return $query->execute();
+
+        $bool = $query->execute();
+        if($bool) {
+          $ingredient->setId($query->insert_id);
+        }
+        else {
+        $query->error;
+        echo "\n" . __CLASS__ . "::" . __FUNCTION__ . $error . "\n";
+      }
+
+        return $bool;
         */
     }
 
@@ -119,6 +144,10 @@ class IngredientRepository extends Repository {
         $bool = $query->execute();
         if($bool) {
           $ingredient->setId($query->insert_id);
+        }
+        else {
+          $query->error;
+          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
         }
 
         return $bool;
@@ -157,6 +186,7 @@ class IngredientRepository extends Repository {
 
         if(!$bool) {
           $error = $query->error;
+          echo "\n" . __CLASS__ ."::" . __FUNCTION__ . ":" . $error . "\n";
         }
 
         return $bool;

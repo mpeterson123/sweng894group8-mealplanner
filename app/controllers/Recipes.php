@@ -35,8 +35,8 @@ class Recipes extends Controller {
         $recipeRepository;
 
     public function __construct(DatabaseHandler $dbh, Session $session){
-		$this->dbh = $dbh;
-		$this->session = $session;
+		    $this->dbh = $dbh;
+		      $this->session = $session;
 
         // TODO Use dependecy injection
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
@@ -49,7 +49,7 @@ class Recipes extends Controller {
 
         // echo "In ".__CLASS__."@".__FUNCTION__;
         $recipes = $this->recipeRepository->allForUser($user);
-        //$recipes = $this->recipeRepository->all();
+
         $this->view('recipe/index', compact('recipes'));
     }
 
@@ -113,6 +113,7 @@ class Recipes extends Controller {
             $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
 
             for($i=0;$i<count($input['foodid']);$i++){
+
                 //Create the ingredient array:
                 $ingredientInput = array("foodid" => $input['foodid'][$i],
                                       "quantity" => $input['quantity'][$i],
@@ -168,7 +169,7 @@ class Recipes extends Controller {
 
             $this->recipeRepository->remove($id);
 
-            $this->session->flashMessage('success', $recipe['name'].' was removed from your recipes.');
+            $this->session->flashMessage('success', $recipe->getName().' was removed from your recipes.');
 
             // Redirect to list after deleting
             Redirect::toControllerMethod('Recipes', 'index');
@@ -187,6 +188,8 @@ class Recipes extends Controller {
 
         $input = $_POST;
 
+      //  var_dump($input);
+
         // Find unit and category
         $db = $this->dbh->getDB();
 
@@ -201,12 +204,9 @@ class Recipes extends Controller {
         if ($this->recipeRepository->save($recipe)) {
 
           // Flash success message
-          (new Session())->flashMessage('success', ucfirst($recipe->getName()).' was updated.');
+          $this->session->flashMessage('success', ucfirst($recipe->getName()).' was updated.');
 
         for($i=0;$i<count($input['ingredientIds']);$i++){
-          echo "\nfoodid = " . $input['foodid'][$i] . "\n";
-          echo "\nquantity = " . $input['quantity'][$i] . "\n";
-          echo "\nunit_id = " . $input['unit_id'][$i] . "\n";
 
           //Create the ingredient array:
           $ingredientInput = array("foodid" => $input['foodid'][$i],
@@ -216,48 +216,31 @@ class Recipes extends Controller {
                                   "id" => $input['ingredientIds'][$i]);
 
             //Create the ingredient object:
-          //  $ingredient = $ingredientFactory->make($ingredientInput);
+            $ingredient = $ingredientFactory->make($ingredientInput);
 
             //Save the ingredient in the database:
-            /*
             if($this->ingredientRepository->save($ingredient)) {
 
               //Add the ingredient to the recipe object:
               $recipe->addIngredient($ingredient);
 
               // Flash success message
-              (new Session())->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was updated.');
+              $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was updated.');
             }
             else {
-              (new Session())->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not updated.');
+              $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not updated.');
             }
-            */
+
           }
         }
         else {
-          (new Session())->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not updated.');
+          $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not updated.');
         }
 
         Redirect::toControllerMethod('Recipes', 'index');
 
         return;
-      /*
-        $this->recipeRepository->save($recipe);
 
-        // Flash success message
-        $this->session->flashMessage('success', ucfirst($recipe->getName()).' was updated.');
-
-        //Also update the ingredients
-
-
-        // Redirect back after updating
-        echo "\nrecipeid = " . $recipe->getId() . "\n";
-
-      //  Redirect::toControllerMethod('Recipes', 'edit', $recipe->getId());
-      Redirect::toControllerMethod('Recipes', 'index');
-
-        return;
-        */
     }
 
     public function checkRecipeBelongsToUser($id){
