@@ -57,6 +57,10 @@ class Household {
       return $this->owner;
     }
     public function setOwner($newOwner){
+      if(!$newOwner)
+      {
+          throw new \Exception("Owner cannot be empty", 1);
+      }
       $this->owner = $newOwner;
     }
 
