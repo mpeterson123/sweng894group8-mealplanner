@@ -39,7 +39,7 @@ class Objects extends Controller {
 
         // TODO Use dependecy injection
         $this->objectRepository = new ObjectRepository($this->dbh->getDB());
-        $this->objectFactory = new ObjectFactory($this->categoryRepository, $this->unitRepository);
+        $this->objectFactory = new ObjectFactory(/*dependecies*/);
     }
 
     /**
