@@ -86,11 +86,11 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
                                                     foreach($data['categories'] as $category){
                                                         echo '<option ';
 
-                                                        if($data['food']->getCategory()->getId() == $category['id']){
+                                                        if($data['food']->getCategory()->getId() == $category->getId()){
                                                             echo 'selected="selected"';
                                                         }
 
-                                                        echo 'value="'.$category['id'].'">'.$category['name'].'</option>';
+                                                        echo 'value="'.$category->getId().'">'.$category->getName().'</option>';
                                                     }
                                                 ?>
                                             </select>

@@ -73,11 +73,11 @@ $SUBTITLE = "Add Food Item";
                                                     foreach($data['categories'] as $category){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('categoryId') == $category['id']){
+                                                        if((new Session())->getOldInput('categoryId') == $category->getId()){
                                                             echo 'selected="selected"';
                                                         }
 
-                                                        echo 'value="'.$category['id'].'">'.$category['name'].'</option>';
+                                                        echo 'value="'.$category->getId().'">'.$category->getName().'</option>';
                                                     }
                                                 ?>
                                             </select>

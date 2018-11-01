@@ -6,6 +6,7 @@ use Base\Repositories\Repository;
 use Base\Helpers\Session;
 use Base\Factories\IngredientFactory;
 use Base\Factories\FoodItemFactory;
+use Base\Factories\CategoryFactory;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\CategoryRepository;
 
@@ -16,7 +17,8 @@ class IngredientRepository extends Repository {
         $this->db = $db;
 
         // TODO Use dependecy injection
-        $categoryRepository = new CategoryRepository($this->db);
+        $categoryFactory = new CategoryFactory($this->db);
+        $categoryRepository = new CategoryRepository($this->db, $categoryFactory);
         $unitRepository = new UnitRepository($this->db);
         $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
         $foodItemRepository = new FoodItemRepository($this->db, $foodItemFactory);

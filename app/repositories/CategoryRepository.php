@@ -2,15 +2,17 @@
 namespace Base\Repositories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
-use Base\Models\Category;
 use Base\Repositories\Repository;
+use Base\Factories\CategoryFactory;
 
 
 class CategoryRepository extends Repository {
-    private $db;
+    private $db,
+        $categoryFactory;
 
-    public function __construct($db){
+    public function __construct($db, $categoryFactory){
         $this->db = $db;
+        $this->categoryFactory = $categoryFactory;
     }
 
     /**
@@ -26,9 +28,7 @@ class CategoryRepository extends Repository {
         $result = $query->get_result();
         $categoryRow = $result->fetch_assoc();
 
-        $category = new Category();
-        $category->setId($categoryRow['id']);
-        $category->setName($categoryRow['name']);
+        $category = $this->categoryFactory->make($categoryRow);
 
         return $category;
     }
@@ -38,7 +38,13 @@ class CategoryRepository extends Repository {
      * @return array Associative array of categories
      */
     public function all(){
-        return $this->db->query('SELECT * FROM categories')->fetch_all(MYSQLI_ASSOC);
+        $categoryRows = $this->db->query('SELECT * FROM categories')->fetch_all(MYSQLI_ASSOC);
+
+        $collection = array();
+        foreach($categoryRows as $categoryRow){
+            $collection[] = $this->categoryFactory->make($categoryRow);
+        }
+        return $collection;
     }
 
     // /**

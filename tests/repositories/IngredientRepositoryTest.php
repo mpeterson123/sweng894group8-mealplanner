@@ -13,6 +13,7 @@ use Base\Models\Category;
 use Base\Core\DatabaseHandler;
 use Base\Models\Ingredient;
 use Base\Factories\IngredientFactory;
+use Base\Factories\CategoryFactory;
 
 class IngredientRepositoryTest extends TestCase {
 //  use TestCaseTrait;
@@ -117,7 +118,8 @@ class IngredientRepositoryTest extends TestCase {
 
 
     // TODO Use dependecy injection
-    $categoryRepository = new CategoryRepository($this->db);
+    $categoryFactory = new CategoryFactory($this->db);
+    $categoryRepository = new CategoryRepository($this->db, $categoryFactory);
     $unitRepository = new UnitRepository($this->db);
     $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
     $foodItemRepository = new FoodItemRepository($this->db, $foodItemFactory);

@@ -26,6 +26,7 @@ use Base\Repositories\UnitRepository;
 use Base\Factories\RecipeFactory;
 use Base\Factories\IngredientFactory;
 use Base\Factories\FoodItemFactory;
+use Base\Factories\CategoryFactory;
 use Base\Repositories\CategoryRepository;
 
 class Recipes extends Controller {
@@ -46,7 +47,8 @@ class Recipes extends Controller {
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
         $this->ingredientRepository = new IngredientRepository($this->dbh->getDB());
 
-        $categoryRepository = new CategoryRepository($this->dbh->getDB());
+        $categoryFactory = new CategoryFactory($this->dbh->getDB());
+        $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
         $this->unitRepository = new UnitRepository($this->dbh->getDB());
         $foodItemFactory = new FoodItemFactory($categoryRepository, $this->unitRepository);
         $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
