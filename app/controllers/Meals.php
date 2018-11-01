@@ -47,7 +47,7 @@ class Meals extends Controller {
     public function index():void{
         $user = $this->session->get('user');
 
-        $meals = $this->mealRepository->allForUser($user);
+        $meals = $this->mealRepository->allForHousehold($user->getHouseholds()[0]);
         $this->view('meal/index', compact('meals'));
     }
 
@@ -106,7 +106,8 @@ class Meals extends Controller {
             return;
         }
 
-        $this->checkMealBelongsToUser($id);
+
+        $this->checkMealBelongsToHousehold($id);
         $this->mealRepository->remove($id);
 
         $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
@@ -118,30 +119,26 @@ class Meals extends Controller {
 
     public function update($id):void{
         $meal = $this->mealRepository->find($id);
-        $this->checkMealBelongsToUser($id);
 
-        $this->validateInput($_POST, 'edit', [$id]);
+        if( $this->checkMealBelongsToHousehold($id) )
+        {
 
-        $this->mealRepository->save($meal);
+          $this->validateInput($_POST, 'edit', [$id]);
 
-        // Flash success message
-        $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
+          $this->mealRepository->save($meal);
 
-        // Redirect back after updating
-        Redirect::toControllerMethod('Meals', 'edit', array('Meals' => $meal->getId()));
-        return;
-    }
+          // Flash success message
+          $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
 
-    public function checkMealBelongsToUser($id):void{
-        $user = $this->session->get('user');
-
-        // If meal doesn't belong to user, show forbidden error
-        if(!$this->mealRepository->mealBelongsToUser($id, $user)){
-            Redirect::toControllerMethod('Errors', 'show', array('errorCode' => '403'));
-            return;
+          // Redirect back after updating
+          Redirect::toControllerMethod('Meals', 'edit', array('Meals' => $meal->getId()));
+          return;
+        }
+        else
+        {
+          //not in household
         }
     }
-
 
     private function validateCreateInput($input, $method, $params = NULL):void{
         $this->session->flashOldInput($input);

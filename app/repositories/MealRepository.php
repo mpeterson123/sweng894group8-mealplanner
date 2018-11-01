@@ -31,7 +31,7 @@ class MealRepository extends Repository {
     public function save($meal){
 
         $success = false;
-        if($meal->getId() && $this->find($meal->getId()))
+        if($this->find($meal->getId()))
         {
             $success = $this->update($meal);
         }
@@ -46,9 +46,9 @@ class MealRepository extends Repository {
         return $this->db->query('SELECT * FROM meal ORDER by date')->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function allForUser($user){
-        $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipe, meal.scaleFactor, meal.isComplete FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE user_id = ? ORDER by name');
-        @$query->bind_param("i", $user->getId());
+    public function allForHousehold($household){
+        $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipe, meal.scaleFactor, meal.isComplete FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE householdId = ? ORDER by date');
+        @$query->bind_param("i", $household);
         $query->execute();
 
         $result = $query->get_result();
@@ -72,17 +72,19 @@ class MealRepository extends Repository {
         try {
             $query = $this->db
                 ->prepare('INSERT INTO meal
-                    (date, addedDate, isComplete, recipe, scaleFactor)
+                    (date, addedDate, isComplete, recipe, scaleFactor, householdId, userId)
                     VALUES (?, ?, ?, ?, ?)
                 ');
             @$query->bind_param(
-                'ssiis',
                 $meal->getDate(),
                 $meal->getAddedDate(),
                 $meal->isComplete(),
                 $meal->getRecipe()->getId(),
-                $meal->getScale()
+                $meal->getScale(),
+                $this->session->get('user')->getHouseholds()[0],
+                $household = $this->session->get('user')->getId()
             );
+
             return $query->execute();
         } catch (\Exception $e) {
             return false;
@@ -91,6 +93,7 @@ class MealRepository extends Repository {
     }
 
     protected function update($meal){
+      try {
         $query = $this->db
             ->prepare('UPDATE meal
                 SET
@@ -111,14 +114,18 @@ class MealRepository extends Repository {
             $meal->getId()
         );
 
-        $query->execute();
+        return $query->execute();
+      } catch (\Exception $e) (
+          return false;
+        )
     }
 
-    public function mealBelongsToUser($mealId, $user)
+    public function mealBelongsToHousehold($mealId)
     {
-        $query = $this->db->prepare('SELECT * FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE recipes.user_id = ? AND meal.id = ?');
+        $householdId = $this->session->get('user')->getHouseholds()[0];
+        $query = $this->db->prepare('SELECT * FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE meal.householdId = ? AND meal.id = ?');
         $query->bind_param(
-            $user->getId(),
+            $householdId,
             $mealId
         );
         $query->execute();
