@@ -27,6 +27,7 @@ use Base\Factories\RecipeFactory;
 use Base\Factories\IngredientFactory;
 use Base\Factories\FoodItemFactory;
 use Base\Factories\CategoryFactory;
+use Base\Factories\UnitFactory;
 use Base\Repositories\CategoryRepository;
 
 class Recipes extends Controller {
@@ -49,10 +50,13 @@ class Recipes extends Controller {
 
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
         $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
-        $this->unitRepository = new UnitRepository($this->dbh->getDB());
+
+        $unitFactory = new UnitFactory($this->dbh->getDB());
+        $this->unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
+
         $foodItemFactory = new FoodItemFactory($categoryRepository, $this->unitRepository);
         $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
-        $this->ingredientFactory = new IngredientFactory($this->dbh->getDB(), $this->foodItemRepository);
+        $this->ingredientFactory = new IngredientFactory($this->dbh->getDB(), $this->foodItemRepository, $this->unitRepository);
     }
 
     public function index(){
@@ -70,11 +74,9 @@ class Recipes extends Controller {
         $household = $this->session->get('user')->getHouseholds()[0];
         $db = $this->dbh->getDB();
 
-        $unitRepository = new UnitRepository($db);
-
         // Get user's fooditems and list of units
         $fooditems = $this->foodItemRepository->allForHousehold($household);
-        $units = $unitRepository->all();
+        $units = $this->unitRepository->all();
 
         // Get recipe Object
         $recipe = $this->recipeRepository->find($id);
@@ -93,13 +95,11 @@ class Recipes extends Controller {
     public function create(){
         $db = $this->dbh->getDB();
 
-        $unitRepository = new UnitRepository($db);
-
         $household = $this->session->get('user')->getHouseholds()[0];
 
         // Get user's foodItems and list of units
         $fooditems = $this->foodItemRepository->allForHousehold($household);
-        $units = $unitRepository->all();
+        $units = $this->unitRepository->all();
 
         $this->view('recipe/create', compact('fooditems', 'units'));
     }

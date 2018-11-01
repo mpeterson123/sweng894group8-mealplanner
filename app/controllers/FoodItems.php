@@ -24,6 +24,7 @@ use Base\Repositories\UnitRepository;
 use Base\Repositories\CategoryRepository;
 use Base\Factories\FoodItemFactory;
 use Base\Factories\CategoryFactory;
+use Base\Factories\UnitFactory;
 
 
 /**
@@ -43,10 +44,13 @@ class FoodItems extends Controller {
 		$this->dbh = $dbh;
 		$this->session = $session;
 
-        // TODO Use dependecy injection
+        // TODO Use dependency injection
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
         $this->categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
-        $this->unitRepository = new UnitRepository($this->dbh->getDB());
+
+        $unitFactory = new UnitFactory($this->dbh->getDB());
+        $this->unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
+
         $this->foodItemFactory = new FoodItemFactory($this->categoryRepository, $this->unitRepository);
         $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $this->foodItemFactory);
 

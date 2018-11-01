@@ -9,12 +9,20 @@ use Base\Repositories\UnitRepository;
 
 class IngredientFactory {
 
+    // TODO Eliminate db
     private $db;
+
+    // TODO find all references of factory and make injections
+    public function __construct($db, $foodItemRepository, $unitRepository){
+        $this->db = $db;
+        $this->foodItemRepository= $foodItemRepository;
+        $this->unitRepository= $unitRepository;
+    }
 
     public function make($ingredientArray)
     {
         $foodItem = $this->foodItemRepository->find($ingredientArray['foodid']);
-        $unit = (new UnitRepository($this->db))->find($ingredientArray['unit_id']);
+        $unit = $this->unitRepository->find($ingredientArray['unit_id']);
         $quantity = new Quantity($ingredientArray['quantity'], $unit);
 
         $ingredient = new Ingredient($foodItem, $quantity, $ingredientArray['recipeid'], $unit);
@@ -25,9 +33,6 @@ class IngredientFactory {
         return $ingredient;
     }
 
-    public function __construct($db, $foodItemRepository){
-        $this->db = $db;
-        $this->foodItemRepository= $foodItemRepository;
-    }
+
 
 }
