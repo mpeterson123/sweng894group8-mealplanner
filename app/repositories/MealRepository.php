@@ -115,9 +115,9 @@ class MealRepository extends Repository {
         );
 
         return $query->execute();
-      } catch (\Exception $e) (
+      } catch (\Exception $e) {
           return false;
-        )
+        }
     }
 
     public function mealBelongsToHousehold($mealId)
