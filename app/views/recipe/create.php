@@ -106,17 +106,17 @@ $SUBTITLE = "Add Recipe";
                                         <div class="form-group ingredientFormGroup">
 
                                           <div class="col-sm-3">
-                                                    <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo (new Session())->getOldInput('quantity'); ?>">
+                                                    <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo (new Session())->getOldInput('testUnitsInContainerIsBetween0AndBelowOrEqualTo999Point99uantity'); ?>">
                                           </div>
 
                                           <div class="col-sm-4">
-                                                <select class="form-control" name="unit_id[]">
+                                                <select class="form-control" name="newUnitId[]">
                                                     <option value="0">Select a unit</option>
                                                     <?php
                                                         foreach($data['units'] as $unit){
                                                             echo '<option ';
 
-                                                            if((new Session())->getOldInput('unit_id') == $unit->getId()){
+                                                            if((new Session())->getOldInput('newUnitId') == $unit->getId()){
                                                                 echo 'selected="selected" ';
                                                             }
 
@@ -127,13 +127,13 @@ $SUBTITLE = "Add Recipe";
                                           </div>
 
                                           <div class="col-sm-4">
-                                            <select class="form-control" name="foodid[]">
+                                            <select class="form-control" name="newFoodId[]">
                                                 <option value="0">Select a food item</option>
                                                 <?php
                                                     foreach($data['fooditems'] as $fooditem){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('foodid') == $fooditem->getId()){
+                                                        if((new Session())->getOldInput('newFoodId') == $fooditem->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
@@ -190,17 +190,17 @@ $SUBTITLE = "Add Recipe";
       `<div class="form-group ingredientFormGroup">
 
       <div class="col-sm-3">
-                <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo (new Session())->getOldInput('quantity'); ?>">
+                <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo (new Session())->getOldInput('newQuantity'); ?>">
       </div>
 
       <div class="col-sm-4">
-            <select class="form-control" name="unit_id[]">
+            <select class="form-control" name="newUnitId[]">
                 <option value="0">Select a unit</option>
                 <?php
                     foreach($data['units'] as $unit){
                         echo '<option ';
 
-                        if((new Session())->getOldInput('unit_id') == $unit->getId()){
+                        if((new Session())->getOldInput('newUnitId') == $unit->getId()){
                             echo 'selected="selected" ';
                         }
 
@@ -211,13 +211,13 @@ $SUBTITLE = "Add Recipe";
       </div>
 
       <div class="col-sm-4">
-        <select class="form-control" name="foodid[]">
+        <select class="form-control" name="newFoodId[]">
             <option value="0">Select a food item</option>
             <?php
                 foreach($data['fooditems'] as $fooditem){
                     echo '<option ';
 
-                    if((new Session())->getOldInput('foodid') == $fooditem->getId()){
+                    if((new Session())->getOldInput('newFoodId') == $fooditem->getId()){
                         echo 'selected="selected" ';
                     }
 
@@ -233,7 +233,7 @@ $SUBTITLE = "Add Recipe";
         </div>
 
     </div>`; //end ingredientFormGroup -->
-    
+
       $("#addIngredientBtn").on("click", function(e) {
           e.preventDefault();
           $('#ingredientsWrapper').append(ingredientHTML);

@@ -120,40 +120,50 @@ class Recipes extends Controller {
             // Flash success message
             $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
 
-            for($i=0;$i<count($input['foodid']);$i++){
-
-                //Create the ingredient array:
-                $ingredientInput = array("foodid" => $input['foodid'][$i],
-                                      "quantity" => $input['quantity'][$i],
-                                      "recipeid" => $recipe->getId(),
-                                      "unit_id" => $input['unit_id'][$i]);
-
-                //Create the ingredient object:
-                $ingredient = $this->ingredientFactory->make($ingredientInput);
-
-                //Save the ingredient in the database:
-                if($this->ingredientRepository->save($ingredient)) {
-
-                    //Add the ingredient to the recipe object:
-                    $recipe->addIngredient($ingredient);
-
-                    // Flash success message
-                    $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
-                }
-                else {
-                  $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
-                }
-            }
+            //Add the ingredients
+            $this->addIngredients($input, $recipe);
         }
         else {
           $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
         }
 
-
         // Redirect back after updating
         Redirect::toControllerMethod('Recipes', 'index');
         return;
     }
+
+private function addIngredients($in, $rec) {
+
+  $db = $this->dbh->getDB();
+
+  $ingredientFactory = new IngredientFactory($db);
+
+  for($i=0;$i<count($in['newFoodId']);$i++){
+
+      //Create the ingredient array:
+      $ingredientInput = array("foodid" => $in['newFoodId'][$i],
+                            "quantity" => $in['newQuantity'][$i],
+                            "recipeid" => $rec->getId(),
+                            "unit_id" => $in['newUnitId'][$i]);
+
+      //Create the ingredient object:
+      $ingredient = $ingredientFactory->make($ingredientInput);
+
+      //Save the ingredient in the database:
+      if($this->ingredientRepository->save($ingredient)) {
+
+          //Add the ingredient to the recipe object:
+          $rec->addIngredient($ingredient);
+
+          // Flash success message
+          $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+      }
+      else {
+        $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
+      }
+  }
+  return;
+}
 
     public function delete($id){
             $user = $this->session->get('user');
@@ -194,11 +204,6 @@ class Recipes extends Controller {
 
         $input = $_POST;
 
-      //  var_dump($input);
-
-        // Find unit and category
-        $db = $this->dbh->getDB();
-
         $recipe->setId($id);
         $recipe->setName($input['name']);
         $recipe->setDescription($input['description']);
@@ -212,32 +217,11 @@ class Recipes extends Controller {
           // Flash success message
           $this->session->flashMessage('success', ucfirst($recipe->getName()).' was updated.');
 
-        for($i=0;$i<count($input['ingredientIds']);$i++){
+          //Update the existing ingredients
+          $this->updateIngredients($input, $recipe);
 
-          //Create the ingredient array:
-          $ingredientInput = array("foodid" => $input['foodid'][$i],
-                                  "quantity" => $input['quantity'][$i],
-                                  "recipeid" => $recipe->getId(),
-                                  "unit_id" => $input['unit_id'][$i],
-                                  "id" => $input['ingredientIds'][$i]);
+          $this->addIngredients($input, $recipe);
 
-            //Create the ingredient object:
-            $ingredient = $this->ingredientFactory->make($ingredientInput);
-
-            //Save the ingredient in the database:
-            if($this->ingredientRepository->save($ingredient)) {
-
-              //Add the ingredient to the recipe object:
-              $recipe->addIngredient($ingredient);
-
-              // Flash success message
-              $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was updated.');
-            }
-            else {
-              $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not updated.');
-            }
-
-          }
         }
         else {
           $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not updated.');
@@ -246,7 +230,40 @@ class Recipes extends Controller {
         Redirect::toControllerMethod('Recipes', 'index');
 
         return;
+    }
 
+    private function updateIngredients($in, $rec) {
+
+      $db = $this->dbh->getDB();
+
+      $ingredientFactory = new IngredientFactory($db);
+
+      for($i=0;$i<count($in['ingredientIds']);$i++){
+
+        //Create the ingredient array:
+        $ingredientInput = array("foodid" => $in['foodId'][$i],
+                              "quantity" => $in['quantity'][$i],
+                              "recipeid" => $rec->getId(),
+                              "unit_id" => $in['unitId'][$i],
+                              "id" => $in['ingredientIds'][$i]);
+
+        //Create the ingredient object:
+        $ingredient = $ingredientFactory->make($ingredientInput);
+
+        //Save the ingredient in the database:
+        if($this->ingredientRepository->save($ingredient)) {
+
+          //Add the ingredient to the recipe object:
+          $rec->addIngredient($ingredient);
+
+          // Flash success message
+          //$this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was updated.');
+        }
+        else {
+          $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not updated.');
+        }
+
+      }
     }
 
     public function checkRecipeBelongsToUser($id){
