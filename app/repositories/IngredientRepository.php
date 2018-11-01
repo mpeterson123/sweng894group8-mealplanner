@@ -100,22 +100,19 @@ class IngredientRepository extends Repository {
      * @return bool         Whether query was successful
      */
     public function remove($id){
-      /*
 
-        $query = $this->db->prepare('DELETE FROM recipes WHERE id = ?');
+        $query = $this->db->prepare('DELETE FROM ingredients WHERE id = ?');
         $query->bind_param("s", $id);
 
         $bool = $query->execute();
-        if($bool) {
-          $ingredient->setId($query->insert_id);
+
+        if(!$bool) {
+          $query->error;
+          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . $error . "\n";
         }
-        else {
-        $query->error;
-        echo "\n" . __CLASS__ . "::" . __FUNCTION__ . $error . "\n";
-      }
 
         return $bool;
-        */
+
     }
 
     /**
@@ -152,7 +149,6 @@ class IngredientRepository extends Repository {
 
         return $bool;
 
-      //  return $query->execute();
     }
 
     /**

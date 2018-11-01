@@ -318,5 +318,60 @@ class IngredientRepositoryTest extends TestCase {
 
     public function testRemoveIngredient() {
 
+      //Insert an ingredient into the Database
+      //If it was successful call remove
+      if($this->insert() ) {
+        $this->ingredientRepository->remove($this->expectedIngredientArray[0]->getId());
+      }
+
+      //Confirm it was removed
+      $actualIngredient = $this->find($this->expectedIngredientArray[0]->getId());
+
+      $this->assertEquals(null, $actualIngredient);
+
+    }
+
+    private function insert() {
+      //Insert an ingredient
+      $query = $this->db
+          ->prepare('INSERT INTO ingredients
+              (foodid, recipeid, quantity, unit_id)
+              VALUES (?, ?, ?, ?)
+          ');
+
+      // @ operator to suppress bind_param asking for variables by reference
+      // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
+      @$query->bind_param("iidi",
+          $this->expectedIngredientArray[0]->getFood()->getId(), //->getId(),
+          $this->expectedIngredientArray[0]->getRecipeId(),
+          $this->expectedIngredientArray[0]->getQuantity()->getValue(), //->getValue()
+          $this->expectedIngredientArray[0]->getUnit()->getId()
+      );
+
+      $bool = $query->execute();
+
+      if($bool) {
+        $this->expectedIngredientArray[0]->setId($query->insert_id);
+      }
+
+      return $bool;
+    }
+
+    private function find() {
+      $id = $this->expectedIngredientArray[0]->getId();
+      $query = $this->db->prepare('SELECT * FROM ingredients WHERE id = ?');
+      $query->bind_param("s", $id);
+      $query->execute();
+      $result = $query->get_result();
+      $ingredientRow = $result->fetch_assoc();
+
+      if($ingredientRow) {
+        $actIngredient = (new IngredientFactory($this->db))->make($ingredientRow);
+      }
+      else {
+        $actIngredient = null;
+      }
+
+      return $actIngredient;
     }
 }
