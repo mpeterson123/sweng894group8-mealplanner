@@ -13,7 +13,7 @@ class IngredientFactory {
 
     public function make($ingredientArray)
     {
-        $foodItem = (new FoodItemRepository($this->db))->find($ingredientArray['foodid']);
+        $foodItem = $this->foodItemRepository->find($ingredientArray['foodid']);
         $unit = (new UnitRepository($this->db))->find($ingredientArray['unit_id']);
         $quantity = new Quantity($ingredientArray['quantity'], $unit);
 
@@ -25,8 +25,9 @@ class IngredientFactory {
         return $ingredient;
     }
 
-    public function __construct($db){
+    public function __construct($db, $foodItemRepository){
         $this->db = $db;
+        $this->foodItemRepository= $foodItemRepository;
     }
 
 }

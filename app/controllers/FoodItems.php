@@ -43,10 +43,11 @@ class FoodItems extends Controller {
 		$this->session = $session;
 
         // TODO Use dependecy injection
-        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB());
         $this->categoryRepository = new CategoryRepository($this->dbh->getDB());
         $this->unitRepository = new UnitRepository($this->dbh->getDB());
         $this->foodItemFactory = new FoodItemFactory($this->categoryRepository, $this->unitRepository);
+        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $this->foodItemFactory);
+
     }
 
     /**

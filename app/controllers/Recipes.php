@@ -25,6 +25,8 @@ use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
 use Base\Factories\RecipeFactory;
 use Base\Factories\IngredientFactory;
+use Base\Factories\FoodItemFactory;
+use Base\Repositories\CategoryRepository;
 
 class Recipes extends Controller {
 
@@ -32,7 +34,9 @@ class Recipes extends Controller {
         $session;
 
     private $ingredientRepository,
-        $recipeRepository;
+        $recipeRepository,
+        $foodItemRepository,
+        $unitRepository;
 
     public function __construct(DatabaseHandler $dbh, Session $session){
 		    $this->dbh = $dbh;
@@ -42,6 +46,11 @@ class Recipes extends Controller {
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
         $this->ingredientRepository = new IngredientRepository($this->dbh->getDB());
 
+        $categoryRepository = new CategoryRepository($this->dbh->getDB());
+        $this->unitRepository = new UnitRepository($this->dbh->getDB());
+        $foodItemFactory = new FoodItemFactory($categoryRepository, $this->unitRepository);
+        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
+        $this->ingredientFactory = new IngredientFactory($this->dbh->getDB(), $this->foodItemRepository);
     }
 
     public function index(){
@@ -59,11 +68,10 @@ class Recipes extends Controller {
         $household = $this->session->get('user')->getHouseholds()[0];
         $db = $this->dbh->getDB();
 
-        $foodItemRepository = new FoodItemRepository($db);
         $unitRepository = new UnitRepository($db);
 
         // Get user's fooditems and list of units
-        $fooditems = $foodItemRepository->allForHousehold($household);
+        $fooditems = $this->foodItemRepository->allForHousehold($household);
         $units = $unitRepository->all();
 
         // Get recipe Object
@@ -83,13 +91,12 @@ class Recipes extends Controller {
     public function create(){
         $db = $this->dbh->getDB();
 
-        $foodItemRepository = new FoodItemRepository($db);
         $unitRepository = new UnitRepository($db);
 
         $household = $this->session->get('user')->getHouseholds()[0];
 
         // Get user's foodItems and list of units
-        $fooditems = $foodItemRepository->allForHousehold($household);
+        $fooditems = $this->foodItemRepository->allForHousehold($household);
         $units = $unitRepository->all();
 
         $this->view('recipe/create', compact('fooditems', 'units'));
@@ -102,7 +109,6 @@ class Recipes extends Controller {
         $db = $this->dbh->getDB();
 
         $recipeFactory = new RecipeFactory($db);
-        $ingredientFactory = new IngredientFactory($db);
 
         //Use a RecipeFactory to create the Recipe Object:
         $recipe = $recipeFactory->make($input);
@@ -121,7 +127,7 @@ class Recipes extends Controller {
                                       "unit_id" => $input['unit_id'][$i]);
 
                 //Create the ingredient object:
-                $ingredient = $ingredientFactory->make($ingredientInput);
+                $ingredient = $this->ingredientFactory->make($ingredientInput);
 
                 //Save the ingredient in the database:
                 if($this->ingredientRepository->save($ingredient)) {
@@ -180,8 +186,6 @@ class Recipes extends Controller {
     public function update($id){
         $db = $this->dbh->getDB();
 
-        $ingredientFactory = new IngredientFactory($db);
-
         $recipe = $this->recipeRepository->find($id);
 
         $this->checkRecipeBelongsToUser($id);
@@ -216,7 +220,7 @@ class Recipes extends Controller {
                                   "id" => $input['ingredientIds'][$i]);
 
             //Create the ingredient object:
-            $ingredient = $ingredientFactory->make($ingredientInput);
+            $ingredient = $this->ingredientFactory->make($ingredientInput);
 
             //Save the ingredient in the database:
             if($this->ingredientRepository->save($ingredient)) {

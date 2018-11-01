@@ -14,13 +14,9 @@ class FoodItemRepository extends Repository {
     private $db,
         $foodItemFactory;
 
-    public function __construct($db){
+    public function __construct($db, $foodItemFactory){
         $this->db = $db;
-
-        // TODO Use dependecy injection
-        $categoryRepository = new CategoryRepository($this->db);
-        $unitRepository = new UnitRepository($this->db);
-        $this->foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
+        $this->foodItemFactory = $foodItemFactory;
     }
 
     /**

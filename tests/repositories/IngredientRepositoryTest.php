@@ -114,7 +114,15 @@ class IngredientRepositoryTest extends TestCase {
     $this->db->autocommit(FALSE);
 
     $this->ingredientRepository = new IngredientRepository($this->db);
-    $this->ingredientFactory = new IngredientFactory($this->db);
+
+
+    // TODO Use dependecy injection
+    $categoryRepository = new CategoryRepository($this->db);
+    $unitRepository = new UnitRepository($this->db);
+    $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
+    $foodItemRepository = new FoodItemRepository($this->db, $foodItemFactory);
+
+    $this->ingredientFactory = new IngredientFactory($this->db, $foodItemRepository);
   }
 
   /**
@@ -269,7 +277,7 @@ class IngredientRepositoryTest extends TestCase {
       $result = $query->get_result();
       $ingredientRow = $result->fetch_assoc();
 
-      $actualIngredient = (new IngredientFactory($this->db))->make($ingredientRow);
+      $actualIngredient = $this->ingredientFactory->make($ingredientRow);
 
       $this->assertEquals($this->expectedIngredientArray[0], $actualIngredient);
 
@@ -310,7 +318,7 @@ class IngredientRepositoryTest extends TestCase {
       $result = $query->get_result();
       $ingredientRow = $result->fetch_assoc();
 
-      $actualIngredient = (new IngredientFactory($this->db))->make($ingredientRow);
+      $actualIngredient = $this->ingredientFactory->make($ingredientRow);
 
       $this->assertEquals($this->expectedIngredientArray[0], $actualIngredient);
 

@@ -5,13 +5,22 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use Base\Repositories\Repository;
 use Base\Helpers\Session;
 use Base\Factories\IngredientFactory;
-
+use Base\Factories\FoodItemFactory;
+use Base\Repositories\FoodItemRepository;
+use Base\Repositories\CategoryRepository;
 
 class IngredientRepository extends Repository {
     private $db;
 
     public function __construct($db){
         $this->db = $db;
+
+        // TODO Use dependecy injection
+        $categoryRepository = new CategoryRepository($this->db);
+        $unitRepository = new UnitRepository($this->db);
+        $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
+        $foodItemRepository = new FoodItemRepository($this->db, $foodItemFactory);
+        $this->ingredientFactory = new IngredientFactory($this->db, $foodItemRepository);
     }
 
     /**
@@ -28,7 +37,7 @@ class IngredientRepository extends Repository {
           $result = $query->get_result();
           $ingredientRow = $result->fetch_assoc();
 
-          $ingredient = (new IngredientFactory($this->db))->make($ingredientRow);
+          $ingredient = $this->ingredientFactory->make($ingredientRow);
           return $ingredient;
         }
         else {
@@ -78,10 +87,8 @@ class IngredientRepository extends Repository {
 
           $collection = array();
 
-          $ingredientFactory = new IngredientFactory($this->db);
-
           foreach($ingredientRows as $ingredientRow){
-              $collection[] = $ingredientFactory->make($ingredientRow);
+              $collection[] = $this->ingredientFactory->make($ingredientRow);
           }
 
           return $collection;
