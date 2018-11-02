@@ -10,8 +10,9 @@ use Base\Factories\UserFactory;
 class UserRepository extends Repository {
     private $db;
 
-    public function __construct($db){
+    public function __construct($db, $userFactory){
         $this->db = $db;
+        $this->userFactory = $userFactory;
     }
 
 
@@ -26,7 +27,7 @@ class UserRepository extends Repository {
             return NULL;
         }
 
-        $user = (new UserFactory($this->db))->make($userRow);
+        $user = $this->userFactory->make($userRow);
         return $user;
 	}
 
@@ -41,7 +42,7 @@ class UserRepository extends Repository {
             return NULL;
         }
 
-        $user = (new UserFactory($this->db))->make($userRow);
+        $user = $this->userFactory->make($userRow);
         return $user;
     }
 

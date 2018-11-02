@@ -22,6 +22,7 @@ use Base\Repositories\UserRepository;
 use Base\Models\Household as HH;
 use Base\Repositories\HouseholdRepository;
 use Base\Factories\HouseholdFactory;
+use Base\Factories\UserFactory;
 
 class Household extends Controller{
 	protected $dbh,
@@ -29,14 +30,16 @@ class Household extends Controller{
 
 	private	$userRepo,
 		$hhRepo,
-		$householdFactory;
+		$householdFactory,
+		$userFactory;
 
 	public function __construct(DatabaseHandler $dbh, Session $session){
 		$this->dbh = $dbh;
 		$this->session = $session;
 
 		// TODO use dependecy injection
-		$this->userRepo = new UserRepository($this->dbh->getDB());
+		$this->userFactory = new UserFactory();
+		$this->userRepo = new UserRepository($this->dbh->getDB(), $userFactory);
 		$this->hhRepo = new HouseholdRepository($this->dbh->getDB());
 		$this->householdFactory = new HouseholdFactory();
     }

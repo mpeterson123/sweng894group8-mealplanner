@@ -39,7 +39,6 @@ class Controller {
 	// // }
 	public function view($view,$data = []){
 
-		$userRepository = new UserRepository($this->dbh->getDB());
 		$user = $this->session->get('user');
 		$data['user'] = $user;
 

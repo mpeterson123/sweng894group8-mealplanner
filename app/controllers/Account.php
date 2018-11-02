@@ -28,27 +28,29 @@ class Account extends Controller{
 	protected $dbh,
         $session;
 
-	private $userRepo;
+	private $userRepo,
+		$userFactory;
 
 	public function __construct(DatabaseHandler $dbh, Session $session){
 		$this->dbh = $dbh;
 		$this->session = $session;
 
         // TODO Use dependecy injection
-		$this->userRepo = new UserRepository($this->dbh->getDB());
+		$this->userFactory = new UserFactory($this->dbh);
+		$this->userRepo = new UserRepository($this->dbh->getDB(), $userFactory);
+
   	}
 
 	public function store(){
 		if(isset($_POST['reg_username'])){
 			$error = array();
 
-			$userFactory = new UserFactory($this->dbh);
 			$input = $_POST;
 
 			$this->validateRegistrationInput($input, 'create');
 
 			$input['password'] = $this->pass_hash($input['password']);
-			$user = $userFactory->make($input);
+			$user = $this->userFactory->make($input);
 
 			$email = new Email();
 			$email->sendEmailAddrConfirm($user->getEmail());
