@@ -47,7 +47,6 @@ class Recipes extends Controller {
         // TODO Use dependency injection
         $this->recipeFactory = new RecipeFactory($this->dbh->getDB());
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $this->recipeFactory);
-        $this->ingredientRepository = new IngredientRepository($this->dbh->getDB());
 
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
         $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
@@ -58,6 +57,8 @@ class Recipes extends Controller {
         $foodItemFactory = new FoodItemFactory($categoryRepository, $this->unitRepository);
         $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
         $this->ingredientFactory = new IngredientFactory($this->dbh->getDB(), $this->foodItemRepository, $this->unitRepository);
+        $this->ingredientRepository = new IngredientRepository($this->dbh->getDB(), $this->ingredientFactory);
+
     }
 
     public function index(){
@@ -135,8 +136,6 @@ private function addIngredients($in, $rec) {
 
   $db = $this->dbh->getDB();
 
-  $ingredientFactory = new IngredientFactory($db);
-
   for($i=0;$i<count($in['newFoodId']);$i++){
 
       //Create the ingredient array:
@@ -146,7 +145,7 @@ private function addIngredients($in, $rec) {
                             "unit_id" => $in['newUnitId'][$i]);
 
       //Create the ingredient object:
-      $ingredient = $ingredientFactory->make($ingredientInput);
+      $ingredient = $this->ingredientFactory->make($ingredientInput);
 
       //Save the ingredient in the database:
       if($this->ingredientRepository->save($ingredient)) {
@@ -235,8 +234,6 @@ private function addIngredients($in, $rec) {
 
       $db = $this->dbh->getDB();
 
-      $ingredientFactory = new IngredientFactory($db);
-
       for($i=0;$i<count($in['ingredientIds']);$i++){
 
         //Create the ingredient array:
@@ -247,7 +244,7 @@ private function addIngredients($in, $rec) {
                               "id" => $in['ingredientIds'][$i]);
 
         //Create the ingredient object:
-        $ingredient = $ingredientFactory->make($ingredientInput);
+        $ingredient = $this->ingredientFactory->make($ingredientInput);
 
         //Save the ingredient in the database:
         if($this->ingredientRepository->save($ingredient)) {

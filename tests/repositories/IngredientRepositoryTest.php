@@ -115,9 +115,6 @@ class IngredientRepositoryTest extends TestCase {
     $this->db = new \mysqli($this->host, $this->user, $this->pass,$this->dbName);
     $this->db->autocommit(FALSE);
 
-    $this->ingredientRepository = new IngredientRepository($this->db);
-
-
     // TODO Use dependency injection
     $categoryFactory = new CategoryFactory($this->db);
     $categoryRepository = new CategoryRepository($this->db, $categoryFactory);
@@ -128,7 +125,8 @@ class IngredientRepositoryTest extends TestCase {
     $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
     $foodItemRepository = new FoodItemRepository($this->db, $foodItemFactory);
 
-    $this->ingredientFactory = new IngredientFactory($this->db, $foodItemRepository);
+    $this->ingredientFactory = new IngredientFactory($this->db, $foodItemRepository, $unitRepository);
+    $this->ingredientRepository = new IngredientRepository($this->db, $ingredientFactory);
   }
 
   /**

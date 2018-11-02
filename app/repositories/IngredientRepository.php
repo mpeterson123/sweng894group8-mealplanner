@@ -12,21 +12,12 @@ use Base\Repositories\FoodItemRepository;
 use Base\Repositories\CategoryRepository;
 
 class IngredientRepository extends Repository {
-    private $db;
+    private $db,
+        $ingredientFactory;
 
-    public function __construct($db){
+    public function __construct($db, $ingredientFactory){
         $this->db = $db;
-
-        // TODO Use dependency injection
-        $categoryFactory = new CategoryFactory($this->db);
-        $categoryRepository = new CategoryRepository($this->db, $categoryFactory);
-
-        $unitFactory = new UnitFactory($this->db);
-        $unitRepository = new UnitRepository($this->db, $unitFactory);
-
-        $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
-        $foodItemRepository = new FoodItemRepository($this->db, $foodItemFactory);
-        $this->ingredientFactory = new IngredientFactory($this->db, $foodItemRepository, $unitRepository);
+        $this->ingredientFactory = $ingredientFactory;
     }
 
     /**
