@@ -45,7 +45,8 @@ class Recipes extends Controller {
 		      $this->session = $session;
 
         // TODO Use dependency injection
-        $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
+        $this->recipeFactory = new RecipeFactory($this->dbh->getDB());
+        $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $this->recipeFactory);
         $this->ingredientRepository = new IngredientRepository($this->dbh->getDB());
 
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
@@ -110,10 +111,8 @@ class Recipes extends Controller {
 
         $db = $this->dbh->getDB();
 
-        $recipeFactory = new RecipeFactory($db);
-
         //Use a RecipeFactory to create the Recipe Object:
-        $recipe = $recipeFactory->make($input);
+        $recipe = $this->recipeFactory->make($input);
 
         //Save the recipe in the database:
         if ($this->recipeRepository->save($recipe)) {

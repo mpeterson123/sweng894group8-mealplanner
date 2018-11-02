@@ -8,13 +8,12 @@ use Base\Factories\RecipeFactory;
 
 
 class RecipeRepository extends Repository {
-    private $db;
+    private $db,
+        $recipeFactory;
 
-    public function __construct($db){
+    public function __construct($db, $recipeFactory){
         $this->db = $db;
-
-        // TODO Use dependency injection
-        $this->recipeFactory = new RecipeFactory($this->db);
+        $this->recipeFactory = $recipeFactory;
     }
 
     /**
@@ -30,7 +29,7 @@ class RecipeRepository extends Repository {
           $result = $query->get_result();
           $recipeRow = $result->fetch_assoc();
 
-          $recipe = (new RecipeFactory($this->db))->make($recipeRow);
+          $recipe = $this->recipeFactory->make($recipeRow);
           return $recipe;
         }
         else {

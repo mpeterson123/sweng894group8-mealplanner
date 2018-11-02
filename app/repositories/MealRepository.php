@@ -5,6 +5,7 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use Base\Repositories\Repository;
 use Base\Helpers\Session;
 use Base\Factories\MealFactory;
+use Base\Factories\RecipeFactory;
 
 class MealRepository extends Repository {
     private $db;
@@ -13,8 +14,9 @@ class MealRepository extends Repository {
         $this->db = $db;
 
         // TODO Use dependency injection
-        $this->recipeRepository = new RecipeRepository($this->db);
-        $this->mealFactory = new MealFactory($this->recipeRepository);
+        $recipeFactory = new RecipeFactory($this->db);
+        $recipeRepository = new RecipeRepository($this->db, $recipeFactory);
+        $this->mealFactory = new MealFactory($recipeRepository);
     }
 
     public function find($id){
@@ -47,9 +49,12 @@ class MealRepository extends Repository {
     }
 
     public function allForHousehold($household){
-        $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipe, meal.scaleFactor, meal.isComplete FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE householdId = ? ORDER by date');
-        $query->bind_param("i", $household);
+        $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipe, meal.scaleFactor, meal.isComplete FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE recipes.householdId = ? ORDER by date');
+
+        @$query->bind_param("i", $household->getId());
+
         $query->execute();
+
 
         $result = $query->get_result();
         $mealRows = $result->fetch_all(MYSQLI_ASSOC);

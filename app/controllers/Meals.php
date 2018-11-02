@@ -30,18 +30,18 @@ class Meals extends Controller {
 
     private $mealRepository,
         $mealFactory,
-        $recipeRepository,
-        $recipeFactory;
+        $recipeRepository;
 
     public function __construct(DatabaseHandler $dbh, Session $session){
 		$this->dbh = $dbh;
 		$this->session = $session;
 
         // TODO Use dependency injection
-        $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
+        $recipeFactory = new RecipeFactory($this->dbh->getDB());
+        $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $recipeFactory);
         $this->mealRepository = new MealRepository($this->dbh->getDB());
         $this->mealFactory = new MealFactory($this->recipeRepository);
-        $this->recipeFactory = new RecipeFactory($this->dbh->getDB());
+
     }
 
     public function index():void{
