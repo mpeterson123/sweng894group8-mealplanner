@@ -39,8 +39,8 @@ class Meals extends Controller {
         // TODO Use dependency injection
         $recipeFactory = new RecipeFactory($this->dbh->getDB());
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $recipeFactory);
-        $this->mealRepository = new MealRepository($this->dbh->getDB());
         $this->mealFactory = new MealFactory($this->recipeRepository);
+        $this->mealRepository = new MealRepository($this->dbh->getDB(), $this->mealFactory);
 
     }
 

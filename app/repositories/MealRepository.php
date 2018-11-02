@@ -8,15 +8,12 @@ use Base\Factories\MealFactory;
 use Base\Factories\RecipeFactory;
 
 class MealRepository extends Repository {
-    private $db;
+    private $db,
+        $mealFactory;
 
-    public function __construct($db){
+    public function __construct($db, $mealFactory){
         $this->db = $db;
-
-        // TODO Use dependency injection
-        $recipeFactory = new RecipeFactory($this->db);
-        $recipeRepository = new RecipeRepository($this->db, $recipeFactory);
-        $this->mealFactory = new MealFactory($recipeRepository);
+        $this->mealFactory = $mealFactory;
     }
 
     public function find($id){
