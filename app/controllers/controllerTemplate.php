@@ -37,7 +37,7 @@ class Objects extends Controller {
 		$this->dbh = $dbh;
 		$this->session = $session;
 
-        // TODO Use dependecy injection
+        // TODO Use dependency injection
         $this->objectRepository = new ObjectRepository($this->dbh->getDB());
         $this->objectFactory = new ObjectFactory(/*dependecies*/);
     }

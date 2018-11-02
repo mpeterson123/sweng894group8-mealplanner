@@ -37,7 +37,7 @@ class Household extends Controller{
 		$this->dbh = $dbh;
 		$this->session = $session;
 
-		// TODO use dependecy injection
+		// TODO Use dependency injection
 		$this->userFactory = new UserFactory();
 		$this->userRepo = new UserRepository($this->dbh->getDB(), $userFactory);
 		$this->hhRepo = new HouseholdRepository($this->dbh->getDB());

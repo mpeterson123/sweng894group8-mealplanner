@@ -13,7 +13,7 @@ class RecipeRepository extends Repository {
     public function __construct($db){
         $this->db = $db;
 
-        // TODO Use dependecy injection
+        // TODO Use dependency injection
         $this->recipeFactory = new RecipeFactory($this->db);
     }
 

@@ -118,7 +118,7 @@ class IngredientRepositoryTest extends TestCase {
     $this->ingredientRepository = new IngredientRepository($this->db);
 
 
-    // TODO Use dependecy injection
+    // TODO Use dependency injection
     $categoryFactory = new CategoryFactory($this->db);
     $categoryRepository = new CategoryRepository($this->db, $categoryFactory);
 

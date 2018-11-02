@@ -44,7 +44,7 @@ class Recipes extends Controller {
 		    $this->dbh = $dbh;
 		      $this->session = $session;
 
-        // TODO Use dependecy injection
+        // TODO Use dependency injection
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
         $this->ingredientRepository = new IngredientRepository($this->dbh->getDB());
 

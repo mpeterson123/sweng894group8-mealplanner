@@ -12,7 +12,7 @@ class MealRepository extends Repository {
     public function __construct($db){
         $this->db = $db;
 
-        // TODO use dependecy injection
+        // TODO Use dependency injection
         $this->recipeRepository = new RecipeRepository($this->db);
         $this->mealFactory = new MealFactory($this->recipeRepository);
     }
