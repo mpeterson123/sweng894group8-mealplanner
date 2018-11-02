@@ -125,8 +125,8 @@ class IngredientRepositoryTest extends TestCase {
     $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
     $foodItemRepository = new FoodItemRepository($this->db, $foodItemFactory);
 
-    $this->ingredientFactory = new IngredientFactory($this->db, $foodItemRepository, $unitRepository);
-    $this->ingredientRepository = new IngredientRepository($this->db, $ingredientFactory);
+    $this->ingredientFactory = new IngredientFactory($foodItemRepository, $unitRepository);
+    $this->ingredientRepository = new IngredientRepository($this->db, $this->ingredientFactory);
   }
 
   /**
@@ -378,7 +378,7 @@ class IngredientRepositoryTest extends TestCase {
       $ingredientRow = $result->fetch_assoc();
 
       if($ingredientRow) {
-        $actIngredient = (new IngredientFactory($this->db))->make($ingredientRow);
+        $actIngredient = $this->ingredientFactory->make($ingredientRow);
       }
       else {
         $actIngredient = null;

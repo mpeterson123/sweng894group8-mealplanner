@@ -10,10 +10,11 @@ use Base\Repositories\UnitRepository;
 class IngredientFactory {
 
     // TODO Eliminate db
-    private $db;
+    private $foodItemRepository,
+        $unitRepository;
 
     // TODO find all references of factory and make injections
-    public function __construct($db, $foodItemRepository, $unitRepository){
+    public function __construct($foodItemRepository, $unitRepository){
         $this->db = $db;
         $this->foodItemRepository= $foodItemRepository;
         $this->unitRepository= $unitRepository;

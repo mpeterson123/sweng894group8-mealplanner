@@ -56,7 +56,7 @@ class Recipes extends Controller {
 
         $foodItemFactory = new FoodItemFactory($categoryRepository, $this->unitRepository);
         $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
-        $this->ingredientFactory = new IngredientFactory($this->dbh->getDB(), $this->foodItemRepository, $this->unitRepository);
+        $this->ingredientFactory = new IngredientFactory($this->foodItemRepository, $this->unitRepository);
         $this->ingredientRepository = new IngredientRepository($this->dbh->getDB(), $this->ingredientFactory);
 
     }
