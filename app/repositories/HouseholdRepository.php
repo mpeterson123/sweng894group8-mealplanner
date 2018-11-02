@@ -17,7 +17,7 @@ class HouseholdRepository extends Repository {
     public function __construct($db){
         $this->db = $db;
 
-        // TODO Use dependeny injection
+        // TODO Use dependency injection
         $this->householdFactory = new HouseholdFactory();
         $this->userFactory = new UserFactory($db);
     }

@@ -36,8 +36,8 @@ class Account extends Controller{
 		$this->session = $session;
 
         // TODO Use dependency injection
-		$this->userFactory = new UserFactory($this->dbh);
-		$this->userRepo = new UserRepository($this->dbh->getDB(), $userFactory);
+		$this->userFactory = new UserFactory($this->dbh->getDB());
+		$this->userRepo = new UserRepository($this->dbh->getDB(), $this->userFactory);
 
   	}
 

@@ -8,7 +8,8 @@ use Base\Repositories\Repository;
 use Base\Factories\UserFactory;
 
 class UserRepository extends Repository {
-    private $db;
+    private $db,
+    $userFactory;
 
     public function __construct($db, $userFactory){
         $this->db = $db;
