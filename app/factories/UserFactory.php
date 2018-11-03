@@ -10,10 +10,10 @@ use Base\Repositories\HouseholdRepository;
  */
 class UserFactory {
 
-    private $db;
+    private $householdRepository;
 
-    public function __construct($db){
-        $this->db = $db;
+    public function __construct($householdRepository){
+        $this->householdRepository = $householdRepository;
     }
 
     /**
@@ -26,7 +26,7 @@ class UserFactory {
         $user = new User();
         if(isset($userArray['id'])){
             $user->setId($userArray['id']);
-            $households = (new HouseholdRepository($this->db))->allForUser($user);
+            $households = $this->householdRepository->allForUser($user);
             $user->setHouseholds($households);
         }
         else{

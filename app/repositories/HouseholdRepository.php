@@ -11,15 +11,11 @@ use Base\Factories\UserFactory;
 
 class HouseholdRepository extends Repository {
     private $db,
-        $householdFactory,
-        $userFactory;
+        $householdFactory;
 
-    public function __construct($db){
+    public function __construct($db, $householdFactory){
         $this->db = $db;
-
-        // TODO Use dependency injection
-        $this->householdFactory = new HouseholdFactory();
-        $this->userFactory = new UserFactory($db);
+        $this->householdFactory = $householdFactory;
     }
 
 
@@ -45,18 +41,6 @@ class HouseholdRepository extends Repository {
             $households[] = $this->householdFactory->make($householdRow);
         }
         return $households;
-    }
-    public function allForHousehold($hh){
-        $query = $this->db->prepare('SELECT users.* FROM users JOIN usersHouseholds ON usersHouseholds.userId = users.id WHERE usersHouseholds.householdId = ?');
-        @$query->bind_param("i",$hh->getId());
-        $query->execute();
-        $result = $query->get_result();
-
-        $users = array();
-        while($userRow = $result->fetch_assoc()){
-            $users[] = $this->userFactory->make($userRow);
-        }
-        return $users;
     }
 
 

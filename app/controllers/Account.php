@@ -22,13 +22,13 @@ use Base\Repositories\HouseholdRepository;
 use Base\Helpers\Email;
 use Base\Models\User;
 use Base\Factories\UserFactory;
-use Base\Models\Household;
+use Base\Factories\HouseholdFactory;
 
 class Account extends Controller{
 	protected $dbh,
         $session;
 
-	private $userRepo,
+	private $userRepository,
 		$userFactory;
 
 	public function __construct(DatabaseHandler $dbh, Session $session){
@@ -36,9 +36,11 @@ class Account extends Controller{
 		$this->session = $session;
 
         // TODO Use dependency injection
-		$this->userFactory = new UserFactory($this->dbh->getDB());
-		$this->userRepo = new UserRepository($this->dbh->getDB(), $this->userFactory);
+		$householdFactory = new HouseholdFactory();
+		$householdRepository = new HouseholdRepository($this->dbh->getDB(), $householdFactory);
 
+		$this->userFactory = new UserFactory($householdRepository);
+		$this->userRepository = new UserRepository($this->dbh->getDB(), $this->userFactory);
   	}
 
 	public function store(){
@@ -54,7 +56,7 @@ class Account extends Controller{
 
 			$email = new Email();
 			$email->sendEmailAddrConfirm($user->getEmail());
-			$this->userRepo->save($user);
+			$this->userRepository->save($user);
 
 			$this->session->flashMessage('success', 'Your account has been created. A confirmation link has been sent to you. Please confirm your email address to activate your account.');
 			Redirect::toControllerMethod('Account', 'showLogin');
@@ -87,7 +89,7 @@ class Account extends Controller{
 		}
 
 		// set as confirmed in the db
-		$this->userRepo->confirmEmail($email);
+		$this->userRepository->confirmEmail($email);
 
 		// Redirect to login
 		$this->session->flashMessage('success', 'Your email address has been confirmed. Please log in.');
@@ -100,7 +102,7 @@ class Account extends Controller{
 		$email = addslashes(trim($_POST['email']));
 
 		// Check if email exists in db
-		$u = $this->userRepo->get('email',$email);
+		$u = $this->userRepository->get('email',$email);
 
 		if($email == ''){
 			$this->view('auth/login',['message'=>'No email has been supplied.']);
@@ -109,7 +111,7 @@ class Account extends Controller{
 			$this->view('auth/login',['message'=>'Not Found. An email has been sent with instructions to reset your password.']);
 		}
 		else {
-			$this->userRepo->setPassTemp($email,$code);
+			$this->userRepository->setPassTemp($email,$code);
 			// send Email
 			$emailHandler = new Email();
 			$emailHandler->sendPasswordReset($email,$code);
@@ -122,7 +124,7 @@ class Account extends Controller{
 
 	public function resetPassword($email,$code){
 		// Check if email exists in db
-		$u = $this->userRepo->get('email',$email);
+		$u = $this->userRepository->get('email',$email);
 		if(!$u)
 			$this->view('auth/login',['message'=>'An error has occured. Please try again. Email.']);
 		// Check if reset code has been set
@@ -135,9 +137,9 @@ class Account extends Controller{
 			// Reset page has been submitted
 			if(isset($_POST['rst_password'])){
 				// Reset password
-				$this->userRepo->setValue('password',$this->pass_hash($_POST['rst_password']),'email',$email);
+				$this->userRepository->setValue('password',$this->pass_hash($_POST['rst_password']),'email',$email);
 				// Reset temp pass
-				$this->userRepo->setValue('passTemp','','email',$email);
+				$this->userRepository->setValue('passTemp','','email',$email);
 				// Redirect to login
 				$this->view('auth/login',['message'=>'Password has been reset. Please login.']);
 			}
@@ -176,7 +178,7 @@ class Account extends Controller{
 			$user->setLastName($_POST['lastName']);
 		}
 
-		$this->userRepo->save($user);
+		$this->userRepository->save($user);
 
 		// Update user in the session
 		$this->session->add('user', $user);
@@ -205,7 +207,7 @@ class Account extends Controller{
 		}
 
 		// update in the db
-		$this->userRepo->setValue('email',$email,'email',$old_email);
+		$this->userRepository->setValue('email',$email,'email',$old_email);
 
 		// Redirect to login
 		$this->session->flashMessage('success', 'Your email address has been updated.');
@@ -216,7 +218,7 @@ class Account extends Controller{
 	public function delete(){
 		$user = $this->session->get('user');
 
-		$this->userRepo->remove($user);
+		$this->userRepository->remove($user);
 		// Remove everything from session
 		$this->session->flush();
 
@@ -264,7 +266,7 @@ class Account extends Controller{
 		$password = $this->pass_hash($input['login_password']);
 
 		// Check credentials
-		$user = $this->userRepo->checkUser($input['login_username'],$password);
+		$user = $this->userRepository->checkUser($input['login_username'],$password);
 
 		if(!$user) {
 			// If credentials are not valid, set error message
