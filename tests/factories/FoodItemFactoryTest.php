@@ -42,7 +42,7 @@ class FoodItemFactoryTest extends TestCase {
         $this->unitRepositoryStub = $this->createMock(UnitRepository::class);
 
         // Configure the stub.
-        $unitStub = $this->createMock(Unit::class); // TODO Change to stub
+        $unitStub = $this->createMock(Unit::class);
         $this->unitRepositoryStub->method('find')
             ->will($this->returnValue($unitStub));
 

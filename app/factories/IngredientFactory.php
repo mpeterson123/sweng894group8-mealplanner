@@ -12,7 +12,6 @@ class IngredientFactory extends Factory {
     private $foodItemRepository,
         $unitRepository;
 
-    // TODO find all references of factory and make injections
     public function __construct($foodItemRepository, $unitRepository){
         $this->foodItemRepository= $foodItemRepository;
         $this->unitRepository= $unitRepository;
