@@ -2,13 +2,14 @@
 namespace Base\Factories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use Base\Factories\Factory;
 use Base\Models\User;
 use Base\Repositories\HouseholdRepository;
 
 /**
  * Handles User model instantiation
  */
-class UserFactory {
+class UserFactory extends Factory {
 
     private $householdRepository;
 

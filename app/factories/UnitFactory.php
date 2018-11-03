@@ -2,12 +2,13 @@
 namespace Base\Factories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use Base\Factories\Factory;
 use Base\Models\Unit;
 
 /**
  * Handles Unit model instantiation
  */
-class UnitFactory {
+class UnitFactory extends Factory {
 
     /**
      * Creates a new instance of Unit model

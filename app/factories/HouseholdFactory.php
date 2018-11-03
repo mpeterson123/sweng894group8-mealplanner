@@ -2,12 +2,13 @@
 namespace Base\Factories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use Base\Factories\Factory;
 use Base\Models\Household;
 
 /**
  * Handles Household model instantiation
  */
-class HouseholdFactory {
+class HouseholdFactory extends Factory {
 
     /**
      * Creates a new instance of Household model

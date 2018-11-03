@@ -2,12 +2,13 @@
 namespace Base\Factories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use Base\Factories\Factory;
 use Base\Models\Category;
 
 /**
  * Handles Category model instantiation
  */
-class CategoryFactory {
+class CategoryFactory extends Factory {
 
     /**
      * Creates a new instance of Category model
