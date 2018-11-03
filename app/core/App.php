@@ -19,12 +19,12 @@ use Base\Helpers\Session;
 class App {
 	protected $dbh;
 	protected $session;
-	protected $url;
+	protected $request;
 
-	public function __construct($dbh, $session, $url){
+	public function __construct($dbh, $session, $request){
 		$this->dbh = $dbh;
 		$this->session = $session;
-		$this->url = $url;
+		$this->url = isset($request['url']) ? $request['url'] : '';
 	}
 
 	/**
