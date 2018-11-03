@@ -59,9 +59,4 @@ class CategoryRepository extends Repository {
     //     $result = $query->get_result();
     //     return $result->fetch_all(MYSQLI_ASSOC);
     // }
-
-    public function save($object){}
-    public function remove($object){}
-    protected function insert($object){}
-    protected function update($object){}
 }

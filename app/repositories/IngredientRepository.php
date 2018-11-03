@@ -11,7 +11,7 @@ use Base\Factories\UnitFactory;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\CategoryRepository;
 
-class IngredientRepository extends Repository {
+class IngredientRepository extends Repository implements EditableModelRepository {
     private $db,
         $ingredientFactory;
 
@@ -103,6 +103,7 @@ class IngredientRepository extends Repository {
      * @param  integer $id  ingredient's id
      * @return bool         Whether query was successful
      */
+
     public function remove($id){
 
         $query = $this->db->prepare('DELETE FROM ingredients WHERE id = ?');

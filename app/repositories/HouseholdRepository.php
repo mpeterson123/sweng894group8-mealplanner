@@ -9,7 +9,7 @@ use Base\Helpers\Session;
 use Base\Factories\HouseholdFactory;
 use Base\Factories\UserFactory;
 
-class HouseholdRepository extends Repository {
+class HouseholdRepository extends Repository implements EditableModelRepository {
     private $db,
         $householdFactory;
 
@@ -43,7 +43,6 @@ class HouseholdRepository extends Repository {
         return $households;
     }
 
-
     public function save($household){
         if(isset($this->id) && $this->find($household->id))
         {
@@ -53,6 +52,7 @@ class HouseholdRepository extends Repository {
             return $this->insert($household);
         }
     }
+
     public function all(){
         return $this->db->query('SELECT * FROM household')->fetch_all();
     }
@@ -91,6 +91,7 @@ class HouseholdRepository extends Repository {
           $hhId);
       $query->execute();
     }
+
     /**
      * Remove a user to a household
      * @param  integer $userId Id of user to connect
@@ -106,7 +107,7 @@ class HouseholdRepository extends Repository {
     }
 
     // Not Implemented yet
-    protected function update($object){
+    public function update($object){
         $query = $this->db
             ->prepare('UPDATE food
                 SET name = ?, unitcost =?)

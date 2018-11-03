@@ -7,7 +7,7 @@ use Base\Repositories\Repository;
 // File-specific classes
 use Base\Factories\UserFactory;
 
-class UserRepository extends Repository {
+class UserRepository extends Repository implements EditableModelRepository {
     private $db,
     $userFactory;
 
@@ -129,7 +129,7 @@ class UserRepository extends Repository {
         $query->execute();
     }
 
-    protected function insert($user){
+    public function insert($user){
         $today = date('Y-m-d');
         $query = $this->db->prepare('INSERT INTO users
                 (username, password, email, joined, namefirst, namelast)
@@ -145,7 +145,7 @@ class UserRepository extends Repository {
         $query->execute();
     }
 
-    protected function update($user){
+    public function update($user){
         $query = $this->db
             ->prepare('UPDATE users SET
                 password = ?,

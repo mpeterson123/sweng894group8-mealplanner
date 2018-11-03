@@ -10,7 +10,7 @@ use Base\Helpers\Session;
 use Base\Factories\FoodItemFactory;
 
 
-class FoodItemRepository extends Repository {
+class FoodItemRepository extends Repository implements EditableModelRepository {
     private $db,
         $foodItemFactory;
 
@@ -98,7 +98,7 @@ class FoodItemRepository extends Repository {
      * @param  Base\Models\FoodItem $food   Item to be stored
      * @return bool                         Whether query was successful
      */
-    protected function insert($food){
+    public function insert($food){
         $query = $this->db
             ->prepare('INSERT INTO foods
                 (name, stock, unitId, categoryId, unitsInContainer, containerCost, unitCost, householdId)
@@ -125,7 +125,7 @@ class FoodItemRepository extends Repository {
      * @param  Base\Models\FoodItem $food Item to be updated
      * @return bool                 Whether query was successful
      */
-    protected function update($food){
+    public function update($food){
         $query = $this->db
             ->prepare('UPDATE foods
                 SET

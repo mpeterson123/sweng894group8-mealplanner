@@ -7,7 +7,7 @@ use Base\Helpers\Session;
 use Base\Factories\MealFactory;
 use Base\Factories\RecipeFactory;
 
-class MealRepository extends Repository {
+class MealRepository extends Repository implements EditableModelRepository {
     private $db,
         $mealFactory;
 
@@ -70,7 +70,7 @@ class MealRepository extends Repository {
         return $query->execute();
     }
 
-    protected function insert($meal){
+    public function insert($meal){
         try {
             $query = $this->db
                 ->prepare('INSERT INTO meal
@@ -94,7 +94,7 @@ class MealRepository extends Repository {
 
     }
 
-    protected function update($meal){
+    public function update($meal){
       try {
         $query = $this->db
             ->prepare('UPDATE meal
