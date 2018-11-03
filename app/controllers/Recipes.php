@@ -33,16 +33,18 @@ use Base\Repositories\CategoryRepository;
 class Recipes extends Controller {
 
     protected $dbh,
-        $session;
+        $session,
+        $request;
 
     private $ingredientRepository,
         $recipeRepository,
         $foodItemRepository,
         $unitRepository;
 
-    public function __construct(DatabaseHandler $dbh, Session $session){
-		    $this->dbh = $dbh;
-		      $this->session = $session;
+    public function __construct(DatabaseHandler $dbh, Session $session, $request){
+		$this->dbh = $dbh;
+		$this->session = $session;
+		$this->request = $request;
 
         // TODO Use dependency injection
         $this->recipeFactory = new RecipeFactory($this->dbh->getDB());
@@ -108,7 +110,7 @@ class Recipes extends Controller {
 
     public function store(){
 
-        $input = $_POST;
+        $input = $this->request;
 
         $db = $this->dbh->getDB();
 
@@ -200,7 +202,7 @@ private function addIngredients($in, $rec) {
 
         $this->checkRecipeBelongsToUser($id);
 
-        $input = $_POST;
+        $input = $this->request;
 
         $recipe->setId($id);
         $recipe->setName($input['name']);

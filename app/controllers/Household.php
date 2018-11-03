@@ -26,16 +26,18 @@ use Base\Factories\UserFactory;
 
 class Household extends Controller{
 	protected $dbh,
-		$session;
+		$session,
+		$request;
 
 	private	$userRepository,
 		$householdRepository,
 		$householdFactory,
 		$userFactory;
 
-	public function __construct(DatabaseHandler $dbh, Session $session){
+	public function __construct(DatabaseHandler $dbh, Session $session, $request){
 		$this->dbh = $dbh;
 		$this->session = $session;
+		$this->request = $request;
 
 		// TODO Use dependency injection
 		$this->householdFactory = new HouseholdFactory();
@@ -93,7 +95,7 @@ class Household extends Controller{
 	public function join(){
 		$user = $this->session->get('user');
 		// Get household id
-		$inviteCode = trim($_POST['invite_code']);
+		$inviteCode = trim($this->request['invite_code']);
 		$household = new HH();
 		$hhId = $household->reverseCode($inviteCode);
 		// Add user to household

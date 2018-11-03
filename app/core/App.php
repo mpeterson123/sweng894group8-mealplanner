@@ -25,6 +25,8 @@ class App {
 		$this->dbh = $dbh;
 		$this->session = $session;
 		$this->url = isset($request['url']) ? $request['url'] : '';
+		unset($request['url']);
+		$this->request = $request;
 	}
 
 	/**
@@ -56,7 +58,7 @@ class App {
 
 				// Instantiate controller
 				$namespacedController = "Base\Controllers\\".$controllerName;
-				$controller = new $namespacedController($this->dbh, $this->session);
+				$controller = new $namespacedController($this->dbh, $this->session, $this->request);
 
 				// If methodName exists, set it and remove the name from the URL
 				if(isset($this->url[1]) && method_exists($controller,$this->url[1]))
@@ -77,7 +79,7 @@ class App {
 		catch(\Exception $e) {
 			// Instantiate controller
 			$namespacedController = "Base\Controllers\\Errors";
-			$controller = new $namespacedController($this->dbh, $this->session);
+			$controller = new $namespacedController($this->dbh, $this->session, $this->request);
 			$methodName = 'show';
 			$params = array('errorCode'=>404);
 		}

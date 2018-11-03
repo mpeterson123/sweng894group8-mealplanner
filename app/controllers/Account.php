@@ -26,14 +26,16 @@ use Base\Factories\HouseholdFactory;
 
 class Account extends Controller{
 	protected $dbh,
-        $session;
+        $session,
+		$request;
 
 	private $userRepository,
 		$userFactory;
 
-	public function __construct(DatabaseHandler $dbh, Session $session){
+	public function __construct(DatabaseHandler $dbh, Session $session, $request){
 		$this->dbh = $dbh;
 		$this->session = $session;
+		$this->request = $request;
 
         // TODO Use dependency injection
 		$householdFactory = new HouseholdFactory();
@@ -44,10 +46,10 @@ class Account extends Controller{
   	}
 
 	public function store(){
-		if(isset($_POST['reg_username'])){
+		if(isset($this->request['reg_username'])){
 			$error = array();
 
-			$input = $_POST;
+			$input = $this->request;
 
 			$this->validateRegistrationInput($input, 'create');
 
@@ -99,7 +101,7 @@ class Account extends Controller{
 	public function forgotPassword(){
 		// Get temp pass code and email
 		$code = urlencode(hash('sha256',rand(1000000000,10000000000)));
-		$email = addslashes(trim($_POST['email']));
+		$email = addslashes(trim($this->request['email']));
 
 		// Check if email exists in db
 		$u = $this->userRepository->get('email',$email);
@@ -135,9 +137,9 @@ class Account extends Controller{
 			$this->view('auth/login',['message'=>'An error has occured. Please try again. Code.']);
 		else{
 			// Reset page has been submitted
-			if(isset($_POST['rst_password'])){
+			if(isset($this->request['rst_password'])){
 				// Reset password
-				$this->userRepository->setValue('password',$this->pass_hash($_POST['rst_password']),'email',$email);
+				$this->userRepository->setValue('password',$this->pass_hash($this->request['rst_password']),'email',$email);
 				// Reset temp pass
 				$this->userRepository->setValue('passTemp','','email',$email);
 				// Redirect to login
@@ -161,21 +163,21 @@ class Account extends Controller{
 		// Check for blank fields
 		$fields = array('firstName','lastName','email');
 		foreach($fields as $f){
-			if(!isset($_POST[$f])){
+			if(!isset($this->request[$f])){
 				die('All fields are required');
 			}
 		}
 		// Handle password update
-		if(isset($_POST['password'])){
-			if($_POST['password'] != $_POST['confirmPassword']){
+		if(isset($this->request['password'])){
+			if($this->request['password'] != $this->request['confirmPassword']){
 				die('Passwords don\'t match');
 			}
-			$user->setPassword($this->pass_hash($_POST['password']));
+			$user->setPassword($this->pass_hash($this->request['password']));
 		}
 		// Handle name updated
-		if($_POST['firstName'].' '.$_POST['lastName'] != $user->getFirstName().' '.$user->getLastName()){
-			$user->setFirstname($_POST['firstName']);
-			$user->setLastName($_POST['lastName']);
+		if($this->request['firstName'].' '.$this->request['lastName'] != $user->getFirstName().' '.$user->getLastName()){
+			$user->setFirstname($this->request['firstName']);
+			$user->setLastName($this->request['lastName']);
 		}
 
 		$this->userRepository->save($user);
@@ -184,11 +186,11 @@ class Account extends Controller{
 		$this->session->add('user', $user);
 
 		// Handle email updated
-		if($_POST['email'] != $user->getEmail()){
+		if($this->request['email'] != $user->getEmail()){
 			// send Email
 			$emailHandler = new Email();
-			$emailHandler->sendEmailUpdateConfirm($_POST['email'],$user->getEmail());
-			$this->session->flashMessage('success', 'A confirmation email has been sent to '.$_POST['email'].'. Please confirm to update.');
+			$emailHandler->sendEmailUpdateConfirm($this->request['email'],$user->getEmail());
+			$this->session->flashMessage('success', 'A confirmation email has been sent to '.$this->request['email'].'. Please confirm to update.');
 			Redirect::toControllerMethod('Account', 'settings');
 			return;
 		}
@@ -251,7 +253,7 @@ class Account extends Controller{
 
 	public function logInUser(){
 		$user = $this->session->get('user');
-		$input = $_POST;
+		$input = $this->request;
 
 		// Redirect to dashboard if user is already logged in
 		if($user){
