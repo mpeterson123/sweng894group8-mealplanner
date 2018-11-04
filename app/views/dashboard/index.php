@@ -126,7 +126,7 @@ $usersList = array();
                                     </div>
                                 </div>
                                 <div class="task-total">
-                                    <p class="font-16 m-b-0"><strong>5</strong> Tasks for <a href="javascript:void(0);" class="text-link"><?php echo $user->getFirstName(); ?></a></p>
+                                    <p class="font-16 m-b-0"><strong>0</strong> for <a href="javascript:void(0);" class="text-link"><?php echo $user->getFirstName(); ?></a></p>
                                 </div>
                                 <div class="task-list">
                                     <ul class="list-group">
@@ -134,11 +134,12 @@ $usersList = array();
                                             <div class="checkbox checkbox-success">
                                                 <input id="c7" type="checkbox">
                                                 <label for="c7">
-                                                    <span class="font-16">Create list of ingredients for new recipe.</span>
+                                                    <span class="font-16">None</span>
                                                 </label>
-                                                <h6 class="p-l-30 font-bold">05:00 PM</h6>
+                                                <h6 class="p-l-30 font-bold">-</h6>
                                             </div>
                                         </li>
+                                        <!--
                                         <li class="list-group-item bl-warning">
                                             <div class="checkbox checkbox-success">
                                                 <input id="c8" type="checkbox" checked>
@@ -166,6 +167,7 @@ $usersList = array();
                                                 <h6 class="p-l-30 font-bold">05:30 PM</h6>
                                             </div>
                                         </li>
+-->
                                     </ul>
                                 </div>
                                 <div class="task-loadmore">
@@ -181,12 +183,12 @@ $usersList = array();
                                 <div class="task-chart" id="sparklinedashdb"></div>
                                 <div class="task-content font-16 t-a-c">
                                     <div class="col-sm-6 b-r">
-                                        Urgent Tasks
-                                        <h1 class="text-primary">05 <span class="font-16 text-muted">Tasks</span></h1>
+                                        Moments
+                                        <h1 class="text-primary">00 <span class="font-16 text-muted">Updates</span></h1>
                                     </div>
                                     <div class="col-sm-6">
-                                        Normal Tasks
-                                        <h1 class="text-primary">03 <span class="font-16 text-muted">Tasks</span></h1>
+                                        Recipes Eaten
+                                        <h1 class="text-primary">00 <span class="font-16 text-muted">Meals</span></h1>
                                     </div>
                                 </div>
                                 <div class="task-assign font-16">
