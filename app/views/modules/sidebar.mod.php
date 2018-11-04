@@ -36,7 +36,7 @@
                         <li>
                             <a class="active waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Dashboard <span class="label label-rounded label-info pull-right">1</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li> <a href="/dashboard/">Modern Version</a> </li>
+                                <li> <a href="/Account/dashboard/">Modern Version</a> </li>
                                 <li> <a href="javascript:void();">Clean Version</a> </li>
                                 <li> <a href="javascript:void();">Analytical Version</a> </li>
                             </ul>
