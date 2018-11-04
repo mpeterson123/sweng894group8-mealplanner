@@ -174,7 +174,7 @@ $usersList = array();
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="display:none;">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box bg-primary color-box">
                             <h1 class="text-white font-light">&#36;6547 <span class="font-14">Lifetime Food Cost</span></h1>
