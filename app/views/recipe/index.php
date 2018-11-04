@@ -68,8 +68,8 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['recipes']){
                                                 foreach ($data['recipes'] as $recipe) { ?>
                                                 <tr>
-                                                    <td><a href="/Recipes/edit/<?php echo $recipe['id']; ?>"><?php echo $recipe['name']; ?></a></td>
-                                                    <td><?php echo $recipe['servings']; ?></td>
+                                                    <td><a href="/Recipes/edit/<?php echo $recipe->getId(); ?>"><?php echo $recipe->getName(); ?></a></td>
+                                                    <td><?php echo $recipe->getServings(); ?></td>
                                                 </tr>
                                                 <?php
                                                 }

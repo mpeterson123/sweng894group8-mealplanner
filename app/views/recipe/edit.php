@@ -124,9 +124,9 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <label for="ingredientsWrapper">Ingredients</label>
                                             <div id="ingredientsWrapper">
 
-                                            <div class="form-group ingredientFormGroup">
+                                            <?php foreach($data['ingredients'] as $ingredient) { ?>
 
-                                          <?php foreach($data['ingredients'] as $ingredient) { ?>
+                                            <div class="form-group ingredientFormGroup">
 
                                               <div class="col-sm-3">
                                                         <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo $ingredient->getQuantity()->getValue(); ?>">
@@ -171,10 +171,8 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                 <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
                                                 </button>
                                               </div>
-
-                                          <?php } ?>
-
                                             </div> <!-- end ingredientFormGroup -->
+                                          <?php } ?>
                                           </div> <!-- end ingredientsWrapper -->
 
                                           <br><br><br>

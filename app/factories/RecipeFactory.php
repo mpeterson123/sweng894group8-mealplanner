@@ -13,8 +13,11 @@ class RecipeFactory extends Factory {
     public function make($recipeArray)
     {
         $recipe = new Recipe($recipeArray['name'], $recipeArray['description'], $recipeArray['servings'], $recipeArray['source'], $recipeArray['notes']);
+
         if(isset($recipeArray['id'])){
             $recipe->setId($recipeArray['id']);
+
+            
         }
         //$ingredient->setFood($ingredientArray['foodid']); //$foodItem);
         //$ingredient->setQuantity($ingredientArray['quantity']); //$quantity);

@@ -107,7 +107,7 @@ class IngredientRepository extends Repository implements EditableModelRepository
     public function remove($id){
 
         $query = $this->db->prepare('DELETE FROM ingredients WHERE id = ?');
-        $query->bind_param("s", $id);
+        $query->bind_param("i", $id);
 
         $bool = $query->execute();
 
