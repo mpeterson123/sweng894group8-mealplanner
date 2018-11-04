@@ -165,7 +165,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
           $recipe->setId($query->insert_id);
         }
         else {
-          $query->error;
+          $error = $query->error;
           echo "\n" . __CLASS__ ."::" . __FUNCTION__ . ":" . $error . "\n";
 
         }
@@ -203,7 +203,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
         $bool = $query->execute();
 
         if(!$bool) {
-          $query->error;
+          $error = $query->error;
           echo "\n" . __CLASS__ ."::" . __FUNCTION__ . ":" . $error . "\n";
         }
       return $bool;
