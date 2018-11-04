@@ -68,8 +68,8 @@ $PLUGIN_EXPORT      = TRUE;
                                                       <input type="radio"
                                                              name="selectedHH"
                                                              value="<?php echo $hh['id']; ?>"
-                                                             <?php //if($data['currHH'] == $hh['id']) echo 'selected ="selected"';  ?>
-                                                             onchange="/Household/select"
+                                                             <?php if($data['currHH'] == $hh['id']) echo 'checked ="checked"';  ?>
+                                                             onchange="window.location.href='/Household/select/<?php echo $hh['id']; ?>'"
                                                       />
                                                     </td>
                                                 </tr>

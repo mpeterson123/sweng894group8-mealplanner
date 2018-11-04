@@ -182,6 +182,15 @@ class Household extends Controller{
 			// Display message and redirect
 			$this->session->flashMessage('success', 'This household was deleted. Since this was your only household, an empty default household was created for you.');
 		}
+		// If selected household is deleted toggle to first household in list
+		if($user->getCurrHouseholdId() == $hhId){
+			  $user = $this->session->get('user');
+				$households = 	$this->householdRepository->allForUser($user);
+				$this->userRepository->selectHousehold($user,$households[0]->getId());
+				// Update user in the session
+				$updatedUser = $this->userRepository->find($user->getUsername());
+				$this->session->add('user', $updatedUser);
+		}
 
 		// Redirect to list
 		Redirect::toControllerMethod('Household', 'list');
@@ -190,9 +199,12 @@ class Household extends Controller{
 	 * Select household from household list
 	 */
 	public function select($hhId){
-		// Create default household if only household was deleted
+		// change selected household
 		$user = $this->session->get('user');
-		//$households = 	$this->householdRepository->allForUser($user);
+		$this->userRepository->selectHousehold($user,$hhId);
+		// Update user in the session
+		$updatedUser = $this->userRepository->find($user->getUsername());
+		$this->session->add('user', $updatedUser);
 		// Redirect to list
 		Redirect::toControllerMethod('Household', 'list');
 	}
