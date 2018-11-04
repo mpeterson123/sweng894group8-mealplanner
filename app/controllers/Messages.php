@@ -50,7 +50,7 @@ class Messages extends Controller
 
     public function __construct()
     {
-        parent::__construct(...func_get_args());
+        //parent::__construct(...func_get_args());
 
         $this->dbh = DatabaseHandler::getInstance();
     }
