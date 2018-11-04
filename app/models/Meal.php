@@ -8,34 +8,33 @@ class Meal{
 	private $date;
 	private $isComplete;
 	private $addedDate;
-	private $scale;
+	private $scaleFactor;
 
-	public function __construct($recipe,$date,$scale){
+	public function __construct($recipe,$date,$scaleFactor){
 
 		$this->setRecipe($recipe);
 		$this->setDate($date);
-		$this->setScale($scale);
+		$this->setScaleFactor($scaleFactor);
 		$this->isComplete = false;
 		$this->addedDate = date('Y-m-d H-i-s');
 	}
 
-	public function setScale($newScale){
+	public function setScaleFactor($newScale){
+		$newScale = floatval($newScale);
 		if(!$newScale)
 		{
-				$this->scale = 1.0;
-				throw new \Exception("Scale cannot be empty. Defaulting to 1.0", 1);
+			$newScale = 1.0;
 		}
 
-		$newScale = floatval($newScale);
 		if(gettype($newScale) !== 'double' AND gettype($newScale) !== 'integer' AND gettype($newScale) !== 'float'){
 				throw new \Exception("Scale must be a number", 1);
 		}
 
-		$this->scale = $newScale;
+		$this->scaleFactor = $newScale;
 	}
 
-	public function getScale(){
-		return $this->scale;
+	public function getScaleFactor(){
+		return $this->scaleFactor;
 	}
 
 	public function isComplete(){
@@ -45,7 +44,7 @@ class Meal{
 	public function complete(){
 
 		if ($this->isComplete == FALSE){
-			$this->recipe->updateStockAfterCreation($this->scale);
+			$this->recipe->updateStockAfterCreation($this->scaleFactor);
 		}
 
 		$this->isComplete = TRUE;
@@ -56,7 +55,7 @@ class Meal{
 	//}
 
 	public function getIngredientQuantity($anIngredientName){
-		return $this->recipe->getIngredientByName($anIngredientName)->getQuantity() * $this->scale;
+		return $this->recipe->getIngredientByName($anIngredientName)->getQuantity() * $this->scaleFactor;
 	}
 
 	public function getRecipe(){
