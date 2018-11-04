@@ -22,6 +22,10 @@ $PLUGIN_SIDEBARMENU= TRUE;
 $houseHoldID  = sqlRequestByID("users", $user->getId(), "currHouseholdId");
 $numFoodItems = sqlRequest("COUNT(id) AS theNum FROM foods WHERE householdId = {$houseHoldID}")[0]['theNum'];
 $numRecipes   = sqlRequest("COUNT(id) AS theNum FROM recipes WHERE householdId = {$houseHoldID}")[0]['theNum'];
+$numRecipesUsed = 0; // Based off of meals
+$numFoodCost    = 0; // Based off of meals (for month to date)
+$numFoodCostYear= 0; // Based off of meals (for year to date)
+
 */
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -67,7 +71,7 @@ $numRecipes   = sqlRequest("COUNT(id) AS theNum FROM recipes WHERE householdId =
                             <h3 class="info-count text-blue"><?php $numRecipes = $numRecipes ?? 0; if ($numRecipes) { echo number_format($numRecipes); } else { echo 'None!'; } ?></h3>
                             <p class="info-text font-12">Recipes</p>
                             <span class="hr-line"></span>
-                            <p class="info-ot font-15">Total Used<span class="label label-rounded label-danger">14</span></p>
+                            <p class="info-ot font-15">Total Used<span class="label label-rounded label-danger">0</span></p>
                         </div>
                     </div>
                 </div>
@@ -77,10 +81,10 @@ $numRecipes   = sqlRequest("COUNT(id) AS theNum FROM recipes WHERE householdId =
                             <span class="icoleaf bg-primary text-white"><i class="mdi mdi-coin"></i></span>
                         </div>
                         <div class="media-body">
-                            <h3 class="info-count text-blue">&#36;947</h3>
+                            <h3 class="info-count text-blue">&#36;<?php $numFoodCost = $numFoodCost ?? 0; echo number_format($numFoodCost); ?></h3>
                             <p class="info-text font-12">Food Cost</p>
                             <span class="hr-line"></span>
-                            <p class="info-ot font-15">Savings : <span class="text-blue font-semibold">&#36;578</span></p>
+                            <p class="info-ot font-15">Year : <span class="text-blue font-semibold">&#36;<?php $numFoodCostYear = $numFoodCostYear ?? 0; echo number_format($numFoodCostYear); ?></span></p>
                         </div>
                     </div>
                 </div>
