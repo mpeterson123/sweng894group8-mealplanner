@@ -49,7 +49,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' )
                 <h3 class="text-uppercase">Page Not Found</h3>
                 <p class="text-muted m-t-30 m-b-30">You seem to be hungry and lost! Poor baby!</p>
                 <a href="<?php echo __REDIRECT__; ?>" class="btn btn-info btn-rounded waves-effect waves-light m-b-40">Back to home</a> </div>
-            <footer class="footer text-center"><?php echo __COPYRITE__; ?></footer>
+            <footer class="footer text-center"><?php echo __COPYRITE__; ?> <font size=6>(alpha)</font></footer>
         </div>
     </section>
     <!-- jQuery -->
