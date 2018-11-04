@@ -54,7 +54,7 @@ class Household extends Controller{
 		$user = $this->session->get('user');
 		$message = '';
 
-		$this->view('/auth/newHousehold',['message' => $message]);
+		$this->view('/auth/newHousehold',['message' => $message, 'name'=>$user->getLastName()]);
 	}
 	/*
 	 * Create a household
@@ -62,7 +62,7 @@ class Household extends Controller{
 	public function create(){
 		$user = $this->session->get('user');
 		// Generate household name, and create household with that, and current user as owner
-		$householdName = $user->getLastName().' Household';
+		$householdName = trim($this->request['name']);
 		$household = $this->householdFactory->make(array('name' => $householdName, 'owner' => $user->getUsername()));
 		$this->householdRepository->save($household);
 
