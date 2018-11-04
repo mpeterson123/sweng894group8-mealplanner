@@ -49,7 +49,7 @@ $numRecipes   = sqlRequest("COUNT(id) AS theNum FROM recipes WHERE householdId =
                             <span class="icoleaf bg-primary text-white"><i class="mdi mdi-checkbox-marked-circle-outline"></i></span>
                         </div>
                         <div class="media-body">
-                            <h3 class="info-count text-blue"><?php $num = $numFoodItems ?? 0; if ($num) { echo number_format($num); } else { echo 'None!'; } ?></h3>
+                            <h3 class="info-count text-blue"><?php $numFoodItems = $numFoodItems ?? 0; if ($numFoodItems) { echo number_format($numFoodItems); } else { echo 'None!'; } ?></h3>
                             <p class="info-text font-12">Food Items</p>
                             <span class="hr-line"></span>
                             <p class="info-ot font-15">Target<span class="label label-rounded label-success">300</span></p>
@@ -62,7 +62,7 @@ $numRecipes   = sqlRequest("COUNT(id) AS theNum FROM recipes WHERE householdId =
                             <span class="icoleaf bg-primary text-white"><i class="mdi mdi-comment-text-outline"></i></span>
                         </div>
                         <div class="media-body">
-                            <h3 class="info-count text-blue"><?php $num = $numRecipes ?? 0; if ($num) { echo number_format($num); } else { echo 'None!'; } ?></h3>
+                            <h3 class="info-count text-blue"><?php $numRecipes = $numRecipes ?? 0; if ($numRecipes) { echo number_format($numRecipes); } else { echo 'None!'; } ?></h3>
                             <p class="info-text font-12">Recipes</p>
                             <span class="hr-line"></span>
                             <p class="info-ot font-15">Total Used<span class="label label-rounded label-danger">14</span></p>
