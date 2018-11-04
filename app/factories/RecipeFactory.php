@@ -2,12 +2,13 @@
 namespace Base\Factories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use Base\Factories\Factory;
 use Base\Models\Ingredient;
 use Base\Models\Recipe;
 use Base\Repositories\IngredientRepository;
 //use Base\Repositories\UnitRepository;
 
-class RecipeFactory {
+class RecipeFactory extends Factory {
 
     private $db;
 

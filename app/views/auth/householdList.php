@@ -54,6 +54,7 @@ $PLUGIN_EXPORT      = TRUE;
                                         <tr>
                                             <th>Name</th>
                                             <th>Invite Code</th>
+                                            <th style="text-align:center;">View</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -63,6 +64,14 @@ $PLUGIN_EXPORT      = TRUE;
                                                 <tr>
                                                     <td><a href="/Household/detail/<?php echo $hh['id']; ?>"><?php echo $hh['name']; ?></a></td>
                                                     <td><?php echo $hh['code']; ?></td>
+                                                    <td style="text-align:center;">
+                                                      <input type="radio"
+                                                             name="selectedHH"
+                                                             value="<?php echo $hh['id']; ?>"
+                                                             <?php //if($data['currHH'] == $hh['id']) echo 'selected ="selected"';  ?>
+                                                             onchange="/Household/select"
+                                                      />
+                                                    </td>
                                                 </tr>
                                                 <?php
                                                 }

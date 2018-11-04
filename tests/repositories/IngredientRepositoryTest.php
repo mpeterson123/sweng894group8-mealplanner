@@ -13,6 +13,8 @@ use Base\Models\Category;
 use Base\Core\DatabaseHandler;
 use Base\Models\Ingredient;
 use Base\Factories\IngredientFactory;
+use Base\Factories\CategoryFactory;
+use Base\Factories\UnitFactory;
 
 class IngredientRepositoryTest extends TestCase {
 //  use TestCaseTrait;
@@ -113,8 +115,18 @@ class IngredientRepositoryTest extends TestCase {
     $this->db = new \mysqli($this->host, $this->user, $this->pass,$this->dbName);
     $this->db->autocommit(FALSE);
 
-    $this->ingredientRepository = new IngredientRepository($this->db);
-    $this->ingredientFactory = new IngredientFactory($this->db);
+    // TODO Use dependency injection
+    $categoryFactory = new CategoryFactory($this->db);
+    $categoryRepository = new CategoryRepository($this->db, $categoryFactory);
+
+    $unitFactory = new UnitFactory($this->db);
+    $unitRepository = new UnitRepository($this->db, $unitFactory);
+
+    $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
+    $foodItemRepository = new FoodItemRepository($this->db, $foodItemFactory);
+
+    $this->ingredientFactory = new IngredientFactory($foodItemRepository, $unitRepository);
+    $this->ingredientRepository = new IngredientRepository($this->db, $this->ingredientFactory);
   }
 
   /**
@@ -269,7 +281,7 @@ class IngredientRepositoryTest extends TestCase {
       $result = $query->get_result();
       $ingredientRow = $result->fetch_assoc();
 
-      $actualIngredient = (new IngredientFactory($this->db))->make($ingredientRow);
+      $actualIngredient = $this->ingredientFactory->make($ingredientRow);
 
       $this->assertEquals($this->expectedIngredientArray[0], $actualIngredient);
 
@@ -310,7 +322,7 @@ class IngredientRepositoryTest extends TestCase {
       $result = $query->get_result();
       $ingredientRow = $result->fetch_assoc();
 
-      $actualIngredient = (new IngredientFactory($this->db))->make($ingredientRow);
+      $actualIngredient = $this->ingredientFactory->make($ingredientRow);
 
       $this->assertEquals($this->expectedIngredientArray[0], $actualIngredient);
 
@@ -366,7 +378,7 @@ class IngredientRepositoryTest extends TestCase {
       $ingredientRow = $result->fetch_assoc();
 
       if($ingredientRow) {
-        $actIngredient = (new IngredientFactory($this->db))->make($ingredientRow);
+        $actIngredient = $this->ingredientFactory->make($ingredientRow);
       }
       else {
         $actIngredient = null;

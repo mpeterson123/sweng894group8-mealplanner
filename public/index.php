@@ -20,8 +20,8 @@ session_start();
 // Instantiate global dependencies
 $dbh = DatabaseHandler::getInstance();
 $session = new Session();
-$url = $_GET['url'];
+$request = $_REQUEST;
 
 // Run app
-$app = new App($dbh, $session, $url);
+$app = new App($dbh, $session, $request);
 $app->run();

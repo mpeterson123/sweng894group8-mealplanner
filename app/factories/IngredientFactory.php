@@ -7,14 +7,20 @@ use Base\Models\Quantity;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
 
-class IngredientFactory {
+class IngredientFactory extends Factory {
 
-    private $db;
+    private $foodItemRepository,
+        $unitRepository;
+
+    public function __construct($foodItemRepository, $unitRepository){
+        $this->foodItemRepository= $foodItemRepository;
+        $this->unitRepository= $unitRepository;
+    }
 
     public function make($ingredientArray)
     {
-        $foodItem = (new FoodItemRepository($this->db))->find($ingredientArray['foodid']);
-        $unit = (new UnitRepository($this->db))->find($ingredientArray['unit_id']);
+        $foodItem = $this->foodItemRepository->find($ingredientArray['foodid']);
+        $unit = $this->unitRepository->find($ingredientArray['unit_id']);
         $quantity = new Quantity($ingredientArray['quantity'], $unit);
 
         $ingredient = new Ingredient($foodItem, $quantity, $ingredientArray['recipeid'], $unit);
@@ -25,8 +31,6 @@ class IngredientFactory {
         return $ingredient;
     }
 
-    public function __construct($db){
-        $this->db = $db;
-    }
+
 
 }

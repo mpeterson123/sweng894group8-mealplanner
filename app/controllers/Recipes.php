@@ -25,31 +25,45 @@ use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
 use Base\Factories\RecipeFactory;
 use Base\Factories\IngredientFactory;
+use Base\Factories\FoodItemFactory;
+use Base\Factories\CategoryFactory;
+use Base\Factories\UnitFactory;
+use Base\Repositories\CategoryRepository;
 
 class Recipes extends Controller {
 
     protected $dbh,
-        $session;
+        $session,
+        $request;
 
-    private $ingredientRepository,
+    private $unitRepository,
+        $recipeFactory,
         $recipeRepository,
         $foodItemRepository,
-        $unitRepository,
-        $recipeFactory,
-        $db;
+        $ingredientFactory,
+        $ingredientRepository;
 
-    public function __construct(DatabaseHandler $dbh, Session $session){
-		    $this->dbh = $dbh;
-		    $this->session = $session;
+    public function __construct(DatabaseHandler $dbh, Session $session, $request){
+		$this->dbh = $dbh;
+		$this->session = $session;
+		$this->request = $request;
 
-        $this->db = $this->dbh->getDB();
+        // TODO Use dependency injection
+        $this->recipeFactory = new RecipeFactory($this->dbh->getDB());
+        $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $this->recipeFactory);
 
-        $this->recipeRepository = new RecipeRepository($this->db);
-        $this->ingredientRepository = new IngredientRepository($this->db);
-        $this->foodItemRepository = new FoodItemRepository($this->db);
-        $this->unitRepository = new UnitRepository($this->db);
+        $categoryFactory = new CategoryFactory($this->dbh->getDB());
+        $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
 
-        $this->recipeFactory = new RecipeFactory($this->db);
+        $unitFactory = new UnitFactory($this->dbh->getDB());
+        $this->unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
+
+        $foodItemFactory = new FoodItemFactory($categoryRepository, $this->unitRepository);
+        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
+
+        $this->ingredientFactory = new IngredientFactory($this->foodItemRepository, $this->unitRepository);
+        $this->ingredientRepository = new IngredientRepository($this->dbh->getDB(), $this->ingredientFactory);
+
     }
 
     public function index(){
@@ -97,7 +111,7 @@ class Recipes extends Controller {
 
     public function store(){
 
-        $input = $_POST;
+        $input = $this->request;
 
         //Use a RecipeFactory to create the Recipe Object:
         $recipe = $this->recipeFactory->make($input);
@@ -121,14 +135,9 @@ class Recipes extends Controller {
 
 private function addIngredients($in, $rec) {
 
-  $db = $this->dbh->getDB();
-
-  $ingredientFactory = new IngredientFactory($db);
-
-
   if(isset($in['newFoodId'])) {
 
-    for($i=0;$i<count($in['newFoodId']);$i++){
+    for($i=0;$i<count($in['newFoodId']);$i++) {
 
         //Create the ingredient array:
         $ingredientInput = array("foodid" => $in['newFoodId'][$i],
@@ -137,7 +146,7 @@ private function addIngredients($in, $rec) {
                               "unit_id" => $in['newUnitId'][$i]);
 
         //Create the ingredient object:
-        $ingredient = $ingredientFactory->make($ingredientInput);
+        $ingredient = $this->ingredientFactory->make($ingredientInput);
 
         //Save the ingredient in the database:
         if($this->ingredientRepository->save($ingredient)) {
@@ -151,11 +160,9 @@ private function addIngredients($in, $rec) {
         else {
           $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
         }
-    }
-  }  //end if new items were returned
-
-  return;
-}
+      } //end for
+    } //end if new items were returned
+  }
 
     public function delete($id){
             $user = $this->session->get('user');
@@ -190,7 +197,7 @@ private function addIngredients($in, $rec) {
 
         $this->checkRecipeBelongsToUser($id);
 
-        $input = $_POST;
+        $input = $this->request;
 
         $recipe->setId($id);
         $recipe->setName($input['name']);
@@ -223,10 +230,6 @@ private function addIngredients($in, $rec) {
 
     private function updateIngredients($in, $rec) {
 
-      $db = $this->dbh->getDB();
-
-      $ingredientFactory = new IngredientFactory($db);
-
       //Get the ingredients associated with this recipe from the repository:
       $currentIngreds = $this->ingredientRepository->allForRecipe($rec->getId());
 
@@ -257,7 +260,7 @@ private function addIngredients($in, $rec) {
                                 "id" => $in['ingredientIds'][$i]);
 
           //Create the ingredient object:
-          $ingredient = $ingredientFactory->make($ingredientInput);
+          $ingredient = $this->ingredientFactory->make($ingredientInput);
 
           //Save the ingredient in the database:
           if($this->ingredientRepository->save($ingredient)) {

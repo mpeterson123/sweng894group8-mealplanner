@@ -74,6 +74,11 @@ $Message = sqlRequestArrayByID('messages', $MessageID, "*, DATE_FORMAT(timesent,
 sqlQuery("UPDATE messages SET viewed = TRUE WHERE id = {$Message['id']}");
 
 ///////////////////////////////////////////////////////////////////////////////
+// Display Type Check(s)
+///////////////////////////////////////////////////////////////////////////////
+$Trash = $Message['trash'] ?? NULL;
+
+///////////////////////////////////////////////////////////////////////////////
 // Number of Starred Messages
 ///////////////////////////////////////////////////////////////////////////////
 $NumStarred = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WHERE starred IS TRUE AND trash IS NOT TRUE AND recipientid = {$User->getId()}")[0]['totalnum'];
@@ -114,7 +119,7 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                             <div class="row">
                                 <div class="col-lg-2 col-md-3  col-sm-12 col-xs-12 inbox-panel">
                                     <div> <!--<a href="/Messages/compose/" class="btn btn-custom btn-block waves-effect waves-light">Compose</a>-->
-                                        <div class="list-group mail-list m-t-20"> <a href="/Messages/inbox/" class="list-group-item <?php if ($UserIsRecipient) { echo 'active'; } ?>">Inbox <span class="label label-rouded label-success pull-right"><?php echo $NumUnread; ?></span></a> <a href="/Messages/starred/" class="list-group-item ">Starred <span class="label label-rounded label-warning pull-right"><?php echo $NumStarred; ?></span></a> <a href="/Messages/outbox/" class="list-group-item <?php if ($UserIsSender) { echo 'active'; } ?>">Sent Mail</a> <a href="/Messages/trash/" class="list-group-item">Trash <span class="label label-rouded label-danger pull-right"><?php echo $NumTrash; ?></span></a> </div>
+                                        <div class="list-group mail-list m-t-20"> <a href="/Messages/inbox/" class="list-group-item <?php if ($UserIsRecipient && !$Trash) { echo 'active'; } ?>">Inbox <span class="label label-rouded label-success pull-right"><?php echo $NumUnread; ?></span></a> <a href="/Messages/starred/" class="list-group-item ">Starred <span class="label label-rounded label-warning pull-right"><?php echo $NumStarred; ?></span></a> <a href="/Messages/outbox/" class="list-group-item <?php if ($UserIsSender) { echo 'active'; } ?>">Sent Mail</a> <a href="/Messages/trash/" class="list-group-item <?php if ($Trash) { echo 'active'; } ?>">Trash <span class="label label-rouded label-danger pull-right"><?php echo $NumTrash; ?></span></a> </div>
                                         <h3 class="panel-title m-t-40 m-b-0">Labels</h3>
                                         <hr class="m-t-5">
                                         <div class="list-group b-0 mail-list"> <a href="javascript:void(0);" class="list-group-item"><span class="fa fa-circle text-success m-r-10"></span>New</a> <a href="javascript:void(0);" class="list-group-item"><span class="fa fa-circle text-warning m-r-10"></span>Starred</a> <a href="javascript:void(0);" class="list-group-item"><span class="fa fa-circle text-danger m-r-10"></span>Deleted</a> </div>
@@ -133,6 +138,13 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                     <div class="b-all p-20">
                                         <p class="p-b-20">click here to <a href="/Messages/compose/<?php echo $Message['senderid']; ?>">Reply</a> </p>
                                     </div>
+<?php } ?>
+<?php if ($UserIsRecipient && (!$Message['trash'] ?? NULL) ) { ?>
+                                    <hr>
+                                    <form name="trashform" id="trashform" method="post" action="/Messages/trash/">
+                                        <input type="hidden" name="trashit" value="<?php echo $Message['id']; ?>">
+                                        <button type="submit" class="btn btn-danger"><i class="fa fa-envelope-o"></i> Trash</button>
+                                    </form>
 <?php } ?>
                                 </div>
                             </div>

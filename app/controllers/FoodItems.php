@@ -23,6 +23,8 @@ use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
 use Base\Repositories\CategoryRepository;
 use Base\Factories\FoodItemFactory;
+use Base\Factories\CategoryFactory;
+use Base\Factories\UnitFactory;
 
 
 /**
@@ -31,22 +33,29 @@ use Base\Factories\FoodItemFactory;
 class FoodItems extends Controller {
 
     protected $dbh,
-        $session;
+        $session,
+        $request;
 
     private $unitRepository,
         $categoryRepository,
         $foodItemRepository,
         $foodItemFactory;
 
-    public function __construct(DatabaseHandler $dbh, Session $session){
+    public function __construct(DatabaseHandler $dbh, Session $session, $request){
 		$this->dbh = $dbh;
 		$this->session = $session;
+		$this->request = $request;
 
-        // TODO Use dependecy injection
-        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB());
-        $this->categoryRepository = new CategoryRepository($this->dbh->getDB());
-        $this->unitRepository = new UnitRepository($this->dbh->getDB());
+        // TODO Use dependency injection
+        $categoryFactory = new CategoryFactory($this->dbh->getDB());
+        $this->categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
+
+        $unitFactory = new UnitFactory($this->dbh->getDB());
+        $this->unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
+
         $this->foodItemFactory = new FoodItemFactory($this->categoryRepository, $this->unitRepository);
+        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $this->foodItemFactory);
+
     }
 
     /**
@@ -90,7 +99,7 @@ class FoodItems extends Controller {
      */
     public function store():void{
 
-        $input = $_POST;
+        $input = $this->request;
 
         $this->session->flashOldInput($input);
 
@@ -144,7 +153,7 @@ class FoodItems extends Controller {
         $foodItem = $this->foodItemRepository->find($id);
         $this->checkFoodBelongsToHousehold($id);
 
-        $this->validateInput($_POST, 'edit', [$id]);
+        $this->validateInput($this->request, 'edit', [$id]);
 
         $this->foodItemRepository->save($foodItem);
 

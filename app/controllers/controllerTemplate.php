@@ -28,18 +28,20 @@ use \Valitron\Validator;
 class Objects extends Controller {
 
     protected $dbh,
-        $session;
+        $session,
+        $request;
 
     private $objectRepository,
         $objectFactory;
 
-    public function __construct(DatabaseHandler $dbh, Session $session){
-		$this->dbh = $dbh;
-		$this->session = $session;
+    public function __construct(DatabaseHandler $dbh, Session $session, $request){
+        $this->dbh = $dbh;
+        $this->session = $session;
+        $this->request = $request;
 
-        // TODO Use dependecy injection
+        // TODO Use dependency injection
         $this->objectRepository = new ObjectRepository($this->dbh->getDB());
-        $this->objectFactory = new ObjectFactory($this->categoryRepository, $this->unitRepository);
+        $this->objectFactory = new ObjectFactory(/*dependecies*/);
     }
 
     /**
@@ -78,7 +80,7 @@ class Objects extends Controller {
      */
     public function store():void{
 
-        $input = $_POST;
+        $input = $this->request;
 
         (new Session())->flashOldInput($input);
 
@@ -132,7 +134,7 @@ class Objects extends Controller {
         $object = $this->objectRepository->find($id);
         $this->checkObjectBelongsToUser($id);
 
-        $this->validateInput($_POST, 'edit', [$id]);
+        $this->validateInput($this->request, 'edit', [$id]);
 
         $this->objectRepository->save($object);
 

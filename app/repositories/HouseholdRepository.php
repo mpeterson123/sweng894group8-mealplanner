@@ -9,17 +9,13 @@ use Base\Helpers\Session;
 use Base\Factories\HouseholdFactory;
 use Base\Factories\UserFactory;
 
-class HouseholdRepository extends Repository {
+class HouseholdRepository extends Repository implements EditableModelRepository {
     private $db,
-        $householdFactory,
-        $userFactory;
+        $householdFactory;
 
-    public function __construct($db){
+    public function __construct($db, $householdFactory){
         $this->db = $db;
-
-        // TODO Use dependeny injection
-        $this->householdFactory = new HouseholdFactory();
-        $this->userFactory = new UserFactory($db);
+        $this->householdFactory = $householdFactory;
     }
 
 
@@ -46,19 +42,6 @@ class HouseholdRepository extends Repository {
         }
         return $households;
     }
-    public function allForHousehold($hh){
-        $query = $this->db->prepare('SELECT users.* FROM users JOIN usersHouseholds ON usersHouseholds.userId = users.id WHERE usersHouseholds.householdId = ?');
-        @$query->bind_param("i",$hh->getId());
-        $query->execute();
-        $result = $query->get_result();
-
-        $users = array();
-        while($userRow = $result->fetch_assoc()){
-            $users[] = $this->userFactory->make($userRow);
-        }
-        return $users;
-    }
-
 
     public function save($household){
         if(isset($this->id) && $this->find($household->id))
@@ -69,6 +52,7 @@ class HouseholdRepository extends Repository {
             return $this->insert($household);
         }
     }
+
     public function all(){
         return $this->db->query('SELECT * FROM household')->fetch_all();
     }
@@ -107,6 +91,7 @@ class HouseholdRepository extends Repository {
           $hhId);
       $query->execute();
     }
+
     /**
      * Remove a user to a household
      * @param  integer $userId Id of user to connect
@@ -122,7 +107,7 @@ class HouseholdRepository extends Repository {
     }
 
     // Not Implemented yet
-    protected function update($object){
+    public function update($object){
         $query = $this->db
             ->prepare('UPDATE food
                 SET name = ?, unitcost =?)

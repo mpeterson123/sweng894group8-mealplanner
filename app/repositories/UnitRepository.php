@@ -7,10 +7,12 @@ use Base\Repositories\Repository;
 
 
 class UnitRepository extends Repository {
-    private $db;
+    private $db,
+        $unitFactory;
 
-    public function __construct($db){
+    public function __construct($db, $unitFactory){
         $this->db = $db;
+        $this->unitFactory = $unitFactory;
     }
 
     /**
@@ -26,8 +28,7 @@ class UnitRepository extends Repository {
         $result = $query->get_result();
         $unitRow = $result->fetch_assoc();
 
-        $unitFactory= new UnitFactory($this->db);
-        $unit = $unitFactory->make($unitRow);
+        $unit = $this->unitFactory->make($unitRow);
 
         return $unit;
     }
@@ -40,16 +41,9 @@ class UnitRepository extends Repository {
         $unitRows = $this->db->query('SELECT * FROM units ORDER by name')->fetch_all(MYSQLI_ASSOC);
 
         $collection = array();
-        $unitFactory = new UnitFactory($this->db);
         foreach($unitRows as $unitRow){
-            $collection[] = $unitFactory->make($unitRow);
+            $collection[] = $this->unitFactory->make($unitRow);
         }
         return $collection;
     }
-
-
-    public function save($object){}
-    public function remove($object){}
-    protected function insert($object){}
-    protected function update($object){}
 }

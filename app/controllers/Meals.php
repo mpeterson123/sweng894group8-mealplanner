@@ -26,28 +26,30 @@ use Base\Factories\RecipeFactory;
 class Meals extends Controller {
 
     protected $dbh,
-        $session;
+        $session,
+        $request;
 
     private $mealRepository,
         $mealFactory,
-        $recipeRepository,
-        $recipeFactory;
+        $recipeRepository;
 
-    public function __construct(DatabaseHandler $dbh, Session $session){
+    public function __construct(DatabaseHandler $dbh, Session $session, $request){
 		$this->dbh = $dbh;
 		$this->session = $session;
+		$this->request = $request;
 
-        // TODO Use dependecy injection
-        $this->recipeRepository = new RecipeRepository($this->dbh->getDB());
-        $this->mealRepository = new MealRepository($this->dbh->getDB());
+        // TODO Use dependency injection
+        $recipeFactory = new RecipeFactory($this->dbh->getDB());
+        $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $recipeFactory);
         $this->mealFactory = new MealFactory($this->recipeRepository);
-        $this->recipeFactory = new RecipeFactory($this->dbh->getDB());
+        $this->mealRepository = new MealRepository($this->dbh->getDB(), $this->mealFactory);
+
     }
 
     public function index():void{
         $user = $this->session->get('user');
 
-        $meals = $this->mealRepository->allForUser($user);
+        $meals = $this->mealRepository->allForHousehold($user->getHouseholds()[0]);
         $this->view('meal/index', compact('meals'));
     }
 
@@ -71,7 +73,7 @@ class Meals extends Controller {
 
     public function store():void{
 
-        $input = $_POST;
+        $input = $this->request;
         $this->session->flashOldInput($input);
 
         // Validate input
@@ -106,7 +108,8 @@ class Meals extends Controller {
             return;
         }
 
-        $this->checkMealBelongsToUser($id);
+
+        $this->checkMealBelongsToHousehold($id);
         $this->mealRepository->remove($id);
 
         $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
@@ -118,30 +121,26 @@ class Meals extends Controller {
 
     public function update($id):void{
         $meal = $this->mealRepository->find($id);
-        $this->checkMealBelongsToUser($id);
 
-        $this->validateInput($_POST, 'edit', [$id]);
+        if( $this->checkMealBelongsToHousehold($id) )
+        {
 
-        $this->mealRepository->save($meal);
+          $this->validateInput($this->request, 'edit', [$id]);
 
-        // Flash success message
-        $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
+          $this->mealRepository->save($meal);
 
-        // Redirect back after updating
-        Redirect::toControllerMethod('Meals', 'edit', array('Meals' => $meal->getId()));
-        return;
-    }
+          // Flash success message
+          $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
 
-    public function checkMealBelongsToUser($id):void{
-        $user = $this->session->get('user');
-
-        // If meal doesn't belong to user, show forbidden error
-        if(!$this->mealRepository->mealBelongsToUser($id, $user)){
-            Redirect::toControllerMethod('Errors', 'show', array('errorCode' => '403'));
-            return;
+          // Redirect back after updating
+          Redirect::toControllerMethod('Meals', 'edit', array('Meals' => $meal->getId()));
+          return;
+        }
+        else
+        {
+          //not in household
         }
     }
-
 
     private function validateCreateInput($input, $method, $params = NULL):void{
         $this->session->flashOldInput($input);

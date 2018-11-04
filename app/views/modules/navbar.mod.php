@@ -13,7 +13,7 @@
                     <i class="fa fa-bars"></i>
                 </a>
                 <div class="top-left-part">
-                    <a class="logo" href="/dashboard/">
+                    <a class="logo" href="/Account/dashboard/">
                         <b>
                             <img src="/images/logo.png" alt="home" />
                         </b>

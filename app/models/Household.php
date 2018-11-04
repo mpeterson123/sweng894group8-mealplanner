@@ -72,6 +72,7 @@ class Household {
       // add checksum (sum of digits mod 10)
       $sum = array_sum(str_split($code));
       $sum %= 10;
+      if($sum == 0)   $sum = 10;
       $code = $sum.''.$code;
       // add checkmult (product of non-zero digits mod 10)
       $mult = array_product(array_filter(str_split($code)));
@@ -84,7 +85,10 @@ class Household {
     public function reverseCode($code){
       $code = strtolower($code);
       $code = base_convert($code,36,10);
-      $code = substr($code, 1, strlen($code)-2);
-      return $code-10000000;
+      $spSum = substr($code, 0, 2);
+      $code = substr($code, 0, strlen($code)-1);  // Remove multcheck
+      if($spSum == 10)
+        return substr($code, 2)-10000000;
+      return substr($code, 1)-10000000;
     }
 }

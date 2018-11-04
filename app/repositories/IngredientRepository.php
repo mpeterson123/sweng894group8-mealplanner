@@ -5,13 +5,19 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use Base\Repositories\Repository;
 use Base\Helpers\Session;
 use Base\Factories\IngredientFactory;
+use Base\Factories\FoodItemFactory;
+use Base\Factories\CategoryFactory;
+use Base\Factories\UnitFactory;
+use Base\Repositories\FoodItemRepository;
+use Base\Repositories\CategoryRepository;
 
+class IngredientRepository extends Repository implements EditableModelRepository {
+    private $db,
+        $ingredientFactory;
 
-class IngredientRepository extends Repository {
-    private $db;
-
-    public function __construct($db){
+    public function __construct($db, $ingredientFactory){
         $this->db = $db;
+        $this->ingredientFactory = $ingredientFactory;
     }
 
     /**
@@ -28,7 +34,7 @@ class IngredientRepository extends Repository {
           $result = $query->get_result();
           $ingredientRow = $result->fetch_assoc();
 
-          $ingredient = (new IngredientFactory($this->db))->make($ingredientRow);
+          $ingredient = $this->ingredientFactory->make($ingredientRow);
           return $ingredient;
         }
         else {
@@ -78,10 +84,8 @@ class IngredientRepository extends Repository {
 
           $collection = array();
 
-          $ingredientFactory = new IngredientFactory($this->db);
-
           foreach($ingredientRows as $ingredientRow){
-              $collection[] = $ingredientFactory->make($ingredientRow);
+              $collection[] = $this->ingredientFactory->make($ingredientRow);
           }
 
           return $collection;
@@ -99,6 +103,7 @@ class IngredientRepository extends Repository {
      * @param  integer $id  ingredient's id
      * @return bool         Whether query was successful
      */
+
     public function remove($id){
 
         $query = $this->db->prepare('DELETE FROM ingredients WHERE id = ?');

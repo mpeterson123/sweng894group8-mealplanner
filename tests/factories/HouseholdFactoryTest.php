@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase;
 // Add the classes you are testing and their dependencies
 use Base\Factories\HouseholdFactory;
 use Base\Models\Household;
+use Base\Models\User;
+use Base\Repositories\UserRepository;
+
 
 
 class HouseholdFactoryTest extends TestCase {
@@ -17,8 +20,25 @@ class HouseholdFactoryTest extends TestCase {
     /**
      * Create instances or whatever you need to reuse in several tests here
      */
-    public function setUp(){
-        $this->householdFactory = new HouseholdFactory();
+     public function setUp(){
+        /////////////////////////////
+        // Stub userRepositoryStub //
+        /////////////////////////////
+        $this->userRepositoryStub = $this
+            ->createMock(UserRepository::class);
+
+        // Configure the stub.
+        $userStub = $this->createMock(User::class);
+        $this->userRepositoryStub->method('find')
+            ->will($this->returnValue($userStub));
+
+
+        /////////////////////
+        // Create instance //
+        /////////////////////
+        $this->householdFactory = new HouseholdFactory(
+            $this->userRepositoryStub
+        );
     }
 
     /**
@@ -39,6 +59,7 @@ class HouseholdFactoryTest extends TestCase {
         $householdArray = array(
             'id' => 1234,
             'name' => 'Doe Household',
+            'owner' => 1
         );
 
         $household = $this->householdFactory->make($householdArray);
@@ -49,11 +70,17 @@ class HouseholdFactoryTest extends TestCase {
 
         $this->assertEquals($household->getId(), $householdArray['id']);
         $this->assertEquals($household->getName(), $householdArray['name']);
+        $this->assertInstanceOf(
+            'Base\Models\User',
+            $household->getOwner(),
+            'Owner must be an instance of User'
+        );
     }
 
     public function testMakeHouseholdWithoutId(){
         $householdArray = array(
             'name' => 'Doe Household',
+            'owner' => 1
         );
 
         $household = $this->householdFactory->make($householdArray);
@@ -64,5 +91,9 @@ class HouseholdFactoryTest extends TestCase {
 
         $this->assertEquals($household->getId(), NULL);
         $this->assertEquals($household->getName(), $householdArray['name']);
+        $this->assertInstanceOf(
+            'Base\Models\User',
+            $household->getOwner(),
+            'Owner must be instance of User');
     }
 }

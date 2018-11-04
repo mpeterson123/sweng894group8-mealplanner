@@ -2,10 +2,11 @@
 namespace Base\Factories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use Base\Factories\Factory;
 use Base\Models\Meal;
-use Base\Repositories\MealRepository;
+use Base\Repositories\RecipeRepository;
 
-class MealFactory {
+class MealFactory extends Factory {
 
     private $recipeRepository;
 
@@ -14,7 +15,7 @@ class MealFactory {
 
     }
 
-    public function make(array $mealArray):Meal
+    public function make($mealArray):Meal
     {
         $recipe = $this->recipeRepository->find($mealArray['recipe']);
 
