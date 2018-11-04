@@ -32,15 +32,43 @@ class MealTest extends TestCase {
       unset($this->recipe);
     }
 
+
+    /////////
+    // Id  //
+    /////////
+    public function testSetAndGetId(){
+        $id = 1;
+        $this->meal->setId($id);
+        $this->assertEquals($this->meal->getId(), $id);
+    }
+
+    public function testIdCannotBeEmpty(){
+        $this->expectException(\Exception::class);
+        $this->meal->setId(NULL);
+    }
+
+    public function testIdIsAnInteger(){
+        $intId = 123;
+        $this->meal->setId($intId);
+        $this->assertInternalType('integer', $this->meal->getId());
+    }
+
+    public function testNonIntIdIsRejected(){
+        $nonIntId = '123';
+        $this->expectException(\Exception::class);
+        $this->meal->setId($nonIntId);
+    }
+
+
     public function testCreateMeal(){
       $this->assertInstanceOf('Base\Models\Meal',
         new Meal($this->recipe,date("Y-m-d H:i:s"),2.0),
         'Object must be an instance of Meal');
     }
 
-    public function testEditMealScale(){
-      $this->meal->setScale(1.5);
-      $this->assertEquals($this->meal->getScale(), 1.5);
+    public function testEditMealScaleFactor(){
+      $this->meal->setScaleFactor(1.5);
+      $this->assertEquals($this->meal->getScaleFactor(), 1.5);
     }
 
     public function testEditMealDate(){
@@ -55,9 +83,10 @@ class MealTest extends TestCase {
       $this->assertEquals($this->meal->getRecipe(), $this->recipe);
     }
 
-    public function testRejectInvalidScale(){
-      $this->expectException(\Exception::class);
-      $this->meal->setScale('bad');//"Id must be a number"
+    public function testRejectInvalidScaleFactor(){
+      $this->meal->setScaleFactor('bad');//"Id must be a number"
+      $this->assertEquals($this->meal->getScaleFactor(), 1.0);
+
     }
 
     public function testRejectInvalidDate(){
@@ -74,10 +103,6 @@ class MealTest extends TestCase {
       $this->meal->complete();
       $this->assertTrue($this->meal->isComplete(), 'Recipe must be completed.');
     }
-
-    //public function testDeleteMeal(){
-    //  $this->meal->delete();
-    //}
 
 }
 ?>

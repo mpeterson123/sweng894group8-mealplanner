@@ -82,7 +82,7 @@ class MealRepository extends Repository implements EditableModelRepository {
                 $meal->getAddedDate(),
                 $meal->isComplete(),
                 $meal->getRecipe()->getId(),
-                $meal->getScale(),
+                $meal->getScaleFactor(),
                 $this->session->get('user')->getHouseholds()[0],
                 $household = $this->session->get('user')->getId()
             );
@@ -112,7 +112,7 @@ class MealRepository extends Repository implements EditableModelRepository {
             $meal->getAddedDate(),
             $meal->isComplete(),
             $meal->getRecipeId(),
-            $meal->getScale(),
+            $meal->getScaleFactor(),
             $meal->getId()
         );
 
