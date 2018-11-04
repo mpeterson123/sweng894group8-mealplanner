@@ -16,6 +16,11 @@ $SUBTITLE = 'Login';
 $PLUGIN_SLIMSCROLL = TRUE;
 $PLUGIN_WAVES      = TRUE;
 $PLUGIN_SIDEBARMENU= TRUE;
+
+// Dashboard Statistics
+$houseHoldID  = sqlRequestByID("users", $user->getId(), "currHouseholdId");
+$numFoodItems = SELECT("COUNT(id) FROM foods WHERE householdId = {$houseHoldID}");
+$numRecipes   = SELECT("COUNT(id) FROM recipes WHERE householdId = {$houseHoldID}");
 ?>
 <?php require_once( __HEADER__ ); ?>
 
@@ -44,7 +49,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                             <span class="icoleaf bg-primary text-white"><i class="mdi mdi-checkbox-marked-circle-outline"></i></span>
                         </div>
                         <div class="media-body">
-                            <h3 class="info-count text-blue">154</h3>
+                            <h3 class="info-count text-blue"><?php $num = $numFoodItems ?? 0; if ($num) { echo number_format($num); } else { echo 'None!'; } ?></h3>
                             <p class="info-text font-12">Food Items</p>
                             <span class="hr-line"></span>
                             <p class="info-ot font-15">Target<span class="label label-rounded label-success">300</span></p>
@@ -57,7 +62,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                             <span class="icoleaf bg-primary text-white"><i class="mdi mdi-comment-text-outline"></i></span>
                         </div>
                         <div class="media-body">
-                            <h3 class="info-count text-blue">68</h3>
+                            <h3 class="info-count text-blue"><?php $num = $numRecipes ?? 0; if ($num) { echo number_format($num); } else { echo 'None!'; } ?></h3>
                             <p class="info-text font-12">Recipes</p>
                             <span class="hr-line"></span>
                             <p class="info-ot font-15">Total Used<span class="label label-rounded label-danger">14</span></p>
