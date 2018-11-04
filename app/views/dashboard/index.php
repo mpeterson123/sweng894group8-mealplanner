@@ -20,7 +20,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
 // Dashboard Statistics
 $houseHoldID  = sqlRequestByID("users", $user->getId(), "currHouseholdId");
 $numFoodItems = sqlRequest("COUNT(id) AS theNum FROM foods WHERE householdId = {$houseHoldID}")[0]['theNum'];
-$numRecipes   = sqlRequest("COUNT(id) FROM recipes WHERE householdId = {$houseHoldID}")[0]['theNum'];
+$numRecipes   = sqlRequest("COUNT(id) AS theNum FROM recipes WHERE householdId = {$houseHoldID}")[0]['theNum'];
 ?>
 <?php require_once( __HEADER__ ); ?>
 
