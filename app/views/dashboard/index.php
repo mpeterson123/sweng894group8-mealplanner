@@ -111,29 +111,66 @@ $usersList = array();
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-8 col-sm-12">
-                        <div class="white-box stat-widget">
-                            <div class="row">
-                                <div class="col-md-3 col-sm-3">
-                                    <h4 class="box-title">Statistics</h4>
+                    <div class="col-md-8">
+                        <div class="white-box">
+                            <div class="task-widget2">
+                                <div class="task-image">
+                                    <img src="/images/task.jpg" alt="task" class="img-responsive">
+                                    <div class="task-image-overlay"></div>
+                                    <div class="task-detail">
+                                        <h2 class="font-light text-white m-b-0"><?php echo date('D jS, F'); ?></h2>
+                                        <h4 class="font-normal text-white m-t-5">Your moments for today</h4>
+                                    </div>
+                                    <div class="task-add-btn">
+                                        <a href="javascript:void(0);" class="btn btn-success">+</a>
+                                    </div>
                                 </div>
-                                <div class="col-md-9 col-sm-9">
-                                    <select class="custom-select">
-                                        <option selected value="0">Feb 04 - Mar 03</option>
-                                        <option value="1">Mar 04 - Apr 03</option>
-                                        <option value="2">Apr 04 - May 03</option>
-                                        <option value="3">May 04 - Jun 03</option>
-                                    </select>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>New Groceries</h6>
+                                <div class="task-total">
+                                    <p class="font-16 m-b-0"><strong>5</strong> Tasks for <a href="javascript:void(0);" class="text-link"><?php echo $user->getFirstName(); ?></a></p>
+                                </div>
+                                <div class="task-list">
+                                    <ul class="list-group">
+                                        <li class="list-group-item bl-info">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="c7" type="checkbox">
+                                                <label for="c7">
+                                                    <span class="font-16">Create list of ingredients for new recipe.</span>
+                                                </label>
+                                                <h6 class="p-l-30 font-bold">05:00 PM</h6>
+                                            </div>
                                         </li>
-                                        <li>
-                                            <h6 class="font-15"><i class="fa fa-circle m-r-5 text-primary"></i>Existing Groceries</h6>
+                                        <li class="list-group-item bl-warning">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="c8" type="checkbox" checked>
+                                                <label for="c8">
+                                                    <span class="font-16">Send daughter to pickup <strong>50 onions</strong> on 23 May to <a href="javascript:void(0);" class="text-link">Daniel Kristeen</a> for the friend onion fest.</span>
+                                                </label>
+                                                <h6 class="p-l-30 font-bold">03:00 PM</h6>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item bl-danger">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="c9" type="checkbox">
+                                                <label for="c9">
+                                                    <span class="font-16">It is a long established fact that a reader will be distracted by the readable.</span>
+                                                </label>
+                                                <h6 class="p-l-30 font-bold">04:45 PM</h6>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item bl-success">
+                                            <div class="checkbox checkbox-success">
+                                                <input id="c10" type="checkbox">
+                                                <label for="c10">
+                                                    <span class="font-16">It is a long established fact that a reader will be distracted by the readable.</span>
+                                                </label>
+                                                <h6 class="p-l-30 font-bold">05:30 PM</h6>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="stat chart-pos"></div>
+                                <div class="task-loadmore">
+                                    <a href="javascript:void(0);" class="btn btn-default btn-outline btn-rounded">Load More</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -370,66 +407,29 @@ $usersList = array();
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="white-box">
-                            <div class="task-widget2">
-                                <div class="task-image">
-                                    <img src="/images/task.jpg" alt="task" class="img-responsive">
-                                    <div class="task-image-overlay"></div>
-                                    <div class="task-detail">
-                                        <h2 class="font-light text-white m-b-0"><?php echo date('D jS, F'); ?></h2>
-                                        <h4 class="font-normal text-white m-t-5">Your moments for today</h4>
-                                    </div>
-                                    <div class="task-add-btn">
-                                        <a href="javascript:void(0);" class="btn btn-success">+</a>
-                                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        <div class="white-box stat-widget">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3">
+                                    <h4 class="box-title">Statistics</h4>
                                 </div>
-                                <div class="task-total">
-                                    <p class="font-16 m-b-0"><strong>5</strong> Tasks for <a href="javascript:void(0);" class="text-link"><?php echo $user->getFirstName(); ?></a></p>
-                                </div>
-                                <div class="task-list">
-                                    <ul class="list-group">
-                                        <li class="list-group-item bl-info">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="c7" type="checkbox">
-                                                <label for="c7">
-                                                    <span class="font-16">Create list of ingredients for new recipe.</span>
-                                                </label>
-                                                <h6 class="p-l-30 font-bold">05:00 PM</h6>
-                                            </div>
+                                <div class="col-md-9 col-sm-9">
+                                    <select class="custom-select">
+                                        <option selected value="0">Feb 04 - Mar 03</option>
+                                        <option value="1">Mar 04 - Apr 03</option>
+                                        <option value="2">Apr 04 - May 03</option>
+                                        <option value="3">May 04 - Jun 03</option>
+                                    </select>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>New Groceries</h6>
                                         </li>
-                                        <li class="list-group-item bl-warning">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="c8" type="checkbox" checked>
-                                                <label for="c8">
-                                                    <span class="font-16">Send daughter to pickup <strong>50 onions</strong> on 23 May to <a href="javascript:void(0);" class="text-link">Daniel Kristeen</a> for the friend onion fest.</span>
-                                                </label>
-                                                <h6 class="p-l-30 font-bold">03:00 PM</h6>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item bl-danger">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="c9" type="checkbox">
-                                                <label for="c9">
-                                                    <span class="font-16">It is a long established fact that a reader will be distracted by the readable.</span>
-                                                </label>
-                                                <h6 class="p-l-30 font-bold">04:45 PM</h6>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item bl-success">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="c10" type="checkbox">
-                                                <label for="c10">
-                                                    <span class="font-16">It is a long established fact that a reader will be distracted by the readable.</span>
-                                                </label>
-                                                <h6 class="p-l-30 font-bold">05:30 PM</h6>
-                                            </div>
+                                        <li>
+                                            <h6 class="font-15"><i class="fa fa-circle m-r-5 text-primary"></i>Existing Groceries</h6>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="task-loadmore">
-                                    <a href="javascript:void(0);" class="btn btn-default btn-outline btn-rounded">Load More</a>
-                                </div>
+                                <div class="stat chart-pos"></div>
                             </div>
                         </div>
                     </div>
