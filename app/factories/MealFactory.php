@@ -15,9 +15,14 @@ class MealFactory extends Factory {
 
     }
 
+    /**
+     * Instantiate Meal
+     * @param  array $mealArray     Array of data for a meal
+     * @return Meal                 A meal object
+     */
     public function make($mealArray):Meal
     {
-        $recipe = $this->recipeRepository->find($mealArray['recipe']);
+        $recipe = $this->recipeRepository->find($mealArray['recipeId']);
 
         $newMeal = new Meal($recipe,$mealArray['date'],$mealArray['scaleFactor']);
         if(isset($mealArray['id'])){

@@ -79,8 +79,6 @@ class Meals extends Controller {
         // Validate input
         $this->validateCreateInput($input, 'create');
 
-        $input['recipe'] = $input['recipeid'];
-
         // Make meal
         $meal = $this->mealFactory->make($input);
 

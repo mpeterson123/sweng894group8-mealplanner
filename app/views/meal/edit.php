@@ -98,13 +98,13 @@ $SUBTITLE = "Edit meal {$data['meal']['date']}";
                                           <div class="form-group">
                                             <h3 class="box-title m-b-0">Recipe</h3>
                                               <label for="inputRecipe">Recipe</label>
-                                              <select class="form-control" id="inputRecipe" name="recipeid">
+                                              <select class="form-control" id="inputRecipe" name="recipeId">
                                                   <option value="0">Select one</option>
                                                   <?php
                                                       foreach($data['recipes'] as $recipe){
                                                           echo '<option ';
 
-                                                          if((new Session())->getOldInput('recipeid') == $recipe['id']){
+                                                          if((new Session())->getOldInput('recipeId') == $recipe['id']){
                                                               echo 'selected="selected" ';
                                                           }
 
