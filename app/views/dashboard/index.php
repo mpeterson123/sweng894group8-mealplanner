@@ -377,7 +377,7 @@ $usersList = array();
                                     <img src="/images/task.jpg" alt="task" class="img-responsive">
                                     <div class="task-image-overlay"></div>
                                     <div class="task-detail">
-                                        <h2 class="font-light text-white m-b-0">07 April</h2>
+                                        <h2 class="font-light text-white m-b-0"><?php echo date('D M'); ?></h2>
                                         <h4 class="font-normal text-white m-t-5">Your tasks for today</h4>
                                     </div>
                                     <div class="task-add-btn">
@@ -385,7 +385,7 @@ $usersList = array();
                                     </div>
                                 </div>
                                 <div class="task-total">
-                                    <p class="font-16 m-b-0"><strong>5</strong> Tasks for <a href="javascript:void(0);" class="text-link">Jon Doe</a></p>
+                                    <p class="font-16 m-b-0"><strong>5</strong> Tasks for <a href="javascript:void(0);" class="text-link"><?php echo $user->getFirstName(); ?></a></p>
                                 </div>
                                 <div class="task-list">
                                     <ul class="list-group">
