@@ -76,6 +76,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
      * @param  User $user [description]
      * @return array Associative array of recipes
      */
+     /*
     public function allForUser($user){
         $query = $this->db->prepare('SELECT * FROM recipes WHERE user_id = ? ORDER by name');
         @$query->bind_param("s", $user->getId());
@@ -91,6 +92,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
         }
 
     }
+    */
 
     /**
      * Get all recipes for a household
@@ -98,6 +100,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
      * @return array Associative array of recipes
      */
     public function allForHousehold($household){
+
         $query = $this->db->prepare('SELECT * FROM recipes WHERE householdId = ? ORDER by name');
         @$query->bind_param("i", $household->getId());
         $query->execute();
@@ -141,19 +144,20 @@ class RecipeRepository extends Repository implements EditableModelRepository {
     public function insert($recipe){
         $query = $this->db
             ->prepare('INSERT INTO recipes
-                (name, description, servings, source, notes, user_id)
-                VALUES (?, ?, ?, ?, ?, ?)
+                (name, description, servings, source, notes, user_id, householdId)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             ');
 
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
-        @$query->bind_param("ssissi",
+        @$query->bind_param("ssissii",
             $recipe->getName(),
             $recipe->getDescription(),
             $recipe->getServings(),
             $recipe->getSource(),
             $recipe->getNotes(),
-            (new Session())->get('user')->getId()
+            (new Session())->get('user')->getId(),
+            (new Session())->get('user')->getHouseholds()[0]->getId()
 
         );
 
@@ -161,7 +165,6 @@ class RecipeRepository extends Repository implements EditableModelRepository {
         $bool = $query->execute();
 
         if($bool) {
-          echo "\nrecipe id = ". $query->insert_id . "\n";
           $recipe->setId($query->insert_id);
         }
         else {
@@ -216,6 +219,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
      * @param  integer $userId  Current user's id
      * @return bool             Whether recipe belongs to user
      */
+     /*
     public function recipeBelongsToUser($recipeId, $user)
     {
         $id = $user->getId();
@@ -230,6 +234,25 @@ class RecipeRepository extends Repository implements EditableModelRepository {
         }
         return false;
     }
+    */
 
-    // TODO Add recipeBelongsToHousehold($recipe, $household)
+    /**
+     * Check if recipe belongs to a household
+     * @param  integer $reciped  Recipe's id
+     * @param  integer $household  Current household
+     * @return bool             Whether recipe belongs to household
+     */
+    public function recipeBelongsToHousehold($recipeId, $household)
+    {
+
+        $query = $this->db->prepare('SELECT * FROM recipes WHERE id = ? AND householdId = ?');
+        $query->bind_param("si", $recipeId, $household->getId());
+        $query->execute();
+
+        $result = $query->get_result();
+        if($result->num_rows > 0){
+            return true;
+        }
+        return false;
+    }
 }

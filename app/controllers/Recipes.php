@@ -67,10 +67,10 @@ class Recipes extends Controller {
     }
 
     public function index(){
-        $user = $this->session->get('user');
+        $household = $this->session->get('user')->getHouseholds()[0];
 
         // echo "In ".__CLASS__."@".__FUNCTION__;
-        $recipes = $this->recipeRepository->allForUser($user);
+        $recipes = $this->recipeRepository->allForHousehold($household);
 
         $this->view('recipe/index', compact('recipes'));
     }
@@ -165,7 +165,7 @@ private function addIngredients($in, $rec) {
   }
 
     public function delete($id){
-            $user = $this->session->get('user');
+            $household = $this->session->get('user')->getHouseholds()[0];
 
             //Remove the recipe from the recipes table:
             $recipe = $this->recipeRepository->find($id);
@@ -176,15 +176,21 @@ private function addIngredients($in, $rec) {
                 return;
             }
 
-            // If recipe doesn't belong to user, do not delete, and show error page
-            if(!$this->recipeRepository->recipeBelongsToUser($id, $user)){
+            // If recipe doesn't belong to household, do not delete, and show error page
+            if(!$this->recipeRepository->recipeBelongsToHousehold($id, $household)){
                 Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
                 return;
             }
 
-            $this->recipeRepository->remove($id);
+            if($this->recipeRepository->remove($id))
+            {
+              $this->session->flashMessage('success', $recipe->getName().' was removed from your recipes.');
+            }
+            else {
+              $this->session->flashMessage('error', 'Sorry, something went wrong. ' . $recipe->getName().' was not removed from your recipes.');
+            }
 
-            $this->session->flashMessage('success', $recipe->getName().' was removed from your recipes.');
+
 
             // Redirect to list after deleting
             Redirect::toControllerMethod('Recipes', 'index');
@@ -193,9 +199,11 @@ private function addIngredients($in, $rec) {
 
     public function update($id){
 
+      //  $household = $this->session->get('user')->getHouseholds()[0];
+
         $recipe = $this->recipeRepository->find($id);
 
-        $this->checkRecipeBelongsToUser($id);
+        $this->checkRecipeBelongsToHousehold($id);
 
         $input = $this->request;
 
@@ -269,7 +277,7 @@ private function addIngredients($in, $rec) {
             $rec->addIngredient($ingredient);
 
             // Flash success message
-            //$this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was updated.');
+            $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was updated.');
           }
           else {
             $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not updated.');
@@ -293,6 +301,16 @@ private function addIngredients($in, $rec) {
 
         // If recipe doesn't belong to user, show forbidden error
         if(!$this->recipeRepository->recipeBelongsToUser($id, $user)){
+            Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
+            return;
+        }
+    }
+
+    public function checkRecipeBelongsToHousehold($id){
+        $household = $this->session->get('user')->getHouseholds()[0];
+
+        // If recipe doesn't belong to household, show forbidden error
+        if(!$this->recipeRepository->recipeBelongsToHousehold($id, $household)){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }
