@@ -377,8 +377,8 @@ $usersList = array();
                                     <img src="/images/task.jpg" alt="task" class="img-responsive">
                                     <div class="task-image-overlay"></div>
                                     <div class="task-detail">
-                                        <h2 class="font-light text-white m-b-0"><?php echo date('D M'); ?></h2>
-                                        <h4 class="font-normal text-white m-t-5">Your tasks for today</h4>
+                                        <h2 class="font-light text-white m-b-0"><?php echo date('D jS, F'); ?></h2>
+                                        <h4 class="font-normal text-white m-t-5">Your moments for today</h4>
                                     </div>
                                     <div class="task-add-btn">
                                         <a href="javascript:void(0);" class="btn btn-success">+</a>
