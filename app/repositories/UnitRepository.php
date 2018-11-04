@@ -46,10 +46,4 @@ class UnitRepository extends Repository {
         }
         return $collection;
     }
-
-
-    public function save($object){}
-    public function remove($object){}
-    protected function insert($object){}
-    protected function update($object){}
 }

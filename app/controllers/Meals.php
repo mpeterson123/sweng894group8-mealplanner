@@ -26,15 +26,17 @@ use Base\Factories\RecipeFactory;
 class Meals extends Controller {
 
     protected $dbh,
-        $session;
+        $session,
+        $request;
 
     private $mealRepository,
         $mealFactory,
         $recipeRepository;
 
-    public function __construct(DatabaseHandler $dbh, Session $session){
+    public function __construct(DatabaseHandler $dbh, Session $session, $request){
 		$this->dbh = $dbh;
 		$this->session = $session;
+		$this->request = $request;
 
         // TODO Use dependency injection
         $recipeFactory = new RecipeFactory($this->dbh->getDB());
@@ -71,7 +73,7 @@ class Meals extends Controller {
 
     public function store():void{
 
-        $input = $_POST;
+        $input = $this->request;
         $this->session->flashOldInput($input);
 
         // Validate input
@@ -123,7 +125,7 @@ class Meals extends Controller {
         if( $this->checkMealBelongsToHousehold($id) )
         {
 
-          $this->validateInput($_POST, 'edit', [$id]);
+          $this->validateInput($this->request, 'edit', [$id]);
 
           $this->mealRepository->save($meal);
 

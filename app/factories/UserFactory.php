@@ -2,18 +2,19 @@
 namespace Base\Factories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use Base\Factories\Factory;
 use Base\Models\User;
 use Base\Repositories\HouseholdRepository;
 
 /**
  * Handles User model instantiation
  */
-class UserFactory {
+class UserFactory extends Factory {
 
-    private $db;
+    private $householdRepository;
 
-    public function __construct($db){
-        $this->db = $db;
+    public function __construct($householdRepository){
+        $this->householdRepository = $householdRepository;
     }
 
     /**
@@ -26,7 +27,7 @@ class UserFactory {
         $user = new User();
         if(isset($userArray['id'])){
             $user->setId($userArray['id']);
-            $households = (new HouseholdRepository($this->db))->allForUser($user);
+            $households = $this->householdRepository->allForUser($user);
             $user->setHouseholds($households);
         }
         else{

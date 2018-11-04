@@ -7,15 +7,12 @@ use Base\Models\Quantity;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
 
-class IngredientFactory {
+class IngredientFactory extends Factory {
 
-    // TODO Eliminate db
     private $foodItemRepository,
         $unitRepository;
 
-    // TODO find all references of factory and make injections
     public function __construct($foodItemRepository, $unitRepository){
-        $this->db = $db;
         $this->foodItemRepository= $foodItemRepository;
         $this->unitRepository= $unitRepository;
     }

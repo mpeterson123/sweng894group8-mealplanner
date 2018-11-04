@@ -7,7 +7,7 @@ use Base\Repositories\Repository;
 // File-specific classes
 use Base\Factories\UserFactory;
 
-class UserRepository extends Repository {
+class UserRepository extends Repository implements EditableModelRepository {
     private $db,
     $userFactory;
 
@@ -86,24 +86,38 @@ class UserRepository extends Repository {
     public function all(){
         return $this->db->query('SELECT * FROM users')->fetch_all();
     }
+
+    public function allForHousehold($household){
+        $query = $this->db->prepare('SELECT users.* FROM users JOIN usersHouseholds ON usersHouseholds.userId = users.id WHERE usersHouseholds.householdId = ?');
+        @$query->bind_param("i",$household->getId());
+        $query->execute();
+        $result = $query->get_result();
+
+        $users = array();
+        while($userRow = $result->fetch_assoc()){
+            $users[] = $this->userFactory->make($userRow);
+        }
+        return $users;
+    }
+
     public function getHouseholds($user){
-        $hhIds = array();
+        $householdIds = array();
         $query = $this->db->prepare('SELECT * FROM usersHouseholds WHERE userId = ?');
         $query->bind_param("s",$user->getId());
         $query->execute();
         $result = $query->get_result();
         while($row = $result->fetch_assoc()){
-          $hhIds[] = $row['householdId'];
+          $householdIds[] = $row['householdId'];
         }
 
         $households = array();
-        foreach($hhIds as $hhId){
+        foreach($householdIds as $householdId){
           $query = $this->db->prepare('SELECT * FROM household WHERE id = ?');
-          $query->bind_param("s",$hhId);
+          $query->bind_param("s",$householdId);
           $query->execute();
           $result = $query->get_result();
           while($row = $result->fetch_assoc()){
-            $households[$hhId] = $row['name'];
+            $households[$householdId] = $row['name'];
           }
         }
         return $households;
@@ -115,7 +129,7 @@ class UserRepository extends Repository {
         $query->execute();
     }
 
-    protected function insert($user){
+    public function insert($user){
         $today = date('Y-m-d');
         $query = $this->db->prepare('INSERT INTO users
                 (username, password, email, joined, namefirst, namelast)
@@ -131,7 +145,7 @@ class UserRepository extends Repository {
         $query->execute();
     }
 
-    protected function update($user){
+    public function update($user){
         $query = $this->db
             ->prepare('UPDATE users SET
                 password = ?,

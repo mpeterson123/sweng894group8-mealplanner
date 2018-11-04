@@ -2,6 +2,7 @@
 namespace Base\Factories;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use Base\Factories\Factory;
 use Base\Models\FoodItem;
 use Base\Repositories\CategoryRepository;
 use Base\Repositories\UnitRepository;
@@ -9,7 +10,7 @@ use Base\Repositories\UnitRepository;
 /**
  * Handles FoodItem model instantiation
  */
-class FoodItemFactory {
+class FoodItemFactory extends Factory {
 
     private $categoryRepository,
         $unitRepository;

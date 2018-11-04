@@ -33,16 +33,18 @@ use Base\Factories\UnitFactory;
 class FoodItems extends Controller {
 
     protected $dbh,
-        $session;
+        $session,
+        $request;
 
     private $unitRepository,
         $categoryRepository,
         $foodItemRepository,
         $foodItemFactory;
 
-    public function __construct(DatabaseHandler $dbh, Session $session){
+    public function __construct(DatabaseHandler $dbh, Session $session, $request){
 		$this->dbh = $dbh;
 		$this->session = $session;
+		$this->request = $request;
 
         // TODO Use dependency injection
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
@@ -97,7 +99,7 @@ class FoodItems extends Controller {
      */
     public function store():void{
 
-        $input = $_POST;
+        $input = $this->request;
 
         $this->session->flashOldInput($input);
 
@@ -151,7 +153,7 @@ class FoodItems extends Controller {
         $foodItem = $this->foodItemRepository->find($id);
         $this->checkFoodBelongsToHousehold($id);
 
-        $this->validateInput($_POST, 'edit', [$id]);
+        $this->validateInput($this->request, 'edit', [$id]);
 
         $this->foodItemRepository->save($foodItem);
 

@@ -7,7 +7,7 @@ use Base\Helpers\Session;
 use Base\Factories\RecipeFactory;
 
 
-class RecipeRepository extends Repository {
+class RecipeRepository extends Repository implements EditableModelRepository {
     private $db,
         $recipeFactory;
 
@@ -97,21 +97,21 @@ class RecipeRepository extends Repository {
      * @param  Household $household [description]
      * @return array Associative array of recipes
      */
-     public function allForHousehold($household){
-         $query = $this->db->prepare('SELECT * FROM recipes WHERE householdId = ? ORDER by name');
-         @$query->bind_param("i", $household->getId());
-         $query->execute();
+    public function allForHousehold($household){
+        $query = $this->db->prepare('SELECT * FROM recipes WHERE householdId = ? ORDER by name');
+        @$query->bind_param("i", $household->getId());
+        $query->execute();
 
-         $result = $query->get_result();
-         $recipeRows = $result->fetch_all(MYSQLI_ASSOC);
+        $result = $query->get_result();
+        $recipeRows = $result->fetch_all(MYSQLI_ASSOC);
 
-         $collection = array();
+        $collection = array();
 
-         foreach($recipeRows as $recipeRow){
-             $collection[] = $this->recipeFactory->make($recipeRow);
-         }
+        foreach($recipeRows as $recipeRow){
+            $collection[] = $this->recipeFactory->make($recipeRow);
+        }
 
-         return $collection;
+        return $collection;
      }
 
     /**
@@ -138,7 +138,7 @@ class RecipeRepository extends Repository {
      * @param  Base\Models\Recipe $recipe   Recipe to be stored
      * @return bool                     Whether query was successful
      */
-    protected function insert($recipe){
+    public function insert($recipe){
         $query = $this->db
             ->prepare('INSERT INTO recipes
                 (name, description, servings, source, notes, user_id)
@@ -178,7 +178,7 @@ class RecipeRepository extends Repository {
      * @param  Base\Models\Recipe $recipe Recipe to be updated
      * @return bool                 Whether query was successful
      */
-    protected function update($recipe){
+    public function update($recipe){
         $query = $this->db
             ->prepare('UPDATE recipes
                 SET
@@ -231,4 +231,5 @@ class RecipeRepository extends Repository {
         return false;
     }
 
+    // TODO Add recipeBelongsToHousehold($recipe, $household)
 }
