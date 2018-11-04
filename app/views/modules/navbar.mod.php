@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Navbar (top) Module
 ///////////////////////////////////////////////////////////////////////////////
-$lastFew = sqlRequest( "SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = " . $data['user']->getId() . " LIMIT 5" );
+//$lastFew = sqlRequest( "SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = " . $data['user']->getId() . " LIMIT 5" );
 
 ?>
         <!-- ===== Top-Navigation ===== -->
