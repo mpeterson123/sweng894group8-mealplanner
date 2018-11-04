@@ -100,9 +100,9 @@ $usersList = array();
                         <div class="media-body">
                             <h2 class="text-blue font-22 m-t-0">Report</h2>
                             <ul class="p-0 m-b-20">
-                                <li><i class="fa fa-circle m-r-5 text-primary"></i>12% Wasted</li>
-                                <li><i class="fa fa-circle m-r-5 text-primary"></i>55% Target Reached</li>
-                                <li><i class="fa fa-circle m-r-5 text-info"></i>50% Perishables</li>
+                                <li><i class="fa fa-circle m-r-5 text-primary"></i>0% Recipes Used</li>
+                                <li><i class="fa fa-circle m-r-5 text-primary"></i>0% Food Wasted</li>
+                                <li><i class="fa fa-circle m-r-5 text-info"></i>0% Meal Increase</li>
                             </ul>
                         </div>
                     </div>
@@ -216,8 +216,7 @@ $usersList = array();
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box bg-primary color-box">
-                            <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span></h1>
-                            <br/><br/>
+                            <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span><br /><br /></h1>
                             <div class="ct-revenue chart-pos"></div>
                         </div>
                     </div>
