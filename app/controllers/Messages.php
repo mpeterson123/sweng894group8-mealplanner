@@ -41,6 +41,10 @@ define('_DISPLAY_SENT_',    6);
 ///////////////////////////////////////////////////////////////////////////////
 class Messages extends Controller
 {
+    protected $dph;
+    protected $session;
+    protected $request;
+    
     private $messageRepository;
     private $dbh;
 
@@ -48,9 +52,11 @@ class Messages extends Controller
     //                              Constructor                              //
     ///////////////////////////////////////////////////////////////////////////
 
-    public function __construct()
+    public function __construct(DatabaseHandler $dbh, Session $session, $request)
     {
-        //parent::__construct(...func_get_args());
+        $this->dbh     = $dbh;
+        $this->session = $session;
+        $this->request = $request;
 
         $this->dbh = DatabaseHandler::getInstance();
     }
