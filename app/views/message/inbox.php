@@ -13,6 +13,7 @@ use Base\Helpers\Session;
 // Externals
 ///////////////////////////////////////////////////////////////////////////////
 $Show      = $_REQUEST['show'] ?? $data['displayType'] ?? NULL;
+$TrashIt   = $_REQUEST['trashit'] ?? $data['input']['trashit'] ?? NULL;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Sub Title
@@ -50,6 +51,13 @@ if ($_REQUEST['s'] ?? FALSE)
 if ($_REQUEST['u'] ?? FALSE)
 {
     sqlQuery("UPDATE messages SET starred = FALSE WHERE id = {$_REQUEST['u']}");
+}
+
+// Trash a Message
+if ($TrashIt)
+{
+    // We have a message we've been requested to trash
+    sqlQuery("UPDATE messages SET trash = TRUE WHERE id = {$TrashIt}");
 }
 
 // Messages
