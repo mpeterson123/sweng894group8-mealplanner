@@ -134,6 +134,13 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                         <p class="p-b-20">click here to <a href="/Messages/compose/<?php echo $Message['senderid']; ?>">Reply</a> </p>
                                     </div>
 <?php } ?>
+<?php if ($UserIsRecipient && !$Message['trashed']) { ?>
+                                    <hr>
+                                    <form name="trashform" id="trashform" method="post" action="/Messages/trash/">
+                                        <input type="hidden" name="trashit" value="<?php echo $Message['id']; ?>">
+                                        <button type="submit" class="btn btn-danger"><i class="fa fa-envelope-o"></i> Trash</button>
+                                    </form>
+<?php } ?>
                                 </div>
                             </div>
                             <!-- /.row -->
