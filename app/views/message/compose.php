@@ -12,9 +12,9 @@ use Base\Helpers\Session;
 ///////////////////////////////////////////////////////////////////////////////
 // Externals
 ///////////////////////////////////////////////////////////////////////////////
-$Recipient = $_REQUEST['r']        ?? $_REQUEST['recipient'] ?? $data['targetID'] ?? NULL;
-$Message   = $_REQUEST['message']  ?? NULL;
-$Composed  = $_REQUEST['composed'] ?? NULL;
+$Recipient = $_REQUEST['r']        ?? $_REQUEST['recipient']     ?? $data['targetID'] ?? $data['input']['recipient'] ?? NULL;
+$Message   = $_REQUEST['message']  ?? $data['input']['message']  ?? NULL;
+$Composed  = $_REQUEST['composed'] ?? $data['input']['composed'] ?? NULL;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Sub Title
@@ -69,8 +69,12 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
 ///////////////////////////////////////////////////////////////////////////////
 if ($Composed)
 {
+    ///////////////////////////////////////////////////////////////////////////
+    // Check for a Recipient and Whether we have a Message or Not
+    ///////////////////////////////////////////////////////////////////////////
     if ($Recipient && $Message)
     {
+        // Execute query to sent message
         sqlQuery("INSERT INTO messages (senderid, recipientid, message) VALUES({$User->getId()}, {$Recipient}, '{$Message}')");
 ?>
 <script>
@@ -116,16 +120,18 @@ if ($Composed)
 
                                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 mail_listing">
                                     <h3 class="box-title">Compose New Message</h3>
-                                    <form method="post" action="/Messages/compose/" id="composeform" name="coposeform">
+                                    <form method="post" action="/Messages/compose/" id="composeform" name="composeform">
                                     <input type="hidden" name="composed" value="1">
-<?php if ($Recipient) { ?>
+<?php // Check for pre-selected recipient
+      if ($Recipient) { ?>
                                     <div class="form-group">
                                         <input class="form-control" placeholder="To: <?php echo sqlRequestByID('users', $Recipient, 'namefirst'); ?>" readonly="readonly"> </div>
 <?php } else { ?>
                                     <div class="form-group">
                                         <select class="selectpicker m-b-20 m-r-10" data-style="btn-primary btn-outline" name="recipient">
                                             <option>Select a Recipient..</option>
-<?php     foreach ($Friends as $friend) { ?>
+<?php     // Loop through list of users available to send messages to
+          foreach ($Friends as $friend) { ?>
                                             <option value="<?php echo $friend['id']; ?>"><?php echo "{$friend['namefirst']} {$friend['namelast']}"; ?></option>
 <?php     } ?>
                                         </select>
