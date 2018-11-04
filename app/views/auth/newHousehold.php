@@ -41,6 +41,12 @@ $PLUGIN_SIDEBARMENU= TRUE;
     else
       document.getElementById("inviteCodeBox").style.display = "none";
   }
+  function popupName(open){
+    if(open)
+      document.getElementById("nameBox").style.display = "block";
+    else
+      document.getElementById("nameBox").style.display = "none";
+  }
 </script>
 
 <body class="mini-sidebar">
@@ -49,7 +55,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
         <div class="cssload-speeding-wheel"></div>
     </div>
    <div style="top: 35%; left: 30%;position: absolute; ">
-      <a href="/Household/create">
+      <a href="javascript:void(0);" onclick="popupName(1)">
         <div class="selectBox">
           Start new Household
         </div>
@@ -69,6 +75,17 @@ $PLUGIN_SIDEBARMENU= TRUE;
         </form>
         <p><br>
         <a href="javascript:void(0);"  onclick="popup(0)">or go back</a>
+      </div>
+    </div>
+    <div id="nameBox" style="top: 35%; left: 30%;position: absolute;z=2;display:none; ">
+      <div class="selectBox" style="line-height:25px;width:420px;">
+        <form action="/Household/create" method="POST">
+          Set Household Name:<br>
+          <input type="text" name="name" value="<?php echo $data['name']; ?> Household"/><br>
+          <input type="submit" name="submit" value="Create" />
+        </form>
+        <p><br>
+        <a href="javascript:void(0);"  onclick="popupName(0)">or go back</a>
       </div>
     </div>
 
