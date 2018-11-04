@@ -153,7 +153,7 @@ $usersList = array();
                                     </div>
                                 </div>
                                 <div class="task-assign font-16">
-                                    Friends
+                                    Meal Planners
                                     <ul class="list-inline">
                                         <!--
                                         <li class="p-l-0">
@@ -177,7 +177,7 @@ $usersList = array();
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box bg-primary color-box">
-                            <h1 class="text-white font-light">&#36;6547 <span class="font-14">Food Cost</span></h1>
+                            <h1 class="text-white font-light">&#36;6547 <span class="font-14">Lifetime Food Cost</span></h1>
                             <div class="ct-revenue chart-pos"></div>
                         </div>
                     </div>
@@ -198,9 +198,11 @@ $usersList = array();
                             <span class="hr-line"></span>
                             <p class="cb-text">Finished Tasks</p>
                             <h6 class="text-white font-semibold">+15% <span class="font-light">Last Week</span></h6>
+                            <!--
                             <div class="chart">
                                 <input class="knob" data-min="0" data-max="100" data-bgColor="#f86b4a" data-fgColor="#ffffff" data-displayInput=false data-width="96" data-height="96" data-thickness=".1" value="25" readonly>
                             </div>
+-->
                         </div>
                     </div>
                 </div>
