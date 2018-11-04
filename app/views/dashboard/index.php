@@ -25,8 +25,9 @@ $numRecipes   = sqlRequest("COUNT(id) AS theNum FROM recipes WHERE householdId =
 $numRecipesUsed = 0; // Based off of meals
 $numFoodCost    = 0; // Based off of meals (for month to date)
 $numFoodCostYear= 0; // Based off of meals (for year to date)
-
+$usersList = sqlRequest("SELECT * FROM users");
 */
+$usersList = array();
 ?>
 <?php require_once( __HEADER__ ); ?>
 
@@ -154,17 +155,18 @@ $numFoodCostYear= 0; // Based off of meals (for year to date)
                                 <div class="task-assign font-16">
                                     Friends
                                     <ul class="list-inline">
+                                        <!--
                                         <li class="p-l-0">
                                             <img src="/images/users/avatar1.jpg" alt="user" data-toggle="tooltip" data-placement="top" title="" data-original-title="Steave">
                                         </li>
+-->
+<?php foreach ($usersList as $aUser) { ?>
                                         <li>
-                                            <img src="/images/users/avatar2.jpg" alt="user" data-toggle="tooltip" data-placement="top" title="" data-original-title="Steave">
+                                            <img src="/images/users/<?php echo $aUser['username']; ?>.jpg" alt="<?php echo "{$aUser['namefirst']} {$aUser['namelast']}"; ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo "{$aUser['namefirst']}"; ?>">
                                         </li>
-                                        <li>
-                                            <img src="/images/users/avatar3.jpg" alt="user" data-toggle="tooltip" data-placement="top" title="" data-original-title="Steave">
-                                        </li>
+<?php } ?>
                                         <li class="p-r-0">
-                                            <a href="javascript:void(0);" class="btn btn-success font-16">3+</a>
+                                            <a href="javascript:void(0);" class="btn btn-success font-16"><?php echo count($usersList); ?>+</a>
                                         </li>
                                     </ul>
                                 </div>
