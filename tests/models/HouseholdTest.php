@@ -76,6 +76,31 @@ class HouseholdTest extends TestCase {
 	////////////////////////////////////////////////////////////////////////////
 	// Actions
 	////////////////////////////////////////////////////////////////////////////
+	public function testGenCode(){
+			$id = 4;
+		  $this->household->setId($id);
+			$code = $this->household->genInviteCode();
+			$this->assertEquals($this->household->reverseCode($code), $id);
 
+			$id = 2;
+		  $this->household->setId($id);
+			$code = $this->household->genInviteCode();
+			$this->assertEquals($this->household->reverseCode($code), $id);
+
+			$id = 100;
+		  $this->household->setId($id);
+			$code = $this->household->genInviteCode();
+			$this->assertEquals($this->household->reverseCode($code), $id);
+
+			$id = 153;
+		  $this->household->setId($id);
+			$code = $this->household->genInviteCode();
+			$this->assertEquals($this->household->reverseCode($code), $id);
+
+			$id = 1;
+		  $this->household->setId($id);
+			$code = $this->household->genInviteCode();
+			$this->assertEquals($this->household->reverseCode($code), $id);
+	}
 
 }
