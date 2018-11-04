@@ -10,12 +10,6 @@ use Base\Repositories\IngredientRepository;
 
 class RecipeFactory extends Factory {
 
-    private $db;
-
-    public function __construct($db){
-        $this->db = $db;
-    }
-
     public function make($recipeArray)
     {
         $recipe = new Recipe($recipeArray['name'], $recipeArray['description'], $recipeArray['servings'], $recipeArray['source'], $recipeArray['notes']);
