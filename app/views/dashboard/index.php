@@ -216,16 +216,16 @@ $usersList = array();
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box bg-primary color-box">
-                            <h1 class="text-white font-light">&#36;6547 <span class="font-14">Lifetime Food Cost</span></h1>
+                            <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span></h1>
                             <div class="ct-revenue chart-pos"></div>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="white-box bg-success color-box">
-                            <h1 class="text-white font-light m-b-0">5247</h1>
+                            <h1 class="text-white font-light m-b-0">0</h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">current groceries</p>
-                            <h6 class="text-white font-semibold">+25% <span class="font-light">Last Week</span></h6>
+                            <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
                             <div class="chart">
                                 <div class="ct-visit chart-pos"></div>
                             </div>
@@ -233,10 +233,10 @@ $usersList = array();
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="white-box bg-danger color-box">
-                            <h1 class="text-white font-light m-b-0">25%</h1>
+                            <h1 class="text-white font-light m-b-0">0%</h1>
                             <span class="hr-line"></span>
-                            <p class="cb-text">Finished Tasks</p>
-                            <h6 class="text-white font-semibold">+15% <span class="font-light">Last Week</span></h6>
+                            <p class="cb-text">Finished Meals</p>
+                            <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
                             <!--
                             <div class="chart">
                                 <input class="knob" data-min="0" data-max="100" data-bgColor="#f86b4a" data-fgColor="#ffffff" data-displayInput=false data-width="96" data-height="96" data-thickness=".1" value="25" readonly>
@@ -417,10 +417,10 @@ $usersList = array();
                                 </div>
                                 <div class="col-md-9 col-sm-9">
                                     <select class="custom-select">
-                                        <option selected value="0">Feb 04 - Mar 03</option>
-                                        <option value="1">Mar 04 - Apr 03</option>
-                                        <option value="2">Apr 04 - May 03</option>
-                                        <option value="3">May 04 - Jun 03</option>
+                                        <option selected value="0">Oct - Nov</option>
+                                        <option value="1">Sep - Oct</option>
+                                        <option value="2">Aug - Sep</option>
+                                        <option value="3">Jul - Aug</option>
                                     </select>
                                     <ul class="list-inline">
                                         <li>
