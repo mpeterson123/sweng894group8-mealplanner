@@ -87,7 +87,7 @@ class Household extends Controller{
 			$hhs[] = array('id'=>$hh->getId(),'name'=>$hh->getName(),'code'=>$hh->genInviteCode());
 		}
 
-		$this->view('/auth/householdList',['message' => '','households'=>$hhs]);
+		$this->view('/auth/householdList',['message' => '','households'=>$hhs, 'currHH'=>$user->getCurrHouseholdId()]);
 	}
 	/*
 	 * User join household
@@ -186,6 +186,15 @@ class Household extends Controller{
 		// Redirect to list
 		Redirect::toControllerMethod('Household', 'list');
 	}
-
+	/*
+	 * Select household from household list
+	 */
+	public function select($hhId){
+		// Create default household if only household was deleted
+		$user = $this->session->get('user');
+		//$households = 	$this->householdRepository->allForUser($user);
+		// Redirect to list
+		Redirect::toControllerMethod('Household', 'list');
+	}
 }
 ?>

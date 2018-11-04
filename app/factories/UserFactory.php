@@ -41,6 +41,7 @@ class UserFactory extends Factory {
         $user->setLastName($userArray['namelast']);
         $user->setActivated($userArray['activated']);
         $user->setPassTemp($userArray['passTemp']);
+        $user->setCurrHouseholdId($userArray['currHouseholdId']);
 
         return $user;
     }
