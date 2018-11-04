@@ -15,7 +15,7 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <title><?php echo __SITENAME__; if (isset($SUBTITLE)) { echo " {$SUBTITLE}"; } ?></title>
     <!-- ===== Bootstrap CSS ===== -->
     <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
