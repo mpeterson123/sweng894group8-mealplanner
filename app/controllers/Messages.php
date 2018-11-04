@@ -156,7 +156,7 @@ class Messages extends Controller
     public function outbox()
     {
         $displayType = _DISPLAY_SENT_;
-        $this->view('message/outbox', compact('displayType'));
+        $this->view('message/inbox', compact('displayType'));
     }
 
     ///////////////////////////////////////////////////////////////////////////
