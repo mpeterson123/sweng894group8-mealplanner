@@ -4,6 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Navbar (top) Module
 ///////////////////////////////////////////////////////////////////////////////
+$lastFew = sqlRequest( "SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = " . $data['user']->getId() . " LIMIT 5" );
 
 ?>
         <!-- ===== Top-Navigation ===== -->
@@ -47,53 +48,27 @@
                             </li>
                             <li>
                                 <div class="message-center">
-                                    <a href="javascript:void(0);">
+<?php foreach ($lastFew as $message) 
+      {
+          // Message sender information
+          $messageSender = sqlRequestArrayByID("users", $message['senderid'], '*');
+?>
+                                    <a href="/Messages/open/<?php echo $message['id']; ?>">
                                         <div class="user-img">
-                                            <img src="/images/users/avatar4.jpg" alt="user" class="img-circle">
+                                            <img src="/images/users/<?php echo $messageSender['username']; ?>.jpg" alt="user" class="img-circle">
                                             <span class="profile-status online pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
-                                            <h5>Lawrence Sell</h5>
-                                            <span class="mail-desc">Just see the my admin!</span>
-                                            <span class="time">9:30 AM</span>
+                                            <h5><?php echo "{$messageSender['namefirst']} {$messageSender['namelast']}"; ?></h5>
+                                            <span class="mail-desc"><?php echo substr($message['message'], 0, 18); ?></span>
+                                            <span class="time"><?php echo $message['timesent2']; ?></span>
                                         </div>
                                     </a>
-                                    <a href="javascript:void(0);">
-                                        <div class="user-img">
-                                            <img src="/images/users/avatar2.jpg" alt="user" class="img-circle">
-                                            <span class="profile-status busy pull-right"></span>
-                                        </div>
-                                        <div class="mail-contnet">
-                                            <h5>Camila Perez</h5>
-                                            <span class="mail-desc">I've sung a eating song! See you at</span>
-                                            <span class="time">9:10 AM</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0);">
-                                        <div class="user-img">
-                                            <img src="/images/users/avatar5.jpg" alt="user" class="img-circle"><span class="profile-status away pull-right"></span>
-                                        </div>
-                                        <div class="mail-contnet">
-                                            <h5>Andrew Drake</h5>
-                                            <span class="mail-desc">I am a picky eater!</span>
-                                            <span class="time">9:08 AM</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0);">
-                                        <div class="user-img">
-                                            <img src="/images/users/avatar4.jpg" alt="user" class="img-circle">
-                                            <span class="profile-status offline pull-right"></span>
-                                        </div>
-                                        <div class="mail-contnet">
-                                            <h5>Lawrence Sell</h5>
-                                            <span class="mail-desc">Just see the my admin!</span>
-                                            <span class="time">9:02 AM</span>
-                                        </div>
-                                    </a>
+<?php } ?>
                                 </div>
                             </li>
                             <li>
-                                <a class="text-center" href="javascript:void(0);">
+                                <a class="text-center" href="/Messages/inbox/">
                                     <strong>See all notifications</strong>
                                     <i class="fa fa-angle-right"></i>
                                 </a>
