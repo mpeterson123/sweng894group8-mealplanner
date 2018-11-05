@@ -47,9 +47,8 @@ class Meals extends Controller {
     }
 
     public function index():void{
-        $user = $this->session->get('user');
-
-        $meals = $this->mealRepository->allForHousehold($user->getHouseholds()[0]);
+        $household = $this->session->get('user')->getHouseholds()[0];
+        $meals = $this->mealRepository->allForHousehold($household);
         $this->view('meal/index', compact('meals'));
     }
 
