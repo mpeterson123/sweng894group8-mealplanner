@@ -25,10 +25,15 @@ class UserFactory extends Factory {
     public function make($userArray):User
     {
         $user = new User();
+
+        // If user exists, assign the id, households, and current household
         if(isset($userArray['id'])){
             $user->setId($userArray['id']);
             $households = $this->householdRepository->allForUser($user);
             $user->setHouseholds($households);
+
+            $currHousehold = $this->householdRepository->find($userArray['currHouseholdId']);
+            $user->setCurrHousehold($currHousehold);
         }
         else{
             $user->setHouseholds(array());
@@ -41,7 +46,6 @@ class UserFactory extends Factory {
         $user->setLastName($userArray['namelast']);
         $user->setActivated($userArray['activated']);
         $user->setPassTemp($userArray['passTemp']);
-        $user->setCurrHouseholdId($userArray['currHouseholdId']);
 
         return $user;
     }

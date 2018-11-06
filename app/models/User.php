@@ -11,7 +11,7 @@ class User{
 					$loggedIn,
 					$households,
 					$id,
-					$currHouseholdId;
+					$currHousehold;
 
 
 	public function __construct(){
@@ -25,7 +25,7 @@ class User{
 		$this->setEmail($array['email']);
 		$this->setHouseholds($array['households']);
 		$this->setId($array['id']);
-		$this->setCurrHouseholdId($array['currHouseholdId']);
+		$this->setCurrHousehold($array['currHousehold']);
 	}
 
 	///////////////
@@ -175,11 +175,11 @@ class User{
 	public function getHouseholds(){
   		return $this->households;
 	}
-	public function setCurrHouseholdId($currHouseholdId){
-    	$this->currHouseholdId = trim($currHouseholdId);
+	public function setCurrHousehold($currHousehold){
+    	$this->currHousehold = $currHousehold;
     }
-	public function getCurrHouseholdId(){
-  		return $this->currHouseholdId;
+	public function getCurrHousehold(){
+  		return $this->currHousehold;
 	}
 
 }

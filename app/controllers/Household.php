@@ -87,7 +87,7 @@ class Household extends Controller{
 			$hhs[] = array('id'=>$hh->getId(),'name'=>$hh->getName(),'code'=>$hh->genInviteCode());
 		}
 
-		$this->view('/auth/householdList',['message' => '','households'=>$hhs, 'currHH'=>$user->getCurrHouseholdId()]);
+		$this->view('/auth/householdList',['message' => '','households'=>$hhs, 'currHH'=>$user->getCurrHousehold()]);
 	}
 	/*
 	 * User join household
@@ -183,7 +183,7 @@ class Household extends Controller{
 			$this->session->flashMessage('success', 'This household was deleted. Since this was your only household, an empty default household was created for you.');
 		}
 		// If selected household is deleted toggle to first household in list
-		if($user->getCurrHouseholdId() == $hhId){
+		if($user->getCurrHousehold()->getId() == $hhId){
 			  $user = $this->session->get('user');
 				$households = 	$this->householdRepository->allForUser($user);
 				$this->userRepository->selectHousehold($user,$households[0]->getId());
