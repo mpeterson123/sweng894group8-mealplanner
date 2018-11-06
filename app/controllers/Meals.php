@@ -47,10 +47,9 @@ class Meals extends Controller {
     }
 
     public function index():void{
-        $user = $this->session->get('user');
-
-        $meals = $this->mealRepository->allForHousehold($user->getHouseholds()[0]);
-        $this->view('meal/index', compact('meals'));
+        $household = $this->session->get('user')->getHouseholds()[0];
+        $meals = $this->mealRepository->allForHousehold($household);
+        $this->view('meal/index', compact('meal'));
     }
 
     public function edit($id):void{

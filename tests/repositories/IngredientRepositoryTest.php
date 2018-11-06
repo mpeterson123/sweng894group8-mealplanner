@@ -9,12 +9,16 @@ use Base\Repositories\IngredientRepository;
 use Base\Models\Unit;
 use Base\Models\Quantity;
 use Base\Models\FoodItem;
+use Base\Factories\FoodItemFactory;
+use Base\Repositories\FoodItemRepository;
 use Base\Models\Category;
 use Base\Core\DatabaseHandler;
 use Base\Models\Ingredient;
 use Base\Factories\IngredientFactory;
 use Base\Factories\CategoryFactory;
+use Base\Repositories\CategoryRepository;
 use Base\Factories\UnitFactory;
+use Base\Repositories\UnitRepository;
 
 class IngredientRepositoryTest extends TestCase {
 //  use TestCaseTrait;

@@ -144,19 +144,19 @@ class RecipeRepository extends Repository implements EditableModelRepository {
     public function insert($recipe){
         $query = $this->db
             ->prepare('INSERT INTO recipes
-                (name, description, servings, source, notes, user_id, householdId)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                (name, description, servings, source, notes, householdId)
+                VALUES (?, ?, ?, ?, ?, ?)
             ');
 
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
-        @$query->bind_param("ssissii",
+        @$query->bind_param("ssissi",
             $recipe->getName(),
             $recipe->getDescription(),
             $recipe->getServings(),
             $recipe->getSource(),
             $recipe->getNotes(),
-            (new Session())->get('user')->getId(),
+            //(new Session())->get('user')->getId(),
             (new Session())->get('user')->getHouseholds()[0]->getId()
 
         );
