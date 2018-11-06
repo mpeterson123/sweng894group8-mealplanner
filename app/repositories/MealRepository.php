@@ -46,9 +46,9 @@ class MealRepository extends Repository implements EditableModelRepository {
     }
 
     public function allForHousehold($household){
-        $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipeId, meal.scaleFactor, meal.isComplete FROM meal WHERE meal.householdId = ? ORDER by date'); //JOIN recipes ON meal.recipeId = recipes.id
+        $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipeId, meal.scaleFactor, meal.isComplete FROM meal WHERE meal.householdId = ? and meal.isComplete = 0 ORDER by date'); //JOIN recipes ON meal.recipeId = recipes.id
 
-        $query->bind_param("i", $household->getId());
+        @$query->bind_param("i", $household->getId());
 
         $query->execute();
 
