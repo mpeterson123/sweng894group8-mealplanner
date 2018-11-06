@@ -237,7 +237,7 @@ class Account extends Controller{
 			return;
 		}
 
-		$this->view('dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+		$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
 	}
 
 	public function showLogin(){
@@ -248,7 +248,7 @@ class Account extends Controller{
 			Redirect::toControllerMethod('Account', 'dashboard');
 			return;
 		}
-		$this->view('auth/login',['message'=>'']);
+		$this->view('/auth/login',['message'=>'']);
 	}
 
 	public function logInUser(){
@@ -405,6 +405,18 @@ class Account extends Controller{
             return;
         }
     }
+		public function changePicture(){
+			if($this->request['picture'] != ''){
+				$this->view('/auth/changePic',['message'=>'']);
+			}
+			else{
+				$user = $this->session->get('user');
+
+				// TO-DO upload pic, hash link and add to DB
+
+				Redirect::toControllerMethod('Account', 'Dashboard');
+			}
+		}
 
 
 }
