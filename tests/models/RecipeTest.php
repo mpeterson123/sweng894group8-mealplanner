@@ -21,7 +21,7 @@ class RecipeTest extends TestCase {
      * Create instances or whatever you need to reuse in several tests here
      */
     public function setUp(){
-      $this->recipe = new Recipe('Sugar Cookies', 'Sugar Cookies',6);
+      $this->recipe = new Recipe('Sugar Cookies', '1. Preheat oven to 350',6);
       $this->foodItem = new FoodItem();
       $this->foodItem->setName('flour');
       $this->ingredient = new Ingredient($this->foodItem, 2, 1, 1);
@@ -45,10 +45,10 @@ class RecipeTest extends TestCase {
   	$this->assertEquals($this->recipe->getIngredientByName('flour')->getQuantity(), 5);
      }
 
-    public function testSetDescription(){
-      $desc = 'Meatloaf Description';
-      $this->recipe->setDescription($desc);
-      $this->assertEquals($desc, $this->recipe->getDescription());
+    public function testSetDirections(){
+      $dirs = 'Meatloaf Directions';
+      $this->recipe->setDirections($dirs);
+      $this->assertEquals($dirs, $this->recipe->getDirections());
     }
 
     public function testSetName(){

@@ -73,7 +73,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                             <?php } ?>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
-                            <a href="/Recipes/index">&laquo; Return to recipe</a>
+                            <a href="/Recipes/index">&laquo; Return to recipes</a>
                             </p>
                             <div class="row">
 
@@ -88,11 +88,20 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputName">Description</label>
+                                            <label for="inputDirections">Directions</label>
+                                            <div class="col-sm-12">
+                                                <textarea class="form-control" rows="5" name="directions" maxlength="256"><?php echo $data['recipe']->getDirections(); ?></textarea>
+                                            </div>
+                                        </div>
+
+<!--
+                                        <div class="form-group">
+                                            <label for="inputName">Directions</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputDescription" placeholder="Description" name="description" value="<?php echo $data['recipe']->getDescription(); ?>"> </div>
+                                                <input type="text" class="form-control" id="inputDirections" placeholder="Directions" name="directions" value="<?php echo $data['recipe']->getDirections(); ?>"> </div>
                                         </div>
+-->
 
                                         <div class="form-group">
                                             <label for="inputUnitsInContainer">Servings</label>

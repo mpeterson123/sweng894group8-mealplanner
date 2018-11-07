@@ -209,7 +209,7 @@ private function addIngredients($in, $rec) {
 
         $recipe->setId($id);
         $recipe->setName($input['name']);
-        $recipe->setDescription($input['description']);
+        $recipe->setDirections($input['directions']);
         $recipe->setServings($input['servings']);
         $recipe->setSource($input['source']);
         $recipe->setNotes($input['notes']);

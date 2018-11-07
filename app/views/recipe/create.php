@@ -67,10 +67,19 @@ $SUBTITLE = "Add Recipe";
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputDescription">Description</label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputDescription" placeholder="Description" name="description" value-"<?php echo (new Session())->getOldInput('description') ?>"></div>
+                                            <label for="inputDirections">Directions</label>
+                                            <div class="col-sm-12">
+                                                <textarea class="form-control" rows="5" name="directions" placeholder="Directions" maxlength="256"></textarea>
+                                            </div>
+                                        </div>
+
+                <!--                        <div class="form-group">
+                                          <label class="col-md-12">Directions</label>
+                                          <div class="col-md-12">
+                                            <textarea class="form-control" rows="5"></textarea>
+                                          </div>
+                                        </div>
+                -->
 
                                         <div class="form-group">
                                             <label for="inputServings">Servings</label>

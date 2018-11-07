@@ -144,7 +144,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
     public function insert($recipe){
         $query = $this->db
             ->prepare('INSERT INTO recipes
-                (name, description, servings, source, notes, householdId)
+                (name, directions, servings, source, notes, householdId)
                 VALUES (?, ?, ?, ?, ?, ?)
             ');
 
@@ -152,7 +152,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
         @$query->bind_param("ssissi",
             $recipe->getName(),
-            $recipe->getDescription(),
+            $recipe->getDirections(),
             $recipe->getServings(),
             $recipe->getSource(),
             $recipe->getNotes(),
@@ -186,7 +186,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
             ->prepare('UPDATE recipes
                 SET
                     name = ?,
-                    description = ?,
+                    directions = ?,
                     servings = ?,
                     source = ?,
                     notes = ?
@@ -197,7 +197,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
         @$query->bind_param("ssissi",
             $recipe->getName(),
-            $recipe->getDescription(),
+            $recipe->getDirections(),
             $recipe->getServings(),
             $recipe->getSource(),
             $recipe->getNotes(),
@@ -214,29 +214,6 @@ class RecipeRepository extends Repository implements EditableModelRepository {
     }
 
     /**
-     * Check if recipe belongs to a user_id
-     * @param  integer $reciped  Recipe's id
-     * @param  integer $userId  Current user's id
-     * @return bool             Whether recipe belongs to user
-     */
-     /*
-    public function recipeBelongsToUser($recipeId, $user)
-    {
-        $id = $user->getId();
-
-        $query = $this->db->prepare('SELECT * FROM recipes WHERE id = ? AND user_id = ?');
-        $query->bind_param("si", $recipeId, $id);
-        $query->execute();
-
-        $result = $query->get_result();
-        if($result->num_rows > 0){
-            return true;
-        }
-        return false;
-    }
-    */
-
-    /**
      * Check if recipe belongs to a household
      * @param  integer $reciped  Recipe's id
      * @param  integer $household  Current household
@@ -244,9 +221,10 @@ class RecipeRepository extends Repository implements EditableModelRepository {
      */
     public function recipeBelongsToHousehold($recipeId, $household)
     {
+        $id = $household->getId();
 
         $query = $this->db->prepare('SELECT * FROM recipes WHERE id = ? AND householdId = ?');
-        $query->bind_param("si", $recipeId, $household->getId());
+        $query->bind_param("si", $recipeId, $id);
         $query->execute();
 
         $result = $query->get_result();
