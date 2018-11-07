@@ -2,7 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // MealPlanner                             Penn State - Cohorts 19 & 20 @ 2018
 ///////////////////////////////////////////////////////////////////////////////
-// Food (listing)
+// Grocery List
 ///////////////////////////////////////////////////////////////////////////////
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
@@ -10,7 +10,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' )
 use Base\Helpers\Session;
 
 // Sub Title
-$SUBTITLE = 'Household';
+$SUBTITLE = 'GroceryListItem List';
 
 
 // Plugins
@@ -47,31 +47,29 @@ $PLUGIN_EXPORT      = TRUE;
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="white-box">
-                          <h3 class="box-title m-b-0">Household</h3>
-                          <div class="table-responsive">
-                                <table class="display nowrap" cellspacing="0" width="100%">
+                            <h3 class="box-title m-b-0">Grocery List</h3>
+                            <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
+                            <div class="table-responsive">
+                                <table id="export-table" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Invite Code</th>
-                                            <th style="text-align:center;">View</th>
+                                            <th>Item</th>
+                                            <th>Quantity</th>
                                         </tr>
                                     </thead>
+                                    <tfoot>
+                                        <tr class="column-search">
+                                            <th><select class="column-search-select form-control"><option value=""></option></select></th>
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
+                                        </tr>
+                                    </tfoot>
                                     <tbody>
                                         <?php
-                                            if($data['households']){
-                                                foreach ($data['households'] as $hh) { ?>
+                                            if($data['groceryListItems']){
+                                                foreach ($data['groceryListItems'] as $groceryListItem) { ?>
                                                 <tr>
-                                                    <td><a href="/Household/detail/<?php echo $hh['id']; ?>"><?php echo $hh['name']; ?></a></td>
-                                                    <td><?php echo $hh['code']; ?></td>
-                                                    <td style="text-align:center;">
-                                                      <input type="radio"
-                                                             name="selectedHH"
-                                                             value="<?php echo $hh['id']; ?>"
-                                                             <?php if($data['currHH']->getId() == $hh['id']) echo 'checked ="checked"';  ?>
-                                                             onchange="window.location.href='/Household/select/<?php echo $hh['id']; ?>'"
-                                                      />
-                                                    </td>
+                                                    <td><a href="/GroceryListItemItems/edit/<?php echo $groceryListItem->getid(); ?>"><?php echo $groceryListItem->getFoodItem()->getName(); ?></a></td>
+                                                    <td><?php echo $groceryListItem->getAmount().' '.$groceryListItem->getFoodItem()->getUnit()->getAbbreviation(); ?></td>
                                                 </tr>
                                                 <?php
                                                 }
@@ -80,9 +78,12 @@ $PLUGIN_EXPORT      = TRUE;
                                     </tbody>
                                 </table>
                             </div>
-                            <hr>
-                            <br>
-                            <a href="/Household/index">+ Add Household</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0">Options</h3>
+                            <a href="/GroceryListItemItems/create" class="btn btn-success m-t-15">+ Add GroceryListItem Item</a>
                         </div>
                     </div>
                 </div>

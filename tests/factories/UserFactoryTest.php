@@ -39,6 +39,9 @@ class UserFactoryTest extends TestCase {
         $this->householdRepositoryStub->method('allForUser')
             ->will($this->returnValue($householdsArray));
 
+        $this->householdRepositoryStub->method('find')
+            ->will($this->returnValue($householdStub));
+
         /////////////////////
         // Create instance //
         /////////////////////
@@ -129,7 +132,7 @@ class UserFactoryTest extends TestCase {
             $user,
             'Object must be instance of User');
 
-        // Check primitive values    
+        // Check primitive values
         $this->assertEquals($user->getId(), NULL);
         $this->assertEquals($user->getUsername(), $userArray['username']);
         $this->assertEquals($user->getPassword(), $userArray['password']);
@@ -143,11 +146,8 @@ class UserFactoryTest extends TestCase {
         $this->assertInternalType('array',$user->getHouseholds());
         $this->assertEquals(0, count($user->getHouseholds()));
 
-        // Check current household is Household object
-        $this->assertInstanceOf(
-            'Base\Models\Household',
-            $user->getCurrHousehold(),
-            'Current household must be instance of Household'
-        );
+        // Check current household is NULL
+        $this->assertEquals(0, $user->getCurrHousehold());
+
     }
 }
