@@ -183,10 +183,10 @@ class IngredientRepositoryTest extends TestCase {
       $result = mysqli_query($this->db, $query)->fetch_assoc();
 
       $actualIngredientArray = array("id" => $result['id'],
-                              "foodid" => $result['foodid'],
+                              "foodId" => $result['foodId'],
                               "quantity" => $result['quantity'],
-                              "recipeid" => $result['recipeid'],
-                              "unit_id" => $result['unit_id']);
+                              "recipeId" => $result['recipeId'],
+                              "unitId" => $result['unitId']);
 
       $actualIngredient = $this->ingredientFactory->make($actualIngredientArray);
 
@@ -200,7 +200,7 @@ class IngredientRepositoryTest extends TestCase {
       //Insert an ingredient
       $query = $this->db
           ->prepare('INSERT INTO ingredients
-              (foodid, recipeid, quantity, unit_id)
+              (foodId, recipeId, quantity, unitId)
               VALUES (?, ?, ?, ?)
           ');
 
@@ -254,7 +254,7 @@ class IngredientRepositoryTest extends TestCase {
       //Insert an ingredient
       $query = $this->db
           ->prepare('INSERT INTO ingredients
-              (foodid, recipeid, quantity, unit_id)
+              (foodId, recipeId, quantity, unitId)
               VALUES (?, ?, ?, ?)
           ');
 
@@ -295,7 +295,7 @@ class IngredientRepositoryTest extends TestCase {
       //Insert an ingredient
       $query = $this->db
           ->prepare('INSERT INTO ingredients
-              (foodid, recipeid, quantity, unit_id)
+              (foodId, recipeId, quantity, unitId)
               VALUES (?, ?, ?, ?)
           ');
 
@@ -351,7 +351,7 @@ class IngredientRepositoryTest extends TestCase {
       //Insert an ingredient
       $query = $this->db
           ->prepare('INSERT INTO ingredients
-              (foodid, recipeid, quantity, unit_id)
+              (foodId, recipeId, quantity, unitId)
               VALUES (?, ?, ?, ?)
           ');
 
