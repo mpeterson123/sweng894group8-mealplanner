@@ -73,7 +73,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                             <?php } ?>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
-                            <a href="/Recipes/index">&laquo; Return to recipe</a>
+                            <a href="/Recipes/index">&laquo; Return to recipes</a>
                             </p>
                             <div class="row">
 
@@ -88,10 +88,10 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputName">Description</label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputDescription" placeholder="Description" name="description" value="<?php echo $data['recipe']->getDescription(); ?>"> </div>
+                                            <label for="inputDirections">Directions</label>
+                                            <div class="col-sm-12">
+                                                <textarea class="form-control" rows="5" name="directions" maxlength="256"><?php echo $data['recipe']->getDirections(); ?></textarea>
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
@@ -154,14 +154,14 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                 <select class="form-control" name="foodId[]">
                                                     <option value="<?php echo $ingredient->getFood()->getId();?>"><?php echo $ingredient->getFood()->getName();?></option>
                                                     <?php
-                                                        foreach($data['fooditems'] as $fooditem){
+                                                        foreach($data['foodItems'] as $foodItem){
                                                             echo '<option ';
 
-                                                            if((new Session())->getOldInput('foodId') == $fooditem->getId()){
+                                                            if((new Session())->getOldInput('foodId') == $foodItem->getId()){
                                                                 echo 'selected="selected" ';
                                                             }
 
-                                                            echo 'value="'.$fooditem->getId().'">'.$fooditem->getName().'</option>';
+                                                            echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
                                                         }
                                                     ?>
                                                 </select>
@@ -249,14 +249,14 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
           <select class="form-control" name="newFoodId[]">
               <option value="0">Select a food item</option>
               <?php
-                  foreach($data['fooditems'] as $fooditem){
+                  foreach($data['foodItems'] as $foodItem){
                       echo '<option ';
 
-                      if((new Session())->getOldInput('newFoodId') == $fooditem->getId()){
+                      if((new Session())->getOldInput('newFoodId') == $foodItem->getId()){
                           echo 'selected="selected" ';
                       }
 
-                      echo 'value="'.$fooditem->getId().'">'.$fooditem->getName().'</option>';
+                      echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
                   }
               ?>
           </select>

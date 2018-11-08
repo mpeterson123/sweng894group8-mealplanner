@@ -65,8 +65,8 @@ $PLUGIN_EXPORT      = TRUE;
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                            if($data['meal']){
-                                                foreach ($data['meal'] as $meal) { ?>
+                                            if($data['meals']){
+                                                foreach ($data['meals'] as $meal) { ?>
                                                 <tr>
                                                     <td><a href="/Meal/edit/<?php echo $meal['id']; ?>"><?php echo $meal['date']; ?></a></td>
                                                     <td><?php echo $meal['recipe']; ?></td>

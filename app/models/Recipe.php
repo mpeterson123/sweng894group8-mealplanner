@@ -5,15 +5,15 @@ require_once __DIR__.'/../../vendor/autoload.php';
 class Recipe{
 	private $id;
 	private $name;
-	private $description;
+	private $directions;
 	private $servings;
 	private $ingredients;
 	private $source;
 	private $notes;
 
-	public function __construct($theName='',$theDescription='',$theServings='',$theSource='',$theNotes=''){
+	public function __construct($theName='',$theDirections='',$theServings='',$theSource='',$theNotes=''){
 		$this->setName($theName);
-		$this->setDescription($theDescription);
+		$this->setDirections($theDirections);
 		$this->setServings($theServings);
 		$this->ingredients = array();
 		$this->setSource($theSource);
@@ -43,8 +43,8 @@ class Recipe{
 		}
 	}
 
-	public function getDescription(){
-		return $this->description;
+	public function getDirections(){
+		return $this->directions;
 	}
 
 	public function getId(){
@@ -69,8 +69,8 @@ class Recipe{
 		return $this->getIngredientByName($anIngredientName)->getQuantity();
 	}
 
-	public function setDescription($desc){
-		$this->description = $desc;
+	public function setDirections($dirs){
+		$this->directions = $dirs;
 	}
 
 	public function setId($id)
@@ -109,6 +109,5 @@ class Recipe{
 			$ingredientFood->setStock($scale * ($currentStock - $ingredientQty));
 		}
 	}
-
 }
 ?>

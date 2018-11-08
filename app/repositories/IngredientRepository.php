@@ -75,7 +75,7 @@ class IngredientRepository extends Repository implements EditableModelRepository
      * @return array Array of ingredient objects
      */
     public function allForRecipe($recipeId){
-        $query = $this->db->prepare('SELECT * FROM ingredients WHERE recipeid = ? ORDER by foodid');
+        $query = $this->db->prepare('SELECT * FROM ingredients WHERE recipeId = ? ORDER by foodId');
         $query->bind_param("s", $recipeId);
 
         if($query->execute()) {
@@ -130,7 +130,7 @@ class IngredientRepository extends Repository implements EditableModelRepository
 
         $query = $this->db
             ->prepare('INSERT INTO ingredients
-                (foodid, recipeid, quantity, unit_id)
+                (foodId, recipeId, quantity, unitId)
                 VALUES (?, ?, ?, ?)
             ');
 
@@ -166,10 +166,10 @@ class IngredientRepository extends Repository implements EditableModelRepository
         $query = $this->db
             ->prepare('UPDATE ingredients
                 SET
-                    foodid = ?,
-                    recipeid = ?,
+                    foodId = ?,
+                    recipeId = ?,
                     quantity = ?,
-                    unit_id = ?
+                    unitId = ?
                 WHERE id = ?
             ');
 

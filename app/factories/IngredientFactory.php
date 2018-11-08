@@ -19,11 +19,11 @@ class IngredientFactory extends Factory {
 
     public function make($ingredientArray)
     {
-        $foodItem = $this->foodItemRepository->find($ingredientArray['foodid']);
-        $unit = $this->unitRepository->find($ingredientArray['unit_id']);
+        $foodItem = $this->foodItemRepository->find($ingredientArray['foodId']);
+        $unit = $this->unitRepository->find($ingredientArray['unitId']);
         $quantity = new Quantity($ingredientArray['quantity'], $unit);
 
-        $ingredient = new Ingredient($foodItem, $quantity, $ingredientArray['recipeid'], $unit);
+        $ingredient = new Ingredient($foodItem, $quantity, $ingredientArray['recipeId'], $unit);
         if(isset($ingredientArray['id'])){
             $ingredient->setId($ingredientArray['id']);
         }

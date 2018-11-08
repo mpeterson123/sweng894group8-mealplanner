@@ -81,7 +81,7 @@ class Recipes extends Controller {
         $household = $this->session->get('user')->getHouseholds()[0];
 
         // Get user's fooditems and list of units
-        $fooditems = $this->foodItemRepository->allForHousehold($household);
+        $foodItems = $this->foodItemRepository->allForHousehold($household);
         $units = $this->unitRepository->all();
 
         // Get recipe Object
@@ -95,7 +95,7 @@ class Recipes extends Controller {
             $recipe->addIngredient($ingredients[$i]);
         }
 
-        $this->view('recipe/edit', compact('recipe', 'ingredients', 'fooditems', 'units'));
+        $this->view('recipe/edit', compact('recipe', 'ingredients', 'foodItems', 'units'));
     }
 
     public function create(){
@@ -103,10 +103,10 @@ class Recipes extends Controller {
         $household = $this->session->get('user')->getHouseholds()[0];
 
         // Get user's foodItems and list of units
-        $fooditems = $this->foodItemRepository->allForHousehold($household);
+        $foodItems = $this->foodItemRepository->allForHousehold($household);
         $units = $this->unitRepository->all();
 
-        $this->view('recipe/create', compact('fooditems', 'units'));
+        $this->view('recipe/create', compact('foodItems', 'units'));
     }
 
     public function store(){
@@ -140,10 +140,10 @@ private function addIngredients($in, $rec) {
     for($i=0;$i<count($in['newFoodId']);$i++) {
 
         //Create the ingredient array:
-        $ingredientInput = array("foodid" => $in['newFoodId'][$i],
+        $ingredientInput = array("foodId" => $in['newFoodId'][$i],
                               "quantity" => $in['newQuantity'][$i],
-                              "recipeid" => $rec->getId(),
-                              "unit_id" => $in['newUnitId'][$i]);
+                              "recipeId" => $rec->getId(),
+                              "unitId" => $in['newUnitId'][$i]);
 
         //Create the ingredient object:
         $ingredient = $this->ingredientFactory->make($ingredientInput);
@@ -209,7 +209,7 @@ private function addIngredients($in, $rec) {
 
         $recipe->setId($id);
         $recipe->setName($input['name']);
-        $recipe->setDescription($input['description']);
+        $recipe->setDirections($input['directions']);
         $recipe->setServings($input['servings']);
         $recipe->setSource($input['source']);
         $recipe->setNotes($input['notes']);
@@ -261,10 +261,10 @@ private function addIngredients($in, $rec) {
         for($i=0;$i<count($in['ingredientIds']);$i++){
 
           //Create the ingredient array:
-          $ingredientInput = array("foodid" => $in['foodId'][$i],
+          $ingredientInput = array("foodId" => $in['foodId'][$i],
                                 "quantity" => $in['quantity'][$i],
-                                "recipeid" => $rec->getId(),
-                                "unit_id" => $in['unitId'][$i],
+                                "recipeId" => $rec->getId(),
+                                "unitId" => $in['unitId'][$i],
                                 "id" => $in['ingredientIds'][$i]);
 
           //Create the ingredient object:
