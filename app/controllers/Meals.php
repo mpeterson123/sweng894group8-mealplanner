@@ -55,7 +55,7 @@ class Meals extends Controller {
     public function edit($id):void{
         $db = $this->dbh->getDB();
 
-        $meal = $this->mealRepository->find($id);
+        $meals = $this->mealRepository->find($id);
 
         $this->view('meal/edit', compact('meals'));
     }
@@ -66,7 +66,7 @@ class Meals extends Controller {
         $household = $this->session->get('user')->getHouseholds()[0];
         $recipes = $this->recipeRepository->allForHousehold($household);
 
-        $this->view('meal/create', compact('meals'));
+        $this->view('meal/create', compact('recipes'));
 
     }
 
@@ -107,7 +107,7 @@ class Meals extends Controller {
 
 
         $this->checkMealBelongsToHousehold($id);
-        $this->mealRepository->remove($id);
+        $this->mealRepository->remove($meal);
 
         $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
 

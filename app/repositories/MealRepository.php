@@ -64,12 +64,15 @@ class MealRepository extends Repository implements EditableModelRepository {
         return $collection;
     }
 
-    public function remove($id){
+    // Remove a given meal from a database
+    public function remove($meal){
+        $mealId = $meal->getId();
         $query = $this->db->prepare('DELETE FROM meal WHERE id = ?');
-        $query->bind_param("s", $id);
+        $query->bind_param("s", $mealId);
         return $query->execute();
     }
 
+    // Insert a given meal in the database
     public function insert($meal){
         try {
             $query = $this->db
@@ -94,6 +97,7 @@ class MealRepository extends Repository implements EditableModelRepository {
 
     }
 
+    // Update a given meal in the database
     public function update($meal){
       try {
         $query = $this->db
