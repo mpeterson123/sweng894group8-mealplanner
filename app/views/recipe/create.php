@@ -73,14 +73,6 @@ $SUBTITLE = "Add Recipe";
                                             </div>
                                         </div>
 
-                <!--                        <div class="form-group">
-                                          <label class="col-md-12">Directions</label>
-                                          <div class="col-md-12">
-                                            <textarea class="form-control" rows="5"></textarea>
-                                          </div>
-                                        </div>
-                -->
-
                                         <div class="form-group">
                                             <label for="inputServings">Servings</label>
                                             <div class="input-group">
@@ -139,14 +131,14 @@ $SUBTITLE = "Add Recipe";
                                             <select class="form-control" name="newFoodId[]">
                                                 <option value="0">Select a food item</option>
                                                 <?php
-                                                    foreach($data['fooditems'] as $fooditem){
+                                                    foreach($data['foodItems'] as $foodItem){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('newFoodId') == $fooditem->getId()){
+                                                        if((new Session())->getOldInput('newFoodId') == $foodItem->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
-                                                        echo 'value="'.$fooditem->getId().'">'.$fooditem->getName().'</option>';
+                                                        echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
                                                     }
                                                 ?>
                                             </select>
@@ -223,14 +215,14 @@ $SUBTITLE = "Add Recipe";
         <select class="form-control" name="newFoodId[]">
             <option value="0">Select a food item</option>
             <?php
-                foreach($data['fooditems'] as $fooditem){
+                foreach($data['foodItems'] as $foodItem){
                     echo '<option ';
 
-                    if((new Session())->getOldInput('newFoodId') == $fooditem->getId()){
+                    if((new Session())->getOldInput('newFoodId') == $foodItem->getId()){
                         echo 'selected="selected" ';
                     }
 
-                    echo 'value="'.$fooditem->getId().'">'.$fooditem->getName().'</option>';
+                    echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
                 }
             ?>
         </select>

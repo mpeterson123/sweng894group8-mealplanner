@@ -81,7 +81,7 @@ class Recipes extends Controller {
         $household = $this->session->get('user')->getHouseholds()[0];
 
         // Get user's fooditems and list of units
-        $fooditems = $this->foodItemRepository->allForHousehold($household);
+        $foodItems = $this->foodItemRepository->allForHousehold($household);
         $units = $this->unitRepository->all();
 
         // Get recipe Object
@@ -95,7 +95,7 @@ class Recipes extends Controller {
             $recipe->addIngredient($ingredients[$i]);
         }
 
-        $this->view('recipe/edit', compact('recipe', 'ingredients', 'fooditems', 'units'));
+        $this->view('recipe/edit', compact('recipe', 'ingredients', 'foodItems', 'units'));
     }
 
     public function create(){
@@ -103,10 +103,10 @@ class Recipes extends Controller {
         $household = $this->session->get('user')->getHouseholds()[0];
 
         // Get user's foodItems and list of units
-        $fooditems = $this->foodItemRepository->allForHousehold($household);
+        $foodItems = $this->foodItemRepository->allForHousehold($household);
         $units = $this->unitRepository->all();
 
-        $this->view('recipe/create', compact('fooditems', 'units'));
+        $this->view('recipe/create', compact('foodItems', 'units'));
     }
 
     public function store(){
