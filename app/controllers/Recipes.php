@@ -140,10 +140,10 @@ private function addIngredients($in, $rec) {
     for($i=0;$i<count($in['newFoodId']);$i++) {
 
         //Create the ingredient array:
-        $ingredientInput = array("foodid" => $in['newFoodId'][$i],
+        $ingredientInput = array("foodId" => $in['newFoodId'][$i],
                               "quantity" => $in['newQuantity'][$i],
-                              "recipeid" => $rec->getId(),
-                              "unit_id" => $in['newUnitId'][$i]);
+                              "recipeId" => $rec->getId(),
+                              "unitId" => $in['newUnitId'][$i]);
 
         //Create the ingredient object:
         $ingredient = $this->ingredientFactory->make($ingredientInput);
@@ -261,10 +261,10 @@ private function addIngredients($in, $rec) {
         for($i=0;$i<count($in['ingredientIds']);$i++){
 
           //Create the ingredient array:
-          $ingredientInput = array("foodid" => $in['foodId'][$i],
+          $ingredientInput = array("foodId" => $in['foodId'][$i],
                                 "quantity" => $in['quantity'][$i],
-                                "recipeid" => $rec->getId(),
-                                "unit_id" => $in['unitId'][$i],
+                                "recipeId" => $rec->getId(),
+                                "unitId" => $in['unitId'][$i],
                                 "id" => $in['ingredientIds'][$i]);
 
           //Create the ingredient object:

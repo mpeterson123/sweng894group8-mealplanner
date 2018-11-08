@@ -94,15 +94,6 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             </div>
                                         </div>
 
-<!--
-                                        <div class="form-group">
-                                            <label for="inputName">Directions</label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputDirections" placeholder="Directions" name="directions" value="<?php echo $data['recipe']->getDirections(); ?>"> </div>
-                                        </div>
--->
-
                                         <div class="form-group">
                                             <label for="inputUnitsInContainer">Servings</label>
                                             <div class="input-group">
