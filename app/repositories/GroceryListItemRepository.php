@@ -43,13 +43,16 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
      */
     public function save($groceryListItem){
 
+        $success = false;
         if($groceryListItem->getId() && $this->find($groceryListItem->getId()))
         {
-            $this->update($groceryListItem);
+            $success = $this->update($groceryListItem);
         }
         else {
-            $this->insert($groceryListItem);
+            $success = $this->insert($groceryListItem);
         }
+
+        return $success;
     }
 
     /**
@@ -95,37 +98,32 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
 
     /**
      * Insert item into the database
-     * @param  Base\Models\GroceryListItem $food   Item to be stored
+     * @param  Base\Models\GroceryListItem $groceryListItem   Item to be stored
      * @return bool                         Whether query was successful
      */
-    public function insert($food){
+    public function insert($groceryListItem){
         $query = $this->db
             ->prepare('INSERT INTO groceryListItems
-                (name, stock, unitId, categoryId, unitsInContainer, containerCost, unitCost, householdId)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                (foodItemId, amount)
+                VALUES (?, ?)
             ');
+
 
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
-        @$query->bind_param("sdiidddi",
-            $food->getName(),
-            $food->getstock(),
-            $food->getUnit()->getId(),
-            $food->getCategory()->getId(),
-            $food->getUnitsInContainer(),
-            $food->getContainerCost(),
-            $food->getUnitCost(),
-            (new Session())->get('user')->getHouseholds()[0]->getId()
+        @$query->bind_param("is",
+            $groceryListItem->getFoodItem()->getId(),
+            $groceryListItem->getAmount()
         );
         return $query->execute();
     }
 
     /**
      * Update grocery list item in database
-     * @param  Base\Models\GroceryListItem $food Item to be updated
+     * @param  Base\Models\GroceryListItem $groceryListItem Item to be updated
      * @return bool                 Whether query was successful
      */
-    public function update($food){
+    public function update($groceryListItem){
         $query = $this->db
             ->prepare('UPDATE groceryListItems
                 SET
@@ -142,14 +140,14 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
         @$query->bind_param("sdiidddi",
-            $food->getName(),
-            $food->getstock(),
-            $food->getUnit()->getId(),
-            $food->getCategory()->getId(),
-            $food->getUnitsInContainer(),
-            $food->getContainerCost(),
-            $food->getUnitCost(),
-            $food->getId()
+            $groceryListItem->getName(),
+            $groceryListItem->getstock(),
+            $groceryListItem->getUnit()->getId(),
+            $groceryListItem->getCategory()->getId(),
+            $groceryListItem->getUnitsInContainer(),
+            $groceryListItem->getContainerCost(),
+            $groceryListItem->getUnitCost(),
+            $groceryListItem->getId()
         );
         $query->execute();
 
@@ -157,14 +155,14 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
 
     /**
      * Check if grocery list items belongs to a household
-     * @param  integer $foodItemId          Food item's id
+     * @param  integer $groceryListItemItemId          Food item's id
      * @param  Household $household     Current user
      * @return bool                     Whether food belongs to user
      */
-    public function foodBelongsToHousehold($foodItemId, $household)
+    public function foodBelongsToHousehold($groceryListItemItemId, $household)
     {
         $query = $this->db->prepare('SELECT * FROM groceryListItems WHERE id = ? AND householdId = ?');
-        @$query->bind_param("ii", $foodItemId, $household->getId());
+        @$query->bind_param("ii", $groceryListItemItemId, $household->getId());
         $query->execute();
 
         $result = $query->get_result();

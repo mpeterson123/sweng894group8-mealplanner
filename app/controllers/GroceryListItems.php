@@ -79,7 +79,7 @@ class GroceryListItems extends Controller {
      */
     public function edit($id):void{
         // Get user's categories, and list of units
-        $categories = $this->foodItemRepository->all();
+        $foodItems = $this->foodItemRepository->all();
         $units = $this->unitRepository->all();
 
         // Get groceryListItem details
@@ -92,11 +92,12 @@ class GroceryListItems extends Controller {
      * Lets users create a grocery list item
      */
     public function create():void{
-        // Get user's categories, and list of units
-        $categories = $this->foodItemRepository->all();
-        $units = $this->unitRepository->all();
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+        $foodItems = $this
+            ->foodItemRepository
+            ->itemsAddableToHouseholdGroceryList($currentHousehold);
 
-        $this->view('groceryListItem/create', compact('categories', 'units'));
+        $this->view('groceryListItem/create', compact('foodItems'));
     }
 
     /**
@@ -109,16 +110,45 @@ class GroceryListItems extends Controller {
         $this->session->flashOldInput($input);
 
         // Validate input
-        $this->validateInput($input, 'create');
+        $this->validateCreateInput($input, 'create');
 
-        // Make grocery list item
-        $groceryListItem = $this->groceryListItemFactory->make($input);
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
-        // Save to DB
-        $this->groceryListItemRepository->save($groceryListItem);
+        try {
+            if(!$this
+                ->foodItemRepository
+                ->isAddableToHouseholdGroceryList($input['foodItemId'],
+                $currentHousehold)) {
+                throw new \Exception("Invalid food item id", 1);
+            }
+
+            // Make grocery list item
+            $groceryListItem = $this->groceryListItemFactory->make($input);
+
+            // Save to DB
+            if(!$this->groceryListItemRepository->save($groceryListItem)){
+                throw new \Exception("Error adding grocery list item to DB", 1);
+            }
+        }
+        catch (\Exception $e){
+            // TODO Log error
+
+            $this->session->flashMessage('danger',
+                'Uh oh! Something went wrong. The item was not added to your grocery list.');
+
+            Redirect::toControllerMethod('GroceryListItems', 'create');
+        }
+        catch (\Error $e){
+            // TODO Log error
+
+            $this->session->flashMessage('danger',
+                'Uh oh! Something went wrong. The item was not added to your grocery list.');
+
+            Redirect::toControllerMethod('GroceryListItems', 'create');
+        }
 
         // Flash success message and flush old input
-        $this->session->flashMessage('success', ucfirst($groceryListItem->getName()).' was added to your list.');
+        $this->session->flashMessage('success', ucfirst($groceryListItem->getFoodItem()->getName()).' was added to your list.');
         $this->session->flushOldInput();
 
         // Redirect back after updating
@@ -185,12 +215,12 @@ class GroceryListItems extends Controller {
     }
 
     /**
-     * Validates grocery list item input from user form
-     * @param array $input  [description]
-     * @param string $method Method to redirect to
-     * @param array $params Parameters for the redirection method
+     * Validates grocery list item input from creation form
+     * @param array $input      Grocery list item food item and amount
+     * @param string $method    Method to redirect to
+     * @param array $params     Parameters for the redirection method
      */
-    private function validateInput($input, $method, $params = NULL):void{
+    private function validateCreateInput($input, $method, $params = NULL):void{
         $this->session->flashOldInput($input);
 
         // Validate input
@@ -199,28 +229,28 @@ class GroceryListItems extends Controller {
         $safeStringRegex = '/^[0-9a-z #\/\(\)-]+$/i';
         $rules = [
             'required' => [
-                ['name'],
-                ['foodItemId'],
-                ['unitId'],
-                ['unitsInContainer'],
-                ['containerCost'],
-                ['stock']
+                ['amount'],
+                ['foodItemId']
             ],
             'integer' => [
                 ['foodItemId'],
-                ['unitId']
             ],
             'regex' => [
-                ['name', $safeStringRegex],
-                ['unitsInContainer', $twoSigDigFloatRegex],
-                ['containerCost', $twoSigDigFloatRegex],
-                ['stock', $twoSigDigFloatRegex]
+                ['amount', $twoSigDigFloatRegex]
+            ],
+            'min' => [
+                ['amount', 0.01],
+            ],
+            'max' => [
+                ['amount', 9999.99]
             ]
         ];
         $validator->rules($rules);
+        // Rule to ensure food item is chosen
+        $validator->rule('min', 'foodItemId', 1)->message('{field} is required');
         $validator->labels(array(
-            'foodItemId' => 'FoodItem',
-            'unitId' => 'Unit'
+            'foodItemId' => 'Food Item',
+            'amount' => 'Amount'
         ));
 
         if(!$validator->validate()) {

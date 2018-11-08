@@ -83,6 +83,28 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
     }
 
     /**
+     * Get all food items that are not in a household's grocery list
+     * @param  Household $household [description]
+     * @return array Associative array of food items
+     */
+    public function itemsAddableToHouseholdGroceryList($household){
+        $query = $this->db->prepare('SELECT * FROM foods WHERE householdId = ? AND foods.id NOT IN (SELECT foodItemId FROM groceryListItems) ORDER by name');
+        @$query->bind_param("s", $household->getId());
+        $query->execute();
+
+        $result = $query->get_result();
+        $foodItemRows = $result->fetch_all(MYSQLI_ASSOC);
+
+        $collection = array();
+
+        foreach($foodItemRows as $foodItemRow){
+            $collection[] = $this->foodItemFactory->make($foodItemRow);
+        }
+
+        return $collection;
+    }
+
+    /**
      * Delete an item from the database
      * @param  integer $id  item's id
      * @return bool         Whether query was successful
@@ -158,7 +180,7 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
     /**
      * Check if food items belongs to a household
      * @param  integer $foodId          Food item's id
-     * @param  Household $household     Current user
+     * @param  Household $household     Current household
      * @return bool                     Whether food belongs to user
      */
     public function foodBelongsToHousehold($foodId, $household)
@@ -173,5 +195,29 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
         }
         return false;
     }
+
+    /**
+     * Check if food item is addable to the household's grocery list
+     * @param  integer $foodId          Food item's id
+     * @param  Household $household     Current household
+     * @return bool                     Whether food item is addable to list
+     */
+    public function isAddableToHouseholdGroceryList($foodId, $household)
+    {
+        // TODO Replace this query with view to optimize performance
+        $query = $this->db->prepare('SELECT id FROM foods WHERE foods.id = ?
+            AND householdId = ?
+            AND foods.id NOT IN (SELECT foodItemId FROM groceryListItems)');
+        @$query->bind_param("ii", $foodId, $household->getId());
+        $query->execute();
+
+        $result = $query->get_result();
+        if($result->num_rows > 0){
+            return true;
+        }
+        return false;
+    }
+
+
 
 }

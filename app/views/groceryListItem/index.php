@@ -68,7 +68,7 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['groceryListItems']){
                                                 foreach ($data['groceryListItems'] as $groceryListItem) { ?>
                                                 <tr>
-                                                    <td><a href="/GroceryListItemItems/edit/<?php echo $groceryListItem->getid(); ?>"><?php echo $groceryListItem->getFoodItem()->getName(); ?></a></td>
+                                                    <td><a href="/GroceryListItems/edit/<?php echo $groceryListItem->getid(); ?>"><?php echo $groceryListItem->getFoodItem()->getName(); ?></a></td>
                                                     <td><?php echo $groceryListItem->getAmount().' '.$groceryListItem->getFoodItem()->getUnit()->getAbbreviation(); ?></td>
                                                 </tr>
                                                 <?php
@@ -83,7 +83,7 @@ $PLUGIN_EXPORT      = TRUE;
                     <div class="col-sm-2">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
-                            <a href="/GroceryListItemItems/create" class="btn btn-success m-t-15">+ Add GroceryListItem Item</a>
+                            <a href="/GroceryListItems/create" class="btn btn-success m-t-15">+ Add GroceryListItem Item</a>
                         </div>
                     </div>
                 </div>
