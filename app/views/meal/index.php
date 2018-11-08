@@ -77,9 +77,6 @@ $PLUGIN_EXPORT      = TRUE;
                                                 <?php
                                                 }
                                             }
-                                            if($data['meal']) {}
-                                            if($data['Meal']) {}
-                                            if($data['Meals']) {}
                                             ?>
                                     </tbody>
                                 </table>

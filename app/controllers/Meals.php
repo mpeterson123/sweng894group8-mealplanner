@@ -49,7 +49,7 @@ class Meals extends Controller {
     public function index():void{
         $household = $this->session->get('user')->getHouseholds()[0];
         $meals = $this->mealRepository->allForHousehold($household);
-        $this->view('meal/index', compact('meal'));
+        $this->view('Meals/index', compact('meals'));
     }
 
     public function edit($id):void{
@@ -57,7 +57,7 @@ class Meals extends Controller {
 
         $meal = $this->mealRepository->find($id);
 
-        $this->view('meal/edit', compact('meal'));
+        $this->view('Meals/edit', compact('meals'));
     }
 
     public function create():void{
@@ -66,7 +66,7 @@ class Meals extends Controller {
         $household = $this->session->get('user')->getHouseholds()[0];
         $recipes = $this->recipeRepository->allForHousehold($household);
 
-        $this->view('meal/create', compact('recipes'));
+        $this->view('Meals/create', compact('meals'));
 
     }
 
