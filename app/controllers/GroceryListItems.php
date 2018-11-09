@@ -67,9 +67,9 @@ class GroceryListItems extends Controller {
      * Lists all grocery list items belonging to a user
      */
     public function index():void{
-        // TODO Choose current household, not first one
         $household = $this->session->get('user')->getCurrHousehold();
         $groceryListItems = $this->groceryListItemRepository->allForHousehold($household);
+
         $this->view('groceryListItem/index', compact('groceryListItems'));
     }
 
@@ -78,14 +78,11 @@ class GroceryListItems extends Controller {
      * @param string $id Grocery list item's id
      */
     public function edit($id):void{
-        // Get user's categories, and list of units
-        $foodItems = $this->foodItemRepository->all();
-        $units = $this->unitRepository->all();
 
         // Get groceryListItem details
         $groceryListItem = $this->groceryListItemRepository->find($id);
 
-        $this->view('groceryListItem/edit', compact('groceryListItem', 'categories', 'units'));
+        $this->view('groceryListItem/edit', compact('groceryListItem'));
     }
 
     /**
@@ -173,7 +170,7 @@ class GroceryListItems extends Controller {
 
         $this->groceryListItemRepository->remove($id);
 
-        $this->session->flashMessage('success', $groceryListItem->getName().' was removed from your items.');
+        $this->session->flashMessage('success', $groceryListItem->getFoodItem()->getName().' was removed from your items.');
 
         // Redirect to list after deleting
         Redirect::toControllerMethod('GroceryListItems', 'index');
@@ -188,12 +185,14 @@ class GroceryListItems extends Controller {
         $groceryListItem = $this->groceryListItemRepository->find($id);
         $this->checkGroceryListItemBelongsToHousehold($id);
 
-        $this->validateInput($this->request, 'edit', [$id]);
+        $this->validateEditInput($this->request, 'edit', [$id]);
 
+        $groceryListItem->setAmount($this->request['amount']);
         $this->groceryListItemRepository->save($groceryListItem);
 
         // Flash success message
-        $this->session->flashMessage('success', ucfirst($groceryListItem->getName()).' was updated.');
+        $this->session->flashMessage('success', ucfirst($groceryListItem->getFoodItem()->getName()).' amount was updated in your grocery list.');
+        $this->session->flushOldInput();
 
         // Redirect back after updating
         Redirect::toControllerMethod('GroceryListItems', 'edit', array('groceryListItemId' => $groceryListItem->getId()));
@@ -205,7 +204,7 @@ class GroceryListItems extends Controller {
      * @param string $groceryListItemId Grocery list item's id
      */
     public function checkGroceryListItemBelongsToHousehold($groceryListItemId):void{
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // If groceryListItem doesn't belong to household, show forbidden error
         if(!$this->groceryListItemRepository->groceryListItemBelongsToHousehold($groceryListItemId, $household)){
@@ -250,6 +249,51 @@ class GroceryListItems extends Controller {
         $validator->rule('min', 'foodItemId', 1)->message('{field} is required');
         $validator->labels(array(
             'foodItemId' => 'Food Item',
+            'amount' => 'Amount'
+        ));
+
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            $this->session->flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('GroceryListItems', $method, $params);
+            return;
+        }
+    }
+
+    /**
+     * Validates grocery list item input from editing form
+     * @param array $input      Grocery list item food item and amount
+     * @param string $method    Method to redirect to
+     * @param array $params     Parameters for the redirection method
+     */
+    private function validateEditInput($input, $method, $params = NULL):void{
+        $this->session->flashOldInput($input);
+
+        // Validate input
+        $validator = new Validator($input);
+        $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
+        $safeStringRegex = '/^[0-9a-z #\/\(\)-]+$/i';
+        $rules = [
+            'required' => [
+                ['amount'],
+            ],
+            'regex' => [
+                ['amount', $twoSigDigFloatRegex]
+            ],
+            'min' => [
+                ['amount', 0.01],
+            ],
+            'max' => [
+                ['amount', 9999.99]
+            ]
+        ];
+        $validator->rules($rules);
+
+        $validator->labels(array(
             'amount' => 'Amount'
         ));
 

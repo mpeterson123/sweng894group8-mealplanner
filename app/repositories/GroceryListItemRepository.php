@@ -69,7 +69,7 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
      * @return array Associative array of grocery list items
      */
     public function allForHousehold($household){
-        $query = $this->db->prepare('SELECT * FROM groceryListItems JOIN foods ON foods.id = groceryListItems.foodItemId AND foods.householdId = ? ORDER by name');
+        $query = $this->db->prepare('SELECT groceryListItems.* FROM groceryListItems JOIN foods ON foods.id = groceryListItems.foodItemId AND foods.householdId = ? ORDER by name');
         @$query->bind_param("s", $household->getId());
         $query->execute();
 
@@ -126,27 +126,14 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
     public function update($groceryListItem){
         $query = $this->db
             ->prepare('UPDATE groceryListItems
-                SET
-                    name = ?,
-                    stock = ?,
-                    unitId = ?,
-                    categoryId = ?,
-                    unitsInContainer = ?,
-                    containerCost = ?,
-                    unitCost = ?
+                SET amount = ?
                 WHERE id = ?
             ');
 
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
-        @$query->bind_param("sdiidddi",
-            $groceryListItem->getName(),
-            $groceryListItem->getstock(),
-            $groceryListItem->getUnit()->getId(),
-            $groceryListItem->getCategory()->getId(),
-            $groceryListItem->getUnitsInContainer(),
-            $groceryListItem->getContainerCost(),
-            $groceryListItem->getUnitCost(),
+        @$query->bind_param("si",
+            $groceryListItem->getAmount(),
             $groceryListItem->getId()
         );
         $query->execute();
@@ -159,9 +146,13 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
      * @param  Household $household     Current user
      * @return bool                     Whether food belongs to user
      */
-    public function foodBelongsToHousehold($groceryListItemItemId, $household)
+    public function groceryListItemBelongsToHousehold($groceryListItemItemId, $household)
     {
-        $query = $this->db->prepare('SELECT * FROM groceryListItems WHERE id = ? AND householdId = ?');
+        $query = $this->db->prepare('SELECT gli.id FROM groceryListItems as gli
+            JOIN foods as f
+            ON f.id = gli.foodItemId
+            AND gli.id = ? AND f.householdId = ?
+            GROUP BY f.householdId');
         @$query->bind_param("ii", $groceryListItemItemId, $household->getId());
         $query->execute();
 
