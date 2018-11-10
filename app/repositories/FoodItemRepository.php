@@ -137,7 +137,7 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
             $food->getUnitsInContainer(),
             $food->getContainerCost(),
             $food->getUnitCost(),
-            (new Session())->get('user')->getHouseholds()[0]->getId()
+            (new Session())->get('user')->getCurrHousehold()->getId()
         );
         return $query->execute();
     }

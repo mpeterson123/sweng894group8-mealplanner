@@ -63,7 +63,7 @@ class FoodItems extends Controller {
      */
     public function index():void{
         // TODO Choose current household, not first one
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
         $foods = $this->foodItemRepository->allForHousehold($household);
         $this->view('food/index', compact('foods'));
     }
@@ -170,7 +170,7 @@ class FoodItems extends Controller {
      * @param string $foodItemId Food item's id
      */
     public function checkFoodBelongsToHousehold($foodItemId):void{
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // If food doesn't belong to household, show forbidden error
         if(!$this->foodItemRepository->foodBelongsToHousehold($foodItemId, $household)){

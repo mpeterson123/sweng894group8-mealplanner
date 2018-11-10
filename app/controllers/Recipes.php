@@ -67,7 +67,7 @@ class Recipes extends Controller {
     }
 
     public function index(){
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // echo "In ".__CLASS__."@".__FUNCTION__;
         $recipes = $this->recipeRepository->allForHousehold($household);
@@ -78,7 +78,7 @@ class Recipes extends Controller {
     public function edit($id){
 
         // TODO Choose current household, not first one
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // Get user's fooditems and list of units
         $foodItems = $this->foodItemRepository->allForHousehold($household);
@@ -100,7 +100,7 @@ class Recipes extends Controller {
 
     public function create(){
 
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // Get user's foodItems and list of units
         $foodItems = $this->foodItemRepository->allForHousehold($household);
@@ -165,7 +165,7 @@ private function addIngredients($in, $rec) {
   }
 
     public function delete($id){
-            $household = $this->session->get('user')->getHouseholds()[0];
+            $household = $this->session->get('user')->getCurrHousehold();
 
             //Remove the recipe from the recipes table:
             $recipe = $this->recipeRepository->find($id);
@@ -199,7 +199,7 @@ private function addIngredients($in, $rec) {
 
     public function update($id){
 
-      //  $household = $this->session->get('user')->getHouseholds()[0];
+      //  $household = $this->session->get('user')->getCurrHousehold();
 
         $recipe = $this->recipeRepository->find($id);
 
@@ -307,7 +307,7 @@ private function addIngredients($in, $rec) {
     }
 
     public function checkRecipeBelongsToHousehold($id){
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // If recipe doesn't belong to household, show forbidden error
         if(!$this->recipeRepository->recipeBelongsToHousehold($id, $household)){
