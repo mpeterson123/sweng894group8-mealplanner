@@ -41,6 +41,7 @@ class Controller {
 
 		$user = $this->session->get('user');
 		$data['user'] = $user;
+		$data['session'] = $this->session;
 
 		$notLoggedInPages =  array('auth/login','auth/register','auth/resetPassword');
 

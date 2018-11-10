@@ -58,7 +58,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 
             <!-- ===== Page-Container ===== -->
            <div class="container-fluid">
-                <?php (new Session())->renderMessage(); ?>
+                <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -140,7 +140,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                             foreach($data['units'] as $unit){
                                                                 echo '<option ';
 
-                                                                if((new Session())->getOldInput('unitId') == $unit->getId()){
+                                                                if($data['session']->getOldInput('unitId') == $unit->getId()){
                                                                     echo 'selected="selected" ';
                                                                 }
 
@@ -157,7 +157,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                         foreach($data['foodItems'] as $foodItem){
                                                             echo '<option ';
 
-                                                            if((new Session())->getOldInput('foodId') == $foodItem->getId()){
+                                                            if($data['session']->getOldInput('foodId') == $foodItem->getId()){
                                                                 echo 'selected="selected" ';
                                                             }
 
@@ -225,7 +225,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
       `<div class="form-group ingredientFormGroup">
 
         <div class="col-sm-3">
-                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo (new Session())->getOldInput('newQuantity'); ?>">
+                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo $data['session']->getOldInput('newQuantity'); ?>">
         </div>
 
         <div class="col-sm-4">
@@ -235,7 +235,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                       foreach($data['units'] as $unit){
                           echo '<option ';
 
-                          if((new Session())->getOldInput('newUnitId') == $unit->getId()){
+                          if($data['session']->getOldInput('newUnitId') == $unit->getId()){
                               echo 'selected="selected" ';
                           }
 
@@ -252,7 +252,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                   foreach($data['foodItems'] as $foodItem){
                       echo '<option ';
 
-                      if((new Session())->getOldInput('newFoodId') == $foodItem->getId()){
+                      if($data['session']->getOldInput('newFoodId') == $foodItem->getId()){
                           echo 'selected="selected" ';
                       }
 

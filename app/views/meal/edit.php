@@ -58,7 +58,7 @@ $SUBTITLE = "Edit meal {$data['meal']['date']}";
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
-                <?php (new Session())->renderMessage(); ?>
+                <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
@@ -104,7 +104,7 @@ $SUBTITLE = "Edit meal {$data['meal']['date']}";
                                                       foreach($data['recipes'] as $recipe){
                                                           echo '<option ';
 
-                                                          if((new Session())->getOldInput('recipeId') == $recipe['id']){
+                                                          if($data['session']->getOldInput('recipeId') == $recipe['id']){
                                                               echo 'selected="selected" ';
                                                           }
 

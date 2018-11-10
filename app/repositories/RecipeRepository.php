@@ -157,7 +157,7 @@ class RecipeRepository extends Repository implements EditableModelRepository {
             $recipe->getSource(),
             $recipe->getNotes(),
             //(new Session())->get('user')->getId(),
-            (new Session())->get('user')->getHouseholds()[0]->getId()
+            (new Session())->get('user')->getCurrHousehold()->getId()
 
         );
 

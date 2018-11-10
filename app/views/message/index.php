@@ -51,7 +51,7 @@ $Messages = $data['messages'];
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
 
-                <?php (new Session())->renderMessage(); ?>
+                <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-md-12">

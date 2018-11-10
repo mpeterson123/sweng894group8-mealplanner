@@ -39,7 +39,7 @@ $SUBTITLE = "Create Meal";
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
-                <?php (new Session())->renderMessage(); ?>
+                <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
@@ -64,7 +64,7 @@ $SUBTITLE = "Create Meal";
                                             <label for="inputDate">Date</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                                                <input type="text" class="form-control mydatepicker complex-colorpicker" placeholder="mm/dd/yyyy" id="inputDate" placeholder="Date of Meal" name="date" value="<?php echo (new Session())->getOldInput('date') ?>">
+                                                <input type="text" class="form-control mydatepicker complex-colorpicker" placeholder="mm/dd/yyyy" id="inputDate" placeholder="Date of Meal" name="date" value="<?php echo $data['session']->getOldInput('date') ?>">
                                             </div>
                                         </div>
 
@@ -78,7 +78,7 @@ $SUBTITLE = "Create Meal";
                                                     foreach($data['recipes'] as $recipe){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('recipeId') == $recipe->getId()){
+                                                        if($data['session']->getOldInput('recipeId') == $recipe->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
@@ -93,7 +93,7 @@ $SUBTITLE = "Create Meal";
                                             <label for="inputScaleFactor">ScaleFactor</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputScaleFactor" placeholder="" name="scaleFactor" value="<?php echo (new Session())->getOldInput('scaleFactor'); ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputScaleFactor" placeholder="" name="scaleFactor" value="<?php echo $data['session']->getOldInput('scaleFactor'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>

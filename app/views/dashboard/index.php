@@ -46,7 +46,7 @@ $usersList = array();
         <div class="page-wrapper">
             <div class="row">
                 <div class="col-xs-12">
-                    <?php (new Session())->renderMessage(); ?>
+                    <?php $data['session']->renderMessage(); ?>
                 </div>
             </div>
             <div class="row m-0">

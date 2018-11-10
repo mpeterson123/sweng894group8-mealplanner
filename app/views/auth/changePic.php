@@ -35,7 +35,7 @@ $PLUGIN_SIDEBARMENU= FALSE;
                 <form class="" id="" action="/Account/changePicture" method="POST" enctype="multipart/form-data">
                     <h3 class="box-title m-b-20">Upload Picture</h3>
 
-                    <?php (new Session())->renderMessage(); ?>
+                    <?php $data['session']->renderMessage(); ?>
 
                     <div class="form-group">
                         <input type="file" name="fileToUpload" />

@@ -82,7 +82,7 @@ class Objects extends Controller {
 
         $input = $this->request;
 
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
         $this->validateInput($input, 'create');
@@ -94,8 +94,8 @@ class Objects extends Controller {
         $this->objectRepository->save($object);
 
         // Flash success message and flush old input
-        (new Session())->flashMessage('success', ucfirst($object->getName()).' was added to your list.');
-        (new Session())->flushOldInput();
+        $this->session->flashMessage('success', ucfirst($object->getName()).' was added to your list.');
+        $this->session->flushOldInput();
 
         // Redirect to index after creating
         Redirect::toControllerMethod('Objects', 'index');
@@ -119,7 +119,7 @@ class Objects extends Controller {
 
         $this->objectRepository->remove($id);
 
-        (new Session())->flashMessage('success', $object->getName().' was removed from your items.');
+        $this->session->flashMessage('success', $object->getName().' was removed from your items.');
 
         // Redirect to list after deleting
         Redirect::toControllerMethod('Objects', 'index');
@@ -139,7 +139,7 @@ class Objects extends Controller {
         $this->objectRepository->save($object);
 
         // Flash success message
-        (new Session())->flashMessage('success', ucfirst($object->getName()).' was updated.');
+        $this->session->flashMessage('success', ucfirst($object->getName()).' was updated.');
 
         // Redirect back after updating
         Redirect::toControllerMethod('Objects', 'edit', array('objectId' => $object->getId()));
@@ -151,7 +151,7 @@ class Objects extends Controller {
      * @param string $id Object's id
      */
     public function checkObjectBelongsToUser($id):void{
-        $user = (new Session())->get('user');
+        $user = $this->session->get('user');
 
         // If object doesn't belong to user, show forbidden error
         if(!$this->objectRepository->objectBelongsToUser($id, $user)){
@@ -167,7 +167,7 @@ class Objects extends Controller {
      * @param array $params Parameters for the redirection method
      */
     private function validateInput($input, $method, $params = NULL):void{
-        (new Session())->flashOldInput($input);
+        $this->session->flashOldInput($input);
 
         // Validate input
         $validator = new Validator($input);
@@ -185,7 +185,7 @@ class Objects extends Controller {
 
             $errorMessage = Format::validatorErrors($validator->errors());
             // Flash danger message
-            (new Session())->flashMessage('danger', $errorMessage);
+            $this->session->flashMessage('danger', $errorMessage);
 
             // Redirect back with errors
             Redirect::toControllerMethod('Objects', $method, $params);

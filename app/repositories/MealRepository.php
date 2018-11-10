@@ -86,7 +86,7 @@ class MealRepository extends Repository implements EditableModelRepository {
                 $meal->isComplete(),
                 $meal->getRecipe()->getId(),
                 $meal->getScaleFactor(),
-                $this->session->get('user')->getHouseholds()[0],
+                $this->session->get('user')->getCurrHousehold(),
                 $household = $this->session->get('user')->getId()
             );
 
@@ -128,7 +128,7 @@ class MealRepository extends Repository implements EditableModelRepository {
 
     public function mealBelongsToHousehold($mealId)
     {
-        $householdId = $this->session->get('user')->getHouseholds()[0];
+        $householdId = $this->session->get('user')->getCurrHousehold();
         $query = $this->db->prepare('SELECT * FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE meal.householdId = ? AND meal.id = ?');
         $query->bind_param(
             $householdId,

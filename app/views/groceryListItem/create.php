@@ -39,7 +39,7 @@ $SUBTITLE = "Add item to grocery list";
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
-                <?php (new Session())->renderMessage(); ?>
+                <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
@@ -67,7 +67,7 @@ $SUBTITLE = "Add item to grocery list";
                                                     foreach($data['foodItems'] as $foodItem){
                                                         $option = '<option data-unit-abbrev="'.$foodItem->getUnit()->getAbbreviation().'"';
 
-                                                        if((new Session())->getOldInput('foodItemId') == $foodItem->getId()){
+                                                        if($data['session']->getOldInput('foodItemId') == $foodItem->getId()){
                                                             $option .= 'selected="selected"';
                                                         }
                                                         $option .= 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
@@ -81,7 +81,7 @@ $SUBTITLE = "Add item to grocery list";
                                         <div class="form-group">
                                             <label for="inputAmount">Amount</label>
                                             <div class="input-group">
-                                                <input type="number" step="0.01" min="1" max="9999.99" class="form-control" id="inputAmount" placeholder="" name="amount" value="<?php echo (new Session())->getOldInput('amount'); ?>">
+                                                <input type="number" step="0.01" min="1" max="9999.99" class="form-control" id="inputAmount" placeholder="" name="amount" value="<?php echo $data['session']->getOldInput('amount'); ?>">
                                                 <div id="unitAbbrev" class="input-group-addon">units</i></div>
                                             </div>
                                         </div>

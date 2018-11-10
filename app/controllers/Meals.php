@@ -47,7 +47,7 @@ class Meals extends Controller {
     }
 
     public function index():void{
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
         $meals = $this->mealRepository->allForHousehold($household);
         $this->view('meal/index', compact('meals'));
     }
@@ -63,7 +63,7 @@ class Meals extends Controller {
     public function create():void{
         $db = $this->dbh->getDB();
 
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
         $recipes = $this->recipeRepository->allForHousehold($household);
 
         $this->view('meal/create', compact('recipes'));
