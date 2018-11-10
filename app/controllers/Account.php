@@ -232,6 +232,11 @@ class Account extends Controller{
 	public function dashboard(){
 		$user = $this->session->get('user');
 
+		if(!$user){
+			Redirect::toControllerMethod('Account', 'showLogin');
+			return;
+		}
+
 		if(empty($user->getHouseholds())){
 			$this->view('/auth/newHousehold');
 			return;
