@@ -26,6 +26,11 @@ class App {
 		$this->session = $session;
 		$this->url = isset($request['url']) ? $request['url'] : '';
 		unset($request['url']);
+
+		// Sanitize Input
+		for($i=0;$i<count($request);$i++){
+			$result[$i] = htmlspecialchars(addslashes(trim($request[$i])));
+		}
 		$this->request = $request;
 	}
 
