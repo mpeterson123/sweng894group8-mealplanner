@@ -446,6 +446,8 @@ class Account extends Controller{
 				} else {
 				    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir .$newFilename)) {
 								$this->userRepository->setProfilePicture($user,$newFilename);
+								$updatedUser = $this->userRepository->find($user->getUsername());
+								$this->session->add('user',$updatedUser);
 								Redirect::toControllerMethod('Account', 'Dashboard');
 				    } else {
 				       die("Sorry, there was an error uploading your file.");
