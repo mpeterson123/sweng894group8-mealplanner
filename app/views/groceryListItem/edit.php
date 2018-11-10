@@ -58,7 +58,7 @@ $SUBTITLE = "Edit grocery list item {$data['groceryListItem']->getFoodItem()->ge
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
-                <?php (new Session())->renderMessage(); ?>
+                <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
@@ -75,7 +75,7 @@ $SUBTITLE = "Edit grocery list item {$data['groceryListItem']->getFoodItem()->ge
                                         <div class="form-group">
                                             <label for="inputAmount">Amount</label>
                                             <div class="input-group">
-                                                <input type="number" step="0.01" min="1" max="9999.99" class="form-control" id="inputAmount" placeholder="" name="amount" value="<?php echo ((new Session())->getOldInput('amount') != NULL)? (new Session())->getOldInput('amount') : $data['groceryListItem']->getAmount(); ?>">
+                                                <input type="number" step="0.01" min="1" max="9999.99" class="form-control" id="inputAmount" placeholder="" name="amount" value="<?php echo ($data['session']->getOldInput('amount') != NULL)? $data['session']->getOldInput('amount') : $data['groceryListItem']->getAmount(); ?>">
                                                 <div class="input-group-addon"><?php echo $data['groceryListItem']->getFoodItem()->getUnit()->getAbbreviation(); ?></i></div>
                                             </div>
                                         </div>

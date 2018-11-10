@@ -39,7 +39,7 @@ $SUBTITLE = "Add Food Item";
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
-                <?php (new Session())->renderMessage(); ?>
+                <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
@@ -63,7 +63,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo (new Session())->getOldInput('name') ?>"> </div>
+                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo $data['session']->getOldInput('name') ?>"> </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputCategory">Category</label>
@@ -73,7 +73,7 @@ $SUBTITLE = "Add Food Item";
                                                     foreach($data['categories'] as $category){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('categoryId') == $category->getId()){
+                                                        if($data['session']->getOldInput('categoryId') == $category->getId()){
                                                             echo 'selected="selected"';
                                                         }
 
@@ -91,7 +91,7 @@ $SUBTITLE = "Add Food Item";
                                                     foreach($data['units'] as $unit){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('unitId') == $unit->getId()){
+                                                        if($data['session']->getOldInput('unitId') == $unit->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
@@ -105,7 +105,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputUnitsInContainer">Number of Units in Container</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="" name="unitsInContainer" value="<?php echo (new Session())->getOldInput('unitsInContainer'); ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="" name="unitsInContainer" value="<?php echo $data['session']->getOldInput('unitsInContainer'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -114,7 +114,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="" name="containerCost" value="<?php echo (new Session())->getOldInput('containerCost'); ?>">
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="" name="containerCost" value="<?php echo $data['session']->getOldInput('containerCost'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -123,13 +123,13 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputStock">Number of Units in Stock</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo (new Session())->getOldInput('stock'); ?>"> </div>
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo $data['session']->getOldInput('stock'); ?>"> </div>
                                         </div>
 
 
                                         <div class="form-group">
                                             <label for="inputUnitCost">Unit Cost</label>
-                                            <p class="form-control-static" id="inputUnitCost" name="unitCost">$<?php echo (new Session())->getOldInput('unitCost'); ?></p>
+                                            <p class="form-control-static" id="inputUnitCost" name="unitCost">$<?php echo $data['session']->getOldInput('unitCost'); ?></p>
                                         </div>
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save</button>
                                     </form>

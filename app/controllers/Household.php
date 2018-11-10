@@ -69,6 +69,7 @@ class Household extends Controller{
 		// Update user in the session
 		$updatedUser = $this->userRepository->find($user->getUsername());
 		$this->session->add('user', $updatedUser);
+		
 		// Display message and redirect
 		$this->session->flashMessage('success', $household->getName().' was created. Check the Household Settings page to see the invite code for other users.');
 		Redirect::toControllerMethod('Account', 'dashboard');

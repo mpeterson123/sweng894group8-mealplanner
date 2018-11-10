@@ -39,7 +39,7 @@ $SUBTITLE = "Add Recipe";
 
             <!-- ===== Page-Container ===== -->
             <div class="container-fluid">
-                <?php (new Session())->renderMessage(); ?>
+                <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -63,7 +63,7 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Enter the name of the recipe" name="name" value="<?php echo (new Session())->getOldInput('name') ?>"> </div>
+                                                <input type="text" class="form-control" id="inputName" placeholder="Enter the name of the recipe" name="name" value="<?php echo $data['session']->getOldInput('name') ?>"> </div>
                                         </div>
 
                                         <div class="form-group">
@@ -77,7 +77,7 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputServings">Servings</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputServings" placeholder="" name="servings" value="<?php echo (new Session())->getOldInput('servings'); ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputServings" placeholder="" name="servings" value="<?php echo $data['session']->getOldInput('servings'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -86,7 +86,7 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputSource">Source</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputSource" placeholder="Enter the source of the recipe" name="source" value="<?php echo (new Session())->getOldInput('source'); ?>">
+                                                <input type="text" class="form-control" id="inputSource" placeholder="Enter the source of the recipe" name="source" value="<?php echo $data['session']->getOldInput('source'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -95,7 +95,7 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputSource">Notes</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputNotes" placeholder="Enter notes about the recipe" name="notes" value="<?php echo (new Session())->getOldInput('notes'); ?>">
+                                                <input type="text" class="form-control" id="inputNotes" placeholder="Enter notes about the recipe" name="notes" value="<?php echo $data['session']->getOldInput('notes'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -107,7 +107,7 @@ $SUBTITLE = "Add Recipe";
                                         <div class="form-group ingredientFormGroup">
 
                                           <div class="col-sm-3">
-                                                    <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo (new Session())->getOldInput('testUnitsInContainerIsBetween0AndBelowOrEqualTo999Point99uantity'); ?>">
+                                                    <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo $data['session']->getOldInput('testUnitsInContainerIsBetween0AndBelowOrEqualTo999Point99uantity'); ?>">
                                           </div>
 
                                           <div class="col-sm-4">
@@ -117,7 +117,7 @@ $SUBTITLE = "Add Recipe";
                                                         foreach($data['units'] as $unit){
                                                             echo '<option ';
 
-                                                            if((new Session())->getOldInput('newUnitId') == $unit->getId()){
+                                                            if($data['session']->getOldInput('newUnitId') == $unit->getId()){
                                                                 echo 'selected="selected" ';
                                                             }
 
@@ -134,7 +134,7 @@ $SUBTITLE = "Add Recipe";
                                                     foreach($data['foodItems'] as $foodItem){
                                                         echo '<option ';
 
-                                                        if((new Session())->getOldInput('newFoodId') == $foodItem->getId()){
+                                                        if($data['session']->getOldInput('newFoodId') == $foodItem->getId()){
                                                             echo 'selected="selected" ';
                                                         }
 
@@ -191,7 +191,7 @@ $SUBTITLE = "Add Recipe";
       `<div class="form-group ingredientFormGroup">
 
       <div class="col-sm-3">
-                <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo (new Session())->getOldInput('newQuantity'); ?>">
+                <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo $data['session']->getOldInput('newQuantity'); ?>">
       </div>
 
       <div class="col-sm-4">
@@ -201,7 +201,7 @@ $SUBTITLE = "Add Recipe";
                     foreach($data['units'] as $unit){
                         echo '<option ';
 
-                        if((new Session())->getOldInput('newUnitId') == $unit->getId()){
+                        if($data['session']->getOldInput('newUnitId') == $unit->getId()){
                             echo 'selected="selected" ';
                         }
 
@@ -218,7 +218,7 @@ $SUBTITLE = "Add Recipe";
                 foreach($data['foodItems'] as $foodItem){
                     echo '<option ';
 
-                    if((new Session())->getOldInput('newFoodId') == $foodItem->getId()){
+                    if($data['session']->getOldInput('newFoodId') == $foodItem->getId()){
                         echo 'selected="selected" ';
                     }
 
