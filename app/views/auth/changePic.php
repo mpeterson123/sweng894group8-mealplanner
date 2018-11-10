@@ -32,13 +32,14 @@ $PLUGIN_SIDEBARMENU= FALSE;
     <section id="wrapper" >
         <div class="login-box">
             <div class="white-box">
-                <form class="" id="" action="/Account/changePicture" method="POST">
+                <form class="" id="" action="/Account/changePicture" method="POST" enctype="multipart/form-data">
                     <h3 class="box-title m-b-20">Upload Picture</h3>
 
                     <?php (new Session())->renderMessage(); ?>
 
                     <div class="form-group">
-                        <input type="file" name="picture" />
+                        <input type="file" name="fileToUpload" />
+                        <input type="submit" value="Upload Image" name="submit">
                     </div>
 
                 </form>

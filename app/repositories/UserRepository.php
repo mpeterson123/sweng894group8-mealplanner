@@ -172,4 +172,9 @@ class UserRepository extends Repository implements EditableModelRepository {
         );
       $query->execute();
     }
+    public function setProfilePicture($user,$filename){
+      $query = $this->db->prepare('UPDATE users SET profilePic = ? WHERE id = ?');
+			$query->bind_param("si",$filename,$user->getId());
+      $query->execute();
+    }
 }

@@ -236,8 +236,7 @@ class Account extends Controller{
 			$this->view('/auth/newHousehold');
 			return;
 		}
-
-		$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profile_pic' => ($user->getUsername().'.jpg')]);
+		$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profilePic' => $user->getProfilePic()]);
 	}
 
 	public function showLogin(){
@@ -406,15 +405,52 @@ class Account extends Controller{
         }
     }
 		public function changePicture(){
-			if($this->request['picture'] != ''){
+			// show form
+			if($this->request['submit'] == ''){
 				$this->view('/auth/changePic',['message'=>'']);
 			}
+			// upload
 			else{
 				$user = $this->session->get('user');
 
-				// TO-DO upload pic, hash link and add to DB
-
-				Redirect::toControllerMethod('Account', 'Dashboard');
+				$target_dir = __DIR__.'/../../public/images/users/';
+				$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+				$newFilename = $this->pass_hash($user->getId());
+				$uploadOk = 1;
+				$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+				// Check if image file is a actual image or fake image
+				if(isset($_POST["submit"])) {
+				    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+				    if($check !== false) {
+				        $uploadOk = 1;
+				    } else {
+				        die("File is not an image.");
+				        $uploadOk = 0;
+				    }
+				}
+				// Check file size
+				if ($_FILES["fileToUpload"]["size"] > 500000) {
+				    die("Sorry, your file is too large.");
+				    $uploadOk = 0;
+				}
+				// Allow certain file formats
+				if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+				&& $imageFileType != "gif" ) {
+				    die("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+				    $uploadOk = 0;
+				}
+				// Check if $uploadOk is set to 0 by an error
+				if ($uploadOk == 0) {
+				    die("Sorry, your file was not uploaded.");
+				// if everything is ok, try to upload file
+				} else {
+				    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir .$newFilename)) {
+								$this->userRepository->setProfilePicture($user,$newFilename);
+								Redirect::toControllerMethod('Account', 'Dashboard');
+				    } else {
+				       die("Sorry, there was an error uploading your file.");
+				    }
+				}
 			}
 		}
 

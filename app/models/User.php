@@ -11,7 +11,8 @@ class User{
 					$loggedIn,
 					$households,
 					$id,
-					$currHousehold;
+					$currHousehold,
+					$profilePic;
 
 
 	public function __construct(){
@@ -26,6 +27,7 @@ class User{
 		$this->setHouseholds($array['households']);
 		$this->setId($array['id']);
 		$this->setCurrHousehold($array['currHousehold']);
+		$this->setProfilePic($array['profilePic']);
 	}
 
 	///////////////
@@ -181,6 +183,14 @@ class User{
 	public function getCurrHousehold(){
   		return $this->currHousehold;
 	}
-
+	///////////////
+	// Picture //
+	///////////////
+	public function setProfilePic($profilePic){
+		$this->profilePic = $profilePic;
+	}
+	public function getProfilePic(){
+			return $this->profilePic;
+	}
 }
 ?>

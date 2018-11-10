@@ -46,6 +46,7 @@ class UserFactory extends Factory {
         $user->setLastName($userArray['namelast']);
         $user->setActivated($userArray['activated']);
         $user->setPassTemp($userArray['passTemp']);
+        $user->setProfilePic($userArray['profilePic']);
 
         return $user;
     }
