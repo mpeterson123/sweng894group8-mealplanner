@@ -66,10 +66,21 @@ class Household extends Controller{
 		$household = $this->householdFactory->make(array('name' => $householdName, 'owner' => $user->getUsername()));
 		$this->householdRepository->save($household);
 
+		// Get new $hhID
+		$hhId = 0;
+		$hhs = $this->householdRepository->allForUser($user);
+		foreach($hhs as $hh){	// Get most recent hh with this hh name created by current user
+			if(($hh->getName() == $householdName) && ($hh->getOwner() == $user->getUsername()))
+				$hhId = $hh->getId();
+		}
+		
+		// Toggle this household as current
+		$this->userRepository->selectHousehold($user,$hhId);
+
 		// Update user in the session
 		$updatedUser = $this->userRepository->find($user->getUsername());
 		$this->session->add('user', $updatedUser);
-		
+
 		// Display message and redirect
 		$this->session->flashMessage('success', $household->getName().' was created. Check the Household Settings page to see the invite code for other users.');
 		Redirect::toControllerMethod('Account', 'dashboard');
@@ -101,6 +112,8 @@ class Household extends Controller{
 		$hhId = $household->reverseCode($inviteCode);
 		// Add user to household
 		$this->householdRepository->connect($user->getId(),$hhId);
+		// Toggle this household as current
+		$this->userRepository->selectHousehold($user,$hhId);
 		// Update user in the session
 		$updatedUser = $this->userRepository->find($user->getUsername());
 		$this->session->add('user', $updatedUser);
