@@ -16,6 +16,7 @@ $SUBTITLE = 'Change Picture';
 $PLUGIN_SLIMSCROLL = FALSE;
 $PLUGIN_WAVES      = FALSE;
 $PLUGIN_SIDEBARMENU= FALSE;
+$PLUGIN_DROPIFY= TRUE;
 ?>
 <?php require_once( __HEADER__ ); ?>
 
@@ -37,9 +38,14 @@ $PLUGIN_SIDEBARMENU= FALSE;
 
                     <?php $data['session']->renderMessage(); ?>
 
+                    <p>Choose a profile picture to upload and click "Upload Image". The image must not be over 5MB in size, and must be of one of the following file types: JPG, JPEG, PNG or GIF.</p>
+
                     <div class="form-group">
-                        <input type="file" name="fileToUpload" />
-                        <input type="submit" value="Upload Image" name="submit">
+                        <label for="fileToUpload">Picture</label>
+                        <input type="file" name="fileToUpload" id="fileToUpload" value="" class="dropify">
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit" value="Upload Image" name="submit">
                     </div>
 
                 </form>
@@ -48,6 +54,11 @@ $PLUGIN_SIDEBARMENU= FALSE;
     </section>
 
 <?php require_once( __FOOTER__ ); ?>
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $('.dropify').dropify();
+    });
+</script>
 
 </body>
 </html>
