@@ -68,11 +68,20 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['meals']){
                                                 foreach ($data['meals'] as $meal) { ?>
                                                 <tr>
-                                                    <td><a href="/meal/edit/<?php echo $meal['id']; ?>"><?php echo $meal->getDate(); ?></a></td>
-                                                    <td><?php echo $meal->getRecipe()->getName(); ?></td>
+                                                    <td><a href="/meal/edit/<?php echo $meal->getId(); ?>"><?php echo $meal->getRecipe()->getName(); ?></a></td>
+                                                    <td><?php echo $meal->getDate(true); ?></td>
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
-                                                    <td><?php echo $meal->getAddedDate(); ?></td>
-                                                    <td><?php echo $meal->isComplete(); ?></td>
+                                                    <td><?php echo $meal->getAddedDate(true); ?></td>
+                                                    <td>
+                                                        <?php
+                                                        if($meal->isComplete()) {
+                                                            echo 'Yes';
+                                                        }
+                                                        else {
+                                                            echo 'No';
+                                                        }
+                                                        ?>
+                                                    </td>
                                                 </tr>
                                                 <?php
                                                 }
@@ -86,7 +95,7 @@ $PLUGIN_EXPORT      = TRUE;
                     <div class="col-sm-4">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Actions</h3>
-                            <a href="/meal/create/" class="btn btn-success m-t-15">+ Create Meal</a>
+                            <a href="/Meals/create/" class="btn btn-success m-t-15">+ Create Meal</a>
                         </div>
                     </div>
                 </div>

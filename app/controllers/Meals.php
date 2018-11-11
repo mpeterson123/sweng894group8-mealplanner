@@ -49,6 +49,7 @@ class Meals extends Controller {
     public function index():void{
         $household = $this->session->get('user')->getCurrHousehold();
         $meals = $this->mealRepository->allForHousehold($household);
+
         $this->view('meal/index', compact('meals'));
     }
 
@@ -74,9 +75,19 @@ class Meals extends Controller {
 
         $input = $this->request;
         $this->session->flashOldInput($input);
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
         // Validate input
         $this->validateCreateInput($input, 'create');
+
+        // Check if recipe belongs to the user's household
+        if(!$this->recipeRepository->recipeBelongsToHousehold($input['recipeId'], $currentHousehold)) {
+            $this->session->flashMessage('danger', 'Uh oh. The recipe you selected does not belong to your household.');
+            Redirect::toControllerMethod('Meals', 'create');
+        };
+
+        // Change date to correct format
+        $input['date'] = Format::date($input['date']);
 
         // Make meal
         $meal = $this->mealFactory->make($input);
@@ -147,7 +158,7 @@ class Meals extends Controller {
         $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
         $rules = [
             'required' => [
-                ['recipeid'],
+                ['recipeId'],
                 ['date'],
                 ['scaleFactor']
             ],
@@ -159,6 +170,10 @@ class Meals extends Controller {
             ]
         ];
         $validator->rules($rules);
+        $validator->labels(array(
+            'scaleFactor' => 'Scale Factor',
+            'recipeId' => 'Recipe'
+        ));
 
         if(!$validator->validate()) {
 

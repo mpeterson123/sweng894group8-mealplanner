@@ -14,4 +14,13 @@ class Format{
         $errorHTML .='</ul><p class="small">Note: Empty values were reloaded.</p>';
         return $errorHTML;
     }
+
+    public static function date($date) {
+        $dateArray = explode('/', $date);
+        $month = $dateArray[0];
+        $day = $dateArray[1];
+        $year = $dateArray[2];
+
+        return $year.'-'.$month.'-'.$day;
+    }
 }

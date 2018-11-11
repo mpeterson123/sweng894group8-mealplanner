@@ -330,9 +330,6 @@ private function addIngredients($in, $rec) {
     private function validateInput($input, $method, $params = NULL):void{
         $this->session->flashOldInput($input);
 
-        var_dump($input);
-        //exit();
-
         // Validate input
         $validator = new Validator($input);
         $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
