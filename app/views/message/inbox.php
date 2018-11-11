@@ -106,11 +106,11 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                 <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-10">
                         <div class="white-box">
                             <!-- row -->
                             <div class="row">
-                                <div class="col-lg-2 col-md-3  col-sm-12 col-xs-12 inbox-panel">
+                                <div class="col-lg-2 col-md-3  col-sm-10 col-xs-10 inbox-panel">
                                     <div> <a href="/Messages/compose/" class="btn btn-custom btn-block waves-effect waves-light">Compose</a>
                                         <div class="list-group mail-list m-t-20"> <a href="/Messages/inbox/" class="list-group-item <?php if (!$Show || ($Show == _DISPLAY_NORMAL_)) { ?>active<?php } ?>">Inbox <span class="label label-rouded label-success pull-right"><?php echo $NumUnread; ?></span></a> <a href="/Messages/starred/" class="list-group-item <?php if (($Show == _DISPLAY_STARS_)) { ?>active<?php } ?>">Starred <span class="label label-rounded label-warning pull-right"><?php echo $NumStarred; ?></span></a> <a href="/Messages/outbox/" class="list-group-item <?php if ($Show == _DISPLAY_SENT_) { ?>active<?php } ?>">Sent Mail</a> <a href="/Messages/trash/" class="list-group-item <?php if (($Show == _DISPLAY_TRASH_)) { ?>active<?php } ?>">Trash <span class="label label-rouded label-danger pull-right"><?php echo number_format($NumTrash); ?></span></a> </div>
                                         <h3 class="panel-title m-t-40 m-b-0">Labels</h3>
@@ -118,7 +118,7 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                         <div class="list-group b-0 mail-list"> <a href="javascript:void(0);" class="list-group-item"><span class="fa fa-circle text-success m-r-10"></span>New</a> <a href="javascript:void(0);" class="list-group-item"><span class="fa fa-circle text-warning m-r-10"></span>Starred</a> <a href="javascript:void(0);" class="list-group-item"><span class="fa fa-circle text-danger m-r-10"></span>Deleted</a> </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-10 col-md-9 col-sm-12 col-xs-12 mail_listing">
+                                <div class="col-lg-10 col-md-9 col-sm-10 col-xs-10 mail_listing">
                                     <div class="inbox-center">
                                         <div class="table-responsive">
                                             <table class="table table-hover">
