@@ -5,7 +5,7 @@
 // Navbar (top) Module
 ///////////////////////////////////////////////////////////////////////////////
 $lastFew = sqlRequest( "SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = " . $data['user']->getId() . " LIMIT 5" );
-$messagesNumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WHERE viewed IS FALSE AND recipientid = {$User->getId()}")[0]['totalnum'];
+$messagesNumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WHERE viewed IS FALSE AND recipientid = {$data['user']->getId()}")[0]['totalnum'];
 ?>
         <!-- ===== Top-Navigation ===== -->
         <nav class="navbar navbar-default navbar-static-top m-b-0">
