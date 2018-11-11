@@ -55,38 +55,46 @@ class App {
 
 		$this->parseUrl();
 
-		try{
-			// If controller file exists, set it and remove the name from the URL
-			if(file_exists(__DIR__.'/../controllers/'.$this->url[0].'.php')){
-				$controllerName = $this->url[0];
-				unset($this->url[0]);
+		if(!empty($this->url[0])){		// otherwise use default
+			try{
+				// If controller file exists, set it and remove the name from the URL
+				if(file_exists(__DIR__.'/../controllers/'.$this->url[0].'.php')){
+					$controllerName = $this->url[0];
+					unset($this->url[0]);
 
-				// Instantiate controller
-				$namespacedController = "Base\Controllers\\".$controllerName;
-				$controller = new $namespacedController($this->dbh, $this->session, $this->request);
+					// Instantiate controller
+					$namespacedController = "Base\Controllers\\".$controllerName;
+					$controller = new $namespacedController($this->dbh, $this->session, $this->request);
 
-				// If methodName exists, set it and remove the name from the URL
-				if(isset($this->url[1]) && method_exists($controller,$this->url[1]))
-				{
-					$methodName = $this->url[1];
-					unset($this->url[1]);
+					// If methodName exists, set it and remove the name from the URL
+					if(isset($this->url[1]) && method_exists($controller,$this->url[1]))
+					{
+						$methodName = $this->url[1];
+						unset($this->url[1]);
+					}
+					else {
+						throw new \Exception("Method does not exist", 1);
+					}
+					// Get params if any
+					$params = $this->url ? array_values($this->url) : [];
 				}
-				else {
-					throw new \Exception("Method does not exist", 1);
+				else{
+					throw new \Exception("Controller does not exist", 1);
 				}
-				// Get params if any
-				$params = $this->url ? array_values($this->url) : [];
 			}
-			else{
-				throw new \Exception("Controller does not exist", 1);
+			catch(\Exception $e) {
+				// Instantiate controller
+				$namespacedController = "Base\Controllers\\Errors";
+				$controller = new $namespacedController($this->dbh, $this->session, $this->request);
+				$methodName = 'show';
+				echo $e;
+				die();
+				$params = array('errorCode'=>404);
 			}
 		}
-		catch(\Exception $e) {
-			// Instantiate controller
-			$namespacedController = "Base\Controllers\\Errors";
+		else{
+			$namespacedController = "Base\Controllers\\".$controllerName;
 			$controller = new $namespacedController($this->dbh, $this->session, $this->request);
-			$methodName = 'show';
-			$params = array('errorCode'=>404);
 		}
 
 		// Invoke controller methodName with parameters

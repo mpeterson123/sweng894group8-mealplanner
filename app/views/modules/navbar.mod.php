@@ -4,8 +4,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Navbar (top) Module
 ///////////////////////////////////////////////////////////////////////////////
-//$lastFew = sqlRequest( "SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = " . $data['user']->getId() . " LIMIT 5" );
-
+$lastFew = sqlRequest( "SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = " . $data['user']->getId() . " LIMIT 5" );
+$messagesNumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WHERE viewed IS FALSE AND recipientid = {$data['user']->getId()}")[0]['totalnum'];
 ?>
         <!-- ===== Top-Navigation ===== -->
         <nav class="navbar navbar-default navbar-static-top m-b-0">
@@ -38,17 +38,17 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle waves-effect waves-light font-20" data-toggle="dropdown" href="javascript:void(0);">
                             <i class="icon-speech"></i>
-<?php if ($NumUnread ?? NULL) { if ($NumUnread > 0) { ?>
-                            <span class="badge badge-xs badge-danger"><?php echo $NumUnread; ?></span>
+<?php if ($messagesNumUnread ?? NULL) { if ($messagesNumUnread > 0) { ?>
+                            <span class="badge badge-xs badge-danger"><?php echo $messagesNumUnread; ?></span>
 <?php } } ?>
                         </a>
                         <ul class="dropdown-menu mailbox animated bounceInDown">
                             <li>
-                                <div class="drop-title">You have <?php $NumUnread = $NumUnread ?? 0; echo $NumUnread; ?> new messages</div>
+                                <div class="drop-title">You have <?php $messagesNumUnread = $messagesNumUnread ?? 0; echo $messagesNumUnread; ?> new messages</div>
                             </li>
                             <li>
                                 <div class="message-center">
-<?php foreach ($lastFew as $message) 
+<?php if ($lastFew ?? NULL) { foreach ($lastFew as $message) 
       {
           // Message sender information
           $messageSender = sqlRequestArrayByID("users", $message['senderid'], '*');
@@ -64,7 +64,7 @@
                                             <span class="time"><?php echo $message['timesent2']; ?></span>
                                         </div>
                                     </a>
-<?php } ?>
+<?php } } ?>
                                 </div>
                             </li>
                             <li>
