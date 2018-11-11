@@ -130,7 +130,7 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                                                 <label for="checkbox0"></label>
                                                             </div>
                                                         </th>
-                                                        <th colspanx="1">
+                                                        <th colspan="2">
                                                             <div class="btn-group">
                                                                 <button type="button" class="btn btn-primary dropdown-toggle waves-effect waves-light m-r-5" data-toggle="dropdown" aria-expanded="false"> Filter <b class="caret"></b> </button>
                                                                 <ul class="dropdown-menu" role="menu">
@@ -144,7 +144,6 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                                                 <button type="button" class="btn btn-default waves-effect waves-light  dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <i class="fa fa-refresh"></i> </button>
                                                             </div>
                                                         </th>
-                                                        <th>&nbsp;</th>
                                                         <th>&nbsp;</th>
                                                         <th>&nbsp;</th>
                                                         <th>&nbsp;</th>
