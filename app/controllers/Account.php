@@ -197,8 +197,7 @@ class Account extends Controller{
 	 * Show account settings page
 	 */
 	public function settings():void{
-		// $user = $this->session->get('user');
-		$this->view('auth/settings', compact($user));
+		$this->view('auth/settings');
 	}
 
 	/**
@@ -207,24 +206,17 @@ class Account extends Controller{
 	public function update():void{
 		$user = $this->session->get('user');
 
-		// Check for blank fields
-		$fields = array('firstName','lastName','email');
-		foreach($fields as $f){
-			if(!isset($this->request[$f])){
-				die('All fields are required');
-			}
-		}
+		$input = $this->request;
+		$this->validateEditInput($input, 'settings');
+
 		// Handle password update
-		if(isset($this->request['password'])){
-			if($this->request['password'] != $this->request['confirmPassword']){
-				die('Passwords don\'t match');
-			}
-			$user->setPassword($this->pass_hash($this->request['password']));
+		if(isset($this->request['password']) && isset($this->request['confirmPassword'])){
+			$user->setPassword($this->pass_hash($input['password']));
 		}
 		// Handle name updated
-		if($this->request['firstName'].' '.$this->request['lastName'] != $user->getFirstName().' '.$user->getLastName()){
-			$user->setFirstname($this->request['firstName']);
-			$user->setLastName($this->request['lastName']);
+		if($input['firstName'].' '.$input['lastName'] != $user->getFirstName().' '.$user->getLastName()){
+			$user->setFirstname($input['firstName']);
+			$user->setLastName($input['lastName']);
 		}
 
 		$this->userRepository->save($user);
@@ -233,11 +225,11 @@ class Account extends Controller{
 		$this->session->add('user', $user);
 
 		// Handle email updated
-		if($this->request['email'] != $user->getEmail()){
+		if($input['email'] != $user->getEmail()){
 			// send Email
 			$emailHandler = new Email();
-			$emailHandler->sendEmailUpdateConfirm($this->request['email'],$user->getEmail());
-			$this->session->flashMessage('success', 'A confirmation email has been sent to '.$this->request['email'].'. Please confirm to update.');
+			$emailHandler->sendEmailUpdateConfirm($input['email'],$user->getEmail());
+			$this->session->flashMessage('success', 'A confirmation email has been sent to '.$input['email'].'. Please confirm to update.');
 			Redirect::toControllerMethod('Account', 'settings');
 			return;
 		}
@@ -417,6 +409,8 @@ class Account extends Controller{
     private function validateRegistrationInput($input, $method, $params = NULL):void {
         $this->session->flashOldInput($input);
 
+		$nameRegex = '/^([a-z]|\s|-|[.])+$/i';
+
         // Validate input
         $validator = new Validator($input);
         $rules = [
@@ -429,10 +423,15 @@ class Account extends Controller{
 				['reg_password2']
             ],
             'equals' => [
-                ['reg_password', 'reg_password2'],
+				['reg_password', 'reg_password2'],
+                ['reg_password2', 'reg_password']
             ],
 			'email' => [
                 ['reg_email'],
+            ],
+			'regex' => [
+				['reg_namefirst', $nameRegex],
+                ['reg_namelast', $nameRegex]
             ],
 			'slug' => [
                 ['reg_username'],
@@ -475,6 +474,76 @@ class Account extends Controller{
             return;
         }
     }
+
+
+	/**
+     * Validates user input from account settings form
+     * @param array $input  	Login form input
+     * @param string $method 	Method to redirect to
+     * @param array $params 	Parameters for the redirection method
+     */
+    private function validateEditInput($input, $method, $params = NULL):void {
+        $this->session->flashOldInput($input);
+
+		$nameRegex = '/^([a-z]|\s|-|[.])+$/i';
+
+        // Validate input
+        $validator = new Validator($input);
+        $rules = [
+            'required' => [
+				['firstName'],
+				['lastName'],
+				['email'],
+            ],
+            'equals' => [
+				['password', 'confirmPassword'],
+                ['confirmPassword', 'password']
+            ],
+			'email' => [
+                ['email'],
+            ],
+			'regex' => [
+				['firstName', $nameRegex],
+                ['lastName', $nameRegex]
+            ],
+			'lengthMin' => [
+				['firstName', 2],
+				['lastName', 2],
+				['email', 5],
+				['password', 6],
+		        ['confirmPassword', 6]
+		    ],
+			'lengthMax' => [
+				['firstName', 32],
+				['lastName', 32],
+				['email', 64],
+				['password', 30],
+		        ['confirmPassword', 30]
+		    ]
+        ];
+        $validator->rules($rules);
+        $validator->labels(array(
+			'reg_username' => 'Username',
+			'firstName' => 'First Name',
+			'lastName' => 'Last Name',
+			'email' => 'Email Address',
+			'password' => 'Password',
+			'confirmPassword' => 'Password Confirmation'
+        ));
+
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            $this->session->flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('Account', $method, $params);
+            return;
+        }
+    }
+
+
 
 	/**
 	 * Change user's profile picture
