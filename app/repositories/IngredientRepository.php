@@ -46,6 +46,38 @@ class IngredientRepository extends Repository implements EditableModelRepository
     }
 
     /**
+     * Find a single ingredient by food ID for a specific recipe
+     * @param  integer $foodId the ID of the food item
+     * @param integer $recipeId the ID of the recipe
+     * @return boolean       if ingredient was found
+     */
+    public function findIngredientByFoodId($foodId, $recipeId){
+
+        $query = $this->db->prepare('SELECT * FROM ingredients WHERE foodId = ? AND recipeId = ?');
+        $query->bind_param("ss", $foodId, $recipeId);
+
+        if($query->execute()) {
+          $result = $query->get_result();
+
+          if($result) return true;
+          else return false;
+
+          /*
+          $ingredientRow = $result->fetch_assoc();
+
+          $ingredient = $this->ingredientFactory->make($ingredientRow);
+          return $ingredient;
+          */
+        }
+        else {
+          $query->error;
+          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
+          return false;
+        }
+
+    }
+
+    /**
      * Inserts or updates an ingredient in the database
      * @param  Base\Models\Ingredient $ingredient ingredient to be saved
      * @return void

@@ -67,13 +67,6 @@ $SUBTITLE = "Add Recipe";
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputDirections">Directions</label>
-                                            <div class="col-sm-12">
-                                                <textarea class="form-control" rows="5" name="directions" placeholder="Enter the directions for the recipe" maxlength="256"></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label for="inputServings">Servings</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
@@ -104,62 +97,27 @@ $SUBTITLE = "Add Recipe";
                                         <label for="ingredientsWrapper">Ingredients</label>
                                         <div id="ingredientsWrapper">
 
-                                        <div class="form-group ingredientFormGroup">
-<!--
-                                          <div class="col-sm-3">
-                                                    <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo $data['session']->getOldInput('testUnitsInContainerIsBetween0AndBelowOrEqualTo999Point99uantity'); ?>">
-                                          </div>
+                                          <div class="form-group ingredientFormGroup">
 
-                                          <div class="col-sm-4">
-                                                <select class="form-control" name="newUnitId[]">
-                                                    <option value="0">Select a unit</option>
-                                                    <?php
-                                                        foreach($data['units'] as $unit){
-                                                            echo '<option ';
+                                          </div> <!-- end ingredientFormGroup -->
 
-                                                            if($data['session']->getOldInput('newUnitId') == $unit->getId()){
-                                                                echo 'selected="selected" ';
-                                                            }
-
-                                                            echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
-                                                        }
-                                                    ?>
-                                                </select>
-                                          </div>
-
-                                          <div class="col-sm-4">
-                                            <select class="form-control" name="newFoodId[]">
-                                                <option value="0">Select a food item</option>
-                                                <?php
-                                                    foreach($data['foodItems'] as $foodItem){
-                                                        echo '<option ';
-
-                                                        if($data['session']->getOldInput('newFoodId') == $foodItem->getId()){
-                                                            echo 'selected="selected" ';
-                                                        }
-
-                                                        echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
-                                                    }
-                                                ?>
-                                            </select>
-                                          </div> --> <!-- div class col-xs-5 -->
-<!--
-                                          <div class="col-sm-1">
-                                            <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
-                                            </button>
-                                          </div>
--->
-
-                                        </div> <!-- end ingredientFormGroup -->
-                                        <br><br><br>
                                       </div> <!-- end ingredientsWrapper -->
 
-                                      <br><br><br>
                                       <button id="addIngredientBtn" class="btn btn-success pull-right">Add Ingredient</button>
 
-                                      <br><br>
+                                      <br>
+
+                                     <hr>
+
+                                      <div class="form-group">
+                                          <label for="inputDirections">Directions</label>
+                                          <div class="col-sm-12">
+                                              <textarea class="form-control" rows="5" name="directions" placeholder="Enter the directions for the recipe" maxlength="256"></textarea>
+                                          </div>
+                                      </div>
+
+                                      <br><br><br><br><br><br><br>
                                       <hr>
-                                      <br><br>
                                       <button type="submit" class="btn btn-success waves-effect waves-light m-r-10 pull-center">Save Recipe</button>
                                     </form>
                                       <br><br>
@@ -234,6 +192,7 @@ $SUBTITLE = "Add Recipe";
           <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
           </button>
         </div>
+        <br>
 
     </div>`; //end ingredientFormGroup -->
 

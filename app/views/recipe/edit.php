@@ -88,13 +88,6 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputDirections">Directions</label>
-                                            <div class="col-sm-12">
-                                                <textarea class="form-control" rows="5" name="directions" maxlength="256"><?php echo $data['recipe']->getDirections(); ?></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label for="inputUnitsInContainer">Servings</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
@@ -171,16 +164,28 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                 <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
                                                 </button>
                                               </div>
+
+                                              <br>
                                             </div> <!-- end ingredientFormGroup -->
                                           <?php } ?>
                                           </div> <!-- end ingredientsWrapper -->
 
-                                          <br><br><br>
                                           <button id="addIngredientBtn" class="btn btn-success pull-right">Add Ingredient</button>
 
                                           <br><br>
                                           <hr>
                                           <br><br>
+
+                                          <div class="form-group">
+                                              <label for="inputDirections">Directions</label>
+                                              <div class="col-sm-12">
+                                                  <textarea class="form-control" rows="5" name="directions" maxlength="256"><?php echo $data['recipe']->getDirections(); ?></textarea>
+                                              </div>
+                                          </div>
+
+                                          <br><br><br><br><br><br>
+                                          <hr>
+                                          <br>
 
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
                                    </form>
@@ -266,6 +271,8 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
           <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
           </button>
         </div>
+
+        <br>
 
     </div>`; //end ingredientFormGroup -->
 

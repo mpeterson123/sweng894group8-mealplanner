@@ -37,6 +37,23 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
     }
 
     /**
+     * Find a single food item by name
+     * @param  string $name items's name
+     * @return array       associative array of item's details
+     */
+    public function findFoodItemByName($name){
+
+        $query = $this->db->prepare('SELECT * FROM foods WHERE name = ?');
+        $query->bind_param("s", $name);
+        $query->execute();
+        $result = $query->get_result();
+        $foodItemRow = $result->fetch_assoc();
+
+        $foodItem = $this->foodItemFactory->make($foodItemRow);
+        return $foodItem;
+    }
+
+    /**
      * Inserts or updates an item in the database
      * @param  Base\Models\FoodItem $foodItem item to be saved
      * @return void
