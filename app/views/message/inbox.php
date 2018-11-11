@@ -179,7 +179,7 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
 
               $index++; ?>
                                                     <tr class="<?php if (!$message['viewed']) { ?>unread<?php } ?>">
-                                                        <td>
+                                                        <td class="hidden-xs">
                                                             <div class="checkbox m-t-0 m-b-0">
                                                                 <input type="checkbox" id="ch<?php echo $index; ?>">
                                                                 <label for="ch<?php echo $index; ?>"></label>
@@ -189,7 +189,7 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                                         <td class="hidden-xs"><a href="?<?php if ($message['starred']) { ?>u<?php } else { ?>s<?php } ?>=<?php echo $message['id']; ?>"><i class="fa fa-star<?php if (!$message['starred']) { ?>-o<?php } ?>"></i></a></td>
 <?php } ?>
                                                         <td class="hidden-xs"><?php $userId = NULL; if ($Show == _DISPLAY_SENT_) { $userId = $message['recipientid']; } else { $userId = $message['senderid']; } echo sqlRequest("SELECT CONCAT(namefirst, ' ', namelast) AS name FROM users WHERE id = {$userId}")[0]['name']; ?></td>
-                                                        <td class="max-texts"> <a href="/Messages/open/<?php echo $message['id']; ?>" /><?php if (!$message['viewed']) { ?><span class="label label-success m-r-10">New</span><?php } ?> <?php echo substr($message['message'], 0, 60); ?></td>
+                                                        <td class="max-texts"> <a href="/Messages/open/<?php echo $message['id']; ?>" /><?php if (!$message['viewed']) { ?><span class="label label-success m-r-10">New</span><?php } ?> <?php echo substr($message['message'], 0, 18); ?></td>
                                                         <td class="hidden-xs"><?php if ($message['attachment'] ?? FALSE) { ?><i class="fa fa-paperclip"></i><?php } ?></td>
                                                         <td class="text-right"> <?php if (date('M j', time()) == $message['timesent3']) { echo $message['timesent2']; } else { echo $message['timesent3']; } ?> </td>
                                                     </tr>
