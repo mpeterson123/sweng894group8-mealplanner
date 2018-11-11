@@ -67,7 +67,7 @@ class Recipes extends Controller {
     }
 
     public function index(){
-        $household = $this->session->get('user')->getCurrHousehold();
+        $household = $this->session->get('user')->getHouseholds()[0];
 
         // echo "In ".__CLASS__."@".__FUNCTION__;
         $recipes = $this->recipeRepository->allForHousehold($household);
@@ -78,7 +78,7 @@ class Recipes extends Controller {
     public function edit($id){
 
         // TODO Choose current household, not first one
-        $household = $this->session->get('user')->getCurrHousehold();
+        $household = $this->session->get('user')->getHouseholds()[0];
 
         // Get user's fooditems and list of units
         $foodItems = $this->foodItemRepository->allForHousehold($household);
@@ -100,7 +100,7 @@ class Recipes extends Controller {
 
     public function create(){
 
-        $household = $this->session->get('user')->getCurrHousehold();
+        $household = $this->session->get('user')->getHouseholds()[0];
 
         // Get user's foodItems and list of units
         $foodItems = $this->foodItemRepository->allForHousehold($household);
@@ -112,6 +112,11 @@ class Recipes extends Controller {
     public function store(){
 
         $input = $this->request;
+
+        $this->session->flashOldInput($input);
+
+        // Validate input
+        $this->validateInput($input, 'create');
 
         //Use a RecipeFactory to create the Recipe Object:
         $recipe = $this->recipeFactory->make($input);
@@ -165,7 +170,7 @@ private function addIngredients($in, $rec) {
   }
 
     public function delete($id){
-            $household = $this->session->get('user')->getCurrHousehold();
+            $household = $this->session->get('user')->getHouseholds()[0];
 
             //Remove the recipe from the recipes table:
             $recipe = $this->recipeRepository->find($id);
@@ -199,13 +204,13 @@ private function addIngredients($in, $rec) {
 
     public function update($id){
 
-      //  $household = $this->session->get('user')->getCurrHousehold();
-
         $recipe = $this->recipeRepository->find($id);
 
         $this->checkRecipeBelongsToHousehold($id);
 
         $input = $this->request;
+
+        $this->validateInput($input, 'edit', [$id]);
 
         $recipe->setId($id);
         $recipe->setName($input['name']);
@@ -241,9 +246,10 @@ private function addIngredients($in, $rec) {
       //Get the ingredients associated with this recipe from the repository:
       $currentIngreds = $this->ingredientRepository->allForRecipe($rec->getId());
 
+      //If existing ingredients were returned from the view:
       if(isset($in['ingredientIds'])) {
 
-        //Loop through the ingredients, if it doesn't exist in the ingredients returned
+        //Loop through the ingredients currently in the database, if it doesn't exist in the ingredients returned
         //from the view, remove it from the database:
         for($i=0;$i<count($currentIngreds);$i++) {
 
@@ -307,11 +313,93 @@ private function addIngredients($in, $rec) {
     }
 
     public function checkRecipeBelongsToHousehold($id){
-        $household = $this->session->get('user')->getCurrHousehold();
+        $household = $this->session->get('user')->getHouseholds()[0];
 
         // If recipe doesn't belong to household, show forbidden error
         if(!$this->recipeRepository->recipeBelongsToHousehold($id, $household)){
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
+            return;
+        }
+    }
+    /**
+     * Validates food item input from user form
+     * @param array $input  [description]
+     * @param string $method Method to redirect to
+     * @param array $params Parameters for the redirection method
+     */
+    private function validateInput($input, $method, $params = NULL):void{
+        $this->session->flashOldInput($input);
+
+        var_dump($input);
+        //exit();
+
+        // Validate input
+        $validator = new Validator($input);
+        $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
+        $safeStringRegex = '/^[0-9a-z \n\r#\/\(\)-]+$/i';
+
+        $rules = [
+            'required' => [
+                ['name'],
+                ['servings']
+            ],
+
+            'optional' => [
+              ['newFoodId'],
+              ['newQuantity'],
+              ['newUnitId'],
+              ['recipeId'],
+              ['ingredientIds'],
+              ['quantity'],
+              ['foodId'],
+              ['unitId']
+            ],
+
+            'integer' => [
+                ['newFoodId.*'],
+                ['newUnitId.*'],
+                ['recipeId'],
+                ['foodId.*'],
+                ['unitId.*'],
+                ['ingredientIds.*']
+            ],
+
+            'regex' => [
+                ['name', $safeStringRegex],
+                ['directions', $safeStringRegex],
+                ['servings', $twoSigDigFloatRegex],
+                ['source', $safeStringRegex],
+                ['notes', $safeStringRegex]
+
+            ],
+
+            'min' => [
+              ['newFoodId.*', 1],
+              ['newUnitId.*', 1],
+              ['newQuantity.*', .05],
+              ['quantity.*', .05]
+            ]
+        ];
+        $validator->rules($rules);
+
+        $validator->labels(array(
+            'newFoodId.*' => 'FoodItem',
+            'foodId.*' => 'FoodItem',
+            'newUnitId.*' => 'Unit',
+            'unitId.*' => 'Unit',
+            'newQuantity.*' => 'Quantity',
+            'quantity.*' => 'Quantity'
+        ));
+
+
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            $this->session->flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('Recipes', $method, $params);
             return;
         }
     }

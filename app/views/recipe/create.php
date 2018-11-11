@@ -105,7 +105,7 @@ $SUBTITLE = "Add Recipe";
                                         <div id="ingredientsWrapper">
 
                                         <div class="form-group ingredientFormGroup">
-
+<!--
                                           <div class="col-sm-3">
                                                     <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo $data['session']->getOldInput('testUnitsInContainerIsBetween0AndBelowOrEqualTo999Point99uantity'); ?>">
                                           </div>
@@ -142,14 +142,16 @@ $SUBTITLE = "Add Recipe";
                                                     }
                                                 ?>
                                             </select>
-                                          </div> <!-- div class col-xs-5 -->
-
+                                          </div> --> <!-- div class col-xs-5 -->
+<!--
                                           <div class="col-sm-1">
                                             <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
                                             </button>
                                           </div>
+-->
 
                                         </div> <!-- end ingredientFormGroup -->
+                                        <br><br><br>
                                       </div> <!-- end ingredientsWrapper -->
 
                                       <br><br><br>
@@ -191,7 +193,7 @@ $SUBTITLE = "Add Recipe";
       `<div class="form-group ingredientFormGroup">
 
       <div class="col-sm-3">
-                <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo $data['session']->getOldInput('newQuantity'); ?>">
+                <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="0">
       </div>
 
       <div class="col-sm-4">

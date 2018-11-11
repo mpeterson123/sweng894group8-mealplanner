@@ -79,7 +79,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 
                                 <div class="col-sm-12 col-xs-12">
                                     <form method="post" action="/Recipes/update/<?php echo $data['recipe']->getId(); ?>">
-                                        <input type="hidden" name="recipeid" value="<?php echo $data['recipe']->getId(); ?>">
+                                        <input type="hidden" name="recipeId" value="<?php echo $data['recipe']->getId(); ?>">
                                         <div class="form-group">
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
@@ -225,7 +225,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
       `<div class="form-group ingredientFormGroup">
 
         <div class="col-sm-3">
-                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="<?php echo $data['session']->getOldInput('newQuantity'); ?>">
+                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="0">
         </div>
 
         <div class="col-sm-4">
