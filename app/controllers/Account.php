@@ -129,12 +129,13 @@ class Account extends Controller{
 		// Check if email exists in db
 		$u = $this->userRepository->get('email',$email);
 
-		// TODO replace with redirects
 		if($email == ''){
-			$this->view('auth/login',['message'=>'No email has been supplied.']);
+			$this->session->flashMessage('success', 'No email has been supplied.');
+			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		else if(!$u){
-			$this->view('auth/login',['message'=>'Not Found. An email has been sent with instructions to reset your password.']);
+			$this->session->flashMessage('success', 'Check your email for instructions to reset your password.');
+			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		else {
 			$this->userRepository->setPassTemp($email,$code);
@@ -143,7 +144,7 @@ class Account extends Controller{
 			$emailHandler->sendPasswordReset($email,$code);
 
 			// Redirect to login
-			$this->session->flashMessage('success', 'An email has been sent with instructions to reset your password..');
+			$this->session->flashMessage('success', 'Check your email for instructions to reset your password.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 	}
@@ -154,27 +155,36 @@ class Account extends Controller{
 	 * @param string $code  Email confirmation code
 	 */
 	public function resetPassword($email,$code){
-		// TODO Refactor entire method to user redirects and flash messages
+		// TODO Refactor entire method to use redirects and flash messages
 
 		// Check if email exists in db
 		$u = $this->userRepository->get('email',$email);
-		if(!$u)
-			$this->view('auth/login',['message'=>'An error has occured. Please try again. Email.']);
+		if(!$u){
+			// Email doesn't exist
+			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
+			Redirect::toControllerMethod('Account', 'showLogin');
+		}
 		// Check if reset code has been set
-		else if($u['passTemp'] == '')
-			$this->view('auth/login',['message'=>'An error has occured. Please try again. tempPass not set.']);
+		else if($u['passTemp'] == ''){
+			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
+			Redirect::toControllerMethod('Account', 'showLogin');
+		}
 		// Check if code matches db
-		else if($u['passTemp'] != $code)
-			$this->view('auth/login',['message'=>'An error has occured. Please try again. Code.']);
+		else if($u['passTemp'] != $code){
+			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
+			Redirect::toControllerMethod('Account', 'showLogin');
+		}
 		else{
 			// Reset page has been submitted
 			if(isset($this->request['rst_password'])){
 				// Reset password
 				$this->userRepository->setValue('password',$this->pass_hash($this->request['rst_password']),'email',$email);
 				// Reset temp pass
+				// TODO Check this: why does it use email?
 				$this->userRepository->setValue('passTemp','','email',$email);
 				// Redirect to login
-				$this->view('auth/login',['message'=>'Password has been reset. Please login.']);
+				$this->session->flashMessage('danger', 'Password has been reset. Please login.');
+				Redirect::toControllerMethod('Account', 'showLogin');
 			}
 			else{
 				// Direct to reset pass view
@@ -305,7 +315,7 @@ class Account extends Controller{
 			Redirect::toControllerMethod('Account', 'dashboard');
 			return;
 		}
-		$this->view('/auth/login',['message'=>'']);
+		$this->view('/auth/login');
 	}
 
 	/**
@@ -472,7 +482,7 @@ class Account extends Controller{
 	public function changePicture():void{
 		// show form
 		if(($this->request['submit'] ?? NULL) == ''){
-			$this->view('/auth/changePic',['message'=>'']);
+			$this->view('/auth/changePic');
 		}
 		// upload
 		else{
