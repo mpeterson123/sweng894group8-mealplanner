@@ -16,7 +16,7 @@ $PLUGIN_SIDEBARMENU = TRUE;
 
 
 // Sub Title
-$SUBTITLE = "Edit meal {$data['meal']['date']}";
+$SUBTITLE = "Edit meal {$data['meal']->getDate(true)}";
 
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -34,7 +34,7 @@ $SUBTITLE = "Edit meal {$data['meal']['date']}";
                     <p>Are you sure you want to delete this meal? Doing so will <strong>remove it from all of your meal plans</strong>. This cannot be undone.</p>
                 </div>
                 <div class="modal-footer">
-                    <form class="" action="/meal/delete/<?php echo $data['meal']['date'];?>" method="post">
+                    <form class="" action="/meal/delete/<?php echo $data['meal']->getDate(true);?>" method="post">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
@@ -63,7 +63,7 @@ $SUBTITLE = "Edit meal {$data['meal']['date']}";
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0"><?php echo $data['meal']['date']; ?></h3>
+                            <h3 class="box-title m-b-0"><?php echo $data['meal']->getRecipe()->getName(); ?></h3>
 <?php if (isset($Errors)) { ?>
                             <p class="text-danger m-b-30 font-13">
 <?php     foreach($Errors as $error) { ?>
@@ -77,21 +77,21 @@ $SUBTITLE = "Edit meal {$data['meal']['date']}";
                             </p>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
-                                    <form method="post" action="/Meal/update/<?php echo $data['meal']['id']; ?>">
-                                        <input type="hidden" name="mealid" value="<?php echo $data['meal']['id']; ?>">
+                                    <form method="post" action="/Meal/update/<?php echo $data['meal']->getId(); ?>">
+                                        <input type="hidden" name="mealid" value="<?php echo $data['meal']->getId(); ?>">
 
                                         <div class="form-group">
                                             <label for="inputDate">Date</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputDate" placeholder="Date of Meal" name="name" value="<?php echo $data['meal']['date']; ?>"> </div>
+                                                <input type="text" class="form-control" id="inputDate" placeholder="Date of Meal" name="name" value="<?php echo $data['meal']->getDate(true); ?>"> </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputScale">Scale</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputScale" placeholder="Scale of Meal" name="name" value="<?php echo $data['meal']['scale']; ?>"> </div>
+                                                <input type="text" class="form-control" id="inputScale" placeholder="Scale of Meal" name="name" value="<?php echo $data['meal']->getScaleFactor(); ?>"> </div>
                                         </div>
 
                                         <!--RECIPE-->
@@ -104,11 +104,11 @@ $SUBTITLE = "Edit meal {$data['meal']['date']}";
                                                       foreach($data['recipes'] as $recipe){
                                                           echo '<option ';
 
-                                                          if($data['session']->getOldInput('recipeId') == $recipe['id']){
+                                                          if($data['session']->getOldInput('recipeId') == $recipe->getId()){
                                                               echo 'selected="selected" ';
                                                           }
 
-                                                          echo 'value="'.$recipe['id'].'">'.$recipe['name'].'</option>';
+                                                          echo 'value="'.$recipe->getId().'">'.$recipe['name'].'</option>';
                                                       }
                                                   ?>
                                               </select>
@@ -119,7 +119,7 @@ $SUBTITLE = "Edit meal {$data['meal']['date']}";
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
 

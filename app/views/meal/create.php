@@ -90,7 +90,7 @@ $SUBTITLE = "Create Meal";
                                         </div>
                                         <!--SCALE-->
                                         <div class="form-group">
-                                            <label for="inputScaleFactor">ScaleFactor</label>
+                                            <label for="inputScaleFactor">Scale Factor</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
                                                 <input type="number" step="0.01" min="1" class="form-control" id="inputScaleFactor" placeholder="" name="scaleFactor" value="<?php echo $data['session']->getOldInput('scaleFactor'); ?>">

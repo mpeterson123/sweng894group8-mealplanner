@@ -68,7 +68,7 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['meals']){
                                                 foreach ($data['meals'] as $meal) { ?>
                                                 <tr>
-                                                    <td><a href="/meal/edit/<?php echo $meal->getId(); ?>"><?php echo $meal->getRecipe()->getName(); ?></a></td>
+                                                    <td><a href="/Meals/edit/<?php echo $meal->getId(); ?>"><?php echo $meal->getRecipe()->getName(); ?></a></td>
                                                     <td><?php echo $meal->getDate(true); ?></td>
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
                                                     <td><?php echo $meal->getAddedDate(true); ?></td>
