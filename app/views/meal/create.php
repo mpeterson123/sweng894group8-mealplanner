@@ -45,14 +45,6 @@ $SUBTITLE = "Create Meal";
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0"><?php echo $SUBTITLE; ?></h3>
-                                <?php if (isset($Errors)) { ?>
-                                                            <p class="text-danger m-b-30 font-13">
-                                <?php     foreach($Errors as $error) { ?>
-                                                            <?php echo $error; ?><br/>
-                                <?php     } ?>
-                                                            </p>
-                                <?php } ?>
-
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
                             <a href="/Meals/index">&laquo; Return to meals</a>
                             </p>
@@ -70,7 +62,6 @@ $SUBTITLE = "Create Meal";
 
                                         <!--RECIPE-->
                                         <div class="form-group">
-                                            <h3 class="box-title m-b-0">Recipe</h3>
                                             <label for="inputRecipe">Recipe</label>
                                             <select class="form-control" id="inputRecipe" name="recipeId">
                                                 <option value="0">Select one</option>

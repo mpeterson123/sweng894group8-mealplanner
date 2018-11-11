@@ -50,8 +50,8 @@ $PLUGIN_EXPORT      = TRUE;
                                 <table id="export-table" class="table table-striped" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
                                             <th>Recipe</th>
+                                            <th>Date</th>
                                             <th>Scale</th>
                                             <th>Date Added</th>
                                             <th>Complete</th>
