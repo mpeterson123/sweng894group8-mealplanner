@@ -144,6 +144,10 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                                                 <button type="button" class="btn btn-default waves-effect waves-light  dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <i class="fa fa-refresh"></i> </button>
                                                             </div>
                                                         </th>
+                                                        <th>&nbsp;</th>
+                                                        <th>&nbsp;</th>
+                                                        <th>&nbsp;</th>
+                                                        <th>&nbsp;</th>
 <?php if (count($Messages) > 50) { ?>
                                                         <th class="hidden-xs" width="100">
                                                             <div class="btn-group pull-right">
