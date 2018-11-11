@@ -62,7 +62,7 @@ class Meals extends Controller {
 
         $meal = $this->mealRepository->find($id);
 
-        $this->view('meal/edit', compact('meal'));
+        $this->view('meal/edit', compact('meal','date'));
     }
 
     /**

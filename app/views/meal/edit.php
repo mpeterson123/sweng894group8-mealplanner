@@ -16,7 +16,7 @@ $PLUGIN_SIDEBARMENU = TRUE;
 
 
 // Sub Title
-$SUBTITLE = "Edit meal {$data['meal']['date']}";
+$SUBTITLE = "Edit meal";// {$data['meal']['date']}";
 
 ?>
 <?php require_once( __HEADER__ ); ?>
