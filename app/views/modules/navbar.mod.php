@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Navbar (top) Module
 ///////////////////////////////////////////////////////////////////////////////
-//$lastFew = sqlRequest( "SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = " . $data['user']->getId() . " LIMIT 5" );
+$lastFew = sqlRequest( "SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = " . $data['user']->getId() . " LIMIT 5" );
 
 ?>
         <!-- ===== Top-Navigation ===== -->
@@ -48,7 +48,7 @@
                             </li>
                             <li>
                                 <div class="message-center">
-<?php foreach ($lastFew as $message) 
+<?php if ($lastFew ?? NULL) { foreach ($lastFew as $message) 
       {
           // Message sender information
           $messageSender = sqlRequestArrayByID("users", $message['senderid'], '*');
@@ -64,7 +64,7 @@
                                             <span class="time"><?php echo $message['timesent2']; ?></span>
                                         </div>
                                     </a>
-<?php } ?>
+<?php } } ?>
                                 </div>
                             </li>
                             <li>
