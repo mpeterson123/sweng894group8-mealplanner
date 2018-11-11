@@ -24,6 +24,10 @@ use Base\Repositories\HouseholdRepository;
 use Base\Factories\HouseholdFactory;
 use Base\Factories\UserFactory;
 
+
+/**
+ * Represents a user's household. Can have multiple members.
+ */
 class Household extends Controller{
 	protected $dbh,
 		$session,
@@ -73,7 +77,7 @@ class Household extends Controller{
 			if(($hh->getName() == $householdName) && ($hh->getOwner() == $user->getUsername()))
 				$hhId = $hh->getId();
 		}
-		
+
 		// Toggle this household as current
 		$this->userRepository->selectHousehold($user,$hhId);
 
@@ -121,10 +125,12 @@ class Household extends Controller{
 		$this->session->flashMessage('success', 'You have joined a household.');
 		Redirect::toControllerMethod('Account', 'dashboard');
 	}
-	/*
+
+	/**
 	 * Detail page, links to more options
+	 * @param  integer $hhID Household id
 	 */
-	public function detail($hhID){
+	public function detail($hhID):void{
 		// Get User
 		$user = $this->session->get('user');
 		// Get Household
@@ -151,10 +157,16 @@ class Household extends Controller{
 
 		$this->view('/auth/householdView',['message' => '','hhId'=>$household->getId(),'name'=>$household->getName(),'owner'=>$household->getOwner(),'isOwner'=>$isOwner,'members'=>$memberArray]);
 	}
+
 	/*
 	 * Remove user from household
+
+	/**
+	 * Remove a user from a household
+	 * @param  integer $hhId   Household id
+	 * @param  integer $userId User's id
 	 */
-	public function remove($hhId,$userId){
+	public function remove($hhId,$userId):void{
 		// Get Household
 		$household = $this->householdRepository->find($hhId);
 
@@ -163,10 +175,12 @@ class Household extends Controller{
 
 		Redirect::toControllerMethod('Household', 'detail', array($hhId));
 	}
-	/*
-	 * Leave househould / User remove themself from household
+
+	/**
+	 * Remove current user from a household
+	 * @param integer $hhId Household id
 	 */
-	public function leave($hhId){
+	public function leave($hhId):void{
 		// Get User
 		$user = $this->session->get('user');
 
@@ -175,8 +189,10 @@ class Household extends Controller{
 
 		Redirect::toControllerMethod('Household', 'list');
 	}
-	/*
-	 * Delete household
+
+	/**
+	 * Delete a household
+	 * @param  integer $hhId Household id
 	 */
 	public function delete($hhId){
 		// Delete Household
@@ -209,10 +225,12 @@ class Household extends Controller{
 		// Redirect to list
 		Redirect::toControllerMethod('Household', 'list');
 	}
-	/*
-	 * Select household from household list
+
+	/**
+	 * Switch current household
+	 * @param integer $hhId Household id
 	 */
-	public function select($hhId){
+	public function select($hhId):void{
 		// change selected household
 		$user = $this->session->get('user');
 		$this->userRepository->selectHousehold($user,$hhId);

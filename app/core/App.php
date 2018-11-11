@@ -87,8 +87,6 @@ class App {
 				$namespacedController = "Base\Controllers\\Errors";
 				$controller = new $namespacedController($this->dbh, $this->session, $this->request);
 				$methodName = 'show';
-				echo $e;
-				die();
 				$params = array('errorCode'=>404);
 			}
 		}

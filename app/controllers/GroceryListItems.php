@@ -74,7 +74,7 @@ class GroceryListItems extends Controller {
     }
 
     /**
-     * Lets users edit a grocery list item
+     * Show page to edit a grocery list item
      * @param string $id Grocery list item's id
      */
     public function edit($id):void{
@@ -86,7 +86,7 @@ class GroceryListItems extends Controller {
     }
 
     /**
-     * Lets users create a grocery list item
+     * Show page to create a grocery list item
      */
     public function create():void{
         $currentHousehold = $this->session->get('user')->getCurrHousehold();

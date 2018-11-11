@@ -53,14 +53,21 @@ class Meals extends Controller {
         $this->view('meal/index', compact('meals'));
     }
 
+    /**
+     * Show page for editing an existing meal
+     * @param integer $id Meal id
+     */
     public function edit($id):void{
         $db = $this->dbh->getDB();
 
-        $meals = $this->mealRepository->find($id);
+        $meal = $this->mealRepository->find($id);
 
-        $this->view('meal/edit', compact('meals'));
+        $this->view('meal/edit', compact('meal'));
     }
 
+    /**
+     * Show page for scheduling a new meal
+     */
     public function create():void{
         $db = $this->dbh->getDB();
 
@@ -71,6 +78,9 @@ class Meals extends Controller {
 
     }
 
+    /**
+     * Save a new meal to the DB
+     */
     public function store():void{
 
         $input = $this->request;
@@ -107,6 +117,10 @@ class Meals extends Controller {
         return;
     }
 
+    /**
+     * Delete a meal
+     * @param integer $id Meal id
+     */
     public function delete($id):void{
         $meal = $this->mealRepository->find($id);
 
@@ -127,13 +141,17 @@ class Meals extends Controller {
         return;
     }
 
+    /**
+     * Update a meal in the DB
+     * @param integer $id Meal id
+     */
     public function update($id):void{
         $meal = $this->mealRepository->find($id);
 
         if( $this->checkMealBelongsToHousehold($id) )
         {
 
-          $this->validateInput($this->request, 'edit', [$id]);
+          $this->validateEditInput($this->request, 'edit', [$id]);
 
           $this->mealRepository->save($meal);
 
@@ -144,12 +162,19 @@ class Meals extends Controller {
           Redirect::toControllerMethod('Meals', 'edit', array('Meals' => $meal->getId()));
           return;
         }
+        // TODO Decide what to do here
         else
         {
           //not in household
         }
     }
 
+    /**
+     * Validates user input from meal creation form
+     * @param array $input  	Input to validate
+     * @param string $method 	Method to redirect to
+     * @param array $params 	Parameters for the redirection method
+     */
     private function validateCreateInput($input, $method, $params = NULL):void{
         $this->session->flashOldInput($input);
 
@@ -187,7 +212,14 @@ class Meals extends Controller {
         }
     }
 
-    private function validateInput($input, $method, $params = NULL):void{
+
+    /**
+     * Validates user input from meal editing form
+     * @param array $input  	Input to validate
+     * @param string $method 	Method to redirect to
+     * @param array $params 	Parameters for the redirection method
+     */
+    private function validateEditInput($input, $method, $params = NULL):void{
         $this->session->flashOldInput($input);
 
         // Validate input

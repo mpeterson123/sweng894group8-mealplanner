@@ -45,7 +45,10 @@ class Account extends Controller{
 		$this->userRepository = new UserRepository($this->dbh->getDB(), $this->userFactory);
   	}
 
-	public function store(){
+	/**
+	 * Store a new user record in the DB
+	 */
+	public function store():void{
 		if(isset($this->request['reg_username'])){
 			$error = array();
 
@@ -65,11 +68,18 @@ class Account extends Controller{
 		}
 	}
 
-	public function create(){
+	/**
+	 * Show user registration page
+	 */
+	public function create():void{
 			$this->view('auth/register');
 	}
 
-	public function logout(){
+	/**
+	 * Log out a user and redirect to login page
+	 * @return [type] [description]
+	 */
+	public function logout():void{
 		$this->session->remove('user');
 		$this->session->remove('username');
 		$this->session->remove('id');
@@ -77,12 +87,22 @@ class Account extends Controller{
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
-	public function pass_hash($password){
+	/**
+	 * Hash a password
+	 * @param  string $password Password to hash
+	 * @return string           Hashed password
+	 */
+	public function pass_hash($password):string{
 		for($i = 0; $i < 1000; $i++) $password = hash('sha256',trim(addslashes($password)));
 		return $password;
 	}
 
-	public function confirmEmail($email,$code){
+	/**
+	 * Confirm a user's email address
+	 * @param string $email User's email address
+	 * @param string $code  Email confirmation code
+	 */
+	public function confirmEmail($email,$code):void{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt) != $code)){
@@ -98,7 +118,10 @@ class Account extends Controller{
 		Redirect::toControllerMethod('Account', 'showLogin');
 	}
 
-	public function forgotPassword(){
+	/**
+	 * Process password reset form and send password set code to user
+	 */
+	public function forgotPassword():void{
 		// Get temp pass code and email
 		$code = urlencode(hash('sha256',rand(1000000000,10000000000)));
 		$email = addslashes(trim($this->request['email']));
@@ -106,6 +129,7 @@ class Account extends Controller{
 		// Check if email exists in db
 		$u = $this->userRepository->get('email',$email);
 
+		// TODO replace with redirects
 		if($email == ''){
 			$this->view('auth/login',['message'=>'No email has been supplied.']);
 		}
@@ -124,7 +148,14 @@ class Account extends Controller{
 		}
 	}
 
+	/**
+	 * Process password resetting from email
+	 * @param string $email User's email address
+	 * @param string $code  Email confirmation code
+	 */
 	public function resetPassword($email,$code){
+		// TODO Refactor entire method to user redirects and flash messages
+
 		// Check if email exists in db
 		$u = $this->userRepository->get('email',$email);
 		if(!$u)
@@ -152,12 +183,18 @@ class Account extends Controller{
 		}
 	}
 
-	public function settings(){
+	/**
+	 * Show account settings page
+	 */
+	public function settings():void{
 		// $user = $this->session->get('user');
 		$this->view('auth/settings', compact($user));
 	}
 
-	public function update(){
+	/**
+	 * Update a user's information (personal, password)
+	 */
+	public function update():void{
 		$user = $this->session->get('user');
 
 		// Check for blank fields
@@ -200,7 +237,13 @@ class Account extends Controller{
 
 	}
 
-	public function confirmNewEmail($email,$old_email,$code){
+	/**
+	 * Confirm email change from new email link
+	 * @param string $email     User's new email address
+	 * @param string $old_email User's previous email address
+	 * @param string $code      Confirmation code
+	 */
+	public function confirmNewEmail($email,$old_email,$code):void{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt.$old_email) != $code)){
@@ -208,6 +251,7 @@ class Account extends Controller{
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 
+		// TODO change entire user object, not just one value
 		// update in the db
 		$this->userRepository->setValue('email',$email,'email',$old_email);
 
@@ -217,7 +261,10 @@ class Account extends Controller{
 
 	}
 
-	public function delete(){
+	/**
+	 * Delete a user's Account
+	 */
+	public function delete():void{
 		$user = $this->session->get('user');
 
 		$this->userRepository->remove($user);
@@ -229,7 +276,10 @@ class Account extends Controller{
 
 	}
 
-	public function dashboard(){
+	/**
+	 * Show user's dashboard if s/he is logged in
+	 */
+	public function dashboard():void{
 		$user = $this->session->get('user');
 
 		if(!$user){
@@ -244,7 +294,10 @@ class Account extends Controller{
 		$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profilePic' => $user->getProfilePic()]);
 	}
 
-	public function showLogin(){
+	/**
+	 * Show login page
+	 */
+	public function showLogin():void{
 		$user = $this->session->get('user');
 
 		// Active session
@@ -255,7 +308,10 @@ class Account extends Controller{
 		$this->view('/auth/login',['message'=>'']);
 	}
 
-	public function logInUser(){
+	/**
+	 * Validate login credentials and log in user
+	 */
+	public function logInUser():void{
 		$user = $this->session->get('user');
 		$input = $this->request;
 
@@ -409,57 +465,61 @@ class Account extends Controller{
             return;
         }
     }
-		public function changePicture(){
-			// show form
-			if(($this->request['submit'] ?? NULL) == ''){
-				$this->view('/auth/changePic',['message'=>'']);
-			}
-			// upload
-			else{
-				$user = $this->session->get('user');
 
-				$target_dir = __DIR__.'/../../public/images/users/';
-				$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-				$newFilename = $this->pass_hash($user->getId());
-				$uploadOk = 1;
-				$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-				// Check if image file is a actual image or fake image
-				if(isset($_POST["submit"])) {
-				    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-				    if($check !== false) {
-				        $uploadOk = 1;
-				    } else {
-				        die("File is not an image.");
-				        $uploadOk = 0;
-				    }
-				}
-				// Check file size
-				if ($_FILES["fileToUpload"]["size"] > 500000) {
-				    die("Sorry, your file is too large.");
-				    $uploadOk = 0;
-				}
-				// Allow certain file formats
-				if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-				&& $imageFileType != "gif" ) {
-				    die("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
-				    $uploadOk = 0;
-				}
-				// Check if $uploadOk is set to 0 by an error
-				if ($uploadOk == 0) {
-				    die("Sorry, your file was not uploaded.");
-				// if everything is ok, try to upload file
-				} else {
-				    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir .$newFilename)) {
-								$this->userRepository->setProfilePicture($user,$newFilename);
-								$updatedUser = $this->userRepository->find($user->getUsername());
-								$this->session->add('user',$updatedUser);
-								Redirect::toControllerMethod('Account', 'Dashboard');
-				    } else {
-				       die("Sorry, there was an error uploading your file.");
-				    }
-				}
+	/**
+	 * Change user's profile picture
+	 */
+	public function changePicture():void{
+		// show form
+		if(($this->request['submit'] ?? NULL) == ''){
+			$this->view('/auth/changePic',['message'=>'']);
+		}
+		// upload
+		else{
+			$user = $this->session->get('user');
+
+			$target_dir = __DIR__.'/../../public/images/users/';
+			$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+			$newFilename = $this->pass_hash($user->getId());
+			$uploadOk = 1;
+			$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+			// Check if image file is a actual image or fake image
+			if(isset($_POST["submit"])) {
+			    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+			    if($check !== false) {
+			        $uploadOk = 1;
+			    } else {
+			        die("File is not an image.");
+			        $uploadOk = 0;
+			    }
+			}
+			// Check file size
+			if ($_FILES["fileToUpload"]["size"] > 500000) {
+			    die("Sorry, your file is too large.");
+			    $uploadOk = 0;
+			}
+			// Allow certain file formats
+			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+			&& $imageFileType != "gif" ) {
+			    die("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+			    $uploadOk = 0;
+			}
+			// Check if $uploadOk is set to 0 by an error
+			if ($uploadOk == 0) {
+			    die("Sorry, your file was not uploaded.");
+			// if everything is ok, try to upload file
+			} else {
+			    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir .$newFilename)) {
+							$this->userRepository->setProfilePicture($user,$newFilename);
+							$updatedUser = $this->userRepository->find($user->getUsername());
+							$this->session->add('user',$updatedUser);
+							Redirect::toControllerMethod('Account', 'Dashboard');
+			    } else {
+			       die("Sorry, there was an error uploading your file.");
+			    }
 			}
 		}
+	}
 
 
 }

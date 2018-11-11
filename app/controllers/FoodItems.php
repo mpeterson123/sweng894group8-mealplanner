@@ -69,7 +69,7 @@ class FoodItems extends Controller {
     }
 
     /**
-     * Lets users edit a food item
+     * Shows page to edit a food item
      * @param string $id Food item's id
      */
     public function edit($id):void{
@@ -84,7 +84,7 @@ class FoodItems extends Controller {
     }
 
     /**
-     * Lets users create a food item
+     * Shows page to create a food item
      */
     public function create():void{
         // Get user's categories, and list of units
@@ -146,7 +146,7 @@ class FoodItems extends Controller {
     }
 
     /**
-     * Updates a food item in the debug
+     * Updates a food item in the DB
      * @param string $id Food item's id
      */
     public function update($id):void{
@@ -181,9 +181,9 @@ class FoodItems extends Controller {
 
     /**
      * Validates food item input from user form
-     * @param array $input  [description]
-     * @param string $method Method to redirect to
-     * @param array $params Parameters for the redirection method
+     * @param array $input      Food item input to validate
+     * @param string $method    Method to redirect to
+     * @param array $params     Parameters for the redirection method
      */
     private function validateInput($input, $method, $params = NULL):void{
         $this->session->flashOldInput($input);
