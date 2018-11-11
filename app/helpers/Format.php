@@ -11,7 +11,7 @@ class Format{
                 $errorHTML .= "<li>${errorMessage}</li>";
             }
         }
-        $errorHTML .='</ul><p class="small">Note: Empty values were reloaded.</p>';
+        $errorHTML .='</ul></p>';
         return $errorHTML;
     }
 

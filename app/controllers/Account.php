@@ -490,42 +490,49 @@ class Account extends Controller{
 
 			$target_dir = __DIR__.'/../../public/images/users/';
 			$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-			$newFilename = $this->pass_hash($user->getId());
-			$uploadOk = 1;
 			$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+			$newFilename = $this->pass_hash($user->getId()).'.'.$imageFileType;
+			$uploadOk = 1;
+			$errors = array('fileToUpload' => array());
 			// Check if image file is a actual image or fake image
 			if(isset($_POST["submit"])) {
 			    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
 			    if($check !== false) {
 			        $uploadOk = 1;
 			    } else {
-			        die("File is not an image.");
+			        $errors['fileToUpload'][] = "File must be an image.";
 			        $uploadOk = 0;
 			    }
 			}
 			// Check file size
 			if ($_FILES["fileToUpload"]["size"] > 500000) {
-			    die("Sorry, your file is too large.");
+			    $errors['fileToUpload'][] = "File must be 5 MB or smaller.";
 			    $uploadOk = 0;
 			}
 			// Allow certain file formats
 			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 			&& $imageFileType != "gif" ) {
-			    die("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+			    $errors['fileToUpload'][] = "Only JPG, JPEG, PNG & GIF files are allowed.";
 			    $uploadOk = 0;
 			}
 			// Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0) {
-			    die("Sorry, your file was not uploaded.");
+				$errorMessage = Format::validatorErrors($errors);
+				$this->session->flashMessage('danger', $errorMessage);
+				$this->view('/auth/changePic');
+			}
 			// if everything is ok, try to upload file
-			} else {
+			else {
 			    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir .$newFilename)) {
-							$this->userRepository->setProfilePicture($user,$newFilename);
-							$updatedUser = $this->userRepository->find($user->getUsername());
-							$this->session->add('user',$updatedUser);
-							Redirect::toControllerMethod('Account', 'Dashboard');
+					$this->userRepository->setProfilePicture($user,$newFilename);
+					$updatedUser = $this->userRepository->find($user->getUsername());
+					$this->session->add('user',$updatedUser);
+
+					$this->session->flashMessage('success', 'Your profile picture was updated.');
+					Redirect::toControllerMethod('Account', 'Dashboard');
 			    } else {
-			       die("Sorry, there was an error uploading your file.");
+					$this->session->flashMessage('danger', 'Uh oh, an error occured uploading your profile picture.');
+					$this->view('/auth/changePic');
 			    }
 			}
 		}
