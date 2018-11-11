@@ -411,7 +411,7 @@ class Account extends Controller{
     }
 		public function changePicture(){
 			// show form
-			if($this->request['submit'] == ''){
+			if(($this->request['submit'] ?? NULL) == ''){
 				$this->view('/auth/changePic',['message'=>'']);
 			}
 			// upload
