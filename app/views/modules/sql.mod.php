@@ -20,10 +20,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // Constants
-define( '__SQL_HN__' , 'localhost');   // MariaDB hostname
-define( '__SQL_DB__' , 'capstone' );   // MariaDB database name
-define( '__SQL_UN__' , 'capstone' );   // MariaDB username
-define( '__SQL_PW__' , 'CmklPrew!');   // MariaDB user password
+define( '__SQL_HN__' , 'belisariussmith.com');   // MariaDB hostname
+//define( '__SQL_HN__' , 'localhost');           // MariaDB hostname
+define( '__SQL_DB__' , 'capstone' );             // MariaDB database name
+define( '__SQL_UN__' , 'capstone_remote' );      // MariaDB username
+//define( '__SQL_UN__' , 'capstone' );           // MariaDB username
+define( '__SQL_PW__' , 'CmklPrew!');             // MariaDB user password
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTION: sqlQuery
