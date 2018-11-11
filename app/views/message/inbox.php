@@ -190,7 +190,7 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                                             </div>
                                                         </td>
 <?php if ($Show != _DISPLAY_SENT_) { ?>
-                                                        <td class="hidden-xs" style="min-width: 30px; max-width: 50px;"><a href="?<?php if ($message['starred']) { ?>u<?php } else { ?>s<?php } ?>=<?php echo $message['id']; ?>"><i class="fa fa-star<?php if (!$message['starred']) { ?>-o<?php } ?>"></i></a></td>
+                                                        <td class="hidden-xs" style="min-width: 30px; max-width: 80px;"><a href="?<?php if ($message['starred']) { ?>u<?php } else { ?>s<?php } ?>=<?php echo $message['id']; ?>"><i class="fa fa-star<?php if (!$message['starred']) { ?>-o<?php } ?>"></i></a></td>
 <?php } ?>
                                                         <td class="hidden-xs"><?php $userId = NULL; if ($Show == _DISPLAY_SENT_) { $userId = $message['recipientid']; } else { $userId = $message['senderid']; } echo sqlRequest("SELECT CONCAT(namefirst, ' ', namelast) AS name FROM users WHERE id = {$userId}")[0]['name']; ?></td>
                                                         <td classx="max-texts"> <a href="/Messages/open/<?php echo $message['id']; ?>" /><?php if (!$message['viewed']) { ?><span class="label label-success m-r-10">New</span><?php } ?> <?php echo substr($message['message'], 0, 18); ?></td>
