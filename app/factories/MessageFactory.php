@@ -35,6 +35,9 @@ class MessageFactory extends Factory
         $message->setStarred( $messageProperties['starred']  ?? FALSE);
         $message->setTimeSent($messageProperties['timesent'] ?? NULL);
 
+        $message->setHumanReadableTime( $messageProperties['timesent2'] ?? NULL);
+        $message->setHumanReadableTime2($messageProperties['timesent3'] ?? NULL);
+
         if ($messageProperties['message'] ?? NULL)
         {
             $message->setMessage($messageProperties['message']);
