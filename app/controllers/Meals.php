@@ -136,10 +136,15 @@ class Meals extends Controller {
         }
 
 
-        $this->checkMealBelongsToHousehold($id);
-        $this->mealRepository->remove($meal);
-
-        $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
+        if($this->mealBelongsToHousehold($id))
+        {
+          $this->mealRepository->remove($meal);
+          $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
+        }
+        else
+        {
+          $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
+        }
 
         // Redirect to list after deleting
         Redirect::toControllerMethod('Meals', 'index');
@@ -153,7 +158,7 @@ class Meals extends Controller {
     public function update($id):void{
         $meal = $this->mealRepository->find($id);
 
-        if( $this->checkMealBelongsToHousehold($id) )
+        if( $this->mealBelongsToHousehold($id) )
         {
 
           $this->validateEditInput($this->request, 'edit', [$id]);
@@ -167,10 +172,10 @@ class Meals extends Controller {
           Redirect::toControllerMethod('Meals', 'edit', array('Meals' => $meal->getId()));
           return;
         }
-        // TODO Decide what to do here
         else
         {
           //not in household
+          $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
         }
     }
 
@@ -271,7 +276,7 @@ class Meals extends Controller {
     public function complete($id):void{
         $meal = $this->mealRepository->find($id);
 
-        if( $this->checkMealBelongsToHousehold($id) )
+        if( $this->mealBelongsToHousehold($id) )
         {
 
           $meal->complete();
