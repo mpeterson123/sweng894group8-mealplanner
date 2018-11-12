@@ -22,7 +22,7 @@ define('NUM_USERS_TO_LIST', 6);
 
 // Dashboard Statistics
 
-$houseHoldID  = sqlRequestByID("users", $data['user']->getId(), "currHouseholdId");
+$houseHoldID  = $data['user']->getCurrHousehold();
 $numFoodItems = sqlRequest("COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipes   = sqlRequest("COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipesUsed = 0; // Based off of meals
