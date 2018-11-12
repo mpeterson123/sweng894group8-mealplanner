@@ -199,7 +199,7 @@ $usersList = sqlRequest("SELECT * FROM users");
 -->
 <?php foreach ($usersList as $aUser) { ?>
                                         <li>
-                                            <img src="/images/users/<?php echo $aUser['username']; ?>.jpg" alt="<?php echo "{$aUser['namefirst']} {$aUser['namelast']}"; ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo "{$aUser['namefirst']}"; ?>">
+                                            <img src="/images/users/<?php echo ($aUser['profilePic'] ?? 'avatar.png'); ?>" alt="<?php echo "{$aUser['namefirst']} {$aUser['namelast']}"; ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo "{$aUser['namefirst']}"; ?>">
                                         </li>
 <?php } ?>
                                         <li class="p-r-0">
