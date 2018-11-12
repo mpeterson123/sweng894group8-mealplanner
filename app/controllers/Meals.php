@@ -58,8 +58,6 @@ class Meals extends Controller {
      * @param integer $id Meal id
      */
     public function edit($id):void{
-        $db = $this->dbh->getDB();
-
         $meal = $this->mealRepository->find($id);
 
         $this->view('meal/edit', compact('meal'));

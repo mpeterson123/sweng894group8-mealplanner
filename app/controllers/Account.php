@@ -132,12 +132,13 @@ class Account extends Controller{
 		// Check if email exists in db
 		$u = $this->userRepository->get('email',$email);
 
-		// TODO replace with redirects
 		if($email == ''){
-			$this->view('auth/login',['message'=>'No email has been supplied.']);
+			$this->session->flashMessage('success', 'No email has been supplied.');
+			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		else if(!$u){
-			$this->view('auth/login',['message'=>'Not Found. An email has been sent with instructions to reset your password.']);
+			$this->session->flashMessage('success', 'Check your email for instructions to reset your password.');
+			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		else {
 			$this->userRepository->setPassTemp($email,$code);
@@ -146,7 +147,7 @@ class Account extends Controller{
 			$emailHandler->sendPasswordReset($email,$code);
 
 			// Redirect to login
-			$this->session->flashMessage('success', 'An email has been sent with instructions to reset your password..');
+			$this->session->flashMessage('success', 'Check your email for instructions to reset your password.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 	}
@@ -157,27 +158,36 @@ class Account extends Controller{
 	 * @param string $code  Email confirmation code
 	 */
 	public function resetPassword($email,$code){
-		// TODO Refactor entire method to user redirects and flash messages
+		// TODO Refactor entire method to use redirects and flash messages
 
 		// Check if email exists in db
 		$u = $this->userRepository->get('email',$email);
-		if(!$u)
-			$this->view('auth/login',['message'=>'An error has occured. Please try again. Email.']);
+		if(!$u){
+			// Email doesn't exist
+			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
+			Redirect::toControllerMethod('Account', 'showLogin');
+		}
 		// Check if reset code has been set
-		else if($u['passTemp'] == '')
-			$this->view('auth/login',['message'=>'An error has occured. Please try again. tempPass not set.']);
+		else if($u['passTemp'] == ''){
+			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
+			Redirect::toControllerMethod('Account', 'showLogin');
+		}
 		// Check if code matches db
-		else if($u['passTemp'] != $code)
-			$this->view('auth/login',['message'=>'An error has occured. Please try again. Code.']);
+		else if($u['passTemp'] != $code){
+			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
+			Redirect::toControllerMethod('Account', 'showLogin');
+		}
 		else{
 			// Reset page has been submitted
 			if(isset($this->request['rst_password'])){
 				// Reset password
 				$this->userRepository->setValue('password',$this->pass_hash($this->request['rst_password']),'email',$email);
 				// Reset temp pass
+				// TODO Check this: why does it use email?
 				$this->userRepository->setValue('passTemp','','email',$email);
 				// Redirect to login
-				$this->view('auth/login',['message'=>'Password has been reset. Please login.']);
+				$this->session->flashMessage('danger', 'Password has been reset. Please login.');
+				Redirect::toControllerMethod('Account', 'showLogin');
 			}
 			else{
 				// Direct to reset pass view
@@ -190,8 +200,7 @@ class Account extends Controller{
 	 * Show account settings page
 	 */
 	public function settings():void{
-		// $user = $this->session->get('user');
-		$this->view('auth/settings', compact($user));
+		$this->view('auth/settings');
 	}
 
 	/**
@@ -200,24 +209,17 @@ class Account extends Controller{
 	public function update():void{
 		$user = $this->session->get('user');
 
-		// Check for blank fields
-		$fields = array('firstName','lastName','email');
-		foreach($fields as $f){
-			if(!isset($this->request[$f])){
-				die('All fields are required');
-			}
-		}
+		$input = $this->request;
+		$this->validateEditInput($input, 'settings');
+
 		// Handle password update
-		if(isset($this->request['password'])){
-			if($this->request['password'] != $this->request['confirmPassword']){
-				die('Passwords don\'t match');
-			}
-			$user->setPassword($this->pass_hash($this->request['password']));
+		if(isset($this->request['password']) && isset($this->request['confirmPassword'])){
+			$user->setPassword($this->pass_hash($input['password']));
 		}
 		// Handle name updated
-		if($this->request['firstName'].' '.$this->request['lastName'] != $user->getFirstName().' '.$user->getLastName()){
-			$user->setFirstname($this->request['firstName']);
-			$user->setLastName($this->request['lastName']);
+		if($input['firstName'].' '.$input['lastName'] != $user->getFirstName().' '.$user->getLastName()){
+			$user->setFirstname($input['firstName']);
+			$user->setLastName($input['lastName']);
 		}
 
 		$this->userRepository->save($user);
@@ -226,11 +228,11 @@ class Account extends Controller{
 		$this->session->add('user', $user);
 
 		// Handle email updated
-		if($this->request['email'] != $user->getEmail()){
+		if($input['email'] != $user->getEmail()){
 			// send Email
 			$emailHandler = new Email();
-			$emailHandler->sendEmailUpdateConfirm($this->request['email'],$user->getEmail());
-			$this->session->flashMessage('success', 'A confirmation email has been sent to '.$this->request['email'].'. Please confirm to update.');
+			$emailHandler->sendEmailUpdateConfirm($input['email'],$user->getEmail());
+			$this->session->flashMessage('success', 'A confirmation email has been sent to '.$input['email'].'. Please confirm to update.');
 			Redirect::toControllerMethod('Account', 'settings');
 			return;
 		}
@@ -308,7 +310,7 @@ class Account extends Controller{
 			Redirect::toControllerMethod('Account', 'dashboard');
 			return;
 		}
-		$this->view('/auth/login',['message'=>'']);
+		$this->view('/auth/login');
 	}
 
 	/**
@@ -412,6 +414,8 @@ class Account extends Controller{
     private function validateRegistrationInput($input, $method, $params = NULL):void {
         $this->session->flashOldInput($input);
 
+		$nameRegex = '/^([a-z]|\s|-|[.])+$/i';
+
         // Validate input
         $validator = new Validator($input);
         $rules = [
@@ -424,10 +428,15 @@ class Account extends Controller{
 				['reg_password2']
             ],
             'equals' => [
-                ['reg_password', 'reg_password2'],
+				['reg_password', 'reg_password2'],
+                ['reg_password2', 'reg_password']
             ],
 			'email' => [
                 ['reg_email'],
+            ],
+			'regex' => [
+				['reg_namefirst', $nameRegex],
+                ['reg_namelast', $nameRegex]
             ],
 			'slug' => [
                 ['reg_username'],
@@ -471,13 +480,83 @@ class Account extends Controller{
         }
     }
 
+
+	/**
+     * Validates user input from account settings form
+     * @param array $input  	Login form input
+     * @param string $method 	Method to redirect to
+     * @param array $params 	Parameters for the redirection method
+     */
+    private function validateEditInput($input, $method, $params = NULL):void {
+        $this->session->flashOldInput($input);
+
+		$nameRegex = '/^([a-z]|\s|-|[.])+$/i';
+
+        // Validate input
+        $validator = new Validator($input);
+        $rules = [
+            'required' => [
+				['firstName'],
+				['lastName'],
+				['email'],
+            ],
+            'equals' => [
+				['password', 'confirmPassword'],
+                ['confirmPassword', 'password']
+            ],
+			'email' => [
+                ['email'],
+            ],
+			'regex' => [
+				['firstName', $nameRegex],
+                ['lastName', $nameRegex]
+            ],
+			'lengthMin' => [
+				['firstName', 2],
+				['lastName', 2],
+				['email', 5],
+				['password', 6],
+		        ['confirmPassword', 6]
+		    ],
+			'lengthMax' => [
+				['firstName', 32],
+				['lastName', 32],
+				['email', 64],
+				['password', 30],
+		        ['confirmPassword', 30]
+		    ]
+        ];
+        $validator->rules($rules);
+        $validator->labels(array(
+			'reg_username' => 'Username',
+			'firstName' => 'First Name',
+			'lastName' => 'Last Name',
+			'email' => 'Email Address',
+			'password' => 'Password',
+			'confirmPassword' => 'Password Confirmation'
+        ));
+
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            $this->session->flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('Account', $method, $params);
+            return;
+        }
+    }
+
+
+
 	/**
 	 * Change user's profile picture
 	 */
 	public function changePicture():void{
 		// show form
 		if(($this->request['submit'] ?? NULL) == ''){
-			$this->view('/auth/changePic',['message'=>'']);
+			$this->view('/auth/changePic');
 		}
 		// upload
 		else{
@@ -485,42 +564,49 @@ class Account extends Controller{
 
 			$target_dir = __DIR__.'/../../public/images/users/';
 			$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-			$newFilename = $this->pass_hash($user->getId());
-			$uploadOk = 1;
 			$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+			$newFilename = $this->pass_hash($user->getId()).'.'.$imageFileType;
+			$uploadOk = 1;
+			$errors = array('fileToUpload' => array());
 			// Check if image file is a actual image or fake image
 			if(isset($_POST["submit"])) {
 			    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
 			    if($check !== false) {
 			        $uploadOk = 1;
 			    } else {
-			        die("File is not an image.");
+			        $errors['fileToUpload'][] = "File must be an image.";
 			        $uploadOk = 0;
 			    }
 			}
 			// Check file size
 			if ($_FILES["fileToUpload"]["size"] > 500000) {
-			    die("Sorry, your file is too large.");
+			    $errors['fileToUpload'][] = "File must be 5 MB or smaller.";
 			    $uploadOk = 0;
 			}
 			// Allow certain file formats
 			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 			&& $imageFileType != "gif" ) {
-			    die("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+			    $errors['fileToUpload'][] = "Only JPG, JPEG, PNG & GIF files are allowed.";
 			    $uploadOk = 0;
 			}
 			// Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0) {
-			    die("Sorry, your file was not uploaded.");
+				$errorMessage = Format::validatorErrors($errors);
+				$this->session->flashMessage('danger', $errorMessage);
+				$this->view('/auth/changePic');
+			}
 			// if everything is ok, try to upload file
-			} else {
+			else {
 			    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir .$newFilename)) {
-							$this->userRepository->setProfilePicture($user,$newFilename);
-							$updatedUser = $this->userRepository->find($user->getUsername());
-							$this->session->add('user',$updatedUser);
-							Redirect::toControllerMethod('Account', 'Dashboard');
+					$this->userRepository->setProfilePicture($user,$newFilename);
+					$updatedUser = $this->userRepository->find($user->getUsername());
+					$this->session->add('user',$updatedUser);
+
+					$this->session->flashMessage('success', 'Your profile picture was updated.');
+					Redirect::toControllerMethod('Account', 'Dashboard');
 			    } else {
-			       die("Sorry, there was an error uploading your file.");
+					$this->session->flashMessage('danger', 'Uh oh, an error occured uploading your profile picture.');
+					$this->view('/auth/changePic');
 			    }
 			}
 		}
