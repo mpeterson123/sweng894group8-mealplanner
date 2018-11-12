@@ -263,4 +263,30 @@ class Meals extends Controller {
             return;
         }
     }
+
+    /**
+     * Complete a meal
+     * @param integer $id Meal id
+     */
+    public function complete($id):void{
+        $meal = $this->mealRepository->find($id);
+
+        if( $this->checkMealBelongsToHousehold($id) )
+        {
+
+          $meal->complete();
+
+          // Flash success message
+          $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was completed.');
+
+          // Redirect back with errors
+          Redirect::toControllerMethod('Meals', $method, $params);
+          return;
+        }
+        else
+        {
+          //not in household
+          $this->session->flashMessage('error: meal not in household.');
+        }
+    }
 }

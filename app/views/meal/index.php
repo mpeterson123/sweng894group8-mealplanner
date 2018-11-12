@@ -72,7 +72,7 @@ $PLUGIN_EXPORT      = TRUE;
                                                     <td><?php echo $meal->getDate(true); ?></td>
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
                                                     <td><?php echo $meal->getAddedDate(true); ?></td>
-                                                    <td>
+                                                    <td><a href="/Meals/complete/<?php echo $meal->getId(); ?>">
                                                         <?php
                                                         if($meal->isComplete()) {
                                                             echo 'Yes';
