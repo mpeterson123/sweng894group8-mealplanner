@@ -91,6 +91,8 @@ class FoodItems extends Controller {
         $categories = $this->categoryRepository->all();
         $units = $this->unitRepository->all();
 
+        $this->session->flushOldInput();
+
         $this->view('food/create', compact('categories', 'units'));
     }
 
@@ -109,12 +111,17 @@ class FoodItems extends Controller {
         // Make food item
         $foodItem = $this->foodItemFactory->make($input);
 
-        // Save to DB
-        $this->foodItemRepository->save($foodItem);
+        if($this->foodItemRepository->findFoodItemByName($foodItem->getName()) == null) {
+          // Save to DB
+          $this->foodItemRepository->save($foodItem);
 
-        // Flash success message and flush old input
-        $this->session->flashMessage('success', ucfirst($foodItem->getName()).' was added to your list.');
-        $this->session->flushOldInput();
+          // Flash success message and flush old input
+          $this->session->flashMessage('success', ucfirst($foodItem->getName()).' was added to your list.');
+          $this->session->flushOldInput();
+        }
+        else {
+          $this->session->flashMessage('error', ucfirst($foodItem->getName()) . ' already exists in your food list.');
+        }
 
         // Redirect back after updating
         Redirect::toControllerMethod('FoodItems', 'index');

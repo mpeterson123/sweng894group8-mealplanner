@@ -59,8 +59,13 @@ class Meals extends Controller {
      */
     public function edit($id):void{
 
-        $meal = $this->mealRepository->find($id);
+        // Get all recipes in household, for edit dropdown recipe selection
+        $db = $this->dbh->getDB();
+        $household = $this->session->get('user')->getCurrHousehold();
         $recipes = $this->recipeRepository->allForHousehold($household);
+
+        // Get meal by ID
+        $meal = $this->mealRepository->find($id);
 
         $this->view('meal/edit', compact('meal','recipes'));
     }
@@ -256,6 +261,32 @@ class Meals extends Controller {
             // Redirect back with errors
             Redirect::toControllerMethod('Meals', $method, $params);
             return;
+        }
+    }
+
+    /**
+     * Complete a meal
+     * @param integer $id Meal id
+     */
+    public function complete($id):void{
+        $meal = $this->mealRepository->find($id);
+
+        if( $this->checkMealBelongsToHousehold($id) )
+        {
+
+          $meal->complete();
+
+          // Flash success message
+          $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was completed.');
+
+          // Redirect back with errors
+          Redirect::toControllerMethod('Meals', $method, $params);
+          return;
+        }
+        else
+        {
+          //not in household
+          $this->session->flashMessage('error: meal not in household.');
         }
     }
 }

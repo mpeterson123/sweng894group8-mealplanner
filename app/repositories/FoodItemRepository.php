@@ -22,18 +22,61 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
     /**
      * Find a single food item by id
      * @param  integer $id items's id
-     * @return array       associative array of item's details
+     * @return object       Food item object or null
      */
     public function find($id){
 
         $query = $this->db->prepare('SELECT * FROM foods WHERE id = ?');
         $query->bind_param("s", $id);
-        $query->execute();
-        $result = $query->get_result();
-        $foodItemRow = $result->fetch_assoc();
 
-        $foodItem = $this->foodItemFactory->make($foodItemRow);
+        if($query->execute()) {
+          $result = $query->get_result();
+
+          if( $result != null) {
+            $foodItemRow = $result->fetch_assoc();
+
+            $foodItem = $this->foodItemFactory->make($foodItemRow);
+          }
+          else {
+            $foodItem = null;
+          }
+
+        }
+        else {
+          $foodItem = null;
+        }
+
         return $foodItem;
+    }
+
+    /**
+     * Find a single food item by name
+     * @param  string $name items's name
+     * @return object       FoodItem object
+     */
+    public function findFoodItemByName($name){
+
+        $query = $this->db->prepare('SELECT * FROM foods WHERE name = ?');
+        $query->bind_param("s", $name);
+        $bool = $query->execute();
+
+        if($bool) {
+          $result = $query->get_result();
+
+          $foodItemRow = $result->fetch_assoc();
+
+          if($foodItemRow) {
+
+            $foodItem = $this->foodItemFactory->make($foodItemRow);
+            return $foodItem;
+
+          }
+          else {
+            return null;
+          }
+        }
+        else return null;
+
     }
 
     /**

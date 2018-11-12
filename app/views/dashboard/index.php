@@ -17,8 +17,11 @@ $PLUGIN_SLIMSCROLL = TRUE;
 $PLUGIN_WAVES      = TRUE;
 $PLUGIN_SIDEBARMENU= TRUE;
 
+// Dashboard Settings
+define('NUM_USERS_TO_LIST', 6);
+
 // Dashboard Statistics
-/*
+
 $houseHoldID  = sqlRequestByID("users", $user->getId(), "currHouseholdId");
 $numFoodItems = sqlRequest("COUNT(id) AS theNum FROM foods WHERE householdId = {$houseHoldID}")[0]['theNum'];
 $numRecipes   = sqlRequest("COUNT(id) AS theNum FROM recipes WHERE householdId = {$houseHoldID}")[0]['theNum'];
@@ -26,8 +29,6 @@ $numRecipesUsed = 0; // Based off of meals
 $numFoodCost    = 0; // Based off of meals (for month to date)
 $numFoodCostYear= 0; // Based off of meals (for year to date)
 $usersList = sqlRequest("SELECT * FROM users");
-*/
-$usersList = array();
 ?>
 <?php require_once( __HEADER__ ); ?>
 
@@ -199,14 +200,35 @@ $usersList = array();
                                             <img src="/images/users/avatar1.jpg" alt="user" data-toggle="tooltip" data-placement="top" title="" data-original-title="Steave">
                                         </li>
 -->
-<?php foreach ($usersList as $aUser) { ?>
+<?php $numListed = 0; foreach ($usersList as $aUser) { if ($numListed == NUM_USERS_TO_LIST) { break; } $numListed++; ?>
                                         <li>
-                                            <img src="/images/users/<?php echo $aUser['username']; ?>.jpg" alt="<?php echo "{$aUser['namefirst']} {$aUser['namelast']}"; ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo "{$aUser['namefirst']}"; ?>">
+                                            <img src="/images/users/<?php if ($aUser['profilePic'] ?? NULL) 
+                                                                          {
+                                                                              // File check
+                                                                              if ($aUser['profilePic'] == '') 
+                                                                              { 
+                                                                                  echo 'avatar.png'; 
+                                                                              }
+                                                                              else if (!file_exists('http://mealplanner.mobi/images/users/' . $aUser['profilePic'])) 
+                                                                              {
+                                                                                  echo 'avatar.png';
+                                                                              }
+                                                                              else
+                                                                              {
+                                                                                  echo $aUser['profilePic'];
+                                                                              }
+                                                                          }
+                                                                          else 
+                                                                          { 
+                                                                              echo 'avatar.png'; 
+                                                                          } ?>" alt="<?php echo "{$aUser['namefirst']} {$aUser['namelast']}"; ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo "{$aUser['namefirst']}"; ?>">
                                         </li>
 <?php } ?>
+                                        <?php if (count($usersList) > NUM_USERS_TO_LIST) { ?>
                                         <li class="p-r-0">
-                                            <a href="javascript:void(0);" class="btn btn-success font-16"><?php echo count($usersList); ?>+</a>
+                                            <a href="javascript:void(0);" class="btn btn-success font-16"><?php echo (count($usersList) - NUM_USERS_TO_LIST); ?>+</a>
                                         </li>
+                                        <?php } ?>
                                     </ul>
                                 </div>
                             </div>

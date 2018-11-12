@@ -390,4 +390,13 @@ class IngredientRepositoryTest extends TestCase {
 
       return $actIngredient;
     }
+
+    public function testFindIngredientByFoodId() {
+      if($this->insert() ) {
+
+        $bool = $this->ingredientRepository->findIngredientByFoodId($this->expectedIngredientArray[0]->getFood()->getId(), $this->expectedIngredientArray[0]->getRecipeId());
+
+        $this->assertEquals(true, $bool);
+      }
+    }
 }

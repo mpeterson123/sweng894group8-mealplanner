@@ -117,6 +117,8 @@ class Recipes extends Controller {
         $foodItems = $this->foodItemRepository->allForHousehold($household);
         $units = $this->unitRepository->all();
 
+        $this->session->flushOldInput();
+
         $this->view('recipe/create', compact('foodItems', 'units'));
     }
 
@@ -135,17 +137,25 @@ class Recipes extends Controller {
         //Use a RecipeFactory to create the Recipe Object:
         $recipe = $this->recipeFactory->make($input);
 
-        //Save the recipe in the database:
-        if ($this->recipeRepository->save($recipe)) {
-            // Flash success message
-            $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
+        //If the recipe isn't already in the database
+        if ($this->recipeRepository->findRecipeByName($recipe->getName()) == null) {
+            //Save the recipe in the database:
+            if ($this->recipeRepository->save($recipe)) {
+                // Flash success message
+                $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
 
-            //Add the ingredients
-            $this->addIngredients($input, $recipe);
+                //Add the ingredients
+                $this->addIngredients($input, $recipe);
+            }
+            else {
+              $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
+            }
         }
         else {
-          $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
+          $this->session->flashMessage('error', 'Sorry, ' . ucfirst($recipe->getName()) . ' already exists in your recipes.');
         }
+
+
 
         // Redirect back after updating
         Redirect::toControllerMethod('Recipes', 'index');
@@ -153,37 +163,46 @@ class Recipes extends Controller {
     }
 
     /**
-     * Add ingredients to a recipe object
+     * Add ingredients to a recipe
      * @param array $in     Array of ingredients
      * @param Recipe $rec   The recipe the ingredients will be added to
      */
-    private function addIngredients($in, $rec):void {
-        if(isset($in['newFoodId'])) {
-            for($i=0;$i<count($in['newFoodId']);$i++) {
-                //Create the ingredient array:
-                $ingredientInput = array("foodId" => $in['newFoodId'][$i],
-                                      "quantity" => $in['newQuantity'][$i],
-                                      "recipeId" => $rec->getId(),
-                                      "unitId" => $in['newUnitId'][$i]);
+private function addIngredients($in, $rec) {
 
-                //Create the ingredient object:
-                $ingredient = $this->ingredientFactory->make($ingredientInput);
+  if(isset($in['newFoodId'])) {
 
-                //Save the ingredient in the database:
-                if($this->ingredientRepository->save($ingredient)) {
+    for($i=0;$i<count($in['newFoodId']);$i++) {
 
-                    //Add the ingredient to the recipe object:
-                    $rec->addIngredient($ingredient);
+        //Create the ingredient array:
+        $ingredientInput = array("foodId" => $in['newFoodId'][$i],
+                              "quantity" => $in['newQuantity'][$i],
+                              "recipeId" => $rec->getId(),
+                              "unitId" => $in['newUnitId'][$i]);
 
-                    // Flash success message
-                    $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
-                }
-                else {
-                  $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
-                }
-            } //end for
-        } //end if new items were returned
-    }
+        //Create the ingredient object:
+        $ingredient = $this->ingredientFactory->make($ingredientInput);
+
+        if($this->ingredientRepository->findIngredientByFoodId($ingredient->getFood()->getId(), $ingredient->getRecipeId()) == null) {
+            //Save the ingredient in the database:
+            if($this->ingredientRepository->save($ingredient)) {
+
+                //Add the ingredient to the recipe object:
+                $rec->addIngredient($ingredient);
+
+                // Flash success message
+                $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+            }
+            else {
+              $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
+            }
+        }
+        else {
+          $this->session->flashMessage('error', 'Sorry, ' . ucfirst($ingredient->getFood()->getName()) . ' already exists in your ingredients.');
+        }
+
+      } //end for
+    } //end if new items were returned
+  }
 
     /**
      * Delete a recipe
@@ -357,7 +376,7 @@ class Recipes extends Controller {
         // Validate input
         $validator = new Validator($input);
         $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
-        $safeStringRegex = '/^[0-9a-z \n\r#\/\(\)-]+$/i';
+        $safeStringRegex = '/^[0-9a-z \n\r.,!#\/\(\)-]+$/i';
 
         $rules = [
             'required' => [

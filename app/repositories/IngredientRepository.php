@@ -34,14 +34,54 @@ class IngredientRepository extends Repository implements EditableModelRepository
           $result = $query->get_result();
           $ingredientRow = $result->fetch_assoc();
 
-          $ingredient = $this->ingredientFactory->make($ingredientRow);
-          return $ingredient;
+          if($ingredientRow) {
+            $ingredient = $this->ingredientFactory->make($ingredientRow);
+          }
+          else {
+            $ingredient = null;
+          }
+
         }
         else {
           $query->error;
           echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
-          return null;
+          $ingredient = null;
         }
+        return $ingredient;
+    }
+
+    /**
+     * Find a single ingredient by food ID for a specific recipe
+     * @param  integer $foodId the ID of the food item
+     * @param integer $recipeId the ID of the recipe
+     * @return boolean       if ingredient was found
+     */
+    public function findIngredientByFoodId($foodId, $recipeId){
+
+        $query = $this->db->prepare('SELECT * FROM ingredients WHERE foodId = ? AND recipeId = ?');
+        $query->bind_param("ss", $foodId, $recipeId);
+
+        if($query->execute()) {
+          $result = $query->get_result();
+
+          $ingredientRow = $result->fetch_assoc();
+
+          if($ingredientRow) {
+
+            $ingredient = $this->ingredientFactory->make($ingredientRow);
+          }
+          else {
+            $ingredient = null;
+          }
+
+        }
+        else {
+          $query->error;
+          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
+          $ingredient = null;
+        }
+
+        return $ingredient;
 
     }
 
