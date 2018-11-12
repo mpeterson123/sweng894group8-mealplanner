@@ -209,7 +209,7 @@ $usersList = sqlRequest("SELECT * FROM users");
                                                                               { 
                                                                                   echo 'avatar.png'; 
                                                                               }
-                                                                              else if (!file_exists('http://mealplanner.mobi/images/users/' . $aUser['profilePic'])) 
+                                                                              else if (!file_exists(__DIR__ . '/../../../public/images/users/' . $aUser['profilePic'])) 
                                                                               {
                                                                                   echo 'avatar.png';
                                                                               }
