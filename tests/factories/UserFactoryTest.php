@@ -77,7 +77,8 @@ class UserFactoryTest extends TestCase {
             'namelast' => 'Smith',
             'activated' => 1,
             'passTemp' => NULL,
-            'currHouseholdId' => 1
+            'currHouseholdId' => 1,
+            'profilePic' => 'hsdfyugds78fsdfuile4r83rudsgfjkf.png'
         );
 
         $user = $this->userFactory->make($userArray);
@@ -95,6 +96,7 @@ class UserFactoryTest extends TestCase {
         $this->assertEquals($user->getLastName(), $userArray['namelast']);
         $this->assertEquals($user->getActivated(), $userArray['activated']);
         $this->assertEquals($user->getPassTemp(), $userArray['passTemp']);
+        $this->assertEquals($user->getProfilePic(), $userArray['profilePic']);
 
         // Check households are set
         $this->assertInternalType('array',$user->getHouseholds());
@@ -123,7 +125,8 @@ class UserFactoryTest extends TestCase {
             'namelast' => 'Smith',
             'activated' => 1,
             'passTemp' => NULL,
-            'currHouseholdId' => 1
+            'currHouseholdId' => 1,
+            'profilePic' => 'hsdfyugds78fsdfuile4r83rudsgfjkf.png'
         );
 
         $user = $this->userFactory->make($userArray);
@@ -141,6 +144,7 @@ class UserFactoryTest extends TestCase {
         $this->assertEquals($user->getLastName(), $userArray['namelast']);
         $this->assertEquals($user->getActivated(), $userArray['activated']);
         $this->assertEquals($user->getPassTemp(), $userArray['passTemp']);
+        $this->assertEquals($user->getProfilePic(), $userArray['profilePic']);
 
         // Check households aren't set
         $this->assertInternalType('array',$user->getHouseholds());

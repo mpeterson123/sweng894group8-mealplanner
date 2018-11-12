@@ -63,7 +63,9 @@ class MealFactoryTest extends TestCase {
             'id' => 1234,
             'recipeId' => 1,
             'scaleFactor' => 5.02,
+            'addedDate' => date('Y-m-d H:i:s'),
             'date' => '2018-01-01 12:00:00',
+            'isComplete' => true,
         );
 
         $meal = $this->mealFactory->make($mealArray);
@@ -71,6 +73,7 @@ class MealFactoryTest extends TestCase {
             'Base\Models\Meal',
             $meal,
             'Object must be instance of Meal');
+
         $this->assertEquals($meal->getId(), $mealArray['id']);
         $this->assertInstanceOf(
             'Base\Models\Recipe',
@@ -79,13 +82,16 @@ class MealFactoryTest extends TestCase {
         );
         $this->assertEquals($meal->getScaleFactor(), $mealArray['scaleFactor']);
         $this->assertEquals($meal->getDate(), $mealArray['date']);
+        $this->assertTrue($meal->isComplete());
     }
 
     public function testMakeMealWithoutId(){
         $mealArray = array(
             'recipeId' => 1,
             'scaleFactor' => 5.02,
+            'addedDate' => date('Y-m-d H:i:s'),
             'date' => '2018-01-01 12:00:00',
+            'isComplete' => true
         );
 
         $meal = $this->mealFactory->make($mealArray);
@@ -101,5 +107,11 @@ class MealFactoryTest extends TestCase {
         );
         $this->assertEquals($meal->getScaleFactor(), $mealArray['scaleFactor']);
         $this->assertEquals($meal->getDate(), $mealArray['date']);
+
+        /* New meal cannot be completed, so isComplete must be false, even  if
+         * sent field is true
+         */
+        $this->assertFalse($meal->isComplete());
+
     }
 }

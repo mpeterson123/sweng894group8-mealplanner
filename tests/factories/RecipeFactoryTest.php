@@ -48,7 +48,7 @@ class RecipeFactoryTest extends TestCase {
         $recipeArray = array(
             'id' => 1234,
             'name' => 'Stir Fry',
-            'description' => 'This is a recipe description',
+            'directions' => 'These are some directions for a recipe.',
             'servings' => 4,
             'source' => 'http://example.com',
             'notes' => 'These are some recipe notes'
@@ -63,7 +63,7 @@ class RecipeFactoryTest extends TestCase {
         // Check primitive values
         $this->assertEquals($recipe->getId(), $recipeArray['id']);
         $this->assertEquals($recipe->getName(), $recipeArray['name']);
-        $this->assertEquals($recipe->getDescription(), $recipeArray['description']);
+        $this->assertEquals($recipe->getDirections(), $recipeArray['directions']);
         $this->assertEquals($recipe->getServings(), $recipeArray['servings']);
         $this->assertEquals($recipe->getSource(), $recipeArray['source']);
         $this->assertEquals($recipe->getNotes(), $recipeArray['notes']);
@@ -72,7 +72,7 @@ class RecipeFactoryTest extends TestCase {
     public function testMakeRecipeWithoutId(){
         $recipeArray = array(
             'name' => 'Stir Fry',
-            'description' => 'This is a recipe description',
+            'directions' => 'These are some directions for a recipe.',
             'servings' => 4,
             'source' => 'http://example.com',
             'notes' => 'These are some recipe notes'
@@ -87,7 +87,7 @@ class RecipeFactoryTest extends TestCase {
         // Check primitive values
         $this->assertEquals($recipe->getId(), NULL);
         $this->assertEquals($recipe->getName(), $recipeArray['name']);
-        $this->assertEquals($recipe->getDescription(), $recipeArray['description']);
+        $this->assertEquals($recipe->getDirections(), $recipeArray['directions']);
         $this->assertEquals($recipe->getServings(), $recipeArray['servings']);
         $this->assertEquals($recipe->getSource(), $recipeArray['source']);
         $this->assertEquals($recipe->getNotes(), $recipeArray['notes']);
