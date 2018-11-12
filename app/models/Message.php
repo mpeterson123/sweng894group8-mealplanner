@@ -16,6 +16,8 @@ class Message
     private $viewed;
     private $starred;
     private $timeSent;
+    private $humanReadableTime;
+    private $humanReadableTime2;
     private $message;
     private $senderID;
     private $recipientID;
@@ -139,9 +141,37 @@ class Message
     /////////////////////////////////////////////////////////////////
     // timeSent
     /////////////////////////////////////////////////////////////////
+    public function getTimeSent()
+    {
+        return $this->timeSent;
+    }
     public function setTimeSent($timeSent)
     {
         $this->timeSent = $timeSent;
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // humanReadableTime
+    /////////////////////////////////////////////////////////////////
+    public function getHumanReadableTime($timeSent)
+    {
+        return $this->humanReadableTime;
+    }
+    public function setHumanReadableTime($timeSent)
+    {
+        $this->humanReadableTime = $timeSent;
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // humanReadableTime2
+    /////////////////////////////////////////////////////////////////
+    public function getHumanReadableTime2($timeSent)
+    {
+        return $this->humanReadableTime2;
+    }
+    public function setHumanReadableTime2($timeSent)
+    {
+        $this->humanReadableTime2 = $timeSent;
     }
 
     /////////////////////////////////////////////////////////////////
@@ -205,6 +235,12 @@ class Message
         {
             throw new Exception("ID # cannot be maximum signed integer size.");
         }
+        /*
+        if ($id == $this->getID())
+        {
+            throw new Exception("Recipient ID # cannot match sender ID #.");
+        }
+        */
 
         $this->id = $id;
     }

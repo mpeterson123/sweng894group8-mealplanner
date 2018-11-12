@@ -58,11 +58,16 @@ class Meals extends Controller {
      * @param integer $id Meal id
      */
     public function edit($id):void{
-        $db = $this->dbh->getDB();
 
+        // Get all recipes in household, for edit dropdown recipe selection
+        $db = $this->dbh->getDB();
+        $household = $this->session->get('user')->getCurrHousehold();
+        $recipes = $this->recipeRepository->allForHousehold($household);
+
+        // Get meal by ID
         $meal = $this->mealRepository->find($id);
 
-        $this->view('meal/edit', compact('meal'));
+        $this->view('meal/edit', compact('meal','recipes'));
     }
 
     /**

@@ -50,8 +50,8 @@ $PLUGIN_EXPORT      = TRUE;
                                 <table id="export-table" class="table table-striped" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
                                             <th>Recipe</th>
+                                            <th>Date</th>
                                             <th>Scale</th>
                                             <th>Date Added</th>
                                             <th>Complete</th>
@@ -68,7 +68,7 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['meals']){
                                                 foreach ($data['meals'] as $meal) { ?>
                                                 <tr>
-                                                    <td><a href="/meal/edit/<?php echo $meal->getId(); ?>"><?php echo $meal->getRecipe()->getName(); ?></a></td>
+                                                    <td><a href="/Meals/edit/<?php echo $meal->getId(); ?>"><?php echo $meal->getRecipe()->getName(); ?></a></td>
                                                     <td><?php echo $meal->getDate(true); ?></td>
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
                                                     <td><?php echo $meal->getAddedDate(true); ?></td>
