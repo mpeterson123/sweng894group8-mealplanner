@@ -82,10 +82,6 @@ class UserTest extends TestCase {
         $this->user->setUsername($invalidUsername);
 	}
 
-    public function testUsernameMustBeUnique(){
-
-    }
-
 	///////////
 	// Name //
 	///////////
@@ -174,16 +170,6 @@ class UserTest extends TestCase {
 		$this->user->register('John','Smith','test@domain.com','jsmith','password123');
 		$this->assertEquals($this->user->getFirstUsername(),'John', 'Username must be John');
 		$this->assertEquals($this->user->getEmail(),'test@domain.com', 'Email must be test@domain.com');
-	}
-
-	public function testLogin(){
-		$this->user->login('jsmith','password123');
-		$this->assertTrue($this->user->isLoggedIn(), 'User must be logged in');
-	}
-
-	public function testLogout(){
-		$this->user->logout();
-		$this->assertFalse($this->user->isLoggedIn(), 'User must not be logged in.');
 	}
 
 	public function testDeleteUser(){
