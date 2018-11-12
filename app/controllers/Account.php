@@ -20,6 +20,7 @@ use \Valitron\Validator;
 use Base\Repositories\UserRepository;
 use Base\Repositories\HouseholdRepository;
 use Base\Helpers\Email;
+use Base\Helpers\Log;
 use Base\Models\User;
 use Base\Factories\UserFactory;
 use Base\Factories\HouseholdFactory;
@@ -27,7 +28,8 @@ use Base\Factories\HouseholdFactory;
 class Account extends Controller{
 	protected $dbh,
         $session,
-		$request;
+				$request,
+				$log;
 
 	private $userRepository,
 		$userFactory;
@@ -36,6 +38,7 @@ class Account extends Controller{
 		$this->dbh = $dbh;
 		$this->session = $session;
 		$this->request = $request;
+		$this->log = new Log($dbh);
 
         // TODO Use dependency injection
 		$householdFactory = new HouseholdFactory();
@@ -343,6 +346,8 @@ class Account extends Controller{
 			// $this->session->add('username', $user->getUsername());
 			// $this->session->add('id', $user->getId());
 			$this->session->add('user', $user);
+
+			$this->log->add($user, 'Login');
 
 			Redirect::toControllerMethod('Account', 'dashboard');
 			return;
