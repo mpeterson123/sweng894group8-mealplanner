@@ -58,9 +58,11 @@ class Meals extends Controller {
      * @param integer $id Meal id
      */
     public function edit($id):void{
-        $meal = $this->mealRepository->find($id);
 
-        $this->view('meal/edit', compact('meal'));
+        $meal = $this->mealRepository->find($id);
+        $recipes = $this->recipeRepository->allForHousehold($household);
+
+        $this->view('meal/edit', compact('meal','recipes'));
     }
 
     /**

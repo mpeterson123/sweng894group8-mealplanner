@@ -16,7 +16,7 @@ $PLUGIN_SIDEBARMENU = TRUE;
 
 
 // Sub Title
-$SUBTITLE = "Edit meal {$data['meal']->getRecipe()->getName()}";
+$SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
 
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -68,7 +68,7 @@ $SUBTITLE = "Edit meal {$data['meal']->getRecipe()->getName()}";
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
                             <a href="/Meal/">&laquo; Return to meals</a>
                             </p>
-                            <form method="post" action="/Meal/update/<?php echo $data['meal']->getId(); ?>">
+                            <form method="post" action="/Meals/update/<?php echo $data['meal']->getId(); ?>">
                                 <input type="hidden" name="mealid" value="<?php echo $data['meal']->getId(); ?>">
 
                                 <div class="form-group">
