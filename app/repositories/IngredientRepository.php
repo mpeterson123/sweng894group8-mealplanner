@@ -34,15 +34,20 @@ class IngredientRepository extends Repository implements EditableModelRepository
           $result = $query->get_result();
           $ingredientRow = $result->fetch_assoc();
 
-          $ingredient = $this->ingredientFactory->make($ingredientRow);
-          return $ingredient;
+          if($ingredientRow) {
+            $ingredient = $this->ingredientFactory->make($ingredientRow);
+          }
+          else {
+            $ingredient = null;
+          }
+
         }
         else {
           $query->error;
           echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
-          return null;
+          $ingredient = null;
         }
-
+        return $ingredient;
     }
 
     /**
@@ -59,21 +64,24 @@ class IngredientRepository extends Repository implements EditableModelRepository
         if($query->execute()) {
           $result = $query->get_result();
 
-          if($result) return true;
-          else return false;
-
-          /*
           $ingredientRow = $result->fetch_assoc();
 
-          $ingredient = $this->ingredientFactory->make($ingredientRow);
-          return $ingredient;
-          */
+          if($ingredientRow) {
+
+            $ingredient = $this->ingredientFactory->make($ingredientRow);
+          }
+          else {
+            $ingredient = null;
+          }
+
         }
         else {
           $query->error;
           echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
-          return false;
+          $ingredient = null;
         }
+
+        return $ingredient;
 
     }
 

@@ -30,7 +30,8 @@ class MealRepository extends Repository implements EditableModelRepository {
     public function save($meal){
 
         $success = false;
-        if($this->find($meal->getId()))
+
+        if($meal->getId() && $this->find($meal->getId()))
         {
             $success = $this->update($meal);
         }
@@ -46,7 +47,30 @@ class MealRepository extends Repository implements EditableModelRepository {
     }
 
     public function allForHousehold($household){
-        $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipeId, meal.scaleFactor, meal.isComplete FROM meal WHERE meal.householdId = ? and meal.isComplete = 0 ORDER by date'); //JOIN recipes ON meal.recipeId = recipes.id
+        $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipeId, meal.scaleFactor, meal.isComplete
+            FROM meal WHERE meal.householdId = ?
+            ORDER by date'); //JOIN recipes ON meal.recipeId = recipes.id
+
+        @$query->bind_param("i", $household->getId());
+
+        $query->execute();
+
+
+        $result = $query->get_result();
+        $mealRows = $result->fetch_all(MYSQLI_ASSOC);
+
+        $collection = array();
+        foreach($mealRows as $mealRow){
+            $collection[] = $this->mealFactory->make($mealRow);
+        }
+
+        return $collection;
+    }
+
+    public function incompleteForHousehold($household){
+        $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipeId, meal.scaleFactor, meal.isComplete
+            FROM meal WHERE meal.householdId = ?
+            AND meal.isComplete = 0 ORDER by date'); //JOIN recipes ON meal.recipeId = recipes.id
 
         @$query->bind_param("i", $household->getId());
 
@@ -77,20 +101,26 @@ class MealRepository extends Repository implements EditableModelRepository {
         try {
             $query = $this->db
                 ->prepare('INSERT INTO meal
-                    (date, addedDate, isComplete, recipe, scaleFactor, householdId, userId)
-                    VALUES (?, ?, ?, ?, ?)
+                    (date, addedDate, isComplete, recipeId, scaleFactor, householdId, userId)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
                 ');
             @$query->bind_param(
+                'ssiidii',
                 $meal->getDate(),
                 $meal->getAddedDate(),
                 $meal->isComplete(),
                 $meal->getRecipe()->getId(),
                 $meal->getScaleFactor(),
-                $this->session->get('user')->getCurrHousehold(),
-                $household = $this->session->get('user')->getId()
+                (new Session())->get('user')->getCurrHousehold()->getId(),
+                (new Session())->get('user')->getId()
             );
 
-            return $query->execute();
+            if(!$query->execute()){
+                return false;
+            }
+            else {
+                return true;
+            }
         } catch (\Exception $e) {
             return false;
         }

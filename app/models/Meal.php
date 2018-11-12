@@ -10,15 +10,6 @@ class Meal{
 	private $addedDate;
 	private $scaleFactor;
 
-	public function __construct($recipe,$date,$scaleFactor){
-
-		$this->setRecipe($recipe);
-		$this->setDate($date);
-		$this->setScaleFactor($scaleFactor);
-		$this->isComplete = false;
-		$this->addedDate = date('Y-m-d H-i-s');
-	}
-
 	public function setScaleFactor($newScale){
 		$newScale = floatval($newScale);
 		if(!$newScale)
@@ -39,6 +30,10 @@ class Meal{
 
 	public function isComplete(){
 		return $this->isComplete;
+	}
+
+	public function setIsComplete($isComplete){
+		$this->isComplete = $isComplete;
 	}
 
 	public function complete(){
@@ -92,12 +87,22 @@ class Meal{
 			$this->id = $id;
 	}
 
-	public function getDate(){
+	public function getDate($formatted = false){
+		if($formatted){
+			return date('m/d/Y', strtotime($this->getDate()));
+		}
 		return $this->date;
 	}
 
-	public function getAddedDate(){
+	public function getAddedDate($formatted = false){
+		if($formatted){
+			return date('m/d/Y, h:i A', strtotime($this->getAddedDate()));
+		}
 		return $this->addedDate;
+	}
+
+	public function setAddedDate($addedDate){
+		$this->addedDate = $addedDate;
 	}
 
 	public function setDate($newDate)

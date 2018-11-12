@@ -66,8 +66,11 @@ class Recipes extends Controller {
 
     }
 
-    public function index(){
-        $household = $this->session->get('user')->getHouseholds()[0];
+    /**
+     * Show page listing recipes in user's current household
+     */
+    public function index():void{
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // echo "In ".__CLASS__."@".__FUNCTION__;
         $recipes = $this->recipeRepository->allForHousehold($household);
@@ -75,10 +78,14 @@ class Recipes extends Controller {
         $this->view('recipe/index', compact('recipes'));
     }
 
-    public function edit($id){
+    /**
+     * Show page to edit existing recipe
+     * @param integer $id Recipe id
+     */
+    public function edit($id):void{
 
         // TODO Choose current household, not first one
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // Get user's fooditems and list of units
         $foodItems = $this->foodItemRepository->allForHousehold($household);
@@ -98,9 +105,13 @@ class Recipes extends Controller {
         $this->view('recipe/edit', compact('recipe', 'ingredients', 'foodItems', 'units'));
     }
 
-    public function create(){
+    /**
+     * Show page for creating recipe
+     * @return [type] [description]
+     */
+    public function create():void{
 
-        $household = $this->session->get('user')->getHouseholds()[0];
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // Get user's foodItems and list of units
         $foodItems = $this->foodItemRepository->allForHousehold($household);
@@ -111,7 +122,10 @@ class Recipes extends Controller {
         $this->view('recipe/create', compact('foodItems', 'units'));
     }
 
-    public function store(){
+    /**
+     * Save a new recipe to the DB
+     */
+    public function store():void{
 
         $input = $this->request;
 
@@ -124,7 +138,7 @@ class Recipes extends Controller {
         $recipe = $this->recipeFactory->make($input);
 
         //If the recipe isn't already in the database
-        if (!$this->recipeRepository->findRecipeByName($recipe->getName())) {
+        if ($this->recipeRepository->findRecipeByName($recipe->getName()) == null) {
             //Save the recipe in the database:
             if ($this->recipeRepository->save($recipe)) {
                 // Flash success message
@@ -148,6 +162,11 @@ class Recipes extends Controller {
         return;
     }
 
+    /**
+     * Add ingredients to a recipe
+     * @param array $in     Array of ingredients
+     * @param Recipe $rec   The recipe the ingredients will be added to
+     */
 private function addIngredients($in, $rec) {
 
   if(isset($in['newFoodId'])) {
@@ -163,7 +182,7 @@ private function addIngredients($in, $rec) {
         //Create the ingredient object:
         $ingredient = $this->ingredientFactory->make($ingredientInput);
 
-        if(!$this->ingredientRepository->findIngredientByFoodId($ingredient->getFood()->getId(), $ingredient->getRecipeId())) {
+        if($this->ingredientRepository->findIngredientByFoodId($ingredient->getFood()->getId(), $ingredient->getRecipeId()) == null) {
             //Save the ingredient in the database:
             if($this->ingredientRepository->save($ingredient)) {
 
@@ -185,8 +204,12 @@ private function addIngredients($in, $rec) {
     } //end if new items were returned
   }
 
-    public function delete($id){
-            $household = $this->session->get('user')->getHouseholds()[0];
+    /**
+     * Delete a recipe
+     * @param integer $id Id of recipe to delete
+     */
+    public function delete($id):void{
+            $household = $this->session->get('user')->getCurrHousehold();
 
             //Remove the recipe from the recipes table:
             $recipe = $this->recipeRepository->find($id);
@@ -218,7 +241,11 @@ private function addIngredients($in, $rec) {
             return;
     }
 
-    public function update($id){
+    /**
+     * Update a recipe in the debug
+     * @param integer $id Id of recipe to update
+     */
+    public function update($id):void{
 
         $recipe = $this->recipeRepository->find($id);
 
@@ -257,7 +284,12 @@ private function addIngredients($in, $rec) {
         return;
     }
 
-    private function updateIngredients($in, $rec) {
+    /**
+     * Update a recipe's ingredients in the DB
+     * @param array $in  2D Array of ingredients
+     * @param Recipe $rec Recipe to update ingredients for
+     */
+    private function updateIngredients($in, $rec):void {
 
       //Get the ingredients associated with this recipe from the repository:
       $currentIngreds = $this->ingredientRepository->allForRecipe($rec->getId());
@@ -318,18 +350,12 @@ private function addIngredients($in, $rec) {
       }
     }
 
-    public function checkRecipeBelongsToUser($id){
-        $user = $this->session->get('user');
-
-        // If recipe doesn't belong to user, show forbidden error
-        if(!$this->recipeRepository->recipeBelongsToUser($id, $user)){
-            Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
-            return;
-        }
-    }
-
-    public function checkRecipeBelongsToHousehold($id){
-        $household = $this->session->get('user')->getHouseholds()[0];
+    /**
+     * Checks wether a recipe belongs to a household
+     * @param integer $id Recipe id
+     */
+    public function checkRecipeBelongsToHousehold($id):void{
+        $household = $this->session->get('user')->getCurrHousehold();
 
         // If recipe doesn't belong to household, show forbidden error
         if(!$this->recipeRepository->recipeBelongsToHousehold($id, $household)){
@@ -337,6 +363,7 @@ private function addIngredients($in, $rec) {
             return;
         }
     }
+
     /**
      * Validates food item input from user form
      * @param array $input  [description]
@@ -346,13 +373,10 @@ private function addIngredients($in, $rec) {
     private function validateInput($input, $method, $params = NULL):void{
         $this->session->flashOldInput($input);
 
-        var_dump($input);
-        //exit();
-
         // Validate input
         $validator = new Validator($input);
         $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
-        $safeStringRegex = '/^[0-9a-z \n\r.!#\/\(\)-]+$/i';
+        $safeStringRegex = '/^[0-9a-z \n\r.,!#\/\(\)-]+$/i';
 
         $rules = [
             'required' => [

@@ -43,25 +43,34 @@ class RecipeRepository extends Repository implements EditableModelRepository {
     /**
      * Find a single recipe by name
      * @param  string $name The name of the recipe
-     * @return object  A recipe object
+     * @return object  A recipe object or null
      */
+
     public function findRecipeByName($name){
 
         $query = $this->db->prepare('SELECT * FROM recipes WHERE name = ?');
         $query->bind_param("s", $name);
+
         if($query->execute()) {
           $result = $query->get_result();
+
           $recipeRow = $result->fetch_assoc();
 
-          $recipe = $this->recipeFactory->make($recipeRow);
-          return $recipe;
+          if($recipeRow) {
+
+            $recipe = $this->recipeFactory->make($recipeRow);
+          }
+          else {
+            $recipe = null;
+          }
+
         }
         else {
           $error = $query->error;
           echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
-          return null;
+          $recipe = null;
         }
-
+        return $recipe;
     }
 
     /**

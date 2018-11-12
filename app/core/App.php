@@ -55,7 +55,7 @@ class App {
 
 		$this->parseUrl();
 
-		if(!empty($this->url[0])){		// otherwise use default
+		if(!empty($this->url[0]) && !empty($this->session)){		// otherwise use default
 			try{
 				// If controller file exists, set it and remove the name from the URL
 				if(file_exists(__DIR__.'/../controllers/'.$this->url[0].'.php')){
@@ -87,8 +87,6 @@ class App {
 				$namespacedController = "Base\Controllers\\Errors";
 				$controller = new $namespacedController($this->dbh, $this->session, $this->request);
 				$methodName = 'show';
-				echo $e;
-				die();
 				$params = array('errorCode'=>404);
 			}
 		}

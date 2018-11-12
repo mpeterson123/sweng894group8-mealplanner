@@ -15,29 +15,13 @@ use Base\Repositories\UserRepository;
  * Super class that handles all incoming requests
  */
 class Controller {
-	// protected $dbh;
-	// protected $session;
-	//
-	// /**
-	//  * Inject DatabaseHandler on instance creation
-	//  * @param Base\Core\DatabaseHandler $dbh handler for database connection
-	//  */
-	// public function __construct(DatabaseHandler $dbh, Session $session){
-	// 	$this->dbh = $dbh;
-	// 	$this->session = $session;
-	// }
-	//
-	// // public function model($model, $params = NULL){
-	// // 	require_once __DIR__.'/../models/'.$model.'.php';
-	// // 	$namespacedModel = "Base\Models\\".$model;
-	// //
-	// // 	if($params){
-	// // 		return new $namespacedModel(...$params);
-	// // 	}
-	// // 	return new $namespacedModel();
-	// //
-	// // }
-	public function view($view,$data = []){
+
+	/**
+	 * Renders a view (page)
+	 * @param string $view View name
+	 * @param array  $data Extra data to pass on to view
+	 */
+	public function view($view,$data = []):void{
 
 		$user = $this->session->get('user');
 		$data['user'] = $user;

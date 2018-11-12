@@ -24,12 +24,24 @@ class MealFactory extends Factory {
     {
         $recipe = $this->recipeRepository->find($mealArray['recipeId']);
 
-        $newMeal = new Meal($recipe,$mealArray['date'],$mealArray['scaleFactor']);
+        $meal = new Meal();
+
+        $meal->setRecipe($recipe);
+		$meal->setDate($mealArray['date']);
+		$meal->setScaleFactor($mealArray['scaleFactor']);
+
+        // Only existing meals have id, completion information and added date
         if(isset($mealArray['id'])){
-            $newMeal->setId($mealArray['id']);
+            $meal->setId($mealArray['id']);
+            $meal->setIsComplete($mealArray['isComplete']);
+    		$meal->setAddedDate($mealArray['addedDate']);
+        }
+        else {
+            $meal->setIsComplete(false);
+    		$meal->setAddedDate(date('Y-m-d H:i:s'));
         }
 
-        return $newMeal;
+        return $meal;
     }
 
 }
