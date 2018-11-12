@@ -199,7 +199,21 @@ $usersList = sqlRequest("SELECT * FROM users");
 -->
 <?php foreach ($usersList as $aUser) { ?>
                                         <li>
-                                            <img src="/images/users/<?php echo ($aUser['profilePic'] ?? 'avatar.png'); ?>" alt="<?php echo "{$aUser['namefirst']} {$aUser['namelast']}"; ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo "{$aUser['namefirst']}"; ?>">
+                                            <img src="/images/users/<?php if ($aUser['profilePic'] ?? NULL) 
+                                                                          { 
+                                                                              if ($aUser['profilePic'] == '') 
+                                                                              { 
+                                                                                  echo 'avatar.png'; 
+                                                                              }
+                                                                              else
+                                                                              {
+                                                                                  echo $aUser['profilePic'];
+                                                                              }
+                                                                          }
+                                                                          else 
+                                                                          { 
+                                                                              echo 'avatar.png'; 
+                                                                          } ?>" alt="<?php echo "{$aUser['namefirst']} {$aUser['namelast']}"; ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo "{$aUser['namefirst']}"; ?>">
                                         </li>
 <?php } ?>
                                         <li class="p-r-0">
