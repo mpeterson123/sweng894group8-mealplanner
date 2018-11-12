@@ -17,6 +17,9 @@ $PLUGIN_SLIMSCROLL = TRUE;
 $PLUGIN_WAVES      = TRUE;
 $PLUGIN_SIDEBARMENU= TRUE;
 
+// Dashboard Settings
+define('NUM_USERS_TO_LIST', 6);
+
 // Dashboard Statistics
 
 $houseHoldID  = sqlRequestByID("users", $user->getId(), "currHouseholdId");
@@ -197,7 +200,7 @@ $usersList = sqlRequest("SELECT * FROM users");
                                             <img src="/images/users/avatar1.jpg" alt="user" data-toggle="tooltip" data-placement="top" title="" data-original-title="Steave">
                                         </li>
 -->
-<?php foreach ($usersList as $aUser) { ?>
+<?php $numListed = 0; foreach ($usersList as $aUser) { if ($numListed == NUM_USERS_TO_LIST) { break; } $numListed++; ?>
                                         <li>
                                             <img src="/images/users/<?php if ($aUser['profilePic'] ?? NULL) 
                                                                           { 
@@ -216,9 +219,11 @@ $usersList = sqlRequest("SELECT * FROM users");
                                                                           } ?>" alt="<?php echo "{$aUser['namefirst']} {$aUser['namelast']}"; ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo "{$aUser['namefirst']}"; ?>">
                                         </li>
 <?php } ?>
+                                        <?php if (count($usersList) > NUM_USERS_TO_LIST) { ?>
                                         <li class="p-r-0">
-                                            <a href="javascript:void(0);" class="btn btn-success font-16"><?php echo count($usersList); ?>+</a>
+                                            <a href="javascript:void(0);" class="btn btn-success font-16"><?php echo (count($usersList) - NUM_USERS_TO_LIST); ?>+</a>
                                         </li>
+                                        <?php } ?>
                                     </ul>
                                 </div>
                             </div>
