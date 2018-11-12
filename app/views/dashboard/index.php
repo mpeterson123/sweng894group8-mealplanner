@@ -203,10 +203,15 @@ $usersList = sqlRequest("SELECT * FROM users");
 <?php $numListed = 0; foreach ($usersList as $aUser) { if ($numListed == NUM_USERS_TO_LIST) { break; } $numListed++; ?>
                                         <li>
                                             <img src="/images/users/<?php if ($aUser['profilePic'] ?? NULL) 
-                                                                          { 
+                                                                          {
+                                                                              // File check
                                                                               if ($aUser['profilePic'] == '') 
                                                                               { 
                                                                                   echo 'avatar.png'; 
+                                                                              }
+                                                                              else if (!file_exists('http://mealplanner.mobi/images/users/' . $aUser['profilePic'])) 
+                                                                              {
+                                                                                  echo 'avatar.png';
                                                                               }
                                                                               else
                                                                               {
