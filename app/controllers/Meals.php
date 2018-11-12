@@ -136,7 +136,7 @@ class Meals extends Controller {
         }
 
 
-        if($this->mealBelongsToHousehold($id))
+        if($this->mealRepository->mealBelongsToHousehold($id))
         {
           $this->mealRepository->remove($meal);
           $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
@@ -158,7 +158,7 @@ class Meals extends Controller {
     public function update($id):void{
         $meal = $this->mealRepository->find($id);
 
-        if( $this->mealBelongsToHousehold($id) )
+        if( $this->mealRepository->mealBelongsToHousehold($id) )
         {
 
           $this->validateEditInput($this->request, 'edit', [$id]);
@@ -276,7 +276,7 @@ class Meals extends Controller {
     public function complete($id):void{
         $meal = $this->mealRepository->find($id);
 
-        if( $this->mealBelongsToHousehold($id) )
+        if( $this->mealRepository->mealBelongsToHousehold($id) )
         {
 
           $meal->complete();
