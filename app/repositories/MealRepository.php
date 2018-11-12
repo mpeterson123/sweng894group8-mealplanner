@@ -16,6 +16,11 @@ class MealRepository extends Repository implements EditableModelRepository {
         $this->mealFactory = $mealFactory;
     }
 
+    /**
+     * Returns a given meal based on its id, regardless of household
+     * @param interger $id  meal id to be found
+     * @return array Associative array of meals
+     */
     public function find($id){
         $query = $this->db->prepare('SELECT * FROM meal WHERE id = ?');
         $query->bind_param("s", $id);
@@ -27,6 +32,11 @@ class MealRepository extends Repository implements EditableModelRepository {
         return $meal;
     }
 
+    /**
+     * Calls meal update or insert depending on if it is already in the DB
+     * @param meal $meal  meal to be saved
+     * @return array Associative array of meals
+     */
     public function save($meal){
 
         $success = false;
@@ -42,10 +52,19 @@ class MealRepository extends Repository implements EditableModelRepository {
         return $success;
     }
 
+    /**
+     * Get all meals regardess of household
+     * @return array Associative array of meals
+     */
     public function all(){
         return $this->db->query('SELECT * FROM meal ORDER by date')->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Get all meals for a given household regardless of completion status
+     * @param  Household $household household to get meal list for
+     * @return array Associative array of meals
+     */
     public function allForHousehold($household){
         $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipeId, meal.scaleFactor, meal.isComplete
             FROM meal WHERE meal.householdId = ?
@@ -67,6 +86,11 @@ class MealRepository extends Repository implements EditableModelRepository {
         return $collection;
     }
 
+    /**
+     * Get all meals for a household that are incomplete (not yet completed or made)
+     * @param  Household $household  household to get meal list for
+     * @return array Associative array of meals
+     */
     public function incompleteForHousehold($household){
         $query = $this->db->prepare('SELECT meal.id, meal.date, meal.addedDate, meal.recipeId, meal.scaleFactor, meal.isComplete
             FROM meal WHERE meal.householdId = ?
@@ -88,7 +112,11 @@ class MealRepository extends Repository implements EditableModelRepository {
         return $collection;
     }
 
-    // Remove a given meal from a database
+    /**
+     * Delete meal from the database
+     * @param  meal $meal  meals's id
+     * @return bool         Whether query was successful
+     */
     public function remove($meal){
         $mealId = $meal->getId();
         $query = $this->db->prepare('DELETE FROM meal WHERE id = ?');
@@ -96,7 +124,11 @@ class MealRepository extends Repository implements EditableModelRepository {
         return $query->execute();
     }
 
-    // Insert a given meal in the database
+    /**
+     * Insert item into the database
+     * @param  Meal $meal   meal to be stored
+     * @return bool Whether query was successful
+     */
     public function insert($meal){
         try {
             $query = $this->db
@@ -127,7 +159,11 @@ class MealRepository extends Repository implements EditableModelRepository {
 
     }
 
-    // Update a given meal in the database
+    /**
+     * Update a meal in database
+     * @param  Meal $meal to be updated
+     * @return bool Whether query was successful
+     */
     public function update($meal){
       try {
         $query = $this->db
@@ -156,14 +192,17 @@ class MealRepository extends Repository implements EditableModelRepository {
         }
     }
 
-    public function mealBelongsToHousehold($mealId)
+    /**
+     * Check if meal is editable by the current household
+     * @param  integer $mealId          Meal's id
+     * @param  integer $householdId     Current household id
+     * @return bool                     Whether the meal is in the user's household
+     */
+    public function mealBelongsToHousehold($mealId, $householdId)
     {
-        $householdId = $this->session->get('user')->getCurrHousehold();
-        $query = $this->db->prepare('SELECT * FROM meal JOIN recipes ON meal.recipe = recipes.id WHERE meal.householdId = ? AND meal.id = ?');
-        $query->bind_param(
-            $householdId,
-            $mealId
-        );
+        $query = $this->db->prepare('SELECT * FROM meal WHERE id = ? AND householdId = ?');
+        @$query->bind_param("ii", $mealId, $householdId);
+
         $query->execute();
 
         $result = $query->get_result();
