@@ -23,7 +23,7 @@ use Base\Models\Household as HH;
 use Base\Repositories\HouseholdRepository;
 use Base\Factories\HouseholdFactory;
 use Base\Factories\UserFactory;
-
+use Base\Helpers\Log;
 
 /**
  * Represents a user's household. Can have multiple members.
@@ -31,7 +31,8 @@ use Base\Factories\UserFactory;
 class Household extends Controller{
 	protected $dbh,
 		$session,
-		$request;
+		$request,
+		$log;
 
 	private	$userRepository,
 		$householdRepository,
@@ -42,6 +43,7 @@ class Household extends Controller{
 		$this->dbh = $dbh;
 		$this->session = $session;
 		$this->request = $request;
+		$this->log = new Log($dbh);
 
 		// TODO Use dependency injection
 		$this->householdFactory = new HouseholdFactory();
