@@ -148,7 +148,9 @@ class Household extends Controller{
 				$in_hh = true;
 		}
 		if(!$in_hh){
-			die('You do not have access to this household');
+			$this->log->add($user, 'Error', 'Household Detail - Not a memeber => Access Denied');
+			$this->session->flashMessage('danger', 'You do not have access to this household.');
+			Redirect::toControllerMethod('Household', 'list');
 		}
 		// Check if is owner
 		$isOwner = false;
@@ -195,6 +197,8 @@ class Household extends Controller{
 	 * @param  integer $hhId Household id
 	 */
 	public function delete($hhId){
+		$this->log->add($user, 'Delete', 'A household ('.$hhId.') has been deleted');
+
 		// Delete Household
 		$this->householdRepository->remove($hhId);
 

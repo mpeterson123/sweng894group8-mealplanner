@@ -257,6 +257,7 @@ class Account extends Controller{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt.$old_email) != $code)){
+			$this->log->add($user, 'Error', 'Confirm Email - Link is invalid');
 			$this->session->flashMessage('danger', 'Your email confirmation link is invalid.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
@@ -277,7 +278,7 @@ class Account extends Controller{
 	public function delete():void{
 		$user = $this->session->get('user');
 
-		$this->log->add($user, 'Delete', 'A user has been deleted');
+		$this->log->add($user, 'Delete', 'A user account ('.$user->getUsername().') has been deleted');
 
 		$this->userRepository->remove($user);
 		// Remove everything from session
