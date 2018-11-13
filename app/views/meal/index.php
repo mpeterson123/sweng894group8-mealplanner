@@ -101,8 +101,6 @@ $PLUGIN_EXPORT      = TRUE;
                                                                 data-target="#confirm-complete-meal">
                                                                 Complete
                                                             </button>
-                                                        }
-                                                        ?>
                                                     </td>
                                                 </tr>
                                                 <?php
