@@ -93,13 +93,7 @@ $PLUGIN_EXPORT      = TRUE;
                                                     <td><?php echo $meal->getDate(true); ?></td>
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
                                                     <td><?php echo $meal->getAddedDate(true); ?></td>
-                                                    <td><a href="/Meals/complete/<?php echo $meal->getId(); ?>">
-                                                        <?php
-                                                        if($meal->isComplete()) {
-                                                            echo 'Yes';
-                                                        }
-                                                        else {
-                                                            //echo 'No';
+                                                    <td>
                                                             <button
                                                                 type="button"
                                                                 class="btn btn-danger m-t-15"
