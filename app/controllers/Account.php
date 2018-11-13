@@ -109,7 +109,8 @@ class Account extends Controller{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt) != $code)){
-			$this->session->flashMessage('danger', 'Your password reset link is invalid. Please reset your password again.');
+			$this->log->add($user, 'Error', 'Confirm Email - Code is invalid');
+			$this->session->flashMessage('danger', 'This link is invalid. Please try again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 
@@ -133,6 +134,7 @@ class Account extends Controller{
 		$u = $this->userRepository->get('email',$email);
 
 		if($email == ''){
+			$this->log->add($user, 'Error', 'Forgot Password - Email Address not supplied');
 			$this->session->flashMessage('success', 'No email has been supplied.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
@@ -164,16 +166,19 @@ class Account extends Controller{
 		$u = $this->userRepository->get('email',$email);
 		if(!$u){
 			// Email doesn't exist
+			$this->log->add($user, 'Error', 'Reset Password - Email Address doens\'t exist');
 			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		// Check if reset code has been set
 		else if($u['passTemp'] == ''){
+			$this->log->add($user, 'Error', 'Reset Password - Reset Code not sent');
 			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		// Check if code matches db
 		else if($u['passTemp'] != $code){
+			$this->log->add($user, 'Error', 'Reset Password - Reset Code doesn\'t match');
 			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
@@ -272,6 +277,8 @@ class Account extends Controller{
 	public function delete():void{
 		$user = $this->session->get('user');
 
+		$this->log->add($user, 'Delete', 'A user has been deleted');
+
 		$this->userRepository->remove($user);
 		// Remove everything from session
 		$this->session->flush();
@@ -338,6 +345,7 @@ class Account extends Controller{
 		if(!$user) {
 			// If credentials are not valid, set error message
 			$message = 'Incorrect username or password.';
+			$this->log->add($user, 'Error', 'Login - '.$message);
 		}
 		else if(!$user->getActivated()){
 			// If credentials are valid, but user is inactive, set error message
@@ -591,6 +599,7 @@ class Account extends Controller{
 			}
 			// Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0) {
+				$this->log->add($user, 'Error', 'Upload Picture - '.$errors);
 				$errorMessage = Format::validatorErrors($errors);
 				$this->session->flashMessage('danger', $errorMessage);
 				$this->view('/auth/changePic');
