@@ -23,7 +23,26 @@ $PLUGIN_EXPORT      = TRUE;
 <?php require_once( __HEADER__ ); ?>
 
 <body class="mini-sidebar">
-
+  <!-- Confirm completion modal -->
+  <div class="modal fade" id="confirm-comp-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Confirm Meal Completion</h4>
+              </div>
+              <div class="modal-body">
+                  <p>Are you sure you want to complete this meal? Doing so will <strong>subtract from your food inventory</strong>. This cannot be undone.</p>
+              </div>
+              <div class="modal-footer">
+                  <form class="" action="/Meals/complete/<?php echo $meal->getId();?>" method="post">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-default">Complete</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
 
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
@@ -88,7 +107,7 @@ $PLUGIN_EXPORT      = TRUE;
                                                                     type="button"
                                                                     class="btn btn-danger m-t-15"
                                                                     data-toggle="modal"
-                                                                    data-target="#confirm-complete-meal">
+                                                                    data-target="#confirm-comp-modal">
                                                                     Complete
                                                                 </button>
                                                               </form>
