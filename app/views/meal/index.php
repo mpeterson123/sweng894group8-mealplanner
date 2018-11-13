@@ -23,7 +23,7 @@ $PLUGIN_EXPORT      = TRUE;
 <?php require_once( __HEADER__ ); ?>
 
 <body class="mini-sidebar">
-  <!-- Confirm completion modal -->
+  <!-- Confirm completion modal --> <!--
   <div class="modal fade" id="confirm-comp-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
@@ -35,7 +35,7 @@ $PLUGIN_EXPORT      = TRUE;
                   <p>Are you sure you want to complete this meal? Doing so will <strong>subtract from your food inventory</strong>. This cannot be undone.</p>
               </div>
               <div class="modal-footer">
-                  <form class="" action="/Meals/complete/<?php echo $meal->getId();?>" method="post">
+                  <form class="" action="/Meals/complete/" method="post">
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                       <button type="submit" class="btn btn-default">Complete</button>
                   </form>
@@ -43,6 +43,7 @@ $PLUGIN_EXPORT      = TRUE;
           </div>
       </div>
   </div>
+-->
 
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
@@ -93,8 +94,7 @@ $PLUGIN_EXPORT      = TRUE;
                                                     <td><?php echo $meal->getDate(true); ?></td>
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
                                                     <td><?php echo $meal->getAddedDate(true); ?></td>
-                                                    <td><a href="/Meals/complete/<?php echo $meal->getId(); ?>">
-                                                        <?php
+                                                    <td><?php
                                                         if($meal->isComplete()) {
                                                             echo 'Already Complete';
                                                         }
@@ -102,14 +102,8 @@ $PLUGIN_EXPORT      = TRUE;
                                                             //echo 'No';
                                                             ?>
                                                             <div class="col-sm-12 col-xs-12">
-                                                              <form class="">
-                                                                <button
-                                                                    type="button"
-                                                                    class="btn btn-danger m-t-15"
-                                                                    data-toggle="modal"
-                                                                    data-target="#confirm-comp-modal">
-                                                                    Complete
-                                                                </button>
+                                                              <form method="post" action="/Meals/complete/<?php echo $meal->getId(); ?>">
+                                                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Complete/Cook Meal</button>
                                                               </form>
                                                             </div>
                                                             <?php
