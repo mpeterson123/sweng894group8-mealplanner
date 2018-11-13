@@ -11,6 +11,8 @@ class Recipe{
 	private $source;
 	private $notes;
 
+
+
 	public function __construct($theName='',$theDirections='',$theServings='',$theSource='',$theNotes=''){
 		$this->setName($theName);
 		$this->setDirections($theDirections);
@@ -99,14 +101,19 @@ class Recipe{
 	}
 
 	public function updateStockAfterCreation($scale){
+		// Default stock to 1 if none is given
 		if ($scale == NULL){
 			$scale = 1.0;
 		}
+
 		for($i=0;$i<count($this->ingredients);$i++){
 			$ingredientFood = $this->ingredient[$i]->getFood();
 			$currentStock = $ingredientFood->getStock();
 			$ingredientQty = $this->ingredients[$i]->getQuantity();
 			$ingredientFood->setStock($scale * ($currentStock - $ingredientQty));
+
+			//Save food
+			//$this->foodItemRepository->save($ingredientFood);
 		}
 	}
 }

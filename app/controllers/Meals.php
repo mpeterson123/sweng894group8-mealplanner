@@ -286,6 +286,7 @@ class Meals extends Controller {
         {
 
           $meal->complete();
+          $this->mealRepository->save($meal);
 
           // Flash success message
           $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was completed.');

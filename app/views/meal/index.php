@@ -23,6 +23,27 @@ $PLUGIN_EXPORT      = TRUE;
 <?php require_once( __HEADER__ ); ?>
 
 <body class="mini-sidebar">
+
+  <div class="modal fade" id="confirm-complete-meal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Confirm Meal Completion</h4>
+              </div>
+              <div class="modal-body">
+                  <p>Are you sure you want to complete this meal? Doing so will <strong>update your food stock quantities</strong>. This cannot be undone.</p>
+              </div>
+              <div class="modal-footer">
+                  <form class="" action="/Meals/complete/<?php echo $data['meal']->getId();?>" method="post">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-danger">Complete</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
         <div class="preloader">
@@ -78,7 +99,14 @@ $PLUGIN_EXPORT      = TRUE;
                                                             echo 'Yes';
                                                         }
                                                         else {
-                                                            echo 'No';
+                                                            //echo 'No';
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-danger m-t-15"
+                                                                data-toggle="modal"
+                                                                data-target="#confirm-complete-meal">
+                                                                Complete
+                                                            </button>
                                                         }
                                                         ?>
                                                     </td>
