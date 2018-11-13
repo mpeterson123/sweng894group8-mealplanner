@@ -19,7 +19,7 @@
                             </a>
                             <ul class="dropdown-menu animated flipInY">
                                 <li><a href="/Account/changePicture"><i class="fa fa-user"></i>Change Picture</a></li>
-                                <li><a href="javascript:void(0);"><i class="fa fa-inbox"></i> Inbox</a></li>
+                                <li><a href="/Messages/inbox"><i class="fa fa-inbox"></i> Inbox</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="/Account/settings"><i class="fa fa-cog"></i> Account Settings</a></li>
                                 <li><a href="/Household/list"><i class="fa fa-cog"></i> Household Settings</a></li>

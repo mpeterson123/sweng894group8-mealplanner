@@ -48,7 +48,10 @@ class Meals extends Controller {
 
     public function index():void{
         $household = $this->session->get('user')->getCurrHousehold();
-        $meals = $this->mealRepository->allForHousehold($household);
+        $meals = $this->mealRepository->incompleteForHousehold($household);
+
+        // Need to figure out how to toggle between entire list and not completed list
+        // $meals = $this->mealRepository->allForHousehold($household);
 
         $this->view('meal/index', compact('meals'));
     }
@@ -135,8 +138,9 @@ class Meals extends Controller {
             return;
         }
 
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
-        if($this->mealBelongsToHousehold($id))
+        if($this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
         {
           $this->mealRepository->remove($meal);
           $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
@@ -157,8 +161,9 @@ class Meals extends Controller {
      */
     public function update($id):void{
         $meal = $this->mealRepository->find($id);
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
-        if( $this->mealBelongsToHousehold($id) )
+        if( $this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
         {
 
           $this->validateEditInput($this->request, 'edit', [$id]);
@@ -247,10 +252,10 @@ class Meals extends Controller {
             'boolean' => [
                 ['isComplete']
             ],
-            'timestamp' => [
-               ['date'],
-               ['addedDate']
-            ],
+            //'timestamp' => [
+            //   ['date'],
+            //   ['addedDate']
+            //],
             'regex' => [
                 ['scaleFactor', $twoSigDigFloatRegex]
             ]
@@ -275,11 +280,13 @@ class Meals extends Controller {
      */
     public function complete($id):void{
         $meal = $this->mealRepository->find($id);
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
-        if( $this->mealBelongsToHousehold($id) )
+        if( $this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
         {
 
           $meal->complete();
+          $this->mealRepository->save($meal);
 
           // Flash success message
           $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was completed.');
