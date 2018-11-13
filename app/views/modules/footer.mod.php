@@ -39,6 +39,9 @@
 <?php if ($PLUGIN_DROPIFY) { ?>
     <script src="/plugins/components/dropify/dist/js/dropify.min.js"></script>
 <?php } ?>
+<?php if ($PLUGIN_DATEPICKER) { ?>
+    <script src="/plugins/components/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<?php } ?>
 <?php if ($PLUGIN_DATATABLES) { ?>
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
 <?php } ?>

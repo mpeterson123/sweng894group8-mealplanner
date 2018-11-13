@@ -30,6 +30,7 @@ $PLUGIN_CHARTIST   = FALSE;          // When using charts, this plugin required
 $PLUGIN_DATATABLES = FALSE;          // For (Data) Tables
 $PLUGIN_EXPORT     = FALSE;          // For Data Tables that can export
 $PLUGIN_DROPIFY    = FALSE;          // For file upload
+$PLUGIN_DATEPICKER = FALSE;          // For file upload
 
 // Globals
 $_SERVER['phpunit_off'] = TRUE;

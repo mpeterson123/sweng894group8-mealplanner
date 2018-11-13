@@ -13,6 +13,7 @@ use Base\Helpers\Session;
 $PLUGIN_SLIMSCROLL  = TRUE;
 $PLUGIN_WAVES       = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
+$PLUGIN_DATEPICKER  = TRUE;
 
 
 // Sub Title
@@ -75,7 +76,7 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                                     <label for="inputDate">Date</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                        <input type="text" class="form-control" id="inputDate" placeholder="Date of Meal" name="name" value="<?php echo $data['meal']->getDate(true); ?>"> </div>
+                                        <input type="text" class="form-control datepicker" id="inputDate" placeholder="Date of Meal" name="name" value="<?php echo $data['meal']->getDate(true); ?>"> </div>
                                 </div>
 
                                 <!--RECIPE-->
@@ -91,7 +92,7 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                                                   echo 'selected="selected" ';
                                               }
 
-                                              echo 'value="'.$recipe->getId().'">'.$recipe['name'].'</option>';
+                                              echo 'value="'.$recipe->getId().'">'.$recipe->getName().'</option>';
                                           }
                                         ?>
                                     </select>
@@ -145,6 +146,13 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
     <!-- ===== Main-Wrapper-End ===== -->
 
 <?php require_once( __FOOTER__ ); ?>
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            todayHighlight: true,
+            startDate: "-0d"
+        });
+    });
+</script>
 </body>
 </html>

@@ -14,6 +14,7 @@ use Base\Helpers\Session;
 $PLUGIN_SLIMSCROLL  = TRUE;
 $PLUGIN_WAVES       = TRUE;
 $PLUGIN_SIDEBARMENU = TRUE;
+$PLUGIN_DATEPICKER  = TRUE;
 
 
 // Sub Title
@@ -56,7 +57,7 @@ $SUBTITLE = "Create Meal";
                                             <label for="inputDate">Date</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                                                <input type="text" class="form-control mydatepicker complex-colorpicker" placeholder="mm/dd/yyyy" id="inputDate" placeholder="Date of Meal" name="date" value="<?php echo $data['session']->getOldInput('date') ?>">
+                                                <input type="text" class="form-control datepicker" placeholder="mm/dd/yyyy" id="inputDate" placeholder="Date of Meal" name="date" value="<?php echo $data['session']->getOldInput('date') ?>">
                                             </div>
                                         </div>
 
@@ -116,6 +117,13 @@ $SUBTITLE = "Create Meal";
     <!-- ===== Main-Wrapper-End ===== -->
 
 <?php require_once( __FOOTER__ ); ?>
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            todayHighlight: true,
+            startDate: "-0d"
+        });
+    });
+</script>
 </body>
 </html>

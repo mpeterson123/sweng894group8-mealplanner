@@ -27,6 +27,9 @@
 <?php if ($PLUGIN_DROPIFY) { ?>
     <link href="/plugins/components/dropify/dist/css/dropify.min.css" rel="stylesheet">
 <?php } ?>
+<?php if ($PLUGIN_DATEPICKER) { ?>
+    <link href="/plugins/components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+<?php } ?>
 <?php if ($PLUGIN_DATATABLES) { ?>
     <link href="/vendor/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
