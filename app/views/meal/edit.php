@@ -91,7 +91,7 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                                                   echo 'selected="selected" ';
                                               }
 
-                                              echo 'value="'.$recipe->getId().'">'.$recipe['name'].'</option>';
+                                              echo 'value="'.$recipe->getId().'">'.$recipe->getName().'</option>';
                                           }
                                         ?>
                                     </select>
