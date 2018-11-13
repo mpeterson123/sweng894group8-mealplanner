@@ -81,6 +81,7 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                               <form method="post" action="/Meals/update/<?php echo $data['meal']->getId(); ?>">
                                   <input type="hidden" name="mealid" value="<?php echo $data['meal']->getId(); ?>">
 
+                                  <!--DATE-->
                                   <div class="form-group">
                                       <label for="inputDate">Date</label>
                                       <div class="input-group">
@@ -97,7 +98,7 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                                             foreach($data['recipes'] as $recipe){
                                                 echo '<option ';
 
-                                                if($data['session']->getOldInput('recipeId') == $recipe->getId()){
+                                                if($data['meal']->getRecipeId() == $recipe->getId()){
                                                     echo 'selected="selected" ';
                                                 }
 
@@ -107,12 +108,12 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                                       </select>
                                   </div>
 
-                                  <!-- Scale Factor -->
+                                  <!-- SCALE FACTOR -->
                                   <div class="form-group">
                                       <label for="inputScaleFactor">Scale</label>
                                       <div class="input-group">
                                           <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                          <input type="number" step="0.01" min="1" class="form-control" id="inputScaleFactor" placeholder="" name="scaleFactor" value="<?php echo $data['session']->getOldInput('scaleFactor'); ?>">
+                                          <input type="number" step="0.01" min="1" class="form-control" id="inputScaleFactor" placeholder="" name="scaleFactor" value="<?php echo $data['meal']->getScaleFactor(); ?>">
                                       </div>
                                   </div>
 
