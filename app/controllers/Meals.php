@@ -252,10 +252,10 @@ class Meals extends Controller {
             'boolean' => [
                 ['isComplete']
             ],
-            'timestamp' => [
-               ['date'],
-               ['addedDate']
-            ],
+            //'timestamp' => [
+            //   ['date'],
+            //   ['addedDate']
+            //],
             'regex' => [
                 ['scaleFactor', $twoSigDigFloatRegex]
             ]

@@ -94,17 +94,15 @@ $PLUGIN_EXPORT      = TRUE;
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
                                                     <td><?php echo $meal->getAddedDate(true); ?></td>
                                                     <td>
-                                                      <div class="col-sm-12 col-xs-12">
-                                                        <form method="post" action="/Meals/update/<?php echo $data['meal']->getId(); ?>">
-                                                          <button
-                                                              type="button"
-                                                              class="btn btn-danger m-t-15"
-                                                              data-toggle="modal"
-                                                              data-target="#confirm-complete-meal">
-                                                              Complete
-                                                          </button>
-                                                        </form>
-                                                      </div>
+                                                      <a href="/Meals/complete/<?php echo $meal->getId(); ?>">
+                                                        <?php
+                                                        if($meal->isComplete()) {
+                                                            echo 'Yes';
+                                                        }
+                                                        else {
+                                                            echo 'No';
+                                                        }
+                                                        ?>
                                                     </td>
                                                 </tr>
                                                 <?php
