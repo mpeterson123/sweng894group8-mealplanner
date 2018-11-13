@@ -86,7 +86,7 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                                       <label for="inputDate">Date</label>
                                       <div class="input-group">
                                           <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                          <input type="text" class="form-control" id="inputDate" placeholder="Date of Meal" name="name" value="<?php echo $data['meal']->getDate(true); ?>"> </div>
+                                          <input type="text" class="form-control" id="inputDate" placeholder="Date of Meal" name="date" value="<?php echo $data['meal']->getDate(true); ?>"> </div>
                                   </div>
 
                                   <!--RECIPE-->
