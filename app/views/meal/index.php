@@ -23,26 +23,27 @@ $PLUGIN_EXPORT      = TRUE;
 <?php require_once( __HEADER__ ); ?>
 
 <body class="mini-sidebar">
-  <!-- Confirm completion modal -->
-    <div class="modal fade" id="confirm-complete-meal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm Meal Completion</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to complete this meal? Doing so will <strong>update your food stock quantities</strong>. This cannot be undone.</p>
-                </div>
-                <div class="modal-footer">
-                    <form class="" action="/Meals/complete/<?php echo $data['meal']->getId();?>" method="post">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Complete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+  <!-- Confirm completion modal --> <!--
+  <div class="modal fade" id="confirm-comp-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Confirm Meal Completion</h4>
+              </div>
+              <div class="modal-body">
+                  <p>Are you sure you want to complete this meal? Doing so will <strong>subtract from your food inventory</strong>. This cannot be undone.</p>
+              </div>
+              <div class="modal-footer">
+                  <form class="" action="/Meals/complete/" method="post">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-default">Complete</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+-->
 
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
@@ -93,8 +94,7 @@ $PLUGIN_EXPORT      = TRUE;
                                                     <td><?php echo $meal->getDate(true); ?></td>
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
                                                     <td><?php echo $meal->getAddedDate(true); ?></td>
-                                                    <td><a href="/Meals/complete/<?php echo $meal->getId(); ?>">
-                                                        <?php
+                                                    <td><?php
                                                         if($meal->isComplete()) {
                                                             echo 'Already Complete';
                                                         }
@@ -102,14 +102,8 @@ $PLUGIN_EXPORT      = TRUE;
                                                             //echo 'No';
                                                             ?>
                                                             <div class="col-sm-12 col-xs-12">
-                                                              <form class="">
-                                                                <button
-                                                                    type="button"
-                                                                    class="btn btn-danger m-t-15"
-                                                                    data-toggle="modal"
-                                                                    data-target="#confirm-complete-meal">
-                                                                    Complete
-                                                                </button>
+                                                              <form method="post" action="/Meals/complete/<?php echo $meal->getId(); ?>">
+                                                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Complete/Cook Meal</button>
                                                               </form>
                                                             </div>
                                                             <?php

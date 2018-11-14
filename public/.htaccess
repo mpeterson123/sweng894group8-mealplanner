@@ -5,3 +5,9 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+
+SetEnv HTTP_dbUser "capstone_remote"
+SetEnv HTTP_dbPass "CmklPrew!"
+SetEnv HTTP_dbHost "34.207.226.165"
+SetEnv HTTP_dbName "capstone"
+

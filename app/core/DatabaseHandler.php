@@ -7,26 +7,18 @@ require_once __DIR__.'/../../vendor/autoload.php';
  */
 class DatabaseHandler
 {
-    private $host;
-    private $dbName;
-    private $user;
-    private $pass;
-    private $charset;
-
+    private $host ,$dbName,$user,$pass,$charset,$db;
     private static $instance = NULL;
-    private $db;
 
     /**
      * Private constructor to prevent outside use
      */
     private function __construct(){
-        require_once __DIR__.'/../../.env.php';
-
-        $this->host    = $ENV_HOST;
-        $this->dbName  = $ENV_DBNAME;
-        $this->user    = $ENV_USER;
-        $this->pass    = $ENV_PASS;
-        $this->charset = $ENV_CHARSET;
+      $this->host = getenv("HTTP_dbHost");//'34.207.226.165';
+      $this->dbName   = getenv("HTTP_dbName"); //'capstone';
+      $this->user = getenv("HTTP_dbUser");//'capstone_remote';
+      $this->pass = getenv("HTTP_dbPass");//'CmklPrew!';
+      $this->charset = 'utf8';
     }
 
     /**
