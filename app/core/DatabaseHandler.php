@@ -14,10 +14,10 @@ class DatabaseHandler
      * Private constructor to prevent outside use
      */
     private function __construct(){
-      $this->host = getenv("HTTP_dbHost");//'34.207.226.165';
-      $this->dbName   = getenv("HTTP_dbName"); //'capstone';
-      $this->user = getenv("HTTP_dbUser");//'capstone_remote';
-      $this->pass = getenv("HTTP_dbPass");//'CmklPrew!';
+      $this->host = getenv("HTTP_dbHost");
+      $this->dbName   = getenv("HTTP_dbName");
+      $this->user = getenv("HTTP_dbUser");
+      $this->pass = getenv("HTTP_dbPass");
       $this->charset = 'utf8';
     }
 
