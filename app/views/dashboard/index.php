@@ -32,6 +32,7 @@ $usersList = sqlRequest("SELECT * FROM users");
 ?>
 <?php require_once( __HEADER__ ); ?>
 
+
 <body class="mini-sidebar">
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
@@ -202,14 +203,14 @@ $usersList = sqlRequest("SELECT * FROM users");
 -->
 <?php $numListed = 0; foreach ($usersList as $aUser) { if ($numListed == NUM_USERS_TO_LIST) { break; } $numListed++; ?>
                                         <li>
-                                            <img src="/images/users/<?php if ($aUser['profilePic'] ?? NULL) 
+                                            <img src="/images/users/<?php if ($aUser['profilePic'] ?? NULL)
                                                                           {
                                                                               // File check
-                                                                              if ($aUser['profilePic'] == '') 
-                                                                              { 
-                                                                                  echo 'avatar.png'; 
+                                                                              if ($aUser['profilePic'] == '')
+                                                                              {
+                                                                                  echo 'avatar.png';
                                                                               }
-                                                                              else if (!file_exists(__DIR__ . '/../../../public/images/users/' . $aUser['profilePic'])) 
+                                                                              else if (!file_exists(__DIR__ . '/../../../public/images/users/' . $aUser['profilePic']))
                                                                               {
                                                                                   echo 'avatar.png';
                                                                               }
@@ -218,9 +219,9 @@ $usersList = sqlRequest("SELECT * FROM users");
                                                                                   echo $aUser['profilePic'];
                                                                               }
                                                                           }
-                                                                          else 
-                                                                          { 
-                                                                              echo 'avatar.png'; 
+                                                                          else
+                                                                          {
+                                                                              echo 'avatar.png';
                                                                           } ?>" alt="<?php echo "{$aUser['namefirst']} {$aUser['namelast']}"; ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo "{$aUser['namefirst']}"; ?>">
                                         </li>
 <?php } ?>

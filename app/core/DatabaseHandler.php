@@ -7,19 +7,19 @@ require_once __DIR__.'/../../vendor/autoload.php';
  */
 class DatabaseHandler
 {
-    private static $host = '34.207.226.165';
-    private static $dbName   = 'capstone';
-    private static $user = 'capstone_remote';
-    private static $pass = 'CmklPrew!';
-    private static $charset = 'utf8';
-
+    private $host ,$dbName,$user,$pass,$charset,$db;
     private static $instance = NULL;
-    private $db;
 
     /**
      * Private constructor to prevent outside use
      */
-    private function __construct(){}
+    private function __construct(){
+      $this->host = getenv("HTTP_dbHost");//'34.207.226.165';
+      $this->dbName   = getenv("HTTP_dbName"); //'capstone';
+      $this->user = getenv("HTTP_dbUser");//'capstone_remote';
+      $this->pass = getenv("HTTP_dbPass");//'CmklPrew!';
+      $this->charset = 'utf8';
+    }
 
     /**
      * Return an instance of itself, creating it if necessary
@@ -40,7 +40,7 @@ class DatabaseHandler
      */
     private function connect()
     {
-        $this->db = new \mysqli(self::$host, self::$user, self::$pass, self::$dbName);
+        $this->db = new \mysqli($this->host, $this->user, $this->pass, $this->dbName);
 
         if($this->db->connect_errno > 0){
             return false;
