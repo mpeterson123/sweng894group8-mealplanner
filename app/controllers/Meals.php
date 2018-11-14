@@ -20,29 +20,48 @@ use \Valitron\Validator;
 use Base\Models\Meal;
 use Base\Repositories\MealRepository;
 use Base\Repositories\RecipeRepository;
+use Base\Repositories\FoodItemRepository;
+use Base\Repositories\CategoryRepository;
+use Base\Repositories\UnitRepository;
 use Base\Factories\MealFactory;
 use Base\Factories\RecipeFactory;
+use Base\Factories\FoodItemFactory;
+use Base\Factories\CategoryFactory;
+use Base\Factories\UnitFactory;
 
 class Meals extends Controller {
 
-    protected $dbh,
-        $session,
-        $request;
+        protected $dbh,
+            $session,
+            $request;
 
-    private $mealRepository,
-        $mealFactory,
-        $recipeRepository;
+        private $MealRepository,
+        $RecipeRepository,
+        $FoodItemRepository,
+        $CategoryRepository,
+        $UnitRepository,
+        $MealFactory,
+        $RecipeFactory,
+        $FoodItemFactory,
+        $CategoryFactory,
+        $UnitFactory;
 
-    public function __construct(DatabaseHandler $dbh, Session $session, $request){
-		$this->dbh = $dbh;
-		$this->session = $session;
-		$this->request = $request;
+        public function __construct(DatabaseHandler $dbh, Session $session, $request){
+    		$this->dbh = $dbh;
+    		$this->session = $session;
+    		$this->request = $request;
 
         // TODO Use dependency injection
-        $recipeFactory = new RecipeFactory();
+        $this->recipeFactory = new RecipeFactory();
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $recipeFactory);
         $this->mealFactory = new MealFactory($this->recipeRepository);
         $this->mealRepository = new MealRepository($this->dbh->getDB(), $this->mealFactory);
+        $this->categoryFactory = new CategoryFactory($this->dbh->getDB());
+        $this->categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
+        $this->unitFactory = new UnitFactory($this->dbh->getDB());
+        $this->unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
+        $this->foodItemFactory = new FoodItemFactory($categoryRepository, $this->unitRepository);
+        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
 
     }
 
@@ -160,13 +179,20 @@ class Meals extends Controller {
      * @param integer $id Meal id
      */
     public function update($id):void{
+
         $meal = $this->mealRepository->find($id);
+
         $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
         if( $this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
         {
+          $input = $this->request;
+          $this->validateEditInput($input, 'edit', [$id]);
 
-          $this->validateEditInput($this->request, 'edit', [$id]);
+          $meal->setId($id);
+          $meal->setScaleFactor($input['scale']);
+          $meal->setDate($input['date']);
+          $meal->setRecipe($input['recipe']);
 
           $this->mealRepository->save($meal);
 
@@ -284,9 +310,16 @@ class Meals extends Controller {
 
         if( $this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
         {
-
+          // Update Meal
           $meal->complete();
           $this->mealRepository->save($meal);
+
+          // Update Food items from ingredients from recipe from meal
+          $ingredientList = $meal->getRecipe()->getIngredients();
+          for($i=0;$i<count($ingredientList);$i++){
+      			$foodItem = $ingredientList[$i]->getFood();
+      			$this->foodItemRepository->save($foodItem);
+      		}
 
           // Flash success message
           $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was completed.');

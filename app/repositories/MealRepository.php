@@ -177,7 +177,7 @@ class MealRepository extends Repository implements EditableModelRepository {
                 WHERE id = ?
             ');
 
-        @$query->bind_param(
+        @$query->bind_param("ssiidi",
             $meal->getDate(),
             $meal->getAddedDate(),
             $meal->isComplete(),
