@@ -161,5 +161,9 @@ class RecipeFactoryTest extends TestCase {
         $this->assertEquals($recipe->getServings(), $recipeArray['servings']);
         $this->assertEquals($recipe->getSource(), $recipeArray['source']);
         $this->assertEquals($recipe->getNotes(), $recipeArray['notes']);
+
+        // Get ingredients
+        $this->assertInternalType('array',$recipe->getIngredients());
+        $this->assertEquals(0,count($recipe->getIngredients()));
     }
 }

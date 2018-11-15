@@ -18,7 +18,6 @@ class MealFactoryTest extends TestCase {
         $recipeRepositoryStub,
         $unitRepositoryStub;
 
-
     /**
      * Create instances or whatever you need to reuse in several tests here
      */
@@ -30,9 +29,8 @@ class MealFactoryTest extends TestCase {
             ->createMock(RecipeRepository::class);
 
         // Configure the stub.
-        $recipeStub = $this->createMock(Recipe::class);
         $this->recipeRepositoryStub->method('find')
-            ->will($this->returnValue($recipeStub));
+             ->will($this->returnCallback([$this,'makeRecipeStub']));
 
         /////////////////////
         // Create instance //
@@ -105,6 +103,8 @@ class MealFactoryTest extends TestCase {
             $meal->getRecipe(),
             'The recipe must be instance of Recipe'
         );
+        $this->assertEquals($meal->getRecipe()->getId(), 1);
+        $this->assertEquals($meal->getRecipe()->getName(), 'Recipe #1');
         $this->assertEquals($meal->getScaleFactor(), $mealArray['scaleFactor']);
         $this->assertEquals($meal->getDate(), $mealArray['date']);
 
@@ -112,6 +112,14 @@ class MealFactoryTest extends TestCase {
          * sent field is true
          */
         $this->assertFalse($meal->isComplete());
+    }
 
+    public function makeRecipeStub(){
+        $args = func_get_args();
+        $id = $args[0];
+        $recipeStub = $this->createMock(Recipe::class);
+        $recipeStub->method('getId')->willReturn($id);
+        $recipeStub->method('getName')->willReturn('Recipe #'.$id);
+        return $recipeStub;
     }
 }
