@@ -72,7 +72,6 @@ class Recipes extends Controller {
     public function index():void{
         $household = $this->session->get('user')->getCurrHousehold();
 
-        // echo "In ".__CLASS__."@".__FUNCTION__;
         $recipes = $this->recipeRepository->allForHousehold($household);
 
         $this->view('recipe/index', compact('recipes'));
@@ -83,8 +82,6 @@ class Recipes extends Controller {
      * @param integer $id Recipe id
      */
     public function edit($id):void{
-
-        // TODO Choose current household, not first one
         $household = $this->session->get('user')->getCurrHousehold();
 
         // Get user's fooditems and list of units

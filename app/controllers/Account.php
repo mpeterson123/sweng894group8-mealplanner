@@ -160,8 +160,6 @@ class Account extends Controller{
 	 * @param string $code  Email confirmation code
 	 */
 	public function resetPassword($email,$code){
-		// TODO Refactor entire method to use redirects and flash messages
-
 		// Check if email exists in db
 		$u = $this->userRepository->get('email',$email);
 		if(!$u){

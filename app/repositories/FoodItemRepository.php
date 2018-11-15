@@ -247,7 +247,7 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
      */
     public function isAddableToHouseholdGroceryList($foodId, $household)
     {
-        // TODO Replace this query with view to optimize performance
+        // TODO Replace this query with view to optimize performance if necessary
         $query = $this->db->prepare('SELECT id FROM foods WHERE foods.id = ?
             AND householdId = ?
             AND foods.id NOT IN (SELECT foodItemId FROM groceryListItems)');

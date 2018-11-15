@@ -62,7 +62,6 @@ class FoodItems extends Controller {
      * Lists all food items belonging to a user
      */
     public function index():void{
-        // TODO Choose current household, not first one
         $household = $this->session->get('user')->getCurrHousehold();
         $foods = $this->foodItemRepository->allForHousehold($household);
         $this->view('food/index', compact('foods'));

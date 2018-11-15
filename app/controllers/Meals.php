@@ -138,6 +138,8 @@ class Meals extends Controller {
             $this->dbh->getDB()->commit();
         }
         catch (\Exception $e){
+            // TODO Log error (use $e->getMessage())
+
             $this->dbh->getDB()->rollback();
             $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.');
             Redirect::toControllerMethod('Meals', 'create');
