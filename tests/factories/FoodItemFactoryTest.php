@@ -9,7 +9,6 @@ use Base\Factories\FoodItemFactory;
 use Base\Models\FoodItem;
 use Base\Models\Category;
 use Base\Models\Unit;
-use Base\Core\DatabaseHandler;
 use Base\Repositories\CategoryRepository;
 use Base\Repositories\UnitRepository;
 

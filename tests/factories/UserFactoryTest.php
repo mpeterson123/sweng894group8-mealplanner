@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Base\Factories\UserFactory;
 use Base\Models\User;
 use Base\Models\Household;
-use Base\Core\DatabaseHandler;
 use Base\Repositories\HouseholdRepository;
 
 

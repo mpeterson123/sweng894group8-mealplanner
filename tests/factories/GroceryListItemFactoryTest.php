@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Base\Factories\GroceryListItemFactory;
 use Base\Models\GroceryListItem;
 use Base\Models\FoodItem;
-use Base\Core\DatabaseHandler;
 use Base\Repositories\FoodItemRepository;
 
 

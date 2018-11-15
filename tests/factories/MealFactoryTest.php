@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Base\Factories\MealFactory;
 use Base\Models\Meal;
 use Base\Models\Recipe;
-use Base\Core\DatabaseHandler;
 use Base\Repositories\RecipeRepository;
 
 
