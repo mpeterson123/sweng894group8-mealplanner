@@ -23,11 +23,13 @@ use Base\Repositories\RecipeRepository;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\CategoryRepository;
 use Base\Repositories\UnitRepository;
+use Base\Repositories\IngredientRepository;
 use Base\Factories\MealFactory;
 use Base\Factories\RecipeFactory;
 use Base\Factories\FoodItemFactory;
 use Base\Factories\CategoryFactory;
 use Base\Factories\UnitFactory;
+use Base\Factories\IngredientFactory;
 
 class Meals extends Controller {
 
@@ -52,16 +54,19 @@ class Meals extends Controller {
     		$this->request = $request;
 
         // TODO Use dependency injection
-        $this->recipeFactory = new RecipeFactory();
-        $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $recipeFactory);
+        $this->categoryFactory = new CategoryFactory($this->dbh->getDB());
+        $this->categoryRepository = new CategoryRepository($this->dbh->getDB(), $this->categoryFactory);
+        $this->unitFactory = new UnitFactory($this->dbh->getDB());
+        $this->unitRepository = new UnitRepository($this->dbh->getDB(), $this->unitFactory);
+        $this->foodItemFactory = new FoodItemFactory($this->categoryRepository, $this->unitRepository);
+        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $this->foodItemFactory);
+        $ingredientFactory = new IngredientFactory($this->foodItemRepository, $this->unitRepository);
+        $ingredientRepository = new IngredientRepository($this->dbh->getDB(), $ingredientFactory);
+        $this->recipeFactory = new RecipeFactory($ingredientRepository);
+        $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $this->recipeFactory);
         $this->mealFactory = new MealFactory($this->recipeRepository);
         $this->mealRepository = new MealRepository($this->dbh->getDB(), $this->mealFactory);
-        $this->categoryFactory = new CategoryFactory($this->dbh->getDB());
-        $this->categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
-        $this->unitFactory = new UnitFactory($this->dbh->getDB());
-        $this->unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
-        $this->foodItemFactory = new FoodItemFactory($categoryRepository, $this->unitRepository);
-        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
+
 
     }
 

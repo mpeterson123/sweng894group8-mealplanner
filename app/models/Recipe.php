@@ -100,6 +100,10 @@ class Recipe{
 		return $this->ingredients;
 	}
 
+	public function updateIngredient($name) {
+
+	}
+
 	/**
 	 * Update the stock of user's food items after a recipe is executed with a given scaleFactor
 	 * @param integer $scale scale of the recipe to subtract

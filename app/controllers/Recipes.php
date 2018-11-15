@@ -49,8 +49,7 @@ class Recipes extends Controller {
 		$this->request = $request;
 
         // TODO Use dependency injection
-        $this->recipeFactory = new RecipeFactory();
-        $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $this->recipeFactory);
+
 
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
         $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
@@ -63,6 +62,9 @@ class Recipes extends Controller {
 
         $this->ingredientFactory = new IngredientFactory($this->foodItemRepository, $this->unitRepository);
         $this->ingredientRepository = new IngredientRepository($this->dbh->getDB(), $this->ingredientFactory);
+
+        $this->recipeFactory = new RecipeFactory($this->ingredientRepository);
+        $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $this->recipeFactory);
 
     }
 
@@ -95,12 +97,7 @@ class Recipes extends Controller {
         $recipe = $this->recipeRepository->find($id);
 
         //Get the ingredients
-        $ingredients = $this->ingredientRepository->allForRecipe($id);
-
-        //Add to the recipe object
-          for($i = 0;$i<count($ingredients); $i++) {
-            $recipe->addIngredient($ingredients[$i]);
-        }
+        $ingredients = $recipe->getIngredients();
 
         $this->view('recipe/edit', compact('recipe', 'ingredients', 'foodItems', 'units'));
     }
@@ -292,7 +289,7 @@ private function addIngredients($in, $rec) {
     private function updateIngredients($in, $rec):void {
 
       //Get the ingredients associated with this recipe from the repository:
-      $currentIngreds = $this->ingredientRepository->allForRecipe($rec->getId());
+      $currentIngreds = $rec->getIngredients();
 
       //If existing ingredients were returned from the view:
       if(isset($in['ingredientIds'])) {
@@ -306,12 +303,15 @@ private function addIngredients($in, $rec) {
           if($return != TRUE) {
 
             $this->ingredientRepository->remove($currentIngreds[$i]->getId());
+
+            //Also remove it from the recipe object
+            $rec->removeIngredient($currentIngreds[$i]->getName());
           }
 
         }
 
         //Loop through the ingredients returned from the view, update them in the database,
-        //and add them to the recipe object:
+        //and update them in the recipe object:
         for($i=0;$i<count($in['ingredientIds']);$i++){
 
           //Create the ingredient array:
@@ -327,8 +327,13 @@ private function addIngredients($in, $rec) {
           //Save the ingredient in the database:
           if($this->ingredientRepository->save($ingredient)) {
 
-            //Add the ingredient to the recipe object:
+            //Update the ingredient in the recipe object
+            $rec->updateIngredient($ingredient->getFood()->getName());
+
+/*
+            //Add the new ingredient to the recipe object:
             $rec->addIngredient($ingredient);
+*/
 
             // Flash success message
             $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was updated.');
@@ -345,6 +350,9 @@ private function addIngredients($in, $rec) {
         if($currentIngreds) {
           for($i=0;$i<count($currentIngreds);$i++) {
             $this->ingredientRepository->remove($currentIngreds[$i]->getId());
+
+            //Also remove them from the recipe object
+            $rec->removeIngredient($ingredient->getFood()->getName());
           }
         }
       }

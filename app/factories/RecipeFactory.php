@@ -10,18 +10,33 @@ use Base\Repositories\IngredientRepository;
 
 class RecipeFactory extends Factory {
 
-    public function make($recipeArray)
+  private $ingredientRepository;
+
+  public function __construct($ingrRepo)
+  {
+    $this->ingredientRepository = $ingrRepo;
+  }
+
+  /**
+   * Creates a new instance of Recipe model
+   * @param  array    recipeArray - A recipe's properties
+   * @return Recipe   A recipe object
+   */
+       public function make($recipeArray)
     {
         $recipe = new Recipe($recipeArray['name'], $recipeArray['directions'], $recipeArray['servings'], $recipeArray['source'], $recipeArray['notes']);
 
         if(isset($recipeArray['id'])){
             $recipe->setId($recipeArray['id']);
 
+            //Retrieve the ingredients associated with this recipe
+            $currentIngreds = $this->ingredientRepository->allForRecipe($recipe->getId());
 
+            //Add the ingredient objects to the recipe object
+            for($i=0;$i<count($currentIngreds);$i++) {
+              $recipe->addIngredient($currentIngreds[$i]);
+            }
         }
-        //$ingredient->setFood($ingredientArray['foodid']); //$foodItem);
-        //$ingredient->setQuantity($ingredientArray['quantity']); //$quantity);
-        //$ingredient->setRecipeId($ingredientArray['recipeid']);
 
         return $recipe;
     }

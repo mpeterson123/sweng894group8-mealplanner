@@ -10,6 +10,14 @@ use Base\Models\Recipe;
 use Base\Models\Household;
 use Base\Core\DatabaseHandler;
 use Base\Repositories\HouseholdRepository;
+use Base\Factories\CategoryFactory;
+use Base\Repositories\CategoryRepository;
+use Base\Factories\UnitFactory;
+use Base\Repositories\UnitRepository;
+use Base\Factories\FoodItemFactory;
+use Base\Repositories\FoodItemRepository;
+use Base\Factories\IngredientFactory;
+use Base\Repositories\IngredientRepository;
 
 
 class RecipeFactoryTest extends TestCase {
@@ -25,7 +33,25 @@ class RecipeFactoryTest extends TestCase {
         /////////////////////
         // Create instance //
         /////////////////////
-        $this->recipeFactory = new RecipeFactory();
+
+        $this->dbh = DatabaseHandler::getInstance();
+
+        $this->db = new \mysqli($this->host, $this->user, $this->pass,$this->dbName);
+        $this->db->autocommit(FALSE);
+
+        $categoryFactory = new CategoryFactory($this->dbh->getDB());
+        $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
+
+        $unitFactory = new UnitFactory($this->dbh->getDB());
+        $unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
+
+        $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
+        $foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
+
+        $ingredientFactory = new IngredientFactory($foodItemRepository, $unitRepository);
+        $ingredientRepository = new IngredientRepository($this->dbh->getDB(), $ingredientFactory);
+
+        $this->recipeFactory = new RecipeFactory($ingredientRepository);
     }
 
     /**
