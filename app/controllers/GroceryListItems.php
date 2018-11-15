@@ -181,7 +181,7 @@ class GroceryListItems extends Controller {
      * Updates a grocery list item in the debug
      * @param string $id Grocery list item's id
      */
-    public function update($id):void{
+    public function update($id):void {
         $groceryListItem = $this->groceryListItemRepository->find($id);
         $this->checkGroceryListItemBelongsToHousehold($id);
 

@@ -20,8 +20,16 @@ use \Valitron\Validator;
 use Base\Models\Meal;
 use Base\Repositories\MealRepository;
 use Base\Repositories\RecipeRepository;
+use Base\Repositories\CategoryRepository;
+use Base\Repositories\UnitRepository;
+use Base\Repositories\FoodItemRepository;
+use Base\Repositories\GroceryListItemRepository;
 use Base\Factories\MealFactory;
 use Base\Factories\RecipeFactory;
+use Base\Factories\CategoryFactory;
+use Base\Factories\UnitFactory;
+use Base\Factories\FoodItemFactory;
+use Base\Factories\GroceryListItemFactory;
 
 class Meals extends Controller {
 
@@ -31,7 +39,9 @@ class Meals extends Controller {
 
     private $mealRepository,
         $mealFactory,
-        $recipeRepository;
+        $recipeRepository,
+        $groceryListItemFactory,
+        $groceryListItemRepository;
 
     public function __construct(DatabaseHandler $dbh, Session $session, $request){
 		$this->dbh = $dbh;
@@ -41,8 +51,19 @@ class Meals extends Controller {
         // TODO Use dependency injection
         $recipeFactory = new RecipeFactory();
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $recipeFactory);
+
         $this->mealFactory = new MealFactory($this->recipeRepository);
         $this->mealRepository = new MealRepository($this->dbh->getDB(), $this->mealFactory);
+
+        $categoryFactory = new CategoryFactory($this->dbh->getDB());
+        $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
+        $unitFactory = new UnitFactory($this->dbh->getDB());
+        $unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
+        $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
+        $foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
+
+        $this->groceryListItemFactory = new GroceryListItemFactory($foodItemRepository);
+        $this->groceryListItemRepository = new GroceryListItemRepository($this->dbh->getDB(), $this->groceryListItemFactory);
 
     }
 
@@ -111,7 +132,13 @@ class Meals extends Controller {
         $meal = $this->mealFactory->make($input);
 
         // Save to DB
-        if(!$this->mealRepository->save($meal)){
+        $this->dbh->getDB()->begin_transaction();
+        try {
+            $this->saveMealAndUpdateGroceryList($meal);
+            $this->dbh->getDB()->commit();
+        }
+        catch (\Exception $e){
+            $this->dbh->getDB()->rollback();
             $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.');
             Redirect::toControllerMethod('Meals', 'create');
         }
@@ -301,4 +328,51 @@ class Meals extends Controller {
           $this->session->flashMessage('error: meal not in household.');
         }
     }
+
+    private function saveMealAndUpdateGroceryList($meal) {
+        var_dump($meal->getRecipe()->getIngredients());
+        exit();
+        foreach ($meal->getRecipe()->getIngredients() as $ingredient) {
+            // Set original recipe quantity times scale factor
+            $ingredientQuantity = $ingredient->getQuantity()->getValue() * $meal->getScaleFactor();
+
+            // Get item's current qty to purchase from grocery list
+            $groceryListItem = $this->groceryListItemRepository->find($ingredient->getFood()->getId());
+
+            // If the grocery list item does not exist, simply add the scaled ingredient quantity to grocery list
+            if(!$groceryListItem){
+                $newGroceryListItemData = array(
+                    'foodItemId' => $ingredient->getFood()->getId(),
+                    'amount' => $ingredientQuantity
+                );
+                $groceryListItem = $this->groceryListItemFactory->make();
+                if(!$this->groceryListItemRepository->save($groceryListItem)){
+                    throw new \Exception("Unable to add '{$ingredient->getFood()->getName()}' to grocery list", 1);
+                };
+            }
+            // Otherwise, get new grocery list quantity
+            else {
+                $currentAmountInGroceryList = $this->groceryListItemRepository->find($ingredient->getFood()->getId())->getAmount();
+
+                // Get item's calculated qty to purchase, BEFORE meal is added
+                $amountToAddToGroceryListBeforeMeal = $this->groceryListItemRepository->qtyForGroceryList($ingredient->getFood());
+
+                // Calculate amount added by the $user
+                $amountAddedByUser = $currentAmountInGroceryList - $amountToAddToGroceryListBeforeMeal;
+
+                // Get item's calculated qty to purchase, AFTER meal is added
+                $newGroceryListAmount = $amountToAddToGroceryListBeforeMeal + $ingredientQuantity + $amountAddedByUser;
+
+                $groceryListItem->setAmount($newGroceryListAmount);
+
+                if(!$this->groceryListItemRepository->save($groceryListItem)){
+                    throw new \Exception("Unable to update '{$ingredient->getFood()->getName()}' in grocery list", 2);
+                }
+            }
+        }
+        if(!$this->mealRepository->save($meal)){
+            throw new \Exception("Unable to save meal", 3);
+        }
+    }
+
 }
