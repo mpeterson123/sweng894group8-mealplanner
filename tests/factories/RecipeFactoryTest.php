@@ -7,9 +7,9 @@ use PHPUnit\Framework\TestCase;
 // Add the classes you are testing and their dependencies
 use Base\Factories\RecipeFactory;
 use Base\Models\Recipe;
-use Base\Models\Household;
+use Base\Models\Ingredient;
+use Base\Repositories\IngredientRepository;
 use Base\Core\DatabaseHandler;
-use Base\Repositories\HouseholdRepository;
 
 
 class RecipeFactoryTest extends TestCase {
@@ -22,10 +22,28 @@ class RecipeFactoryTest extends TestCase {
      */
     public function setUp(){
 
+        ///////////////////////////////////
+        // Stub ingredientRepositoryStub //
+        ///////////////////////////////////
+        $this->ingredientRepositoryStub = $this
+            ->createMock(IngredientRepository::class);
+
+        // Configure the stub.
+        $ingredientStub = $this->createMock(Ingredient::class);
+        $ingredientsArray = array(
+            $ingredientStub,
+            $ingredientStub,
+            $ingredientStub
+        );
+        $this->ingredientRepositoryStub->method('allForRecipe')
+            ->will($this->returnValue($ingredientsArray));
+
         /////////////////////
         // Create instance //
         /////////////////////
-        $this->recipeFactory = new RecipeFactory();
+        $this->recipeFactory = new RecipeFactory(
+            $this->ingredientRepositoryStub
+        );
     }
 
     /**
@@ -67,6 +85,13 @@ class RecipeFactoryTest extends TestCase {
         $this->assertEquals($recipe->getServings(), $recipeArray['servings']);
         $this->assertEquals($recipe->getSource(), $recipeArray['source']);
         $this->assertEquals($recipe->getNotes(), $recipeArray['notes']);
+
+        // Get ingredients
+        $this->assertInternalType('array',$recipe->getIngredients());
+        $this->assertEquals(3,count($recipe->getIngredients()));
+        foreach ($recipe->getIngredients() as $ingredient) {
+            $this->assertInstanceOf('Base\Models\Ingredient', $ingredient);
+        }
     }
 
     public function testMakeRecipeWithoutId(){
