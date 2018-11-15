@@ -29,12 +29,14 @@ use Base\Factories\FoodItemFactory;
 use Base\Factories\CategoryFactory;
 use Base\Factories\UnitFactory;
 use Base\Repositories\CategoryRepository;
+use Base\Helpers\Log;
 
 class Recipes extends Controller {
 
     protected $dbh,
         $session,
-        $request;
+        $request,
+        $log;
 
     private $unitRepository,
         $recipeFactory,
@@ -44,9 +46,10 @@ class Recipes extends Controller {
         $ingredientRepository;
 
     public function __construct(DatabaseHandler $dbh, Session $session, $request){
-		$this->dbh = $dbh;
-		$this->session = $session;
-		$this->request = $request;
+  		$this->dbh = $dbh;
+  		$this->session = $session;
+  		$this->request = $request;
+      $this->log = new Log($dbh);
 
         // TODO Use dependency injection
         $this->recipeFactory = new RecipeFactory();
@@ -145,10 +148,12 @@ class Recipes extends Controller {
                 $this->addIngredients($input, $recipe);
             }
             else {
+              $this->log->add($user, 'Error', 'Recipe - Unable to add '.ucfirst($recipe->getName()));
               $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
             }
         }
         else {
+          $this->log->add($user, 'Error', 'Recipe - '.ucfirst($recipe->getName()).' already exists');
           $this->session->flashMessage('error', 'Sorry, ' . ucfirst($recipe->getName()) . ' already exists in your recipes.');
         }
 
@@ -190,10 +195,12 @@ class Recipes extends Controller {
                         $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
                     }
                     else {
+                      $this->log->add($user, 'Error', 'Ingredients - Unable to add '.ucfirst($ingredient->getFood()->getName()));
                       $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
                     }
                 }
                 else {
+                  $this->log->add($user, 'Error', 'Ingredients - '.ucfirst($ingredient->getFood()->getName()).' already exists');
                   $this->session->flashMessage('error', 'Sorry, ' . ucfirst($ingredient->getFood()->getName()) . ' already exists in your ingredients.');
                 }
             } //end for
@@ -212,12 +219,14 @@ class Recipes extends Controller {
 
             // If recipe doesn't exist, load 404 error page
             if(!$recipe){
+                $this->log->add($user, 'Error', 'Recipe Delete - Recipe doesn\'t exist');
                 Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
                 return;
             }
 
             // If recipe doesn't belong to household, do not delete, and show error page
             if(!$this->recipeRepository->recipeBelongsToHousehold($id, $household)){
+                $this->log->add($user, 'Error', 'Recipe Delete - Recipe doesn\'t belong to this household');
                 Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
                 return;
             }
@@ -227,6 +236,7 @@ class Recipes extends Controller {
               $this->session->flashMessage('success', $recipe->getName().' was removed from your recipes.');
             }
             else {
+              $this->log->add($user, 'Error', 'Recipe Delete - Recipe could not be removed');
               $this->session->flashMessage('error', 'Sorry, something went wrong. ' . $recipe->getName().' was not removed from your recipes.');
             }
 
@@ -272,6 +282,7 @@ class Recipes extends Controller {
 
         }
         else {
+          $this->log->add($user, 'Error', 'Recipe Update - '.ucfirst($recipe->getName()). ' was not updated.');
           $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not updated.');
         }
 
