@@ -187,13 +187,20 @@ class Meals extends Controller {
      * @param integer $id Meal id
      */
     public function update($id):void{
+
         $meal = $this->mealRepository->find($id);
+
         $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
         if( $this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
         {
+          $input = $this->request;
+          $this->validateEditInput($input, 'edit', [$id]);
 
-          $this->validateEditInput($this->request, 'edit', [$id]);
+          $meal->setId($id);
+          $meal->setScaleFactor($input['scale']);
+          $meal->setDate($input['date']);
+          $meal->setRecipe($input['recipe']);
 
           $this->mealRepository->save($meal);
 
@@ -311,9 +318,16 @@ class Meals extends Controller {
 
         if( $this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
         {
-
+          // Update Meal
           $meal->complete();
           $this->mealRepository->save($meal);
+
+          // Update Food items from ingredients from recipe from meal
+          $ingredientList = $meal->getRecipe()->getIngredients();
+          for($i=0;$i<count($ingredientList);$i++){
+      			$foodItem = $ingredientList[$i]->getFood();
+      			$this->foodItemRepository->save($foodItem);
+      		}
 
           // Flash success message
           $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was completed.');

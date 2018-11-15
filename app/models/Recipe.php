@@ -100,6 +100,10 @@ class Recipe{
 		return $this->ingredients;
 	}
 
+	/**
+	 * Update the stock of user's food items after a recipe is executed with a given scaleFactor
+	 * @param integer $scale scale of the recipe to subtract
+	 */
 	public function updateStockAfterCreation($scale){
 		// Default stock to 1 if none is given
 		if ($scale == NULL){
@@ -107,13 +111,20 @@ class Recipe{
 		}
 
 		for($i=0;$i<count($this->ingredients);$i++){
+			// Get Food of Ingredient
 			$ingredientFood = $this->ingredient[$i]->getFood();
-			$currentStock = $ingredientFood->getStock();
-			$ingredientQty = $this->ingredients[$i]->getQuantity();
-			$ingredientFood->setStock($scale * ($currentStock - $ingredientQty));
 
-			//Save food
-			//$this->foodItemRepository->save($ingredientFood);
+			//Get Current Stock of food
+			$currentStock = $ingredientFood->getStock();
+
+			// Get how much the ingredient requires in the recipe
+			$ingredientQty = $this->ingredients[$i]->getQuantity();
+
+			// Set the stock of the user's food. This will be the current stock
+			$ingredientFood->setStock($currentStock - ($scale * $ingredientQty));
+
+			//Save food item
+			// DONE IN MEALS CONTROLLER
 		}
 	}
 }
