@@ -54,7 +54,7 @@ class RecipeFactoryTest extends TestCase {
     }
 
     public function testCreateRecipeFactory(){
-        $recipeFactory = new RecipeFactory();
+        $recipeFactory = new RecipeFactory($this->ingredientRepositoryStub);
 
     	$this->assertInstanceOf(
             'Base\Factories\RecipeFactory',
