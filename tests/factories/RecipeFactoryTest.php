@@ -7,7 +7,8 @@ use PHPUnit\Framework\TestCase;
 // Add the classes you are testing and their dependencies
 use Base\Factories\RecipeFactory;
 use Base\Models\Recipe;
-use Base\Models\Household;
+use Base\Models\Ingredient;
+use Base\Repositories\IngredientRepository;
 use Base\Core\DatabaseHandler;
 use Base\Repositories\HouseholdRepository;
 use Base\Factories\CategoryFactory;
@@ -22,7 +23,14 @@ use Base\Repositories\IngredientRepository;
 
 class RecipeFactoryTest extends TestCase {
     // Variables to be reused
-    private $recipeFactory;
+    private $recipeFactory,
+    $host,
+    $user,
+    $pass,
+    $dbName,
+    $charset,
+    $dbh,
+    $db;
 
 
     /**
@@ -30,9 +38,30 @@ class RecipeFactoryTest extends TestCase {
      */
     public function setUp(){
 
+        ///////////////////////////////////
+        // Stub ingredientRepositoryStub //
+        ///////////////////////////////////
+        $this->ingredientRepositoryStub = $this
+            ->createMock(IngredientRepository::class);
+
+        // Configure the stub.
+        $ingredientStub = $this->createMock(Ingredient::class);
+        $ingredientsArray = array(
+            $ingredientStub,
+            $ingredientStub,
+            $ingredientStub
+        );
+        $this->ingredientRepositoryStub->method('allForRecipe')
+            ->will($this->returnValue($ingredientsArray));
+
         /////////////////////
         // Create instance //
         /////////////////////
+        $this->host = getenv("HTTP_dbLocalHost");
+        $this->dbName   = getenv("HTTP_dbName");
+        $this->user = getenv("HTTP_dbLocalUser");
+        $this->pass = getenv("HTTP_dbPass");
+        $this->charset = 'utf8';
 
         $this->dbh = DatabaseHandler::getInstance();
 
@@ -59,6 +88,16 @@ class RecipeFactoryTest extends TestCase {
      */
     public function tearDown(){
       unset($this->recipeFactory);
+      unset($this->host);
+      unset($this->user);
+      unset($this->pass);
+      unset($this->dbName);
+      unset($this->charset);
+
+      $this->db->close();
+
+      unset($this->dbh);
+      unset($this->db);
     }
 
     public function testCreateRecipeFactory(){
@@ -93,6 +132,13 @@ class RecipeFactoryTest extends TestCase {
         $this->assertEquals($recipe->getServings(), $recipeArray['servings']);
         $this->assertEquals($recipe->getSource(), $recipeArray['source']);
         $this->assertEquals($recipe->getNotes(), $recipeArray['notes']);
+
+        // Get ingredients
+        $this->assertInternalType('array',$recipe->getIngredients());
+        $this->assertEquals(3,count($recipe->getIngredients()));
+        foreach ($recipe->getIngredients() as $ingredient) {
+            $this->assertInstanceOf('Base\Models\Ingredient', $ingredient);
+        }
     }
 
     public function testMakeRecipeWithoutId(){

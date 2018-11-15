@@ -103,30 +103,6 @@ class RecipeRepository extends Repository implements EditableModelRepository {
         echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
     }
 
-    // TODO Remove this method
-    /**
-     * Get all recipes added by a user
-     * @param  User $user [description]
-     * @return array Associative array of recipes
-     */
-     /*
-    public function allForUser($user){
-        $query = $this->db->prepare('SELECT * FROM recipes WHERE user_id = ? ORDER by name');
-        @$query->bind_param("s", $user->getId());
-
-        if($query->execute()) {
-          $result = $query->get_result();
-          return $result->fetch_all(MYSQLI_ASSOC);
-        }
-        else {
-          $error = $query->error;
-          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
-          return null;
-        }
-
-    }
-    */
-
     /**
      * Get all recipes for a household
      * @param  Household $household [description]

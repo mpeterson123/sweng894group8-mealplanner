@@ -163,4 +163,16 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
         return false;
     }
 
+    public function qtyForGroceryList(FoodItem $foodItem){
+        $query = $this->db->prepare('SELECT qtyForGroceryList FROM VIEW_calculationsForGroceryLists WHERE foodId = ? LIMIT 1');
+        @$query->bind_param("i", $foodItem->getId());
+        $query->execute();
+
+        $result = $query->get_result();
+        if($result->num_rows == 0){
+            return 0;
+        }
+        return $result[0]['qtyForGroceryList'];
+    }
+
 }
