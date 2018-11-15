@@ -28,8 +28,9 @@ class App {
 		unset($request['url']);
 
 		// Sanitize Input
-		for($i=0;$i<count($request);$i++){
-			$request[$i] = htmlspecialchars(addslashes(trim($request[$i])));
+		foreach($request as $k => $v){
+			if($v !== NULL)
+				$request[$k] = htmlspecialchars(addslashes(trim($v)));
 		}
 		$this->request = $request;
 	}
