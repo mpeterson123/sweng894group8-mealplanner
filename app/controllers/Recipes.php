@@ -72,7 +72,6 @@ class Recipes extends Controller {
     public function index():void{
         $household = $this->session->get('user')->getCurrHousehold();
 
-        // echo "In ".__CLASS__."@".__FUNCTION__;
         $recipes = $this->recipeRepository->allForHousehold($household);
 
         $this->view('recipe/index', compact('recipes'));
@@ -83,8 +82,6 @@ class Recipes extends Controller {
      * @param integer $id Recipe id
      */
     public function edit($id):void{
-
-        // TODO Choose current household, not first one
         $household = $this->session->get('user')->getCurrHousehold();
 
         // Get user's fooditems and list of units
@@ -167,42 +164,41 @@ class Recipes extends Controller {
      * @param array $in     Array of ingredients
      * @param Recipe $rec   The recipe the ingredients will be added to
      */
-private function addIngredients($in, $rec) {
+    private function addIngredients($in, $recipe) {
 
-  if(isset($in['newFoodId'])) {
+        if(isset($in['newFoodId'])) {
 
-    for($i=0;$i<count($in['newFoodId']);$i++) {
+            for($i=0;$i<count($in['newFoodId']);$i++) {
 
-        //Create the ingredient array:
-        $ingredientInput = array("foodId" => $in['newFoodId'][$i],
-                              "quantity" => $in['newQuantity'][$i],
-                              "recipeId" => $rec->getId(),
-                              "unitId" => $in['newUnitId'][$i]);
+                //Create the ingredient array:
+                $ingredientInput = array("foodId" => $in['newFoodId'][$i],
+                                      "quantity" => $in['newQuantity'][$i],
+                                      "recipeId" => $recipe->getId(),
+                                      "unitId" => $in['newUnitId'][$i]);
 
-        //Create the ingredient object:
-        $ingredient = $this->ingredientFactory->make($ingredientInput);
+                //Create the ingredient object:
+                $ingredient = $this->ingredientFactory->make($ingredientInput);
 
-        if($this->ingredientRepository->findIngredientByFoodId($ingredient->getFood()->getId(), $ingredient->getRecipeId()) == null) {
-            //Save the ingredient in the database:
-            if($this->ingredientRepository->save($ingredient)) {
+                if($this->ingredientRepository->findIngredientByFoodId($ingredient->getFood()->getId(), $ingredient->getRecipeId()) == null) {
+                    //Save the ingredient in the database:
+                    if($this->ingredientRepository->save($ingredient)) {
 
-                //Add the ingredient to the recipe object:
-                $rec->addIngredient($ingredient);
+                        //Add the ingredient to the recipe object:
+                        $recipe->addIngredient($ingredient);
 
-                // Flash success message
-                $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
-            }
-            else {
-              $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
-            }
-        }
-        else {
-          $this->session->flashMessage('error', 'Sorry, ' . ucfirst($ingredient->getFood()->getName()) . ' already exists in your ingredients.');
-        }
-
-      } //end for
-    } //end if new items were returned
-  }
+                        // Flash success message
+                        $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+                    }
+                    else {
+                      $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
+                    }
+                }
+                else {
+                  $this->session->flashMessage('error', 'Sorry, ' . ucfirst($ingredient->getFood()->getName()) . ' already exists in your ingredients.');
+                }
+            } //end for
+        } //end if new items were returned
+    }
 
     /**
      * Delete a recipe

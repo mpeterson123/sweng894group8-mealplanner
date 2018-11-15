@@ -46,17 +46,4 @@ class CategoryRepository extends Repository {
         }
         return $collection;
     }
-
-    // /**
-    //  * Get all categories added by a user
-    //  * @return array Associative array of food items
-    //  */
-    // public function allForUser($user){
-    //     $query = $this->db->prepare('SELECT * FROM categories WHERE user_id = ? ORDER BY name');
-    //     $query->bind_param("s", $user->getId());
-    //     $query->execute();
-    //
-    //     $result = $query->get_result();
-    //     return $result->fetch_all(MYSQLI_ASSOC);
-    // }
 }
