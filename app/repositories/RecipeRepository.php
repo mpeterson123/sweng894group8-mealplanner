@@ -112,18 +112,29 @@ class RecipeRepository extends Repository implements EditableModelRepository {
 
         $query = $this->db->prepare('SELECT * FROM recipes WHERE householdId = ? ORDER by name');
         @$query->bind_param("i", $household->getId());
-        $query->execute();
 
-        $result = $query->get_result();
-        $recipeRows = $result->fetch_all(MYSQLI_ASSOC);
+        if($query->execute()) {
+          $result = $query->get_result();
+          $recipeRows = $result->fetch_all(MYSQLI_ASSOC);
 
-        $collection = array();
+          if($recipeRows) {
+            $collection = array();
 
-        foreach($recipeRows as $recipeRow){
-            $collection[] = $this->recipeFactory->make($recipeRow);
+            foreach($recipeRows as $recipeRow){
+                $collection[] = $this->recipeFactory->make($recipeRow);
+            }
+
+          }
+          else $collection = null;
+        }
+        else {
+          $error = $query->error;
+          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
+          $collection = null;
         }
 
         return $collection;
+
      }
 
     /**

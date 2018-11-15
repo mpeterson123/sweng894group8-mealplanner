@@ -22,20 +22,24 @@ use Base\Repositories\MealRepository;
 use Base\Repositories\RecipeRepository;
 use Base\Repositories\CategoryRepository;
 use Base\Repositories\UnitRepository;
+use Base\Repositories\IngredientRepository;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\GroceryListItemRepository;
 use Base\Factories\MealFactory;
 use Base\Factories\RecipeFactory;
 use Base\Factories\CategoryFactory;
 use Base\Factories\UnitFactory;
+use Base\Factories\IngredientFactory;
 use Base\Factories\FoodItemFactory;
 use Base\Factories\GroceryListItemFactory;
+use Base\Helpers\Log;
 
 class Meals extends Controller {
 
     protected $dbh,
         $session,
-        $request;
+        $request,
+        $log;
 
     private $mealRepository,
         $mealFactory,
@@ -44,23 +48,30 @@ class Meals extends Controller {
         $groceryListItemRepository;
 
     public function __construct(DatabaseHandler $dbh, Session $session, $request){
-		$this->dbh = $dbh;
-		$this->session = $session;
-		$this->request = $request;
+  		$this->dbh = $dbh;
+  		$this->session = $session;
+  		$this->request = $request;
+      $this->log = new Log($dbh);
 
         // TODO Use dependency injection
-        $recipeFactory = new RecipeFactory();
+        $categoryFactory = new CategoryFactory($this->dbh->getDB());
+        $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
+
+        $unitFactory = new UnitFactory($this->dbh->getDB());
+        $unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
+
+        $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
+        $foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
+
+        $ingredientFactory = new IngredientFactory($foodItemRepository, $unitRepository);
+        $ingredientRepository = new IngredientRepository($this->dbh->getDB(), $ingredientFactory);
+
+        $recipeFactory = new RecipeFactory($ingredientRepository);
         $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $recipeFactory);
 
         $this->mealFactory = new MealFactory($this->recipeRepository);
         $this->mealRepository = new MealRepository($this->dbh->getDB(), $this->mealFactory);
 
-        $categoryFactory = new CategoryFactory($this->dbh->getDB());
-        $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
-        $unitFactory = new UnitFactory($this->dbh->getDB());
-        $unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
-        $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
-        $foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
 
         $this->groceryListItemFactory = new GroceryListItemFactory($foodItemRepository);
         $this->groceryListItemRepository = new GroceryListItemRepository($this->dbh->getDB(), $this->groceryListItemFactory);
@@ -121,6 +132,7 @@ class Meals extends Controller {
 
         // Check if recipe belongs to the user's household
         if(!$this->recipeRepository->recipeBelongsToHousehold($input['recipeId'], $currentHousehold)) {
+            $this->log->add($user, 'Error', 'Meal Store - Recipe doesn\'t belong to this household');
             $this->session->flashMessage('danger', 'Uh oh. The recipe you selected does not belong to your household.');
             Redirect::toControllerMethod('Meals', 'create');
         };
@@ -139,7 +151,7 @@ class Meals extends Controller {
         }
         catch (\Exception $e){
             // TODO Log error (use $e->getMessage())
-
+            $this->log->add($user, 'Error', 'Meal - Unable to save');
             $this->dbh->getDB()->rollback();
             $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.');
             Redirect::toControllerMethod('Meals', 'create');
@@ -163,6 +175,7 @@ class Meals extends Controller {
 
         // If meal doesn't exist, load 404 error page
         if(!$meal){
+            $this->log->add($user, 'Error', 'Meal Delete - Meal doesn\'t exist');
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
             return;
         }
@@ -176,6 +189,7 @@ class Meals extends Controller {
         }
         else
         {
+          $this->log->add($user, 'Error', 'Meal Delete - Meal doesn\'t belong to this household');
           $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
         }
 
@@ -216,6 +230,7 @@ class Meals extends Controller {
         else
         {
           //not in household
+          $this->log->add($user, 'Error', 'Meal Update - Meal doesn\'t belong to this household');
           $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
         }
     }
@@ -341,6 +356,7 @@ class Meals extends Controller {
         else
         {
           //not in household
+          $this->log->add($user, 'Error', 'Meal Complete - Meal doesn\'t belong to this household');
           $this->session->flashMessage('error: meal not in household.');
         }
     }
@@ -382,11 +398,13 @@ class Meals extends Controller {
                 $groceryListItem->setAmount($newGroceryListAmount);
 
                 if(!$this->groceryListItemRepository->save($groceryListItem)){
+                    $this->log->add($user, 'Error', 'Save Meal - Unable to update grocery list');
                     throw new \Exception("Unable to update '{$ingredient->getFood()->getName()}' in grocery list", 2);
                 }
             }
         }
         if(!$this->mealRepository->save($meal)){
+          $this->log->add($user, 'Error', 'Meal Save - Unable to save');
             throw new \Exception("Unable to save meal", 3);
         }
     }

@@ -13,6 +13,7 @@ use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
 use Base\Helpers\Redirect;
 use Base\Helpers\Format;
+use Base\Helpers\Log;
 use \Valitron\Validator;
 
 ///////////////////////////
@@ -34,7 +35,8 @@ class FoodItems extends Controller {
 
     protected $dbh,
         $session,
-        $request;
+        $request,
+        $log;
 
     private $unitRepository,
         $categoryRepository,
@@ -42,9 +44,10 @@ class FoodItems extends Controller {
         $foodItemFactory;
 
     public function __construct(DatabaseHandler $dbh, Session $session, $request){
-		$this->dbh = $dbh;
-		$this->session = $session;
-		$this->request = $request;
+  		$this->dbh = $dbh;
+  		$this->session = $session;
+  		$this->request = $request;
+      $this->log = new Log($dbh);
 
         // TODO Use dependency injection
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
@@ -119,6 +122,7 @@ class FoodItems extends Controller {
           $this->session->flushOldInput();
         }
         else {
+          $this->log->add($user, 'Error', 'Food Store - '.ucfirst($foodItem->getName()) . ' already exists in this food list.');
           $this->session->flashMessage('error', ucfirst($foodItem->getName()) . ' already exists in your food list.');
         }
 
@@ -136,6 +140,7 @@ class FoodItems extends Controller {
 
         // If food doesn't exist, load 404 error page
         if(!$foodItem){
+            $this->log->add($user, 'Error', 'Food Delete - Item doesn\'t exist.');
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
             return;
         }
@@ -180,6 +185,7 @@ class FoodItems extends Controller {
 
         // If food doesn't belong to household, show forbidden error
         if(!$this->foodItemRepository->foodBelongsToHousehold($foodItemId, $household)){
+            $this->log->add($user, 'Error', 'Check Food - Item doesn\'t belong to this household.');
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }

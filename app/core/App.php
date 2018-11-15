@@ -55,7 +55,10 @@ class App {
 
 		$this->parseUrl();
 
-		if(!empty($this->url[0]) && !empty($this->session)){		// otherwise use default
+		if(!isset($this->session) && ($this->url[0] != "Account")){
+			$controller = new \Base\Controllers\Account($this->dbh,new Session(),NULL);
+		}
+		else if(!empty($this->url[0])){		// otherwise use default
 			try{
 				// If controller file exists, set it and remove the name from the URL
 				if(file_exists(__DIR__.'/../controllers/'.$this->url[0].'.php')){

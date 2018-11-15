@@ -27,7 +27,7 @@ use Base\Factories\GroceryListItemFactory;
 use Base\Factories\FoodItemFactory;
 use Base\Factories\UnitFactory;
 use Base\Factories\CategoryFactory;
-
+use Base\Helpers\Log;
 
 /**
  * Grocery list items users can add and keep track of
@@ -36,7 +36,8 @@ class GroceryListItems extends Controller {
 
     protected $dbh,
         $session,
-        $request;
+        $request,
+        $log;
 
     private $unitRepository,
         $foodItemRepository,
@@ -47,6 +48,7 @@ class GroceryListItems extends Controller {
 		$this->dbh = $dbh;
 		$this->session = $session;
 		$this->request = $request;
+    $this->log = new Log($dbh);
 
         // TODO Use dependency injection
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
@@ -128,16 +130,16 @@ class GroceryListItems extends Controller {
             }
         }
         catch (\Exception $e){
-            // TODO Log error
-
+            // Log error
+            $this->log->add($user, 'Error', 'Grocery List - Unable to add item');
             $this->session->flashMessage('danger',
                 'Uh oh! Something went wrong. The item was not added to your grocery list.');
 
             Redirect::toControllerMethod('GroceryListItems', 'create');
         }
         catch (\Error $e){
-            // TODO Log error
-
+            // Log error
+            $this->log->add($user, 'Error', 'Grocery List - Unable to add item');
             $this->session->flashMessage('danger',
                 'Uh oh! Something went wrong. The item was not added to your grocery list.');
 
@@ -162,6 +164,7 @@ class GroceryListItems extends Controller {
 
         // If groceryListItem doesn't exist, load 404 error page
         if(!$groceryListItem){
+            $this->log->add($user, 'Error', 'Grocery Delete - Item doesn\'t exist');
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
             return;
         }
@@ -208,6 +211,7 @@ class GroceryListItems extends Controller {
 
         // If groceryListItem doesn't belong to household, show forbidden error
         if(!$this->groceryListItemRepository->groceryListItemBelongsToHousehold($groceryListItemId, $household)){
+            $this->log->add($user, 'Error', 'Check Grocery - Item doesn\'t belong to this household');
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }

@@ -19,6 +19,7 @@ use Base\Core\DatabaseHandler;
 use Base\Helpers\Session;
 use Base\Helpers\Redirect;
 use Base\Helpers\Format;
+use Base\Helpers\Log;
 use \Valitron\Validator;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -44,7 +45,8 @@ class Messages extends Controller
     protected $dph;
     protected $session;
     protected $request;
-    
+    protected $log;
+
     private $messageRepository;
     private $dbh;
 
@@ -57,6 +59,7 @@ class Messages extends Controller
         $this->dbh     = $dbh;
         $this->session = $session;
         $this->request = $request;
+        $this->log = new Log($dbh);
 
         $this->dbh = DatabaseHandler::getInstance();
     }
@@ -94,7 +97,7 @@ class Messages extends Controller
     ///////////////////////////////////////////////////////////////////////////
     // read()
     ///////////////////////////////////////////////////////////////////////////
-    // /message/inbox/ Display the read messages user has received 
+    // /message/inbox/ Display the read messages user has received
     ///////////////////////////////////////////////////////////////////////////
     // Returns: -
     ///////////////////////////////////////////////////////////////////////////

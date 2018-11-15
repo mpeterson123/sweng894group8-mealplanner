@@ -10,11 +10,27 @@ use Base\Models\Recipe;
 use Base\Models\Ingredient;
 use Base\Repositories\IngredientRepository;
 use Base\Core\DatabaseHandler;
+use Base\Repositories\HouseholdRepository;
+use Base\Factories\CategoryFactory;
+use Base\Repositories\CategoryRepository;
+use Base\Factories\UnitFactory;
+use Base\Repositories\UnitRepository;
+use Base\Factories\FoodItemFactory;
+use Base\Repositories\FoodItemRepository;
+use Base\Factories\IngredientFactory;
+use Base\Repositories\IngredientRepository;
 
 
 class RecipeFactoryTest extends TestCase {
     // Variables to be reused
-    private $recipeFactory;
+    private $recipeFactory,
+    $host,
+    $user,
+    $pass,
+    $dbName,
+    $charset,
+    $dbh,
+    $db;
 
 
     /**
@@ -41,9 +57,30 @@ class RecipeFactoryTest extends TestCase {
         /////////////////////
         // Create instance //
         /////////////////////
-        $this->recipeFactory = new RecipeFactory(
-            $this->ingredientRepositoryStub
-        );
+        $this->host = getenv("HTTP_dbLocalHost");
+        $this->dbName   = getenv("HTTP_dbName");
+        $this->user = getenv("HTTP_dbLocalUser");
+        $this->pass = getenv("HTTP_dbPass");
+        $this->charset = 'utf8';
+
+        $this->dbh = DatabaseHandler::getInstance();
+
+        $this->db = new \mysqli($this->host, $this->user, $this->pass,$this->dbName);
+        $this->db->autocommit(FALSE);
+
+        $categoryFactory = new CategoryFactory($this->dbh->getDB());
+        $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
+
+        $unitFactory = new UnitFactory($this->dbh->getDB());
+        $unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
+
+        $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
+        $foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
+
+        $ingredientFactory = new IngredientFactory($foodItemRepository, $unitRepository);
+        $ingredientRepository = new IngredientRepository($this->dbh->getDB(), $ingredientFactory);
+
+        $this->recipeFactory = new RecipeFactory($ingredientRepository);
     }
 
     /**
@@ -51,6 +88,16 @@ class RecipeFactoryTest extends TestCase {
      */
     public function tearDown(){
       unset($this->recipeFactory);
+      unset($this->host);
+      unset($this->user);
+      unset($this->pass);
+      unset($this->dbName);
+      unset($this->charset);
+
+      $this->db->close();
+
+      unset($this->dbh);
+      unset($this->db);
     }
 
     public function testCreateRecipeFactory(){
