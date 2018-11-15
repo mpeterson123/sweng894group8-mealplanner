@@ -18,8 +18,6 @@ use Base\Repositories\UnitRepository;
 use Base\Factories\FoodItemFactory;
 use Base\Repositories\FoodItemRepository;
 use Base\Factories\IngredientFactory;
-use Base\Repositories\IngredientRepository;
-
 
 class RecipeFactoryTest extends TestCase {
     // Variables to be reused
