@@ -29,7 +29,7 @@ class App {
 
 		// Sanitize Input
 		for($i=0;$i<count($request);$i++){
-			$result[$i] = htmlspecialchars(addslashes(trim($request[$i])));
+			$request[$i] = htmlspecialchars(addslashes(trim($request[$i])));
 		}
 		$this->request = $request;
 	}
