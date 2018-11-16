@@ -76,7 +76,7 @@ $PLUGIN_EXPORT      = TRUE;
                                             <th>Date</th>
                                             <th>Scale</th>
                                             <th>Date Added</th>
-                                            <th>Complete</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -90,25 +90,28 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['meals']){
                                                 foreach ($data['meals'] as $meal) { ?>
                                                 <tr>
-                                                    <td><a href="/Meals/edit/<?php echo $meal->getId(); ?>"><?php echo $meal->getRecipe()->getName(); ?></a></td>
+                                                    <td><a href="/Meals/show/<?php echo $meal->getId(); ?>"><?php echo $meal->getRecipe()->getName(); ?></a></td>
                                                     <td><?php echo $meal->getDate(true); ?></td>
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
                                                     <td><?php echo $meal->getAddedDate(true); ?></td>
                                                     <td><?php
-                                                        if($meal->isComplete()) {
-                                                            echo 'Already Complete';
+                                                        if($meal->isComplete()) {?>
+                                                            <button class="btn btn-default waves-effect waves-light m-r-10 disabled">Completed</button>
+                                                        <?php
                                                         }
                                                         else {
-                                                            //echo 'No';
                                                             ?>
-                                                            <div class="col-sm-12 col-xs-12">
-                                                              <form method="post" action="/Meals/complete/<?php echo $meal->getId(); ?>">
-                                                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Complete/Cook Meal</button>
-                                                              </form>
-                                                            </div>
+                                                            <a href="/Meals/complete/<?php echo $meal->getId()?>"
+                                                                class="btn btn-success btn-xs m-t-15" >
+                                                                Complete/Cook
+                                                            </a>
                                                             <?php
                                                         }
                                                         ?>
+                                                        <a href="/Meals/edit/<?php echo $meal->getId()?>"
+                                                            class="btn btn-default btn-xs m-t-15" >
+                                                            Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                                 <?php

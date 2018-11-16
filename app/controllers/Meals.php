@@ -51,7 +51,7 @@ class Meals extends Controller {
   		$this->dbh = $dbh;
   		$this->session = $session;
   		$this->request = $request;
-      $this->log = new Log($dbh);
+        $this->log = new Log($this->dbh);
 
         // TODO Use dependency injection
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
@@ -95,7 +95,6 @@ class Meals extends Controller {
     public function edit($id):void{
 
         // Get all recipes in household, for edit dropdown recipe selection
-        $db = $this->dbh->getDB();
         $household = $this->session->get('user')->getCurrHousehold();
         $recipes = $this->recipeRepository->allForHousehold($household);
 
@@ -103,6 +102,18 @@ class Meals extends Controller {
         $meal = $this->mealRepository->find($id);
 
         $this->view('meal/edit', compact('meal','recipes'));
+    }
+
+    /**
+     * Show page for viewing an existing meal
+     * @param integer $id Meal id
+     */
+    public function show($id):void{
+
+        // Get meal by ID
+        $meal = $this->mealRepository->find($id);
+
+        $this->view('meal/show', compact('meal'));
     }
 
     /**
