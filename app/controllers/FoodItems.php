@@ -162,17 +162,53 @@ class FoodItems extends Controller {
      * Updates a food item in the DB
      * @param string $id Food item's id
      */
-    public function update($id):void{
-        $foodItem = $this->foodItemRepository->find($id);
-        $this->checkFoodBelongsToHousehold($id);
+    public function update($id):void {
+        $input = $this->request;
 
-        $this->validateInput($this->request, 'edit', [$id]);
+        try{
+            $this->checkFoodBelongsToHousehold($id);
+            $this->validateInput($this->request, 'edit', [$id]);
 
-        $this->foodItemRepository->save($foodItem);
+            $foodItem = $this->foodItemRepository->find($id);
+            if(!$foodItem){
+                throw new \Exception("FoodItem does not exist", 1);
+            }
+
+            // Get unit and category;
+            $category = $this->categoryRepository->find($input['categoryId']);
+            if(!$category){
+                throw new \Exception("Category does not exist", 1);
+            }
+
+            $unit = $this->unitRepository->find($input['unitId']);
+            if(!$unit){
+                throw new \Exception("Unit does not exist", 1);
+            }
+
+
+            $foodItem->setName($input['name']);
+            $foodItem->setStock(floatval($input['stock']));
+            $foodItem->setCategory($category);
+            $foodItem->setUnit($unit);
+            $foodItem->setUnitsInContainer(floatval($input['unitsInContainer']));
+            $foodItem->setContainerCost(floatval($input['containerCost']));
+            $foodItem->setUnitCost();
+
+            if(!$this->foodItemRepository->save($foodItem)){
+                throw new \Exception("Food item could not be saved to the database", 1);
+            }
+        }
+        catch(\Exception $e){
+            // TODO Log error. Use $e->getMessage() as error message.
+
+            $this->session->flashMessage('danger', 'Uh oh, something went wrong. The food item could not be updated.'. $e->getMessage());
+            Redirect::toControllerMethod('FoodItems', 'edit', array('id' => $id));
+        }
+
+        $this->session->flushOldInput();
 
         // Flash success message
         $this->session->flashMessage('success', ucfirst($foodItem->getName()).' was updated.');
-
         // Redirect back after updating
         Redirect::toControllerMethod('FoodItems', 'edit', array('foodId' => $foodItem->getId()));
         return;

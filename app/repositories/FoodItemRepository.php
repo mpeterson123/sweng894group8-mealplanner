@@ -86,13 +86,15 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
      */
     public function save($foodItem){
 
+        $success = false;
         if($foodItem->getId() && $this->find($foodItem->getId()))
         {
-            $this->update($foodItem);
+            $success = $this->update($foodItem);
         }
         else {
-            $this->insert($foodItem);
+            $success = $this->insert($foodItem);
         }
+        return $success;
     }
 
     /**
@@ -216,7 +218,8 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
             $food->getUnitCost(),
             $food->getId()
         );
-        $query->execute();
+
+        return $query->execute();
 
     }
 
