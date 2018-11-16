@@ -177,10 +177,16 @@ class MealRepository extends Repository implements EditableModelRepository {
                 WHERE id = ?
             ');
 
+        // translate complete from bool to int
+        $tempCompleteInt = 0;
+        if ($meal->isComplete == TRUE){
+          $tempCompleteInt = 1;
+        }
+
         @$query->bind_param("ssiidi",
             $meal->getDate(),
             $meal->getAddedDate(),
-            (int)($meal->isComplete()),
+            $tempCompleteInt,
             $meal->getRecipeId(),
             $meal->getScaleFactor(),
             $meal->getId()

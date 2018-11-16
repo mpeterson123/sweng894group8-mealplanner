@@ -70,12 +70,12 @@ $PLUGIN_EXPORT      = TRUE;
                                                 foreach ($data['groceryListItems'] as $groceryListItem) { ?>
                                                 <tr>
                                                     <td><a href="/GroceryListItems/edit/<?php echo $groceryListItem->getId(); ?>"><?php echo $groceryListItem->getFoodItem()->getName(); ?></a></td>
-                                                    <td><?php echo $groceryListItem->getAmount().' '.$groceryListItem->getFoodItem()->getUnit()->getAbbreviation(); ?></td>
-                                                    <td><a href="/GroceryListItems/purchase/<?php $groceryListItem->getId()?>"
+                                                    <td><?php echo $groceryListItem->getAmount().' '.$groceryListItem->getFoodItem()->getUnit()->getAbbreviation();?></td>
+                                                    <td><a href="/GroceryListItems/purchase/<?php echo $groceryListItem->getId()?>"
                                                             class="btn btn-success btn-xs m-t-15" >
                                                             Purchase
                                                         </a>
-                                                        <a href="/GroceryListItems/edit/<?php echo $groceryListItem->getId(); ?>"
+                                                        <a href="/GroceryListItems/edit/<?php echo $groceryListItem->getId()?>"
                                                             class="btn btn-default btn-xs m-t-15" >
                                                             Edit
                                                         </a>
