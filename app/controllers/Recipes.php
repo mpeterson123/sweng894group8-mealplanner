@@ -145,12 +145,14 @@ class Recipes extends Controller {
                 $this->addIngredients($input, $recipe);
             }
             else {
-              $this->log->add($user, 'Error', 'Recipe - Unable to add '.ucfirst($recipe->getName()));
+              $user = $this->session->get('user');
+              $this->log->add($user->getId(), 'Error', 'Recipe - Unable to add '.ucfirst($recipe->getName()));
               $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
             }
         }
         else {
-          $this->log->add($user, 'Error', 'Recipe - '.ucfirst($recipe->getName()).' already exists');
+          $user = $this->session->get('user');
+          $this->log->add($user->getId(), 'Error', 'Recipe - '.ucfirst($recipe->getName()).' already exists');
           $this->session->flashMessage('error', 'Sorry, ' . ucfirst($recipe->getName()) . ' already exists in your recipes.');
         }
 
@@ -167,6 +169,7 @@ class Recipes extends Controller {
      * @param Recipe $rec   The recipe the ingredients will be added to
      */
     private function addIngredients($in, $recipe) {
+      $user = $this->session->get('user');
 
         if(isset($in['newFoodId'])) {
 
@@ -192,12 +195,12 @@ class Recipes extends Controller {
                         $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
                     }
                     else {
-                      $this->log->add($user, 'Error', 'Ingredients - Unable to add '.ucfirst($ingredient->getFood()->getName()));
+                      $this->log->add($user->getId(), 'Error', 'Ingredients - Unable to add '.ucfirst($ingredient->getFood()->getName()));
                       $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
                     }
                 }
                 else {
-                  $this->log->add($user, 'Error', 'Ingredients - '.ucfirst($ingredient->getFood()->getName()).' already exists');
+                  $this->log->add($user->getId(), 'Error', 'Ingredients - '.ucfirst($ingredient->getFood()->getName()).' already exists');
                   $this->session->flashMessage('error', 'Sorry, ' . ucfirst($ingredient->getFood()->getName()) . ' already exists in your ingredients.');
                 }
             } //end for
@@ -209,21 +212,22 @@ class Recipes extends Controller {
      * @param integer $id Id of recipe to delete
      */
     public function delete($id):void{
-            $household = $this->session->get('user')->getCurrHousehold();
+            $user = $this->session->get('user');
+            $household = $user->getCurrHousehold();
 
             //Remove the recipe from the recipes table:
             $recipe = $this->recipeRepository->find($id);
 
             // If recipe doesn't exist, load 404 error page
             if(!$recipe){
-                $this->log->add($user, 'Error', 'Recipe Delete - Recipe doesn\'t exist');
+                $this->log->add($user->getId(), 'Error', 'Recipe Delete - Recipe doesn\'t exist');
                 Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
                 return;
             }
 
             // If recipe doesn't belong to household, do not delete, and show error page
             if(!$this->recipeRepository->recipeBelongsToHousehold($id, $household)){
-                $this->log->add($user, 'Error', 'Recipe Delete - Recipe doesn\'t belong to this household');
+                $this->log->add($user->getId(), 'Error', 'Recipe Delete - Recipe doesn\'t belong to this household');
                 Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
                 return;
             }
@@ -233,7 +237,7 @@ class Recipes extends Controller {
               $this->session->flashMessage('success', $recipe->getName().' was removed from your recipes.');
             }
             else {
-              $this->log->add($user, 'Error', 'Recipe Delete - Recipe could not be removed');
+              $this->log->add($user->getId(), 'Error', 'Recipe Delete - Recipe could not be removed');
               $this->session->flashMessage('error', 'Sorry, something went wrong. ' . $recipe->getName().' was not removed from your recipes.');
             }
 
@@ -279,7 +283,8 @@ class Recipes extends Controller {
 
         }
         else {
-          $this->log->add($user, 'Error', 'Recipe Update - '.ucfirst($recipe->getName()). ' was not updated.');
+          $user = $this->session->get('user');
+          $this->log->add($user->getId(), 'Error', 'Recipe Update - '.ucfirst($recipe->getName()). ' was not updated.');
           $this->session->flashMessage('error', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not updated.');
         }
 
