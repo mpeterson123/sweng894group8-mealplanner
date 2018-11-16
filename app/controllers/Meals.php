@@ -132,7 +132,8 @@ class Meals extends Controller {
 
         // Check if recipe belongs to the user's household
         if(!$this->recipeRepository->recipeBelongsToHousehold($input['recipeId'], $currentHousehold)) {
-            $this->log->add($user, 'Error', 'Meal Store - Recipe doesn\'t belong to this household');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Meal Store - Recipe doesn\'t belong to this household ('.$currentHousehold->getId().')');
             $this->session->flashMessage('danger', 'Uh oh. The recipe you selected does not belong to your household.');
             Redirect::toControllerMethod('Meals', 'create');
         };
@@ -151,7 +152,8 @@ class Meals extends Controller {
         }
         catch (\Exception $e){
             // TODO Log error (use $e->getMessage())
-            $this->log->add($user, 'Error', 'Meal - Unable to save');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Meal - Unable to save');
             $this->dbh->getDB()->rollback();
             $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.');
             Redirect::toControllerMethod('Meals', 'create');
@@ -172,10 +174,11 @@ class Meals extends Controller {
      */
     public function delete($id):void{
         $meal = $this->mealRepository->find($id);
+        $user = $this->session->get('user');
 
         // If meal doesn't exist, load 404 error page
         if(!$meal){
-            $this->log->add($user, 'Error', 'Meal Delete - Meal doesn\'t exist');
+            $this->log->add($user->getId(), 'Error', 'Meal Delete - Meal doesn\'t exist');
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
             return;
         }
@@ -189,7 +192,7 @@ class Meals extends Controller {
         }
         else
         {
-          $this->log->add($user, 'Error', 'Meal Delete - Meal doesn\'t belong to this household');
+          $this->log->add($user->getId(), 'Error', 'Meal Delete - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
           $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
         }
 
@@ -230,7 +233,8 @@ class Meals extends Controller {
         else
         {
           //not in household
-          $this->log->add($user, 'Error', 'Meal Update - Meal doesn\'t belong to this household');
+          $user = $this->session->get('user');
+          $this->log->add($user->getId(), 'Error', 'Meal Update - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
           $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
         }
     }
@@ -356,7 +360,8 @@ class Meals extends Controller {
         else
         {
           //not in household
-          $this->log->add($user, 'Error', 'Meal Complete - Meal doesn\'t belong to this household');
+          $user = $this->session->get('user');
+          $this->log->add($user->getId(), 'Error', 'Meal Complete - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
           $this->session->flashMessage('error: meal not in household.');
         }
     }
@@ -398,13 +403,15 @@ class Meals extends Controller {
                 $groceryListItem->setAmount($newGroceryListAmount);
 
                 if(!$this->groceryListItemRepository->save($groceryListItem)){
-                    $this->log->add($user, 'Error', 'Save Meal - Unable to update grocery list');
+                    $user = $this->session->get('user');
+                    $this->log->add($user->getId(), 'Error', 'Save Meal - Unable to update grocery list');
                     throw new \Exception("Unable to update '{$ingredient->getFood()->getName()}' in grocery list", 2);
                 }
             }
         }
         if(!$this->mealRepository->save($meal)){
-          $this->log->add($user, 'Error', 'Meal Save - Unable to save');
+          $user = $this->session->get('user');
+          $this->log->add($user->getId(), 'Error', 'Meal Save - Unable to save');
             throw new \Exception("Unable to save meal", 3);
         }
     }
