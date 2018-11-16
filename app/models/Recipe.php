@@ -116,7 +116,8 @@ class Recipe{
 
 		for($i=0;$i<count($this->ingredients);$i++){
 			// Get Food of Ingredient
-			$ingredientFood = $this->ingredient[$i]->getFood();
+
+			$ingredientFood = $this->ingredients[$i]->getFood();
 
 			//Get Current Stock of food
 			$currentStock = $ingredientFood->getStock();
