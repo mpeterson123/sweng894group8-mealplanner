@@ -180,7 +180,7 @@ class MealRepository extends Repository implements EditableModelRepository {
         @$query->bind_param("ssiidi",
             $meal->getDate(),
             $meal->getAddedDate(),
-            $meal->isComplete(),
+            (int)($meal->isComplete()),
             $meal->getRecipeId(),
             $meal->getScaleFactor(),
             $meal->getId()

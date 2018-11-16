@@ -323,10 +323,12 @@ class GroceryListItems extends Controller {
      * @param string $method    Method to redirect to
      * @param array $params     Parameters for the redirection method
      */
-     public function purchase($groceryListItem):void{
+     public function purchase($id):void{
          $this->session->flashOldInput($input);
 
          $currentHousehold = $this->session->get('user')->getCurrHousehold();
+
+         $groceryListItem = $this->groceryListItemRepository->find($id);
 
          try {
              // Set food stock as grocery list amount + current food stock
