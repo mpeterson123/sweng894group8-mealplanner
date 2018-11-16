@@ -20,7 +20,7 @@ class Log{
       $query = $this->db->prepare('INSERT INTO log
               (timestamp,type,user,detail)
               VALUES(?,?,?,?)');
-      $query->bind_param("ssss",
+      @$query->bind_param("ssss",
           date('Y-m-d H:i:s'),
           $type,
           $user->getId(),
