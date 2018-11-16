@@ -16,14 +16,14 @@ class Log{
       $this->db = $db->getDB();
     }
 
-    public function add($user, $type, $detail = ''){
+    public function add($userId, $type, $detail = ''){
       $query = $this->db->prepare('INSERT INTO log
               (timestamp,type,user,detail)
               VALUES(?,?,?,?)');
       @$query->bind_param("ssss",
           date('Y-m-d H:i:s'),
           $type,
-          $user->getId(),
+          $userId,
           $detail
       );
       $query->execute();

@@ -57,6 +57,17 @@ class Account extends Controller{
 
 			$input = $this->request;
 
+			// Check if username is already in use
+			if($this->userRepository->get('username',$input['reg_username']) !== NULL){
+				$this->session->flashMessage('danger', 'This username is already in use.');
+				Redirect::toControllerMethod('Account', 'create');
+			}
+			// Check if email addr is already in use
+			if($this->userRepository->get('email',$input['reg_email']) !== NULL){
+				$this->session->flashMessage('danger', 'This email address is already in use.');
+				Redirect::toControllerMethod('Account', 'create');
+			}
+
 			$this->validateRegistrationInput($input, 'create');
 
 			$input['password'] = $this->pass_hash($input['password']);
@@ -232,6 +243,13 @@ class Account extends Controller{
 
 		// Handle email updated
 		if($input['email'] != $user->getEmail()){
+			// Check if email addr is already in use
+			if($this->userRepository->get('email',$input['email']) !== NULL){
+				$this->session->flashMessage('danger', 'This email address is already in use.');
+				Redirect::toControllerMethod('Account', 'settings');
+				return;
+			}
+
 			// send Email
 			$emailHandler = new Email();
 			$emailHandler->sendEmailUpdateConfirm($input['email'],$user->getEmail());
