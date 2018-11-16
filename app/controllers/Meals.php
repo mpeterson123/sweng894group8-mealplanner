@@ -132,7 +132,7 @@ class Meals extends Controller {
 
         // Check if recipe belongs to the user's household
         if(!$this->recipeRepository->recipeBelongsToHousehold($input['recipeId'], $currentHousehold)) {
-            $this->log->add($user, 'Error', 'Meal Store - Recipe doesn\'t belong to this household');
+            // $this->log->add($user, 'Error', 'Meal Store - Recipe doesn\'t belong to this household');
             $this->session->flashMessage('danger', 'Uh oh. The recipe you selected does not belong to your household.');
             Redirect::toControllerMethod('Meals', 'create');
         };
@@ -151,9 +151,9 @@ class Meals extends Controller {
         }
         catch (\Exception $e){
             // TODO Log error (use $e->getMessage())
-            $this->log->add($user, 'Error', 'Meal - Unable to save');
+            // $this->log->add($user, 'Error', 'Meal - Unable to save');
             $this->dbh->getDB()->rollback();
-            $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.');
+            $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.'.$e->getMessage());
             Redirect::toControllerMethod('Meals', 'create');
         }
 
@@ -357,34 +357,36 @@ class Meals extends Controller {
         {
           //not in household
           $this->log->add($user, 'Error', 'Meal Complete - Meal doesn\'t belong to this household');
-          $this->session->flashMessage('error: meal not in household.');
+          $this->session->flashMessage('Uh oh. An error occurred. The meal you are tying to add doesn\'t belong to your current household.');
         }
     }
 
-    private function saveMealAndUpdateGroceryList($meal) {
-        var_dump($meal->getRecipe()->getIngredients());
-        exit();
+    /**
+     * Save a meal and update grocery list according to ingredients required
+     * @param  Meal $meal   Meal to be added/updated
+     */
+    private function saveMealAndUpdateGroceryList($meal):void{
         foreach ($meal->getRecipe()->getIngredients() as $ingredient) {
             // Set original recipe quantity times scale factor
             $ingredientQuantity = $ingredient->getQuantity()->getValue() * $meal->getScaleFactor();
 
             // Get item's current qty to purchase from grocery list
-            $groceryListItem = $this->groceryListItemRepository->find($ingredient->getFood()->getId());
+            $groceryListItem = $this->groceryListItemRepository->findByFoodId($ingredient->getFood()->getId());
 
             // If the grocery list item does not exist, simply add the scaled ingredient quantity to grocery list
             if(!$groceryListItem){
                 $newGroceryListItemData = array(
                     'foodItemId' => $ingredient->getFood()->getId(),
-                    'amount' => $ingredientQuantity
+                    'amount' => $ingredientQuantity - $ingredient->getFood()->getStock()
                 );
-                $groceryListItem = $this->groceryListItemFactory->make();
+                $groceryListItem = $this->groceryListItemFactory->make($newGroceryListItemData);
                 if(!$this->groceryListItemRepository->save($groceryListItem)){
                     throw new \Exception("Unable to add '{$ingredient->getFood()->getName()}' to grocery list", 1);
                 };
             }
             // Otherwise, get new grocery list quantity
             else {
-                $currentAmountInGroceryList = $this->groceryListItemRepository->find($ingredient->getFood()->getId())->getAmount();
+                $currentAmountInGroceryList = $this->groceryListItemRepository->findByFoodId($ingredient->getFood()->getId())->getAmount();
 
                 // Get item's calculated qty to purchase, BEFORE meal is added
                 $amountToAddToGroceryListBeforeMeal = $this->groceryListItemRepository->qtyForGroceryList($ingredient->getFood());
@@ -398,13 +400,13 @@ class Meals extends Controller {
                 $groceryListItem->setAmount($newGroceryListAmount);
 
                 if(!$this->groceryListItemRepository->save($groceryListItem)){
-                    $this->log->add($user, 'Error', 'Save Meal - Unable to update grocery list');
+                    // $this->log->add($user, 'Error', 'Save Meal - Unable to update grocery list');
                     throw new \Exception("Unable to update '{$ingredient->getFood()->getName()}' in grocery list", 2);
                 }
             }
         }
         if(!$this->mealRepository->save($meal)){
-          $this->log->add($user, 'Error', 'Meal Save - Unable to save');
+            // $this->log->add($user, 'Error', 'Meal Save - Unable to save');
             throw new \Exception("Unable to save meal", 3);
         }
     }
