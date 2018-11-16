@@ -8,6 +8,7 @@ use Base\Helpers\Session;
 
 // File-specific classes
 use Base\Factories\GroceryListItemFactory;
+use Base\Models\FoodItem;
 
 
 class GroceryListItemRepository extends Repository implements EditableModelRepository {
@@ -30,6 +31,29 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
         $query->bind_param("s", $id);
         $query->execute();
         $result = $query->get_result();
+        if(!$result->num_rows){
+            return NULL;
+        }
+        $groceryListItemRow = $result->fetch_assoc();
+
+        $groceryListItem = $this->groceryListItemFactory->make($groceryListItemRow);
+        return $groceryListItem;
+    }
+
+    /**
+     * Find a single grocery list item by it's food item's id
+     * @param  integer $id Food items's id
+     * @return array       associative array of item's details
+     */
+    public function findByFoodId($id){
+
+        $query = $this->db->prepare('SELECT * FROM groceryListItems WHERE foodItemId = ?');
+        $query->bind_param("i", $id);
+        $query->execute();
+        $result = $query->get_result();
+        if(!$result->num_rows){
+            return NULL;
+        }
         $groceryListItemRow = $result->fetch_assoc();
 
         $groceryListItem = $this->groceryListItemFactory->make($groceryListItemRow);
@@ -136,7 +160,7 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
             $groceryListItem->getAmount(),
             $groceryListItem->getId()
         );
-        $query->execute();
+        return $query->execute();
 
     }
 
@@ -172,7 +196,9 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
         if($result->num_rows == 0){
             return 0;
         }
-        return $result[0]['qtyForGroceryList'];
+
+        $result = $result->fetch_assoc();
+        return $result['qtyForGroceryList'];
     }
 
 }
