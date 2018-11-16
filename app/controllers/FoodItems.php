@@ -122,7 +122,8 @@ class FoodItems extends Controller {
           $this->session->flushOldInput();
         }
         else {
-          $this->log->add($user, 'Error', 'Food Store - '.ucfirst($foodItem->getName()) . ' already exists in this food list.');
+          $user = $this->session->get('user');
+          $this->log->add($user->getId(), 'Error', 'Food Store - '.ucfirst($foodItem->getName()) . ' already exists in this food list.');
           $this->session->flashMessage('error', ucfirst($foodItem->getName()) . ' already exists in your food list.');
         }
 
@@ -140,7 +141,8 @@ class FoodItems extends Controller {
 
         // If food doesn't exist, load 404 error page
         if(!$foodItem){
-            $this->log->add($user, 'Error', 'Food Delete - Item doesn\'t exist.');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Food Delete - Item doesn\'t exist.');
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
             return;
         }
@@ -185,7 +187,8 @@ class FoodItems extends Controller {
 
         // If food doesn't belong to household, show forbidden error
         if(!$this->foodItemRepository->foodBelongsToHousehold($foodItemId, $household)){
-            $this->log->add($user, 'Error', 'Check Food - Item doesn\'t belong to this household.');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Check Food - Item doesn\'t belong to this household ('.$household->getId().').');
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }

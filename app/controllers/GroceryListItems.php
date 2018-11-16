@@ -131,7 +131,8 @@ class GroceryListItems extends Controller {
         }
         catch (\Exception $e){
             // Log error
-            $this->log->add($user, 'Error', 'Grocery List - Unable to add item');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to add item');
             $this->session->flashMessage('danger',
                 'Uh oh! Something went wrong. The item was not added to your grocery list.');
 
@@ -139,7 +140,8 @@ class GroceryListItems extends Controller {
         }
         catch (\Error $e){
             // Log error
-            $this->log->add($user, 'Error', 'Grocery List - Unable to add item');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to add item');
             $this->session->flashMessage('danger',
                 'Uh oh! Something went wrong. The item was not added to your grocery list.');
 
@@ -164,7 +166,8 @@ class GroceryListItems extends Controller {
 
         // If groceryListItem doesn't exist, load 404 error page
         if(!$groceryListItem){
-            $this->log->add($user, 'Error', 'Grocery Delete - Item doesn\'t exist');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Grocery Delete - Item doesn\'t exist');
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
             return;
         }
@@ -211,7 +214,8 @@ class GroceryListItems extends Controller {
 
         // If groceryListItem doesn't belong to household, show forbidden error
         if(!$this->groceryListItemRepository->groceryListItemBelongsToHousehold($groceryListItemId, $household)){
-            $this->log->add($user, 'Error', 'Check Grocery - Item doesn\'t belong to this household');
+            $user = $this->session->get('user');
+            $this->log->add($user, 'Error', 'Check Grocery - Item doesn\'t belong to this household ('.$household->getId().')');
             Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
             return;
         }
