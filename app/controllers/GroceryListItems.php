@@ -45,10 +45,10 @@ class GroceryListItems extends Controller {
         $groceryListItemFactory;
 
     public function __construct(DatabaseHandler $dbh, Session $session, $request){
-		$this->dbh = $dbh;
-		$this->session = $session;
-		$this->request = $request;
-    $this->log = new Log($dbh);
+    		$this->dbh = $dbh;
+    		$this->session = $session;
+    		$this->request = $request;
+        $this->log = new Log($dbh);
 
         // TODO Use dependency injection
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
@@ -335,7 +335,8 @@ class GroceryListItems extends Controller {
              $groceryListFoodItem = $this->groceryListItem->getFoodItem();
              $groceryListItemAmount = $this->groceryListItem->getAmount();
              $groceryListFoodItemStock = $groceryListFoodItem->getStock();
-             $groceryListFoodItem->setStock($groceryListFoodItemStock + $groceryListItemAmount);
+             $newStock = $groceryListFoodItemStock + $groceryListItemAmount;
+             $groceryListFoodItem->setStock($newStock);
 
              // Save to DB
              $this->foodItemRepository->save($groceryListFoodItem);
@@ -346,15 +347,15 @@ class GroceryListItems extends Controller {
              $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
              $this->session->flashMessage('danger',
                  'Uh oh! Something went wrong. The item was not purchased from your grocery list.');
-             Redirect::toControllerMethod('GroceryListItems', $method, $params);
+             Redirect::toControllerMethod('GroceryListItems', 'index');
          }
          catch (\Error $e){
              // Log error
              $user = $this->session->get('user');
              $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
              $this->session->flashMessage('danger',
-                 'Uh oh! Something went wrong. The item was not purchased from your grocery list.');
-             Redirect::toControllerMethod('GroceryListItems', $method, $params);
+                 'Uh oh!! Something went wrong. The item was not purchased from your grocery list.');
+             Redirect::toControllerMethod('GroceryListItems', 'index');
          }
 
          // Flash success message and flush old input

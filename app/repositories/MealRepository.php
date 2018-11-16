@@ -179,7 +179,7 @@ class MealRepository extends Repository implements EditableModelRepository {
 
         // translate complete from bool to int
         $tempCompleteInt = 0;
-        if ($meal->isComplete == TRUE){
+        if ($meal->isComplete() == TRUE){
           $tempCompleteInt = 1;
         }
 
