@@ -316,4 +316,51 @@ class GroceryListItems extends Controller {
             return;
         }
     }
+
+    /**
+     * Purchase an item on the grocery list, updating the user's stock
+     * @param array $input      Grocery list item food item and amount
+     * @param string $method    Method to redirect to
+     * @param array $params     Parameters for the redirection method
+     */
+     public function purchase($groceryListItem):void{
+         $this->session->flashOldInput($input);
+
+         $currentHousehold = $this->session->get('user')->getCurrHousehold();
+
+         try {
+             // Set food stock as grocery list amount + current food stock
+             $groceryListFoodItem = $this->groceryListItem->getFoodItem();
+             $groceryListItemAmount = $this->groceryListItem->getAmount();
+             $groceryListFoodItemStock = $groceryListFoodItem->getStock();
+             $groceryListFoodItem->setStock($groceryListFoodItemStock + $groceryListItemAmount);
+
+             // Save to DB
+             $this->foodItemRepository->save($groceryListFoodItem);
+         }
+         catch (\Exception $e){
+             // Log error
+             $user = $this->session->get('user');
+             $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
+             $this->session->flashMessage('danger',
+                 'Uh oh! Something went wrong. The item was not purchased from your grocery list.');
+             Redirect::toControllerMethod('GroceryListItems', $method, $params);
+         }
+         catch (\Error $e){
+             // Log error
+             $user = $this->session->get('user');
+             $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
+             $this->session->flashMessage('danger',
+                 'Uh oh! Something went wrong. The item was not purchased from your grocery list.');
+             Redirect::toControllerMethod('GroceryListItems', $method, $params);
+         }
+
+         // Flash success message and flush old input
+         $this->session->flashMessage('success', ucfirst($groceryListItem->getFoodItem()->getName()).' has been purchased.');
+         $this->session->flushOldInput();
+
+         // Redirect back after updating
+         Redirect::toControllerMethod('GroceryListItems', 'index');
+         return;
+     }
 }
