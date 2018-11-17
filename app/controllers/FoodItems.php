@@ -113,7 +113,8 @@ class FoodItems extends Controller {
         // Make food item
         $foodItem = $this->foodItemFactory->make($input);
 
-        if($this->foodItemRepository->findFoodItemByName($foodItem->getName()) == null) {
+        $household = $this->session->get('user')->getCurrHousehold();
+        if($this->foodItemRepository->findHouseholdFoodItemByName($foodItem->getName(), $household->getId()) == null) {
           // Save to DB
           $this->foodItemRepository->save($foodItem);
 

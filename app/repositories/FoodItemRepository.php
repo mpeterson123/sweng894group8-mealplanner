@@ -78,6 +78,30 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
         else return null;
 
     }
+    public function findHouseholdFoodItemByName($name,$hhId){
+
+        $query = $this->db->prepare('SELECT * FROM foods WHERE name = ? and householdId = ?');
+        $query->bind_param("ss", $name,$hhId);
+        $bool = $query->execute();
+
+        if($bool) {
+          $result = $query->get_result();
+
+          $foodItemRow = $result->fetch_assoc();
+
+          if($foodItemRow) {
+
+            $foodItem = $this->foodItemFactory->make($foodItemRow);
+            return $foodItem;
+
+          }
+          else {
+            return null;
+          }
+        }
+        else return null;
+
+    }
 
     /**
      * Inserts or updates an item in the database
