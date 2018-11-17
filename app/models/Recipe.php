@@ -145,13 +145,14 @@ class Recipe{
 
 		for($i=0;$i<count($this->ingredients);$i++){
 			// Get Food of Ingredient
-			$ingredientFood = $this->ingredient[$i]->getFood();
+
+			$ingredientFood = $this->ingredients[$i]->getFood();
 
 			//Get Current Stock of food
 			$currentStock = $ingredientFood->getStock();
 
 			// Get how much the ingredient requires in the recipe
-			$ingredientQty = $this->ingredients[$i]->getQuantity();
+			$ingredientQty = $this->ingredients[$i]->getQuantity()->getValue();
 
 			// Set the stock of the user's food. This will be the current stock
 			$ingredientFood->setStock($currentStock - ($scale * $ingredientQty));

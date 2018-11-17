@@ -15,7 +15,7 @@ class DatabaseHandler
      */
     private function __construct(){
       $this->host = getenv("HTTP_dbHost");
-      $this->dbName   = getenv("HTTP_dbName");
+      $this->dbName = getenv("HTTP_dbName");
       $this->user = getenv("HTTP_dbUser");
       $this->pass = getenv("HTTP_dbPass");
       $this->charset = 'utf8';

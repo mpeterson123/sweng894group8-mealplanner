@@ -78,6 +78,30 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
         else return null;
 
     }
+    public function findHouseholdFoodItemByName($name,$hhId){
+
+        $query = $this->db->prepare('SELECT * FROM foods WHERE name = ? and householdId = ?');
+        $query->bind_param("ss", $name,$hhId);
+        $bool = $query->execute();
+
+        if($bool) {
+          $result = $query->get_result();
+
+          $foodItemRow = $result->fetch_assoc();
+
+          if($foodItemRow) {
+
+            $foodItem = $this->foodItemFactory->make($foodItemRow);
+            return $foodItem;
+
+          }
+          else {
+            return null;
+          }
+        }
+        else return null;
+
+    }
 
     /**
      * Inserts or updates an item in the database
@@ -86,13 +110,15 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
      */
     public function save($foodItem){
 
+        $success = false;
         if($foodItem->getId() && $this->find($foodItem->getId()))
         {
-            $this->update($foodItem);
+            $success = $this->update($foodItem);
         }
         else {
-            $this->insert($foodItem);
+            $success = $this->insert($foodItem);
         }
+        return $success;
     }
 
     /**
@@ -123,6 +149,21 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
         }
 
         return $collection;
+    }
+
+    /**
+     * Count all food items added by a household
+     * @param  Household    $household Household to check
+     * @return integer      Total food items for household
+     */
+    public function countForHousehold($household){
+        $query = $this->db->prepare('SELECT * FROM foods WHERE householdId = ? ORDER by name');
+        @$query->bind_param("s", $household->getId());
+        $query->execute();
+
+        $result = $query->get_result();
+
+        return $result->num_rows;
     }
 
     /**
@@ -169,7 +210,7 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
                 (name, stock, unitId, categoryId, unitsInContainer, containerCost, unitCost, householdId)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ');
-
+          
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
         @$query->bind_param("sdiidddi",
@@ -216,7 +257,8 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
             $food->getUnitCost(),
             $food->getId()
         );
-        $query->execute();
+
+        return $query->execute();
 
     }
 

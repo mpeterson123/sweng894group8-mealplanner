@@ -51,7 +51,7 @@ class Meals extends Controller {
   		$this->dbh = $dbh;
   		$this->session = $session;
   		$this->request = $request;
-      $this->log = new Log($dbh);
+        $this->log = new Log($this->dbh);
 
         // TODO Use dependency injection
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
@@ -80,12 +80,13 @@ class Meals extends Controller {
 
     public function index():void{
         $household = $this->session->get('user')->getCurrHousehold();
+        $recipeCount = $this->recipeRepository->countForHousehold($household);
         $meals = $this->mealRepository->incompleteForHousehold($household);
 
-        // Need to figure out how to toggle between entire list and not completed list
+        // TODO Need to figure out how to toggle between entire list and not completed list
         // $meals = $this->mealRepository->allForHousehold($household);
 
-        $this->view('meal/index', compact('meals'));
+        $this->view('meal/index', compact('meals', 'recipeCount'));
     }
 
     /**
@@ -95,7 +96,6 @@ class Meals extends Controller {
     public function edit($id):void{
 
         // Get all recipes in household, for edit dropdown recipe selection
-        $db = $this->dbh->getDB();
         $household = $this->session->get('user')->getCurrHousehold();
         $recipes = $this->recipeRepository->allForHousehold($household);
 
@@ -106,13 +106,25 @@ class Meals extends Controller {
     }
 
     /**
+     * Show page for viewing an existing meal
+     * @param integer $id Meal id
+     */
+    public function show($id):void{
+
+        // Get meal by ID
+        $meal = $this->mealRepository->find($id);
+
+        $this->view('meal/show', compact('meal'));
+    }
+
+    /**
      * Show page for scheduling a new meal
      */
     public function create():void{
-        $db = $this->dbh->getDB();
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+        $this->checkHasRecipes($currentHousehold);
 
-        $household = $this->session->get('user')->getCurrHousehold();
-        $recipes = $this->recipeRepository->allForHousehold($household);
+        $recipes = $this->recipeRepository->allForHousehold($currentHousehold);
 
         $this->view('meal/create', compact('recipes'));
 
@@ -122,17 +134,19 @@ class Meals extends Controller {
      * Save a new meal to the DB
      */
     public function store():void{
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+        $this->checkHasRecipes($currentHousehold);
 
         $input = $this->request;
         $this->session->flashOldInput($input);
-        $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
         // Validate input
         $this->validateCreateInput($input, 'create');
 
         // Check if recipe belongs to the user's household
         if(!$this->recipeRepository->recipeBelongsToHousehold($input['recipeId'], $currentHousehold)) {
-            $this->log->add($user, 'Error', 'Meal Store - Recipe doesn\'t belong to this household');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Meal Store - Recipe doesn\'t belong to this household ('.$currentHousehold->getId().')');
             $this->session->flashMessage('danger', 'Uh oh. The recipe you selected does not belong to your household.');
             Redirect::toControllerMethod('Meals', 'create');
         };
@@ -151,9 +165,10 @@ class Meals extends Controller {
         }
         catch (\Exception $e){
             // TODO Log error (use $e->getMessage())
-            $this->log->add($user, 'Error', 'Meal - Unable to save');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Meal - Unable to save');
             $this->dbh->getDB()->rollback();
-            $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.');
+            $this->session->flashMessage('danger', 'Uh oh, something went wrong. Your meal could not be saved.'.$e->getMessage());
             Redirect::toControllerMethod('Meals', 'create');
         }
 
@@ -172,10 +187,11 @@ class Meals extends Controller {
      */
     public function delete($id):void{
         $meal = $this->mealRepository->find($id);
+        $user = $this->session->get('user');
 
         // If meal doesn't exist, load 404 error page
         if(!$meal){
-            $this->log->add($user, 'Error', 'Meal Delete - Meal doesn\'t exist');
+            $this->log->add($user->getId(), 'Error', 'Meal Delete - Meal doesn\'t exist');
             Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
             return;
         }
@@ -189,7 +205,7 @@ class Meals extends Controller {
         }
         else
         {
-          $this->log->add($user, 'Error', 'Meal Delete - Meal doesn\'t belong to this household');
+          $this->log->add($user->getId(), 'Error', 'Meal Delete - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
           $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
         }
 
@@ -230,7 +246,8 @@ class Meals extends Controller {
         else
         {
           //not in household
-          $this->log->add($user, 'Error', 'Meal Update - Meal doesn\'t belong to this household');
+          $user = $this->session->get('user');
+          $this->log->add($user->getId(), 'Error', 'Meal Update - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
           $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
         }
     }
@@ -356,20 +373,24 @@ class Meals extends Controller {
         else
         {
           //not in household
-          $this->log->add($user, 'Error', 'Meal Complete - Meal doesn\'t belong to this household');
-          $this->session->flashMessage('error: meal not in household.');
+          $user = $this->session->get('user');
+          $this->log->add($user->getId(), 'Error', 'Meal Complete - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
+          $this->session->flashMessage('Uh oh. An error occurred. The meal you are tying to add doesn\'t belong to your current household.');
         }
     }
 
-    private function saveMealAndUpdateGroceryList($meal) {
-    //    var_dump($meal->getRecipe()->getIngredients());
-        //exit();
+    /**
+     * Save a meal and update grocery list according to ingredients required
+     * @param  Meal $meal   Meal to be added/updated
+     */
+    private function saveMealAndUpdateGroceryList($meal):void{
         foreach ($meal->getRecipe()->getIngredients() as $ingredient) {
-            // Set original recipe quantity times scale factor
+            // Set original recipe quantity converted to food item's unit, times scale factor
+            $ingredient->getQuantity()->convertTo($ingredient->getFood()->getUnit());
             $ingredientQuantity = $ingredient->getQuantity()->getValue() * $meal->getScaleFactor();
 
             // Get item's current qty to purchase from grocery list
-            $groceryListItem = $this->groceryListItemRepository->find($ingredient->getFood()->getId());
+            $groceryListItem = $this->groceryListItemRepository->findByFoodId($ingredient->getFood()->getId());
 
             // If the grocery list item does not exist, simply add the scaled ingredient quantity to grocery list
             if(!$groceryListItem){
@@ -377,14 +398,16 @@ class Meals extends Controller {
                     'foodItemId' => $ingredient->getFood()->getId(),
                     'amount' => $ingredientQuantity
                 );
-                $groceryListItem = $this->groceryListItemFactory->make();
+                print_r($newGroceryListItemData);
+                $groceryListItem = $this->groceryListItemFactory->make($newGroceryListItemData);
+
                 if(!$this->groceryListItemRepository->save($groceryListItem)){
                     throw new \Exception("Unable to add '{$ingredient->getFood()->getName()}' to grocery list", 1);
                 };
             }
             // Otherwise, get new grocery list quantity
             else {
-                $currentAmountInGroceryList = $this->groceryListItemRepository->find($ingredient->getFood()->getId())->getAmount();
+                $currentAmountInGroceryList = $this->groceryListItemRepository->findByFoodId($ingredient->getFood()->getId())->getAmount();
 
                 // Get item's calculated qty to purchase, BEFORE meal is added
                 $amountToAddToGroceryListBeforeMeal = $this->groceryListItemRepository->qtyForGroceryList($ingredient->getFood());
@@ -398,14 +421,29 @@ class Meals extends Controller {
                 $groceryListItem->setAmount($newGroceryListAmount);
 
                 if(!$this->groceryListItemRepository->save($groceryListItem)){
-                    $this->log->add($user, 'Error', 'Save Meal - Unable to update grocery list');
+                    $user = $this->session->get('user');
+                    $this->log->add($user->getId(), 'Error', 'Save Meal - Unable to update grocery list');
                     throw new \Exception("Unable to update '{$ingredient->getFood()->getName()}' in grocery list", 2);
                 }
             }
         }
         if(!$this->mealRepository->save($meal)){
-          $this->log->add($user, 'Error', 'Meal Save - Unable to save');
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Meal Save - Unable to save');
             throw new \Exception("Unable to save meal", 3);
+        }
+    }
+
+    /**
+     * Checks whether user has recipes in current household
+     * @param Household $household Household to check
+     */
+    private function checkHasRecipes($household):void {
+        if($this->recipeRepository->countForHousehold($household) == 0){
+            $this->session->flashMessage('warning',
+                "You must add a recipe before scheduling a meal.");
+            Redirect::toControllerMethod('Recipes', 'create');
+            return;
         }
     }
 

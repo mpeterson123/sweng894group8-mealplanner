@@ -40,7 +40,7 @@ if (!$MessageID || (!$UserIsRecipient && !$UserIsSender))
 {
 ?>
 <script>
-    document.location = '/errors/403/';
+    document.location = '/Errors/show/403';
 </script>
 <?php
     exit(1);

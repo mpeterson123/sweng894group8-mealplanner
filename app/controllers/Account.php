@@ -57,6 +57,17 @@ class Account extends Controller{
 
 			$input = $this->request;
 
+			// Check if username is already in use
+			if($this->userRepository->get('username',$input['reg_username']) !== NULL){
+				$this->session->flashMessage('danger', 'This username is already in use.');
+				Redirect::toControllerMethod('Account', 'create');
+			}
+			// Check if email addr is already in use
+			if($this->userRepository->get('email',$input['reg_email']) !== NULL){
+				$this->session->flashMessage('danger', 'This email address is already in use.');
+				Redirect::toControllerMethod('Account', 'create');
+			}
+
 			$this->validateRegistrationInput($input, 'create');
 
 			$input['password'] = $this->pass_hash($input['password']);
@@ -109,7 +120,7 @@ class Account extends Controller{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt) != $code)){
-			$this->log->add($user, 'Error', 'Confirm Email - Code is invalid');
+			$this->log->add(NULL, 'Error', 'Confirm Email - '.addslashes($email).'Code "'.addslashes($code).'" is invalid');
 			$this->session->flashMessage('danger', 'This link is invalid. Please try again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
@@ -134,7 +145,7 @@ class Account extends Controller{
 		$u = $this->userRepository->get('email',$email);
 
 		if($email == ''){
-			$this->log->add($user, 'Error', 'Forgot Password - Email Address not supplied');
+			$this->log->add(NULL, 'Error', 'Forgot Password - Email Address not supplied');
 			$this->session->flashMessage('success', 'No email has been supplied.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
@@ -164,19 +175,19 @@ class Account extends Controller{
 		$u = $this->userRepository->get('email',$email);
 		if(!$u){
 			// Email doesn't exist
-			$this->log->add($user, 'Error', 'Reset Password - Email Address doens\'t exist');
+			$this->log->add($u->getId(), 'Error', 'Reset Password - Email Address "'.addslashes($email).'" doens\'t exist');
 			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		// Check if reset code has been set
 		else if($u['passTemp'] == ''){
-			$this->log->add($user, 'Error', 'Reset Password - Reset Code not sent');
+			$this->log->add($u->getId(), 'Error', 'Reset Password - Reset Code not sent');
 			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		// Check if code matches db
 		else if($u['passTemp'] != $code){
-			$this->log->add($user, 'Error', 'Reset Password - Reset Code doesn\'t match');
+			$this->log->add($u->getId(), 'Error', 'Reset Password - Reset Code doesn\'t match');
 			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
@@ -232,6 +243,13 @@ class Account extends Controller{
 
 		// Handle email updated
 		if($input['email'] != $user->getEmail()){
+			// Check if email addr is already in use
+			if($this->userRepository->get('email',$input['email']) !== NULL){
+				$this->session->flashMessage('danger', 'This email address is already in use.');
+				Redirect::toControllerMethod('Account', 'settings');
+				return;
+			}
+
 			// send Email
 			$emailHandler = new Email();
 			$emailHandler->sendEmailUpdateConfirm($input['email'],$user->getEmail());
@@ -255,7 +273,7 @@ class Account extends Controller{
 		// Handle circumvention of email confirmation
 		$salt = 'QM8z7AnkXUKQzwtK7UcA';
 		if(urlencode(hash('sha256',$email.$salt.$old_email) != $code)){
-			$this->log->add($user, 'Error', 'Confirm Email - Link is invalid');
+			$this->log->add(NULL, 'Error', 'Confirm Email - Link is invalid ("'.addslashes($old_email).'" => "'.addslashes($email).'")');
 			$this->session->flashMessage('danger', 'Your email confirmation link is invalid.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
@@ -276,7 +294,7 @@ class Account extends Controller{
 	public function delete():void{
 		$user = $this->session->get('user');
 
-		$this->log->add($user, 'Delete', 'A user account ('.$user->getUsername().') has been deleted');
+		$this->log->add($user->getId(), 'Delete', 'A user account ('.$user->getUsername().') has been deleted');
 
 		$this->userRepository->remove($user);
 		// Remove everything from session
@@ -344,7 +362,7 @@ class Account extends Controller{
 		if(!$user) {
 			// If credentials are not valid, set error message
 			$message = 'Incorrect username or password.';
-			$this->log->add($user, 'Error', 'Login - '.$message);
+			$this->log->add($user->getId(), 'Error', 'Login - '.$message);
 		}
 		else if(!$user->getActivated()){
 			// If credentials are valid, but user is inactive, set error message
@@ -356,7 +374,7 @@ class Account extends Controller{
 			// $this->session->add('id', $user->getId());
 			$this->session->add('user', $user);
 
-			$this->log->add($user, 'Login');
+			$this->log->add($user->getId(), 'Login');
 
 			Redirect::toControllerMethod('Account', 'dashboard');
 			return;
@@ -598,7 +616,7 @@ class Account extends Controller{
 			}
 			// Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0) {
-				$this->log->add($user, 'Error', 'Upload Picture - '.$errors);
+				$this->log->add($user->getId(), 'Error', 'Upload Picture - '.$errors);
 				$errorMessage = Format::validatorErrors($errors);
 				$this->session->flashMessage('danger', $errorMessage);
 				$this->view('/auth/changePic');

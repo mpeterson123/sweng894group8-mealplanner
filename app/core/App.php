@@ -28,8 +28,9 @@ class App {
 		unset($request['url']);
 
 		// Sanitize Input
-		for($i=0;$i<count($request);$i++){
-			$result[$i] = htmlspecialchars(addslashes(trim($request[$i])));
+		foreach($request as $k => $v){
+			if($v !== NULL)
+				$request[$k] = htmlspecialchars(addslashes(trim($v)));
 		}
 		$this->request = $request;
 	}
@@ -98,7 +99,17 @@ class App {
 			$controller = new $namespacedController($this->dbh, $this->session, $this->request);
 		}
 
-		// Invoke controller methodName with parameters
-		call_user_func_array([$controller,$methodName],$params);
+		try {
+			// Invoke controller methodName with parameters
+			call_user_func_array([$controller,$methodName],$params);
+		}
+		catch(\ArgumentCountError $ace){
+			$namespacedController = "Base\Controllers\\Errors";
+			$controller = new $namespacedController($this->dbh, $this->session, $this->request);
+			$methodName = 'show';
+			$params = array('errorCode'=>400);
+			call_user_func_array([$controller,$methodName],$params);
+			
+		}
 	}
 }

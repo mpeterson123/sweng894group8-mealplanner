@@ -45,11 +45,11 @@ class Unit
          * - Case insensitive
          * - From 1-20 characters
          */
-        $regex = '/^[a-z\(\)]{1,20}$/i';
+        $regex = '/^[a-z\(\) ]{1,20}$/i';
 
         if(!preg_match_all($regex, $name, $matches)){
             throw new \Exception(
-                "Food Item name must only contain letters and parentheses, and must be 1-20 characters in length", 1);
+                "Unit name must only contain letters and parentheses, and must be 1-20 characters in length", 1);
         }
 
         $this->name = $name;

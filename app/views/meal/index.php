@@ -64,7 +64,7 @@ $PLUGIN_EXPORT      = TRUE;
                 <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Meal Plan</h3>
                             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
@@ -76,7 +76,7 @@ $PLUGIN_EXPORT      = TRUE;
                                             <th>Date</th>
                                             <th>Scale</th>
                                             <th>Date Added</th>
-                                            <th>Complete</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -90,25 +90,28 @@ $PLUGIN_EXPORT      = TRUE;
                                             if($data['meals']){
                                                 foreach ($data['meals'] as $meal) { ?>
                                                 <tr>
-                                                    <td><a href="/Meals/edit/<?php echo $meal->getId(); ?>"><?php echo $meal->getRecipe()->getName(); ?></a></td>
+                                                    <td><a href="/Meals/show/<?php echo $meal->getId(); ?>"><?php echo $meal->getRecipe()->getName(); ?></a></td>
                                                     <td><?php echo $meal->getDate(true); ?></td>
                                                     <td><?php echo $meal->getScaleFactor(); ?></td>
                                                     <td><?php echo $meal->getAddedDate(true); ?></td>
                                                     <td><?php
-                                                        if($meal->isComplete()) {
-                                                            echo 'Already Complete';
+                                                        if($meal->isComplete()) {?>
+                                                            <button class="btn btn-default waves-effect waves-light m-r-10 disabled">Completed</button>
+                                                        <?php
                                                         }
                                                         else {
-                                                            //echo 'No';
                                                             ?>
-                                                            <div class="col-sm-12 col-xs-12">
-                                                              <form method="post" action="/Meals/complete/<?php echo $meal->getId(); ?>">
-                                                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Complete/Cook Meal</button>
-                                                              </form>
-                                                            </div>
+                                                            <a href="/Meals/complete/<?php echo $meal->getId()?>"
+                                                                class="btn btn-success btn-xs m-t-15" >
+                                                                Complete/Cook
+                                                            </a>
                                                             <?php
                                                         }
                                                         ?>
+                                                        <a href="/Meals/edit/<?php echo $meal->getId()?>"
+                                                            class="btn btn-default btn-xs m-t-15" >
+                                                            Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                                 <?php
@@ -120,10 +123,15 @@ $PLUGIN_EXPORT      = TRUE;
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Actions</h3>
-                            <a href="/Meals/create/" class="btn btn-success m-t-15">+ Create Meal</a>
+                            <?php if($data['recipeCount'] > 0){ ?>
+                                <a href="/Meals/create" class="btn btn-success m-t-15">+ Schedule a Meal</a>
+                            <?php }
+                            else{
+                                echo '<div class="alert alert-warning">Please <a href="/Recipes/create">create a recipe</a> before scheduling a meal.</div>';
+                            }?>
                         </div>
                     </div>
                 </div>

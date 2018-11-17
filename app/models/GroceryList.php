@@ -13,7 +13,7 @@ class GroceryList {
     public function getEntireList()
 
       // Look up meals in given timeframe
-      
+
       // Look up food inventory/stock
 
       // Subtract Food inventory from meal need times Scale
@@ -23,14 +23,6 @@ class GroceryList {
       return $this->groceryitemarray;
     }
 
-    public function purchase($n,$q) {
-
-      // Add value from grocery list to cooresponding food's stock
-
-      //$this->quantity = $this->quantity - $q;
-
-      $this->getEntireList();
-    }
 }
 
 ?>
