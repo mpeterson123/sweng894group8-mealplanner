@@ -362,8 +362,8 @@ class Meals extends Controller {
     }
 
     private function saveMealAndUpdateGroceryList($meal) {
-        var_dump($meal->getRecipe()->getIngredients());
-        exit();
+    //    var_dump($meal->getRecipe()->getIngredients());
+        //exit();
         foreach ($meal->getRecipe()->getIngredients() as $ingredient) {
             // Set original recipe quantity times scale factor
             $ingredientQuantity = $ingredient->getQuantity()->getValue() * $meal->getScaleFactor();

@@ -43,6 +43,18 @@ class Recipe{
 			if($this->ingredients[$i]->getFood()->getName() == $anIngredientName)
 				return $this->ingredients[$i];
 		}
+
+		return null;
+	}
+
+	public function getIngredientById($anIngredientId) {
+
+		for($i=0;$i<count($this->ingredients);$i++) {
+			if($this->ingredients[$i]->getId() == $anIngredientId)
+				return $this->ingredients[$i];
+		}
+
+		return null;
 	}
 
 	public function getDirections(){
@@ -100,7 +112,24 @@ class Recipe{
 		return $this->ingredients;
 	}
 
-	public function updateIngredient($name) {
+	/**
+	* Update the attributes of the ingredient
+	* @param object $anIngredient The ingredient object with new data
+	*/
+
+	public function updateIngredient($anIngredient) {
+		$currIngredient = $this->getIngredientById($anIngredient->getId());
+
+		if($currIngredient != null) {
+			$currIngredient->setFood($anIngredient->getFood());
+			$currIngredient->setQuantity($anIngredient->getQuantity());
+			$currIngredient->setUnit($anIngredient->getUnit());
+
+			return true;
+		}
+		else {
+			return false;
+		}
 
 	}
 
