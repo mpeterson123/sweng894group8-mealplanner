@@ -90,7 +90,7 @@ class UnitTest extends TestCase {
             'Name must be trimmed.');
     }
 
-    public function testNameMustOnlyContainLettersAndParentheses(){
+    public function testNameMustOnlyContainLettersParenthesesAndSpaces(){
         $invalidName = 'a bad name!';
 
         $this->expectException(\Exception::class);

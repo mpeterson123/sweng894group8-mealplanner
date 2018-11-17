@@ -46,4 +46,24 @@ class UnitRepository extends Repository {
         }
         return $collection;
     }
+
+    /**
+     * Gets all convertible units from a unit, including unit itself
+     * @param  [type] $id [description]
+     * @return array      [description]
+     */
+    public function allConvertibleFrom($unitAbbreviation):array {
+        $query = $this->db->prepare('SELECT * FROM units WHERE baseUnit = ? ORDER BY name');
+        $query->bind_param("s", $unitAbbreviation);
+        $query->execute();
+        $result = $query->get_result();
+        $unitRows = $result->fetch_all(MYSQLI_ASSOC);
+
+        $collection = array();
+        foreach($unitRows as $unitRow){
+            $collection[] = $this->unitFactory->make($unitRow);
+        }
+        return $collection;
+
+    }
 }
