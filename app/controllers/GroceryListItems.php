@@ -94,6 +94,8 @@ class GroceryListItems extends Controller {
      */
     public function create():void{
         $currentHousehold = $this->session->get('user')->getCurrHousehold();
+        $this->checkHasFoodItems($currentHousehold);
+        
         $foodItems = $this
             ->foodItemRepository
             ->itemsAddableToHouseholdGroceryList($currentHousehold);
@@ -106,10 +108,7 @@ class GroceryListItems extends Controller {
      */
     public function store():void {
         $currentHousehold = $this->session->get('user')->getCurrHousehold();
-        if($this->foodItemRepository->countForHousehold($currentHousehold) == 0){
-            Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
-            return;
-        }
+        $this->checkHasFoodItems($currentHousehold);
 
         $input = $this->request;
 
@@ -372,5 +371,15 @@ class GroceryListItems extends Controller {
          // Redirect back after updating
          Redirect::toControllerMethod('GroceryListItems', 'index');
          return;
-     }
+    }
+
+    private function checkHasFoodItems($household){
+        if($this->foodItemRepository->countForHousehold($household) != 0){
+            $this->session->flashMessage('warning',
+                "You must create a food item to be able to add it to the grocery
+                 list.");
+            Redirect::toControllerMethod('FoodItems', 'create');
+            return;
+        }
+    }
 }
