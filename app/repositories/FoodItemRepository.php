@@ -210,7 +210,7 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
                 (name, stock, unitId, categoryId, unitsInContainer, containerCost, unitCost, householdId)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ');
-
+          
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
         @$query->bind_param("sdiidddi",

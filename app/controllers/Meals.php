@@ -396,9 +396,11 @@ class Meals extends Controller {
             if(!$groceryListItem){
                 $newGroceryListItemData = array(
                     'foodItemId' => $ingredient->getFood()->getId(),
-                    'amount' => $ingredientQuantity - $ingredient->getFood()->getStock()
+                    'amount' => $ingredientQuantity
                 );
+                print_r($newGroceryListItemData);
                 $groceryListItem = $this->groceryListItemFactory->make($newGroceryListItemData);
+
                 if(!$this->groceryListItemRepository->save($groceryListItem)){
                     throw new \Exception("Unable to add '{$ingredient->getFood()->getName()}' to grocery list", 1);
                 };

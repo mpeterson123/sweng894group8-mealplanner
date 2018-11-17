@@ -46,7 +46,6 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
      * @return array       associative array of item's details
      */
     public function findByFoodId($id){
-
         $query = $this->db->prepare('SELECT * FROM groceryListItems WHERE foodItemId = ?');
         $query->bind_param("i", $id);
         $query->execute();
