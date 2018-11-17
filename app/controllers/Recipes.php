@@ -52,8 +52,6 @@ class Recipes extends Controller {
       $this->log = new Log($dbh);
 
         // TODO Use dependency injection
-
-
         $categoryFactory = new CategoryFactory($this->dbh->getDB());
         $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
 
@@ -396,7 +394,7 @@ class Recipes extends Controller {
         // Validate input
         $validator = new Validator($input);
         $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
-        $safeStringRegex = '/^[0-9a-z \n\r.,!#\/\(\)-]+$/i';
+        $safeStringRegex = '/^[0-9a-z \n\r.,!#\/\(\)-:]+$/i';
 
         $rules = [
             'required' => [
