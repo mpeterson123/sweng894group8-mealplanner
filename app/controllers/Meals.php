@@ -385,7 +385,8 @@ class Meals extends Controller {
      */
     private function saveMealAndUpdateGroceryList($meal):void{
         foreach ($meal->getRecipe()->getIngredients() as $ingredient) {
-            // Set original recipe quantity times scale factor
+            // Set original recipe quantity converted to food item's unit, times scale factor
+            $ingredient->getQuantity()->convertTo($ingredient->getFood()->getUnit());
             $ingredientQuantity = $ingredient->getQuantity()->getValue() * $meal->getScaleFactor();
 
             // Get item's current qty to purchase from grocery list
@@ -436,7 +437,7 @@ class Meals extends Controller {
      * @param Household $household Household to check
      */
     private function checkHasRecipes($household):void {
-        if($this->recipeRepository->countForHousehold($household) != 0){
+        if($this->recipeRepository->countForHousehold($household) == 0){
             $this->session->flashMessage('warning',
                 "You must add a recipe before scheduling a meal.");
             Redirect::toControllerMethod('Recipes', 'create');

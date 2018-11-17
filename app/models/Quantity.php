@@ -18,13 +18,16 @@ class Quantity
 
     public function __construct($value,$unit){
   		$this->value = $value;
-      $this->unit = $unit;
+        $this->unit = $unit;
     }
 
     public function convertTo($newUnit){
-      $baseEqvValue = $this->value*$this->unit->getBaseEqv();
-      $this->value = $baseEqvValue/$newUnit->getBaseEqv();
-      $this->unit = $newUnit;
+        if($this->unit->getBaseUnit() != $newUnit->getBaseUnit()){
+            throw new \Exception("Units are incompatible", 1);
+        }
+        $baseEqvValue = $this->value*$this->unit->getBaseEqv();
+        $this->value = $baseEqvValue/$newUnit->getBaseEqv();
+        $this->unit = $newUnit;
     }
 
     public function getValue() {
