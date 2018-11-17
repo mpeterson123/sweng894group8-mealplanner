@@ -80,12 +80,13 @@ class Meals extends Controller {
 
     public function index():void{
         $household = $this->session->get('user')->getCurrHousehold();
+        $recipeCount = $this->recipeRepository->countForHousehold($household);
         $meals = $this->mealRepository->incompleteForHousehold($household);
 
-        // Need to figure out how to toggle between entire list and not completed list
+        // TODO Need to figure out how to toggle between entire list and not completed list
         // $meals = $this->mealRepository->allForHousehold($household);
 
-        $this->view('meal/index', compact('meals'));
+        $this->view('meal/index', compact('meals', 'recipeCount'));
     }
 
     /**
@@ -120,10 +121,10 @@ class Meals extends Controller {
      * Show page for scheduling a new meal
      */
     public function create():void{
-        $db = $this->dbh->getDB();
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+        $this->checkHasRecipes($currentHousehold);
 
-        $household = $this->session->get('user')->getCurrHousehold();
-        $recipes = $this->recipeRepository->allForHousehold($household);
+        $recipes = $this->recipeRepository->allForHousehold($currentHousehold);
 
         $this->view('meal/create', compact('recipes'));
 
@@ -133,10 +134,11 @@ class Meals extends Controller {
      * Save a new meal to the DB
      */
     public function store():void{
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+        $this->checkHasRecipes($currentHousehold);
 
         $input = $this->request;
         $this->session->flashOldInput($input);
-        $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
         // Validate input
         $this->validateCreateInput($input, 'create');
@@ -426,6 +428,19 @@ class Meals extends Controller {
             $user = $this->session->get('user');
             $this->log->add($user->getId(), 'Error', 'Meal Save - Unable to save');
             throw new \Exception("Unable to save meal", 3);
+        }
+    }
+
+    /**
+     * Checks whether user has recipes in current household
+     * @param Household $household Household to check
+     */
+    private function checkHasRecipes($household):void {
+        if($this->recipeRepository->countForHousehold($household) != 0){
+            $this->session->flashMessage('warning',
+                "You must add a recipe before scheduling a meal.");
+            Redirect::toControllerMethod('Recipes', 'create');
+            return;
         }
     }
 

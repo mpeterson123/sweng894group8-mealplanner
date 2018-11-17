@@ -52,8 +52,8 @@
                         <li>
                             <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Meals</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="/Meals/index">Meal List</a></li>
-                                <li><a href="/Meals/create">Add Meal</a></li>
+                                <li><a href="/Meals/index">Meal Plan</a></li>
+                                <li><a href="/Meals/create">Schedule Meal</a></li>
                             </ul>
                         </li>
                         <li>

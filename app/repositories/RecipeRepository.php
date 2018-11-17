@@ -253,4 +253,19 @@ class RecipeRepository extends Repository implements EditableModelRepository {
         }
         return false;
     }
+
+    /**
+     * Count all recipes added by a household
+     * @param  Household    $household Household to check
+     * @return integer      Total recipes for household
+     */
+    public function countForHousehold($household){
+        $query = $this->db->prepare('SELECT * FROM recipes WHERE householdId = ? ORDER by name');
+        @$query->bind_param("i", $household->getId());
+        $query->execute();
+
+        $result = $query->get_result();
+
+        return $result->num_rows;
+    }
 }
