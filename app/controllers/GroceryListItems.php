@@ -95,7 +95,7 @@ class GroceryListItems extends Controller {
     public function create():void{
         $currentHousehold = $this->session->get('user')->getCurrHousehold();
         $this->checkHasFoodItems($currentHousehold);
-        
+
         $foodItems = $this
             ->foodItemRepository
             ->itemsAddableToHouseholdGroceryList($currentHousehold);
@@ -373,8 +373,12 @@ class GroceryListItems extends Controller {
          return;
     }
 
-    private function checkHasFoodItems($household){
-        if($this->foodItemRepository->countForHousehold($household) != 0){
+    /**
+     * Checks whether user has food items
+     * @param Household $household Household to check
+     */
+    private function checkHasFoodItems($household):void {
+        if($this->foodItemRepository->countForHousehold($household) == 0){
             $this->session->flashMessage('warning',
                 "You must create a food item to be able to add it to the grocery
                  list.");
