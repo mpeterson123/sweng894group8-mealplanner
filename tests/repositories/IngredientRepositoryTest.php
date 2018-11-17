@@ -104,17 +104,17 @@ class IngredientRepositoryTest extends TestCase {
 
     $this->expectedIngredientArray[] = new Ingredient($this->food, $this->quantity, 1, $this->foodUnit);
 
-    $this->host = 'localhost';
-    $this->dbName   = 'capstone';
-    $this->user = 'capstone';
-    $this->pass = 'CmklPrew!';
+    $this->host = getenv("HTTP_dbLocalHost");
+    $this->dbName   = getenv("HTTP_dbName");
+    $this->user = getenv("HTTP_dbLocalUser");
+    $this->pass = getenv("HTTP_dbPass");
     $this->charset = 'utf8';
 
     //private static $instance = NULL;
     //private $db;
 
 
-    $this->dbh = DatabaseHandler::getInstance();
+  //  $this->dbh = DatabaseHandler::getInstance();
 
     $this->db = new \mysqli($this->host, $this->user, $this->pass,$this->dbName);
     $this->db->autocommit(FALSE);
@@ -149,6 +149,12 @@ class IngredientRepositoryTest extends TestCase {
     unset($this->dbh);
     unset($this->ingredientRepository);
     unset($this->ingredientFactory);
+    unset($this->host);
+    unset($this->user);
+    unset($this->pass);
+    unset($this->dbName);
+    unset($this->charset);
+    unset($this->db);
 
   }
 

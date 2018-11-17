@@ -298,7 +298,7 @@ class Recipes extends Controller {
      */
     private function updateIngredients($in, $rec):void {
 
-      //Get the ingredients associated with this recipe from the repository:
+      //Get the ingredients associated with this recipe:
       $currentIngreds = $rec->getIngredients();
 
       //If existing ingredients were returned from the view:
@@ -315,7 +315,7 @@ class Recipes extends Controller {
             $this->ingredientRepository->remove($currentIngreds[$i]->getId());
 
             //Also remove it from the recipe object
-            $rec->removeIngredient($currentIngreds[$i]->getName());
+            $rec->removeIngredient($currentIngreds[$i]->getFood()->getName());
           }
 
         }
@@ -338,7 +338,7 @@ class Recipes extends Controller {
           if($this->ingredientRepository->save($ingredient)) {
 
             //Update the ingredient in the recipe object
-            $rec->updateIngredient($ingredient->getFood()->getName());
+            $rec->updateIngredient($ingredient);
 
 /*
             //Add the new ingredient to the recipe object:
