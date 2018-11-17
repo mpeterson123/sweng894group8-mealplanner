@@ -76,10 +76,10 @@ class Recipes extends Controller {
      */
     public function index():void{
         $household = $this->session->get('user')->getCurrHousehold();
-
+        $foodItemCount = $this->foodItemRepository->countForHousehold($household);
         $recipes = $this->recipeRepository->allForHousehold($household);
 
-        $this->view('recipe/index', compact('recipes'));
+        $this->view('recipe/index', compact('recipes', 'foodItemCount'));
     }
 
     /**
@@ -107,11 +107,11 @@ class Recipes extends Controller {
      * @return [type] [description]
      */
     public function create():void{
-
-        $household = $this->session->get('user')->getCurrHousehold();
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+        $this->checkHasFoodItems($currentHousehold);
 
         // Get user's foodItems and list of units
-        $foodItems = $this->foodItemRepository->allForHousehold($household);
+        $foodItems = $this->foodItemRepository->allForHousehold($currentHousehold);
         $units = $this->unitRepository->all();
 
         $this->session->flushOldInput();
@@ -123,6 +123,8 @@ class Recipes extends Controller {
      * Save a new recipe to the DB
      */
     public function store():void{
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+        $this->checkHasFoodItems($currentHousehold);
 
         $input = $this->request;
 
@@ -155,8 +157,6 @@ class Recipes extends Controller {
           $this->log->add($user->getId(), 'Error', 'Recipe - '.ucfirst($recipe->getName()).' already exists');
           $this->session->flashMessage('error', 'Sorry, ' . ucfirst($recipe->getName()) . ' already exists in your recipes.');
         }
-
-
 
         // Redirect back after updating
         Redirect::toControllerMethod('Recipes', 'index');
@@ -460,6 +460,19 @@ class Recipes extends Controller {
 
             // Redirect back with errors
             Redirect::toControllerMethod('Recipes', $method, $params);
+            return;
+        }
+    }
+
+    /**
+     * Checks whether user has food items
+     * @param Household $household Household to check
+     */
+    private function checkHasFoodItems($household):void {
+        if($this->foodItemRepository->countForHousehold($household) == 0){
+            $this->session->flashMessage('warning',
+                "You must create a food item before adding recipes.");
+            Redirect::toControllerMethod('FoodItems', 'create');
             return;
         }
     }

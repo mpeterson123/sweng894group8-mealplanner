@@ -111,7 +111,6 @@ class GroceryListItems extends Controller {
         $this->checkHasFoodItems($currentHousehold);
 
         $input = $this->request;
-
         $this->session->flashOldInput($input);
 
         // Validate input
