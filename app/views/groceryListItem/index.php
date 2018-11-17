@@ -45,7 +45,7 @@ $PLUGIN_EXPORT      = TRUE;
                 <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-7">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Grocery List</h3>
                             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
@@ -93,7 +93,12 @@ $PLUGIN_EXPORT      = TRUE;
                     <div class="col-sm-2">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
-                            <a href="/GroceryListItems/create" class="btn btn-success m-t-15">+ Add GroceryListItem Item</a>
+                            <?php if($data['foodItemCount'] > 0){ ?>
+                                <a href="/GroceryListItems/create" class="btn btn-success m-t-15">+ Add item to grocery list</a>
+                            <?php }
+                            else{
+                                echo '<div class="alert alert-warning">Please <a href="/FoodItems/create">create a food item</a> to be able to add it to the grocery list.</div>';
+                            }?>
                         </div>
                     </div>
                 </div>

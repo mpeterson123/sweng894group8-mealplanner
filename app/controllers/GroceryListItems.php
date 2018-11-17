@@ -68,11 +68,13 @@ class GroceryListItems extends Controller {
     /**
      * Lists all grocery list items belonging to a user
      */
-    public function index():void{
+    public function index():void {
+
         $household = $this->session->get('user')->getCurrHousehold();
+        $foodItemCount = $this->foodItemRepository->countForHousehold($household);
         $groceryListItems = $this->groceryListItemRepository->allForHousehold($household);
 
-        $this->view('groceryListItem/index', compact('groceryListItems'));
+        $this->view('groceryListItem/index', compact('groceryListItems', 'foodItemCount'));
     }
 
     /**
@@ -102,7 +104,12 @@ class GroceryListItems extends Controller {
     /**
      * Stores a new grocery list item in the DB
      */
-    public function store():void{
+    public function store():void {
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+        if($this->foodItemRepository->countForHousehold($currentHousehold) == 0){
+            Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
+            return;
+        }
 
         $input = $this->request;
 
@@ -111,7 +118,7 @@ class GroceryListItems extends Controller {
         // Validate input
         $this->validateCreateInput($input, 'create');
 
-        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+
 
         try {
             if(!$this

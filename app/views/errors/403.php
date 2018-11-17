@@ -46,7 +46,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' )
             <div class="error-body text-center">
                 <h1>403</h1>
                 <h3 class="text-uppercase">Forbidden</h3>
-                <p class="text-muted m-t-30 m-b-30 text-uppercase">Uh oh! You don't have permission to access this resource.</p>
+                <p class="text-muted m-t-30 m-b-30 text-uppercase">Uh oh! You don't have permission to perform this operation.</p>
                 <a href="<?php echo __REDIRECT__; ?>" class="btn btn-info btn-rounded waves-effect waves-light m-b-40">Back to home</a> </div>
             <footer class="footer text-center"><?php echo __COPYRITE__; ?></footer>
         </div>

@@ -128,6 +128,21 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
     }
 
     /**
+     * Count all food items added by a household
+     * @param  Household    $household Household to check
+     * @return integer      Total food items for household
+     */
+    public function countForHousehold($household){
+        $query = $this->db->prepare('SELECT * FROM foods WHERE householdId = ? ORDER by name');
+        @$query->bind_param("s", $household->getId());
+        $query->execute();
+
+        $result = $query->get_result();
+
+        return $result->num_rows;
+    }
+
+    /**
      * Get all food items that are not in a household's grocery list
      * @param  Household $household [description]
      * @return array Associative array of food items
