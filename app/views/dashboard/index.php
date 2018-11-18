@@ -26,9 +26,13 @@ date_default_timezone_set("UTC");
 $houseHoldID    = $data['user']->getCurrHousehold()->getId();
 $numFoodItems   = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipes     = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
-$numRecipesUsed = 0;
+$numRecipesUsed = 0; // TODO
 $numMeals       = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = 1")[0]['numMeals']; 
 $numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = 1")[0]['mealsEaten']; // Based off of meals
+$numMealsEatenLastWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK) AND householdid = 1")[0]['mealsEaten']; // Based off of meals
+$numMealsEatenThisWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(NOW()) AND householdid = 1")[0]['mealsEaten']; // Based off of meals
+$numMealsEatenIncrease   = $numMealsEatenThisWeek - $numMealsEatenLastWeek;
+$numMealsEatenIncreasePercentage = *($numMealsEatenIncrease / $numMealsEatenLastWeek) * 100);
 $numMealsEatenPercentage = ($numMealsEaten / $numMeals);
 $numRecipeCost  = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of recipes only (nothing consumed)
 $numFoodCost    = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (lifetime)
@@ -154,7 +158,7 @@ function writeTime($total)
                             <h3 class="info-count text-blue"><?php $numRecipes = $numRecipes ?? 0; if ($numRecipes) { echo number_format($numRecipes); } else { echo 'None!'; } ?></h3>
                             <p class="info-text font-12">Recipes</p>
                             <span class="hr-line"></span>
-                            <p class="info-ot font-15">Total Used<span class="label label-rounded label-danger"><?php echo $numRecipesUsed; ?></span></p>
+                            <p class="info-ot font-15">Total Used<span class="label label-rounded label-info"><?php echo $numRecipesUsed; ?></span></p>
                         </div>
                     </div>
                 </div>
@@ -176,7 +180,7 @@ function writeTime($total)
                     <div class="media">
                         <div class="media-body">
                             <br/>
-                            <h2 class="text-blue font-22 m-t-0">Figures</h2>
+                            <h2 class="text-blue font-22 m-t-0">Averages</h2>
                             <ul class="p-0 m-b-20">
                                 <li><i class="fa fa-circle m-r-5 text-primary"></i><?php echo round(($numMealsEatenPercentage * 100), 2); ?>% Recipes Used</li>
                                 <li><i class="fa fa-circle m-r-5 text-primary"></i>0% </li>
@@ -235,7 +239,7 @@ function writeTime($total)
                                         <h1 class="text-primary"><?php echo $numMeals; ?></h1>
                                     </div>
                                     <div class="col-sm-6">
-                                        Meals Devoured
+                                        Devoured
                                         <h1 class="text-primary"><?php echo number_format($numMealsEaten); ?></h1>
                                     </div>
                                 </div>
@@ -285,7 +289,7 @@ function writeTime($total)
                 <div class="row">
                     <div class="col-md-4 col-lg-4 col-sm-12">
                         <div class="white-box bg-primary color-box">
-                            <h1 class="text-white font-light m-b-0"><?php echo number_format($numFoodCost, 2); ?></h1>
+                            <h1 class="text-white font-light m-b-0">$<?php echo number_format($numFoodCost, 2); ?></h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">Lifetime Food Cost</p>
                         </div>
