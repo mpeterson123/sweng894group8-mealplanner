@@ -70,13 +70,13 @@ class Unit
          * Regex rules:
          * - Only letters
          * - Case insensitive
-         * - From 1-4 characters
+         * - From 1-5 characters
          */
         $regex = '/^[a-z ]{1,5}$/i';
 
         if(!preg_match_all($regex, $abbreviation, $matches)){
             throw new \Exception(
-                "Base unit must alphabetical, and must be 1-5 characters in length", 1);
+                "Base unit ".$abbreviation." must alphabetical, and must be 1-5 characters in length", 1);
         }
 
         $this->abbreviation = $abbreviation;
