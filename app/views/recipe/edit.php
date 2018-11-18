@@ -330,8 +330,6 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                         var selectUnit = selectFoodItem.closest('.ingredientFormGroup').find('.selectUnit');
                         var storedUnit = selectUnit.data('stored-unit');
 
-                        alert(selectUnit.find("option[value='"+storedUnit+"']").length);
-
                         if(selectUnit.find("option[value='"+storedUnit+"']").length > 0){
                             selectUnit.val(storedUnit);
                         }
