@@ -28,11 +28,14 @@ class App {
 		unset($request['url']);
 
 		// Sanitize Input
+		/*
 		foreach($request as $k => $v){
 			if($v !== NULL)
 				$request[$k] = htmlspecialchars(addslashes(trim($v)));
 		}
+		*/
 		$this->request = $request;
+
 	}
 
 	/**
@@ -109,7 +112,7 @@ class App {
 			$methodName = 'show';
 			$params = array('errorCode'=>400);
 			call_user_func_array([$controller,$methodName],$params);
-			
+
 		}
 	}
 }

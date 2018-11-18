@@ -117,7 +117,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <label for="ingredientsWrapper">Ingredients</label>
                                             <div id="ingredientsWrapper">
 
-                                            <?php foreach($data['ingredients'] as $ingredient) { ?>
+                                            <?php foreach($data['recipe']->getIngredients() as $ingredient) { ?>
 
                                             <div class="form-group ingredientFormGroup">
 
