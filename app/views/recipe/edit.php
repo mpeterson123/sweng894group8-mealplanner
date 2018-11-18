@@ -121,7 +121,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 
                                             <div class="form-group ingredientFormGroup">
                                                 <div class="col-sm-4">
-                                                  <select class="form-control selectFoodItem" name="foodId[]">
+                                                  <select required class="form-control selectFoodItem" name="foodId[]">
                                                       <option value="0">Select a food item</option>
                                                       <?php
                                                           foreach($data['foodItems'] as $foodItem){
@@ -140,12 +140,12 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                 </div>
 
                                               <div class="col-sm-3">
-                                                        <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo $ingredient->getQuantity()->getValue(); ?>">
+                                                        <input required class="form-control" type="number" step="0.05" min="0.05" placeholder="" name="quantity[]" value="<?php echo $ingredient->getQuantity()->getValue(); ?>">
                                                         <input type="hidden" name="ingredientIds[]" value="<?php echo $ingredient->getId(); ?>">
                                               </div>
 
                                               <div class="col-sm-4">
-                                                    <select class="form-control selectUnit" name="unitId[]" data-stored-unit="<?php echo $ingredient->getQuantity()->getUnit()->getId()?>">
+                                                    <select required class="form-control selectUnit" name="unitId[]" data-stored-unit="<?php echo $ingredient->getQuantity()->getUnit()->getId()?>">
                                                         <option value="<?php echo $ingredient->getUnit()->getId();?>"><?php echo $ingredient->getUnit()->getName();?></option>
                                                         <?php
                                                             foreach($data['units'] as $unit){
@@ -232,7 +232,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
       let ingredientHTML =
           `<div class="form-group ingredientFormGroup">
                 <div class="col-sm-4">
-                    <select class="form-control selectFoodItem" name="newFoodId[]">
+                    <select required class="form-control selectFoodItem" name="newFoodId[]">
                         <option value="0">Select a food item</option>
                         <?php
                             foreach($data['foodItems'] as $foodItem){
@@ -251,11 +251,11 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                 </div>
 
                 <div class="col-sm-3">
-                          <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="0">
+                          <input required class="form-control" type="number" step="0.05" min="0.05" placeholder="" name="newQuantity[]" value="0">
                 </div>
 
                 <div class="col-sm-4">
-                      <select class="form-control selectUnit" name="newUnitId[]" disabled>
+                      <select required class="form-control selectUnit" name="newUnitId[]" disabled>
                           <option value="0">Select a unit</option>
                           <?php
                               foreach($data['units'] as $unit){

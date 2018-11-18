@@ -153,7 +153,7 @@ $SUBTITLE = "Add Recipe";
         `<div class="form-group ingredientFormGroup">
 
         <div class="col-sm-4">
-        <select class="form-control selectFoodItem" name="newFoodId[]">
+        <select required class="form-control selectFoodItem" name="newFoodId[]">
             <option value="0">Select a food item</option>
             <?php
                 foreach($data['foodItems'] as $foodItem){
@@ -171,12 +171,12 @@ $SUBTITLE = "Add Recipe";
         </select>
         </div>
 
-        <div class="col-sm-3">
-                <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="0">
+        <div required class="col-sm-3">
+                <input class="form-control" type="number" step="0.05" min="0.05" placeholder="" name="newQuantity[]" value="0">
         </div>
 
         <div class="col-sm-4">
-            <select class="form-control selectUnit" name="newUnitId[]" disabled>
+            <select required class="form-control selectUnit" name="newUnitId[]" disabled>
                 <option value="0">Select a unit</option>
                 <?php
                     foreach($data['units'] as $unit){
