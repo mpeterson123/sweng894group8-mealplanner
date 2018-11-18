@@ -25,7 +25,9 @@ define('NUM_USERS_TO_LIST', 6);
 $houseHoldID  = $data['user']->getCurrHousehold()->getId();
 $numFoodItems = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipes   = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
+$numMeals     = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = 1")[0]['numMeals']; 
 $numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = 1")[0]['mealsEaten']; // Based off of meals
+$numMealsEatenPercentage = ($numMealsEaten / $numMeals);
 $numRecipeCost  = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of recipes only (nothing consumed)
 $numFoodCost    = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (lifetime)
 $numFoodCostMon = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEAR(addedDate) = YEAR(CURDATE()) AND MONTH(addedDate) = MONTH(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for month to date)
@@ -106,9 +108,9 @@ $usersList = sqlRequest("SELECT * FROM users");
                         <div class="media-body">
                             <h2 class="text-blue font-22 m-t-0">Report</h2>
                             <ul class="p-0 m-b-20">
-                                <li><i class="fa fa-circle m-r-5 text-primary"></i>0% Recipes Used</li>
+                                <li><i class="fa fa-circle m-r-5 text-primary"></i><?php echo round(($numMealsEatenPercentage * 100), 2); ?>% Recipes Used</li>
                                 <li><i class="fa fa-circle m-r-5 text-primary"></i>0% Food Wasted</li>
-                                <li><i class="fa fa-circle m-r-5 text-info"></i>0% Meal Increase</li>
+                                <li><i class="fa fa-circle m-r-5 text-info"></i><?php echo $numMealIncrease ?? 0; ?>% Meal Increase</li>
                             </ul>
                         </div>
                     </div>
@@ -194,7 +196,7 @@ $usersList = sqlRequest("SELECT * FROM users");
                                     </div>
                                     <div class="col-sm-6">
                                         Recipes Eaten
-                                        <h1 class="text-primary">00 <span class="font-16 text-muted">Meals</span></h1>
+                                        <h1 class="text-primary"><?php echo number_format($numMealsEaten); ?> <span class="font-16 text-muted">Meals</span></h1>
                                     </div>
                                 </div>
                                 <div class="task-assign font-16">
@@ -260,7 +262,7 @@ $usersList = sqlRequest("SELECT * FROM users");
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="white-box bg-danger color-box">
-                            <h1 class="text-white font-light m-b-0">0%</h1>
+                            <h1 class="text-white font-light m-b-0"><?php echo round(($numMealsEatenPercentage * 100), 2); ?>%</h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">Finished Meals</p>
                             <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
