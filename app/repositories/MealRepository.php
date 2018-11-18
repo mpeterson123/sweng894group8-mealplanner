@@ -165,35 +165,38 @@ class MealRepository extends Repository implements EditableModelRepository {
      * @return bool Whether query was successful
      */
     public function update($meal){
-      try {
-        $query = $this->db
-            ->prepare('UPDATE meal
-                SET
-                    date = ?,
-                    addedDate = ?,
-                    isComplete = ?,
-                    recipe = ?,
-                    scaleFactor = ?
-                WHERE id = ?
-            ');
+        try {
+            $query = $this->db
+                ->prepare('UPDATE meal
+                    SET
+                        date = ?,
+                        addedDate = ?,
+                        isComplete = ?,
+                        recipeId = ?,
+                        scaleFactor = ?
+                    WHERE id = ?
+                ');
 
-        // translate complete from bool to int
-        $tempCompleteInt = 0;
-        if ($meal->isComplete() == TRUE){
-          $tempCompleteInt = 1;
+            // translate complete from bool to int
+            $tempCompleteInt = 0;
+            if ($meal->isComplete() == TRUE){
+              $tempCompleteInt = 1;
+            }
+
+            @$query->bind_param(
+                "ssiidi",
+                $meal->getDate(),
+                $meal->getAddedDate(),
+                $tempCompleteInt,
+                $meal->getRecipeId(),
+                $meal->getScaleFactor(),
+                $meal->getId()
+            );
+
+
+            return $query->execute();
         }
-
-        @$query->bind_param("ssiidi",
-            $meal->getDate(),
-            $meal->getAddedDate(),
-            $tempCompleteInt,
-            $meal->getRecipeId(),
-            $meal->getScaleFactor(),
-            $meal->getId()
-        );
-
-        return $query->execute();
-      } catch (\Exception $e) {
+        catch (\Exception $e) {
           return false;
         }
     }

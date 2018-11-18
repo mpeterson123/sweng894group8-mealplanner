@@ -23,8 +23,8 @@ define('NUM_USERS_TO_LIST', 6);
 // Dashboard Statistics
 
 $houseHoldID  = $data['user']->getCurrHousehold()->getId();
-$numFoodItems = sqlRequest("COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
-$numRecipes   = sqlRequest("COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
+$numFoodItems = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
+$numRecipes   = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipesUsed = 0; // Based off of meals
 $numFoodCost    = 0; // Based off of meals (for month to date)
 $numFoodCostYear= 0; // Based off of meals (for year to date)

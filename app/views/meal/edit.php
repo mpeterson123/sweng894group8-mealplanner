@@ -62,7 +62,7 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                 <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-4 col-sm-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0"><?php echo $data['meal']->getRecipe()->getName(); ?></h3>
                             <?php if (isset($Errors)) { ?>
@@ -83,7 +83,7 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                                     <label for="inputDate">Date</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                        <input type="text" class="form-control datepicker" id="inputDate" placeholder="Date of Meal" name="name" value="<?php echo ($data['session']->getOldInput('date') != NULL)? $data['session']->getOldInput('date') : $data['meal']->getDate(true); ?>"> </div>
+                                        <input type="text" class="form-control datepicker" id="inputDate" placeholder="Date of Meal" name="date" value="<?php echo ($data['session']->getOldInput('date') != NULL)? $data['session']->getOldInput('date') : $data['meal']->getDate(true); ?>"> </div>
                                 </div>
 
                                 <!--RECIPE-->

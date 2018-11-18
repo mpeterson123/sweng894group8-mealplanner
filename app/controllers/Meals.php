@@ -219,36 +219,45 @@ class Meals extends Controller {
      * @param integer $id Meal id
      */
     public function update($id):void{
-
-        $meal = $this->mealRepository->find($id);
-
         $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
-        if( $this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
-        {
-          $input = $this->request;
-          $this->validateEditInput($input, 'edit', [$id]);
+        try {
+            if(!$this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
+            {
+                throw new \Exception("Meal doesn't belong to household", 1);
+            }
 
-          $meal->setId($id);
-          $meal->setScaleFactor($input['scale']);
-          $meal->setDate($input['date']);
-          $meal->setRecipe($input['recipe']);
+            $input = $this->request;
+            $this->validateEditInput($input, 'edit', [$id]);
 
-          $this->mealRepository->save($meal);
+            $meal = $this->mealRepository->find($id);
+            $meal->setId(intval($id));
+            $meal->setScaleFactor($input['scaleFactor']);
+            // Change date to correct format
+            $input['date'] = Format::date($input['date']);
+            $meal->setDate($input['date']);
+            $recipe = $this->recipeRepository->find($input['recipeId']);
+            $meal->setRecipe($recipe);
 
-          // Flash success message
-          $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was updated.');
+            if(!$this->mealRepository->save($meal)){
+                throw new \Exception("Error saving meal to DB", 1);
+            };
 
-          // Redirect back after updating
-          Redirect::toControllerMethod('Meals', 'edit', array('Meals' => $meal->getId()));
-          return;
+            // Flash success message
+            $this->session->flashMessage('success', 'Your '.$meal->getRecipe()->getName().' meal for '.$meal->getDate(true).' was updated.');
+
+            // Redirect back after updating
+            Redirect::toControllerMethod('Meals', 'edit', array('id' => $id));
+            return;
         }
-        else
-        {
-          //not in household
-          $user = $this->session->get('user');
-          $this->log->add($user->getId(), 'Error', 'Meal Update - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
-          $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
+        catch(\Exception $e){
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Meal Update -'.$e->getMessage());
+            $this->session->flashMessage('danger', 'Uh oh. Your meal could not be updated.');
+
+            // Redirect back after updating
+            Redirect::toControllerMethod('Meals', 'edit', array('id' => $id));
+            return;
         }
     }
 
@@ -311,19 +320,10 @@ class Meals extends Controller {
         $safeStringRegex = '/^[0-9a-z #\/\(\)-]+$/i';
         $rules = [
             'required' => [
-                ['recipe'],
+                ['recipeId'],
                 ['date'],
-                ['isComplete'],
-                ['addedDate'],
                 ['scaleFactor']
             ],
-            'boolean' => [
-                ['isComplete']
-            ],
-            //'timestamp' => [
-            //   ['date'],
-            //   ['addedDate']
-            //],
             'regex' => [
                 ['scaleFactor', $twoSigDigFloatRegex]
             ]
@@ -392,18 +392,22 @@ class Meals extends Controller {
             // Get item's current qty to purchase from grocery list
             $groceryListItem = $this->groceryListItemRepository->findByFoodId($ingredient->getFood()->getId());
 
-            // If the grocery list item does not exist, simply add the scaled ingredient quantity to grocery list
+            // If the grocery list item does not exist, simply add the scaled ingredient quantity minus the current stock to grocery list
             if(!$groceryListItem){
-                $newGroceryListItemData = array(
-                    'foodItemId' => $ingredient->getFood()->getId(),
-                    'amount' => $ingredientQuantity
-                );
-                print_r($newGroceryListItemData);
-                $groceryListItem = $this->groceryListItemFactory->make($newGroceryListItemData);
+                $amountToAdd = $ingredientQuantity - $ingredient->getFood()->getStock();
 
-                if(!$this->groceryListItemRepository->save($groceryListItem)){
-                    throw new \Exception("Unable to add '{$ingredient->getFood()->getName()}' to grocery list", 1);
-                };
+                // If item is not overstocked (if quantity to add is more than the quantity in stock)
+                if($amountToAdd > 0){
+                    $newGroceryListItemData = array(
+                        'foodItemId' => $ingredient->getFood()->getId(),
+                        'amount' => $amount
+                    );
+                    $groceryListItem = $this->groceryListItemFactory->make($newGroceryListItemData);
+
+                    if(!$this->groceryListItemRepository->save($groceryListItem)){
+                        throw new \Exception("Unable to add '{$ingredient->getFood()->getName()}' to grocery list", 1);
+                    };
+                }
             }
             // Otherwise, get new grocery list quantity
             else {

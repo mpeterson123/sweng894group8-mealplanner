@@ -120,6 +120,24 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <?php foreach($data['recipe']->getIngredients() as $ingredient) { ?>
 
                                             <div class="form-group ingredientFormGroup">
+                                                <div class="col-sm-4">
+                                                  <select class="form-control selectFoodItem" name="foodId[]">
+                                                      <option value="0">Select a food item</option>
+                                                      <?php
+                                                          foreach($data['foodItems'] as $foodItem){
+                                                              echo '<option ';
+
+                                                              echo 'data-base-unit-abbreviation="'.$foodItem->getUnit()->getBaseUnit().'" ';
+
+                                                              if($ingredient->getFood()->getId() == $foodItem->getId()){
+                                                                echo 'selected="selected" ';
+                                                              }
+
+                                                              echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
+                                                          }
+                                                      ?>
+                                                  </select>
+                                                </div>
 
                                               <div class="col-sm-3">
                                                         <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="quantity[]" value="<?php echo $ingredient->getQuantity()->getValue(); ?>">
@@ -127,13 +145,13 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                               </div>
 
                                               <div class="col-sm-4">
-                                                    <select class="form-control" name="unitId[]">
+                                                    <select class="form-control selectUnit" name="unitId[]" data-stored-unit="<?php echo $ingredient->getQuantity()->getUnit()->getId()?>">
                                                         <option value="<?php echo $ingredient->getUnit()->getId();?>"><?php echo $ingredient->getUnit()->getName();?></option>
                                                         <?php
                                                             foreach($data['units'] as $unit){
                                                                 echo '<option ';
 
-                                                                if($data['session']->getOldInput('unitId') == $unit->getId()){
+                                                                if($ingredient->getQuantity()->getUnit()->getId() == $unit->getId()){
                                                                     echo 'selected="selected" ';
                                                                 }
 
@@ -143,22 +161,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                                     </select>
                                               </div>
 
-                                              <div class="col-sm-4">
-                                                <select class="form-control" name="foodId[]">
-                                                    <option value="<?php echo $ingredient->getFood()->getId();?>"><?php echo $ingredient->getFood()->getName();?></option>
-                                                    <?php
-                                                        foreach($data['foodItems'] as $foodItem){
-                                                            echo '<option ';
 
-                                                            if($data['session']->getOldInput('foodId') == $foodItem->getId()){
-                                                                echo 'selected="selected" ';
-                                                            }
-
-                                                            echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
-                                                        }
-                                                    ?>
-                                                </select>
-                                              </div> <!-- div class col-xs-5 -->
 
                                               <div class="col-sm-1">
                                                 <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
@@ -227,64 +230,115 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
 <script>
   $(document).ready(function() {
       let ingredientHTML =
-      `<div class="form-group ingredientFormGroup">
+          `<div class="form-group ingredientFormGroup">
+                <div class="col-sm-4">
+                    <select class="form-control selectFoodItem" name="newFoodId[]">
+                        <option value="0">Select a food item</option>
+                        <?php
+                            foreach($data['foodItems'] as $foodItem){
+                                echo '<option ';
 
-        <div class="col-sm-3">
-                  <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="0">
-        </div>
+                                echo 'data-base-unit-abbreviation="'.$foodItem->getUnit()->getBaseUnit().'" ';
 
-        <div class="col-sm-4">
-              <select class="form-control" name="newUnitId[]">
-                  <option value="0">Select a unit</option>
-                  <?php
-                      foreach($data['units'] as $unit){
-                          echo '<option ';
+                                if($data['session']->getOldInput('newFoodId') == $foodItem->getId()){
+                                    echo 'selected="selected" ';
+                                }
 
-                          if($data['session']->getOldInput('newUnitId') == $unit->getId()){
-                              echo 'selected="selected" ';
-                          }
+                                echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
+                            }
+                        ?>
+                    </select>
+                </div>
 
-                          echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
-                      }
-                  ?>
-              </select>
-        </div>
+                <div class="col-sm-3">
+                          <input class="form-control" type="number" step="0.05" min="0" placeholder="" name="newQuantity[]" value="0">
+                </div>
 
-        <div class="col-sm-4">
-          <select class="form-control" name="newFoodId[]">
-              <option value="0">Select a food item</option>
-              <?php
-                  foreach($data['foodItems'] as $foodItem){
-                      echo '<option ';
+                <div class="col-sm-4">
+                      <select class="form-control selectUnit" name="newUnitId[]" disabled>
+                          <option value="0">Select a unit</option>
+                          <?php
+                              foreach($data['units'] as $unit){
+                                  echo '<option ';
 
-                      if($data['session']->getOldInput('newFoodId') == $foodItem->getId()){
-                          echo 'selected="selected" ';
-                      }
+                                  if($data['session']->getOldInput('newUnitId') == $unit->getId()){
+                                      echo 'selected="selected" ';
+                                  }
 
-                      echo 'value="'.$foodItem->getId().'">'.$foodItem->getName().'</option>';
-                  }
-              ?>
-          </select>
-        </div>
+                                  echo 'value="'.$unit->getId().'">'.$unit->getName().' – '.$unit->getAbbreviation().'</option>';
+                              }
+                          ?>
+                      </select>
+                </div>
 
-        <div class="col-sm-1">
-          <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
-          </button>
-        </div>
 
-        <br>
 
-    </div>`; //end ingredientFormGroup -->
+                <div class="col-sm-1">
+                  <button class="btn-sm btn-danger btn removeIngredientBtn"><i class="fa fa-times"></i>
+                  </button>
+                </div>
+
+                <br>
+
+            </div>`; //end ingredientFormGroup -->
 
       $("#addIngredientBtn").on("click", function(e) {
           e.preventDefault();
           $('#ingredientsWrapper').append(ingredientHTML);
       });
 
-      $(document).on("click", ".removeIngredientBtn", function(e) {
-          e.preventDefault();
-          $(this).closest(".ingredientFormGroup").remove();
-      });
+        $(document).on("click", ".removeIngredientBtn", function(e) {
+            e.preventDefault();
+            $(this).closest(".ingredientFormGroup").remove();
+        });
+
+        $('.selectFoodItem').each(function(){
+            var baseUnitAbbreviation = $(this).find(':selected').data('base-unit-abbreviation');
+            var selectFoodItem = $(this);
+
+            getUnitsForFoodItem(baseUnitAbbreviation, selectFoodItem);
+        });
+
+        $(document).on("change", ".selectFoodItem", function(e) {
+            e.preventDefault();
+
+            var baseUnitAbbreviation = $(this).find(':selected').data('base-unit-abbreviation');
+            var selectFoodItem = $(this);
+
+            getUnitsForFoodItem(baseUnitAbbreviation, selectFoodItem);
+        });
+
+        function getUnitsForFoodItem(baseUnitAbbreviation, selectFoodItem){
+            $.post(
+                "/Units/getConvertibleFrom/"+baseUnitAbbreviation,
+                function( data ) {
+                    var units = JSON.parse(data);
+
+                    var options = '<option value="0">Select a unit</option>';
+                    units.forEach(function(unit){
+                        options += '<option value= "'+unit.id+'">'+unit.name+' - '+unit.abbreviation+'</option>';
+                    });
+
+                    selectFoodItem.closest('.ingredientFormGroup').find('.selectUnit').html(options);
+
+                    if(units.length == 0){
+                        selectFoodItem.closest('.ingredientFormGroup').find('.selectUnit').attr('disabled', true);
+                    }
+                    else {
+                        selectFoodItem.closest('.ingredientFormGroup').find('.selectUnit').attr('disabled', false);
+
+                        var selectUnit = selectFoodItem.closest('.ingredientFormGroup').find('.selectUnit');
+                        var storedUnit = selectUnit.data('stored-unit');
+
+                        alert(selectUnit.find("option[value='"+storedUnit+"']").length);
+
+                        if(selectUnit.find("option[value='"+storedUnit+"']").length > 0){
+                            selectUnit.val(storedUnit);
+                        }
+                    }
+                }
+            );
+        }
   });
 
 </script>
