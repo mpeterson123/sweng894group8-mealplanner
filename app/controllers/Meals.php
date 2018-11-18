@@ -428,7 +428,7 @@ class Meals extends Controller {
                 if($amountToAdd > 0){
                     $newGroceryListItemData = array(
                         'foodItemId' => $ingredient->getFood()->getId(),
-                        'amount' => $amount
+                        'amount' => $amountToAdd
                     );
                     $groceryListItem = $this->groceryListItemFactory->make($newGroceryListItemData);
 
