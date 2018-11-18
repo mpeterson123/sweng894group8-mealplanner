@@ -363,7 +363,7 @@ class Meals extends Controller {
             	$foodItem = $ingredient->getFood();
 
                 // Convert to food item's unit
-                $ingredient->getQuantity()->convertTo($foodItem->getUnit());
+                //$ingredient->getQuantity()->convertTo($foodItem->getUnit());
 
                 // Reduce stock by recipe ingredient quantity * scale factor
                 $newStock = $foodItem->getStock() - ($ingredient->getQuantity()->getValue() * $meal->getScaleFactor());

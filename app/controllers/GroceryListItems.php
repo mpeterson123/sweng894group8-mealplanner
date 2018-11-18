@@ -329,7 +329,7 @@ class GroceryListItems extends Controller {
      * @param array $params     Parameters for the redirection method
      */
      public function purchase($id):void{
-         $this->session->flashOldInput($input);
+         //$this->session->flashOldInput($input);
 
          $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
@@ -337,17 +337,20 @@ class GroceryListItems extends Controller {
 
          try {
              // Set food stock as grocery list amount + current food stock
-             $groceryListFoodItem = $this->groceryListItem->getFoodItem();
-             $groceryListItemAmount = $this->groceryListItem->getAmount();
+             $groceryListFoodItem = $groceryListItem->getFoodItem();
+             $groceryListItemAmount = $groceryListItem->getAmount();
              $groceryListFoodItemStock = $groceryListFoodItem->getStock();
              $newStock = $groceryListFoodItemStock + $groceryListItemAmount;
              $groceryListFoodItem->setStock($newStock);
 
              // Save to DB
              $this->foodItemRepository->save($groceryListFoodItem);
+
+             // IF the save was successful, delete the grocery list item
+             $this->delete($id);
          }
          catch (\Exception $e){
-             // Log error
+           // Log error
              $user = $this->session->get('user');
              $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
              $this->session->flashMessage('danger',

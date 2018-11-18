@@ -45,7 +45,7 @@ $PLUGIN_EXPORT      = TRUE;
                 <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
-                    <div class="col-sm-12 col-md-5">
+                    <div class="col-sm-12 col-md-8">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Recipe Directory</h3>
                             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
@@ -80,7 +80,7 @@ $PLUGIN_EXPORT      = TRUE;
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-2">
+                    <div class="col-sm-12 col-md-4">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
                             <?php if($data['foodItemCount'] > 0){ ?>

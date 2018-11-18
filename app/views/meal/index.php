@@ -64,7 +64,18 @@ $PLUGIN_EXPORT      = TRUE;
                 <?php $data['session']->renderMessage(); ?>
 
                 <div class="row">
-                    <div class="col-sm-10">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0">Actions</h3>
+                            <?php if($data['recipeCount'] > 0){ ?>
+                                <a href="/Meals/create" class="btn btn-success m-t-15">+ Schedule a Meal</a>
+                            <?php }
+                            else{
+                                echo '<div class="alert alert-warning">Please <a href="/Recipes/create">create a recipe</a> before scheduling a meal.</div>';
+                            }?>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Meal Plan</h3>
                             <p class="text-muted m-b-30">Export data to Copy, CSV, Excel, PDF & Print</p>
@@ -121,17 +132,6 @@ $PLUGIN_EXPORT      = TRUE;
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="white-box">
-                            <h3 class="box-title m-b-0">Actions</h3>
-                            <?php if($data['recipeCount'] > 0){ ?>
-                                <a href="/Meals/create" class="btn btn-success m-t-15">+ Schedule a Meal</a>
-                            <?php }
-                            else{
-                                echo '<div class="alert alert-warning">Please <a href="/Recipes/create">create a recipe</a> before scheduling a meal.</div>';
-                            }?>
                         </div>
                     </div>
                 </div>
