@@ -363,7 +363,7 @@ class Meals extends Controller {
             	$foodItem = $ingredient->getFood();
 
                 // Convert to food item's unit
-                $ingredient->getQuantity()->convertTo($foodItem->getUnit());
+                //$ingredient->getQuantity()->convertTo($foodItem->getUnit());
 
                 // Reduce stock by recipe ingredient quantity * scale factor
                 $newStock = $foodItem->getStock() - ($ingredient->getQuantity()->getValue() * $meal->getScaleFactor());
@@ -395,8 +395,8 @@ class Meals extends Controller {
             return;
         //}
         //catch (\Exception $e){
-            // Rollback changes
-      //      $this->dbh->getDB()->rollback();
+        //    // Rollback changes
+        //    $this->dbh->getDB()->rollback();
 
         //    $user = $this->session->get('user');
         //    $this->log->add($user->getId(), 'Error', 'The meal was not completed');
