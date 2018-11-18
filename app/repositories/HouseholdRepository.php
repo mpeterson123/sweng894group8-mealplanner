@@ -115,20 +115,19 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
           $hhId);
       $query->execute();
     }
-
-    // TODO Not Implemented yet
-    public function update($object){
-
-        // !!!!!!!!!!
-        return false;
-
+    /**
+     * Update household
+     * @param  Household $hh    Household object to update in DB
+     */
+    public function update($hh){
         $query = $this->db
-            ->prepare('UPDATE food
-                SET name = ?, unitcost =?)
+            ->prepare('UPDATE household
+                SET name = ?, ownerId =?)
                 VALUES(?,?)');
         $query->bind_param(array(
-            'name' => $food->name,
-            'name' => $food->unitCost,
+             'ss',
+             $hh->getName(),
+             $hh->getOwner()->getId()
         ));
         return $query->execute();
     }
