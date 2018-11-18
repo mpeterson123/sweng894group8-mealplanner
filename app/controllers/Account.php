@@ -362,7 +362,7 @@ class Account extends Controller{
 		if(!$user) {
 			// If credentials are not valid, set error message
 			$message = 'Incorrect username or password.';
-			$this->log->add($user->getId(), 'Error', 'Login - '.$message);
+			$this->log->add(NULL, 'Error', 'Login - '.$message);
 		}
 		else if(!$user->getActivated()){
 			// If credentials are valid, but user is inactive, set error message
