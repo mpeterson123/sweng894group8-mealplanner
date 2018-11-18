@@ -35,6 +35,75 @@ $numFoodCostYear= sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantit
 $numFoods       = sqlRequest("SELECT COUNT(id) AS numFoods FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numFoods'];
 $numStock       = sqlRequest("SELECT SUM(stock) AS numStock FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numStock'];
 $usersList = sqlRequest("SELECT * FROM users");
+
+function writeTime($total)
+{
+    $secsMinute = 60;
+    $secsHour   = 3600;
+    $secsDay    = 86400;
+    $secsWeek   = 604800;
+    $secsMonth  = 2592000;
+    $secsYear   = 31104000;
+
+    $result = '';
+
+    $seconds = 0;
+    $minutes = 0;
+    $hours   = 0;
+    $days    = 0;
+    $weeks   = 0;
+    $months  = 0;
+    $years   = 0;
+
+    if (!$total)
+        return FALSE;
+
+    if ($total < 1)
+        return 'a fraction of a second ';
+
+    if ($total >= $secsYear)
+    {
+        $years = floor($total / $secsYear);
+        $total = 0;
+    }
+    if ($total >= $secsMonth)
+    {
+        $months = floor($total / $secsMonth);
+        $total = 0;
+    }
+    if ($total >= $secsWeek)
+    {
+        $weeks = floor($total / $secsWeek);
+        $total = 0;
+    }
+    if ($total >= $secsDay)
+    {
+        $days = floor($total / $secsDay);
+        $total = 0;
+    }
+    if ($total >= $secsHour)
+    {
+        $hours = floor($total / $secsHour);
+        $total = 0;
+    }
+    if ($total >= $secsMinute)
+    {
+        $minutes = floor($total / $secsMinute);
+        $total = 0;
+    }
+    $seconds = $total;
+
+    if ($years)  { $result = $years.' years'; }
+    if ($months) { $result = $months.' months'; }
+    if ($weeks) { $result = $weeks.' weeks'; }
+    if ($days) { $result = $days.' days'; }
+    if ($hours) { $result = $hours.' hours'; }
+    if ($minutes) { $result = $minutes.' minutes'; }
+    if ($seconds) { $result = $seconds.' seconds'; }
+
+    return $result;
+}
+
 ?>
 <?php require_once( __HEADER__ ); ?>
 
@@ -102,17 +171,12 @@ $usersList = sqlRequest("SELECT * FROM users");
                 </div>
                 <div class="col-md-3 col-sm-6 info-box b-r-0">
                     <div class="media">
-                        <div class="media-left p-r-5">
-                            <div id="earning" class="e" data-percent="12">
-                                <div id="pending" class="p" data-percent="55"></div>
-                                <div id="booking" class="b" data-percent="50"></div>
-                            </div>
-                        </div>
                         <div class="media-body">
+                            <br/>
                             <h2 class="text-blue font-22 m-t-0">Report</h2>
                             <ul class="p-0 m-b-20">
                                 <li><i class="fa fa-circle m-r-5 text-primary"></i><?php echo round(($numMealsEatenPercentage * 100), 2); ?>% Recipes Used</li>
-                                <li><i class="fa fa-circle m-r-5 text-primary"></i>0% Food Wasted</li>
+                                <li><i class="fa fa-circle m-r-5 text-primary"></i>0% </li>
                                 <li><i class="fa fa-circle m-r-5 text-info"></i><?php echo $numMealIncrease ?? 0; ?>% Meal Increase</li>
                             </ul>
                         </div>
@@ -141,15 +205,17 @@ $usersList = sqlRequest("SELECT * FROM users");
                                 </div>
                                 <div class="task-list">
                                     <ul class="list-group">
+<?php $LastFewMeals = sqlRequest("SELECT * FROM meal WHERE householdid = {$householdid} ORDER BY addedDate DESC LIMIT 5"); foreach ($LastFewMeals as $meal) { ?>
                                         <li class="list-group-item bl-info">
                                             <div class="checkbox checkbox-success">
                                                 <input id="c7" type="checkbox">
                                                 <label for="c7">
-                                                    <span class="font-16">None</span>
+                                                    <span class="font-16">New meal added <?php echo writeTime(time() - strtotime($meal['addedDate'])); ?>ago.</span>
                                                 </label>
-                                                <h6 class="p-l-30 font-bold">-</h6>
+                                                <h6 class="p-l-30 font-bold"><?php echo $meal['addedDate']; ?></h6>
                                             </div>
                                         </li>
+<?php } ?>                                        
                                         <!--
                                         <li class="list-group-item bl-warning">
                                             <div class="checkbox checkbox-success">
@@ -258,9 +324,6 @@ $usersList = sqlRequest("SELECT * FROM users");
                             <span class="hr-line"></span>
                             <p class="cb-text">current groceries</p>
                             <h6 class="text-white font-semibold"><?php echo $numStock; ?> <span class="font-light"># of stock</span></h6>
-                            <div class="chart">
-                                <div class="ct-visit chart-pos"></div>
-                            </div>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6">
@@ -269,9 +332,6 @@ $usersList = sqlRequest("SELECT * FROM users");
                             <span class="hr-line"></span>
                             <p class="cb-text">Finished Meals</p>
                             <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
-                            <div class="chart">
-                                <input class="knob" data-min="0" data-max="100" data-bgColor="#f86b4a" data-fgColor="#ffffff" data-displayInput=false data-width="96" data-height="96" data-thickness=".1" value="25" readonly>
-                            </div>
                         </div>
                     </div>
                 </div>
