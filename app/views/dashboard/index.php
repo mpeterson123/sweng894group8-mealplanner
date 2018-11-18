@@ -166,8 +166,7 @@ function writeTime($total)
                         <div class="media-body">
                             <br/>
                             <h3 class="info-count text-blue">&#36;<?php $numFoodCostMon = $numFoodCostMon ?? 0; echo number_format($numFoodCostMon, 2); ?></h3>
-                            <p class="info-text font-12">Food Cost (<?php echo date('F'); ?>)</p>
-                            <span class="hr-line"></span>
+                            <p class="info-text font-12">Food Costs (<?php echo date('F'); ?>)</p>
                             <p class="info-ot font-15">Year to Date: <span class="text-blue font-semibold">&#36;<?php $numFoodCostYear = $numFoodCostYear ?? 0; echo number_format($numFoodCostYear); ?></span></p>
                         </div>
                     </div>
@@ -176,7 +175,7 @@ function writeTime($total)
                     <div class="media">
                         <div class="media-body">
                             <br/>
-                            <h2 class="text-blue font-22 m-t-0">Report</h2>
+                            <h2 class="text-blue font-22 m-t-0">Figures</h2>
                             <ul class="p-0 m-b-20">
                                 <li><i class="fa fa-circle m-r-5 text-primary"></i><?php echo round(($numMealsEatenPercentage * 100), 2); ?>% Recipes Used</li>
                                 <li><i class="fa fa-circle m-r-5 text-primary"></i>0% </li>
@@ -231,8 +230,8 @@ function writeTime($total)
                                 <div class="task-chart" id="sparklinedashdb"></div>
                                 <div class="task-content font-16 t-a-c">
                                     <div class="col-sm-6 b-r">
-                                        Moments
-                                        <h1 class="text-primary">00 <span class="font-16 text-muted">Updates</span></h1>
+                                        Meals Planned
+                                        <h1 class="text-primary"><?php echo $numMeals; ?><span class="font-16 text-muted">Meals</span></h1>
                                     </div>
                                     <div class="col-sm-6">
                                         Recipes Eaten
