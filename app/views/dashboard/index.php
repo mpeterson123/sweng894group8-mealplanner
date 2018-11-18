@@ -31,8 +31,8 @@ $numMeals       = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE house
 $numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = 1")[0]['mealsEaten']; // Based off of meals
 $numMealsEatenLastWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK) AND householdid = 1")[0]['mealsEaten']; // Based off of meals
 $numMealsEatenThisWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(NOW()) AND householdid = 1")[0]['mealsEaten']; // Based off of meals
-$numMealsEatenIncrease   = $numMealsEatenThisWeek - $numMealsEatenLastWeek;
-$numMealsEatenIncreasePercentage = (($numMealsEatenIncrease / $numMealsEatenLastWeek) * 100);
+$numMealsEatenIncrease   = (($numMealsEatenThisWeek ?? 0) - ($numMealsEatenLastWeek ?? 0));
+$numMealsEatenIncreasePercentage = (@($numMealsEatenIncrease / $numMealsEatenLastWeek) * 100);
 $numMealsEatenPercentage = ($numMealsEaten / $numMeals);
 $numRecipeCost  = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of recipes only (nothing consumed)
 $numFoodCost    = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (lifetime)
