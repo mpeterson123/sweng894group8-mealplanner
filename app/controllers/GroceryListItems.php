@@ -335,7 +335,7 @@ class GroceryListItems extends Controller {
 
          $groceryListItem = $this->groceryListItemRepository->find($id);
 
-         try {
+         //try {
              // Set food stock as grocery list amount + current food stock
              $groceryListFoodItem = $this->groceryListItem->getFoodItem();
              $groceryListItemAmount = $this->groceryListItem->getAmount();
@@ -345,23 +345,23 @@ class GroceryListItems extends Controller {
 
              // Save to DB
              $this->foodItemRepository->save($groceryListFoodItem);
-         }
-         catch (\Exception $e){
+         //}
+         //catch (\Exception $e){
              // Log error
-             $user = $this->session->get('user');
-             $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
-             $this->session->flashMessage('danger',
-                 'Uh oh! Something went wrong. The item was not purchased from your grocery list.');
-             Redirect::toControllerMethod('GroceryListItems', 'index');
-         }
-         catch (\Error $e){
+        //     $user = $this->session->get('user');
+        //     $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
+        //     $this->session->flashMessage('danger',
+        //         'Uh oh! Something went wrong. The item was not purchased from your grocery list.');
+        //     Redirect::toControllerMethod('GroceryListItems', 'index');
+         //}
+         //catch (\Error $e){
              // Log error
-             $user = $this->session->get('user');
-             $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
-             $this->session->flashMessage('danger',
-                 'Uh oh!! Something went wrong. The item was not purchased from your grocery list.');
-             Redirect::toControllerMethod('GroceryListItems', 'index');
-         }
+        //     $user = $this->session->get('user');
+        //     $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
+        //     $this->session->flashMessage('danger',
+        //         'Uh oh!! Something went wrong. The item was not purchased from your grocery list.');
+        //     Redirect::toControllerMethod('GroceryListItems', 'index');
+         //}
 
          // Flash success message and flush old input
          $this->session->flashMessage('success', ucfirst($groceryListItem->getFoodItem()->getName()).' has been purchased.');

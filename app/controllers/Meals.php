@@ -349,7 +349,7 @@ class Meals extends Controller {
      */
     public function complete($id):void {
         $this->dbh->getDB()->begin_transaction();
-        try {
+        //try {
             $meal = $this->mealRepository->find($id);
             $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
@@ -393,18 +393,18 @@ class Meals extends Controller {
             // Redirect back with errors
             Redirect::toControllerMethod('Meals', 'index');
             return;
-        }
-        catch (\Exception $e){
+        //}
+        //catch (\Exception $e){
             // Rollback changes
-            $this->dbh->getDB()->rollback();
+      //      $this->dbh->getDB()->rollback();
 
-            $user = $this->session->get('user');
-            $this->log->add($user->getId(), 'Error', 'The meal was not completed');
-            $this->session->flashMessage('danger','Uh oh. An error occurred. Your meal could not be completed.');
+        //    $user = $this->session->get('user');
+        //    $this->log->add($user->getId(), 'Error', 'The meal was not completed');
+        //    $this->session->flashMessage('danger','Uh oh. An error occurred. Your meal could not be completed.');
 
-            Redirect::toControllerMethod('Meals', 'index');
-            return;
-        }
+        //    Redirect::toControllerMethod('Meals', 'index');
+        //    return;
+        //}
     }
 
     /**
