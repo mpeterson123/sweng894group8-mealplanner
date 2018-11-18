@@ -224,9 +224,9 @@ $SUBTITLE = "Add Recipe";
                     console.log(data);
                     var units = JSON.parse(data);
 
-                    var options = '<option id="0">Select a unit</option>';
+                    var options = '<option value="0">Select a unit</option>';
                     units.forEach(function(unit){
-                        options += '<option id= "'+unit.id+'">'+unit.name+' - '+unit.abbreviation+'</option>';
+                        options += '<option value= "'+unit.id+'">'+unit.name+' - '+unit.abbreviation+'</option>';
                     });
 
 

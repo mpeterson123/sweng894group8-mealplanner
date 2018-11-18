@@ -117,8 +117,10 @@ class Recipes extends Controller {
     /**
      * Save a new recipe to the DB
      */
-    public function store():void{
+    public function store():void {
         $currentHousehold = $this->session->get('user')->getCurrHousehold();
+
+        // Make sure user has food item
         $this->checkHasFoodItems($currentHousehold);
 
         $input = $this->request;
@@ -131,27 +133,42 @@ class Recipes extends Controller {
         //Use a RecipeFactory to create the Recipe Object:
         $recipe = $this->recipeFactory->make($input);
 
-        //If the recipe isn't already in the database
-        if ($this->recipeRepository->findRecipeByName($recipe->getName()) == null) {
-            //Save the recipe in the database:
-            if ($this->recipeRepository->save($recipe)) {
-                // Flash success message
-                $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
+        $this->dbh->getDB()->begin_transaction();
+        try {
+            //If the recipe is already in the database, go back
+            if ($this->recipeRepository->findRecipeByName($recipe->getName())) {
+                throw new \Exception("A recipe with this name already exists", 1);
+            }
 
-                //Add the ingredients
-                $this->addIngredients($input, $recipe);
+            // ------------------------
+            // Save the recipe in the database:
+            if(!$this->recipeRepository->save($recipe)){
+                throw new \Exception("Error saving recipe to DB", 2);
             }
-            else {
-              $user = $this->session->get('user');
-              $this->log->add($user->getId(), 'Error', 'Recipe - Unable to add '.ucfirst($recipe->getName()));
-              $this->session->flashMessage('danger', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
+
+            //Add the ingredients
+            $this->addIngredients($input, $recipe);
+
+            // ------------------------
+
+            // Commit
+            $this->dbh->getDB()->commit();
+            // Flash success message
+            $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
+        }
+        catch (Exception $e){
+            $this->dbh->getDB()->rollback();
+
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', $e->getMessage());
+
+            $message = '';
+            if($e->getCode() == 1){
+                $message = ' '.$e->getMessage();
             }
+            $this->session->flashMessage('danger', 'Sorry, something went wrong. Your recipe could not be saved.'.$message);
         }
-        else {
-          $user = $this->session->get('user');
-          $this->log->add($user->getId(), 'Error', 'Recipe - '.ucfirst($recipe->getName()).' already exists');
-          $this->session->flashMessage('danger', 'Sorry, ' . ucfirst($recipe->getName()) . ' already exists in your recipes.');
-        }
+
 
         // Redirect back after updating
         Redirect::toControllerMethod('Recipes', 'index');
@@ -166,10 +183,10 @@ class Recipes extends Controller {
     private function addIngredients($in, $recipe) {
         $user = $this->session->get('user');
 
+        // If new items in input
         if(isset($in['newFoodId'])) {
-
             // Iterate over all ingredients
-            for($i=0;$i<count($in['newFoodId']);$i++) {
+            for($i = 0; $i < count($in['newFoodId']); $i++) {
 
                 //Create the ingredient array:
                 $ingredientInput = array("foodId" => $in['newFoodId'][$i],
@@ -179,6 +196,10 @@ class Recipes extends Controller {
 
                 //Create the ingredient object:
                 $ingredient = $this->ingredientFactory->make($ingredientInput);
+
+                if(!$ingredient){
+                    throw new \Exception("Please check your ingredients are valid", 1);
+                }
 
                 // Check units are compatible
                 if($ingredient->getQuantity()->getUnit()->getBaseUnit()
@@ -193,27 +214,23 @@ class Recipes extends Controller {
                         . ' was not added to your ingredients because its units
                         are incompatible with the food item\'s units');
 
-                    return;
+                    throw new \Exception("Please check your ingredients are compatible with their food items", 1);
+
                 }
 
+                // Check for duplicate ingredients
                 if($this->ingredientRepository->findIngredientByFoodId($ingredient->getFood()->getId(), $ingredient->getRecipeId()) == null) {
-                    //Save the ingredient in the database:
-                    if($this->ingredientRepository->save($ingredient)) {
 
-                        //Add the ingredient to the recipe object:
-                        $recipe->addIngredient($ingredient);
+                    //Add the ingredient to the recipe object:
+                    $recipe->addIngredient($ingredient);
 
-                        // Flash success message
-                        $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
-                    }
-                    else {
-                        $this->log->add($user->getId(), 'Error', 'Ingredients - Unable to add '.ucfirst($ingredient->getFood()->getName()));
-                        $this->session->flashMessage('danger', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
+                    // Save the ingredient in the database:
+                    if(!$this->ingredientRepository->save($ingredient)) {
+                        throw new \Exception(ucfirst($ingredient->getFood()->getName()) . ' could not be saved to DB.', 1);
                     }
                 }
                 else {
-                  $this->log->add($user->getId(), 'Error', 'Ingredients - '.ucfirst($ingredient->getFood()->getName()).' already exists');
-                  $this->session->flashMessage('danger', 'Sorry, ' . ucfirst($ingredient->getFood()->getName()) . ' already exists in your ingredients.');
+                    throw new \Exception(ucfirst($ingredient->getFood()->getName()) . ' is duplicated in your recipe.', 1);
                 }
             } //end for
         } //end if new items were returned
@@ -454,8 +471,8 @@ class Recipes extends Controller {
             'foodId.*' => 'FoodItem',
             'newUnitId.*' => 'Unit',
             'unitId.*' => 'Unit',
-            'newQuantity.*' => 'Quantity',
-            'quantity.*' => 'Quantity'
+            'newQuantity.*' => 'Ingredient Quantity',
+            'quantity.*' => 'Ingredient Quantity'
         ));
 
 
