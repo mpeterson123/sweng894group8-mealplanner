@@ -59,8 +59,8 @@ $Messages = $data['messages'];
                             <!-- row -->
                             <div class="row">
                                 <div class="col-lg-2 col-md-3  col-sm-12 col-xs-12 inbox-panel">
-                                    <div> <a href="/compose/" class="btn btn-custom btn-block waves-effect waves-light">Compose</a>
-                                        <div class="list-group mail-list m-t-20"> <a href="/inbox/" class="list-group-item <?php if (!$Show || ($Show == $ShowNormal)) { ?>active<?php } ?>">Inbox <span class="label label-rouded label-success pull-right"><?php echo $NumUnread; ?></span></a> <a href="/inbox/?show=<?php echo $ShowStars; ?>" class="list-group-item <?php if (($Show == $ShowStars)) { ?>active<?php } ?>">Starred <span class="label label-rounded label-warning pull-right"><?php echo $NumStarred; ?></span></a> <a href="/outbox/" class="list-group-item">Sent Mail</a> <a href="/inbox/?show=<?php echo $ShowTrash; ?>" class="list-group-item <?php if (($Show == $ShowTrash)) { ?>active<?php } ?>">Trash <span class="label label-rouded label-danger pull-right"><?php echo number_format($NumTrash); ?></span></a> </div>
+                                    <div> <a href="/Messages/compose/" class="btn btn-custom btn-block waves-effect waves-light">Compose</a>
+                                        <div class="list-group mail-list m-t-20"> <a href="/Messages/inbox/" class="list-group-item <?php if (!$Show || ($Show == $ShowNormal)) { ?>active<?php } ?>">Inbox <span class="label label-rouded label-success pull-right"><?php echo $NumUnread; ?></span></a> <a href="/Messages/inbox/?show=<?php echo $ShowStars; ?>" class="list-group-item <?php if (($Show == $ShowStars)) { ?>active<?php } ?>">Starred <span class="label label-rounded label-warning pull-right"><?php echo $NumStarred; ?></span></a> <a href="/Messages/outbox/" class="list-group-item">Sent Mail</a> <a href="/Messages/inbox/?show=<?php echo $ShowTrash; ?>" class="list-group-item <?php if (($Show == $ShowTrash)) { ?>active<?php } ?>">Trash <span class="label label-rouded label-danger pull-right"><?php echo number_format($NumTrash); ?></span></a> </div>
                                         <h3 class="panel-title m-t-40 m-b-0">Labels</h3>
                                         <hr class="m-t-5">
                                         <div class="list-group b-0 mail-list"> <a href="javascript:void(0);" class="list-group-item"><span class="fa fa-circle text-success m-r-10"></span>New</a> <a href="javascript:void(0);" class="list-group-item"><span class="fa fa-circle text-warning m-r-10"></span>Starred</a> <a href="javascript:void(0);" class="list-group-item"><span class="fa fa-circle text-danger m-r-10"></span>Deleted</a> </div>
@@ -82,10 +82,10 @@ $Messages = $data['messages'];
                                                             <div class="btn-group">
                                                                 <button type="button" class="btn btn-primary dropdown-toggle waves-effect waves-light m-r-5" data-toggle="dropdown" aria-expanded="false"> Filter <b class="caret"></b> </button>
                                                                 <ul class="dropdown-menu" role="menu">
-                                                                    <li><a href="/inbox/?show=<?php echo $ShowRead; ?>">Read</a></li>
-                                                                    <li><a href="/inbox/?show=<?php echo $ShowNew; ?>">Unread</a></li>
+                                                                    <li><a href="/Messages/inbox/?show=<?php echo $ShowRead; ?>">Read</a></li>
+                                                                    <li><a href="/Messages/inbox/?show=<?php echo $ShowNew; ?>">Unread</a></li>
                                                                     <li class="divider"></li>
-                                                                    <li><a href="/inbox/?show=<?php echo $ShowStars; ?>">Starred</a></li>
+                                                                    <li><a href="/Messages/inbox/?show=<?php echo $ShowStars; ?>">Starred</a></li>
                                                                 </ul>
                                                             </div>
                                                             <div class="btn-group">
@@ -135,7 +135,7 @@ $Messages = $data['messages'];
                                                         </td>
                                                         <td class="hidden-xs"><a href="?<?php if ($message['starred']) { ?>u<?php } else { ?>s<?php } ?>=<?php echo $message['id']; ?>"><i class="fa fa-star<?php if (!$message['starred']) { ?>-o<?php } ?>"></i></a></td>
                                                         <td class="hidden-xs"><?php echo sqlRequest("SELECT CONCAT(namefirst, ' ', namelast) AS name FROM users WHERE id = {$message['senderid']}")[0]['name']; ?></td>
-                                                        <td class="max-texts"> <a href="/inbox/message/<?php echo $message['id']; ?>" /><?php if (!$message['viewed']) { ?><span class="label label-success m-r-10">New</span><?php } ?> <?php echo substr($message['message'], 0, 60); ?></td>
+                                                        <td class="max-texts"> <a href="/Messages/inbox/message/<?php echo $message['id']; ?>" /><?php if (!$message['viewed']) { ?><span class="label label-success m-r-10">New</span><?php } ?> <?php echo substr($message['message'], 0, 60); ?></td>
                                                         </td>
                                                         <td class="hidden-xs"><?php if ($message['attachment'] ?? FALSE) { ?><i class="fa fa-paperclip"></i><?php } ?></td>
                                                         <td class="text-right"> <?php if (date('M j', time()) == $message['timesent3']) { echo $message['timesent2']; } else { echo $message['timesent3']; } ?> </td>
