@@ -67,21 +67,25 @@ $PLUGIN_EXPORT      = TRUE;
                                     <tbody>
                                         <?php
                                             if($data['groceryListItems']){
-                                                foreach ($data['groceryListItems'] as $groceryListItem) { ?>
-                                                <tr>
-                                                    <td><a href="/GroceryListItems/edit/<?php echo $groceryListItem->getId(); ?>"><?php echo $groceryListItem->getFoodItem()->getName(); ?></a></td>
-                                                    <td><?php echo $groceryListItem->getAmount().' '.$groceryListItem->getFoodItem()->getUnit()->getAbbreviation();?></td>
-                                                    <td><a href="/GroceryListItems/purchase/<?php echo $groceryListItem->getId()?>"
-                                                            class="btn btn-success btn-xs m-t-15" >
-                                                            Purchase
-                                                        </a>
-                                                        <a href="/GroceryListItems/edit/<?php echo $groceryListItem->getId()?>"
-                                                            class="btn btn-default btn-xs m-t-15" >
-                                                            Edit
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <?php
+                                                foreach ($data['groceryListItems'] as $groceryListItem) {
+                                                  $foodItem = $groceryListItem->getFoodItem();
+                                                  if((($groceryListItem->getAmount()/0.75) > $foodItem->getStock()) || !$data['showLow']){
+                                                    ?>
+                                                    <tr>
+                                                        <td><a href="/GroceryListItems/edit/<?php echo $groceryListItem->getId(); ?>"><?php echo $foodItem->getName(); ?></a></td>
+                                                        <td><?php echo $groceryListItem->getAmount().' '.$foodItem->getUnit()->getAbbreviation();?></td>
+                                                        <td><a href="/GroceryListItems/purchase/<?php echo $groceryListItem->getId()?>"
+                                                                class="btn btn-success btn-xs m-t-15" >
+                                                                Purchase
+                                                            </a>
+                                                            <a href="/GroceryListItems/edit/<?php echo $groceryListItem->getId()?>"
+                                                                class="btn btn-default btn-xs m-t-15" >
+                                                                Edit
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                  }
                                                 }
                                             }
                                             ?>
@@ -98,6 +102,13 @@ $PLUGIN_EXPORT      = TRUE;
                             <?php }
                             else{
                                 echo '<div class="alert alert-warning">Please <a href="/FoodItems/create">create a food item</a> to be able to add it to the grocery list.</div>';
+                            }
+                            if(!$data['showLow']){ ?>
+                                <a href="/GroceryListItems/index/showLow" class="btn btn-success m-t-15">Only show low stock items</a>
+                            <?php }
+                            else{ ?>
+                              <a href="/GroceryListItems/index/" class="btn btn-success m-t-15">Show all grocery items</a>
+                              <?php
                             }?>
                         </div>
                     </div>
