@@ -124,25 +124,9 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th widthx="30">
-                                                            <div class="checkbox m-t-0 m-b-0 ">
-                                                                <input id="checkbox0" type="checkbox" class="checkbox-toggle" value="check all">
-                                                                <label for="checkbox0"></label>
-                                                            </div>
+                                                        <th widthx="30">&nbsp;
                                                         </th>
-                                                        <th colspan="2">
-                                                            <div class="btn-group">
-                                                                <button type="button" class="btn btn-primary dropdown-toggle waves-effect waves-light m-r-5" data-toggle="dropdown" aria-expanded="false"> Filter <b class="caret"></b> </button>
-                                                                <ul class="dropdown-menu" role="menu">
-                                                                    <li><a href="/Messages/read/">Read</a></li>
-                                                                    <li><a href="/Messages/unread/">Unread</a></li>
-                                                                    <li class="divider"></li>
-                                                                    <li><a href="/Messages/starred/">Starred</a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="btn-group">
-                                                                <button type="button" class="btn btn-default waves-effect waves-light  dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <i class="fa fa-refresh"></i> </button>
-                                                            </div>
+                                                        <th colspan="2">&nbsp;
                                                         </th>
                                                         <th>&nbsp;</th>
                                                         <th>&nbsp;</th>
@@ -191,10 +175,10 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
 <?php if ($Show != _DISPLAY_SENT_) { ?>
                                                         <td class="hidden-xs" style="min-width: 30px; max-width: 80px;"><a href="?<?php if ($message['starred']) { ?>u<?php } else { ?>s<?php } ?>=<?php echo $message['id']; ?>"><i class="fa fa-star<?php if (!$message['starred']) { ?>-o<?php } ?>"></i></a></td>
 <?php } ?>
-                                                        <td class="hidden-xs"><?php $userId = NULL; if ($Show == _DISPLAY_SENT_) { $userId = $message['recipientid']; } else { $userId = $message['senderid']; } echo sqlRequest("SELECT CONCAT(namefirst, ' ', namelast) AS name FROM users WHERE id = {$userId}")[0]['name']; ?></td>
-                                                        <td classx="max-texts" style="max-width: 250px;"> <a href="/Messages/open/<?php echo $message['id']; ?>" /><?php if (!$message['viewed']) { ?><span class="label label-success m-r-10">New</span><?php } ?> <?php echo substr($message['message'], 0, 23); ?></td>
-                                                        <td class="hidden-xs"><?php if ($message['attachment'] ?? FALSE) { ?><i class="fa fa-paperclip"></i><?php } ?></td>
-                                                        <td class="text-right"> <?php if (date('M j', time()) == $message['timesent3']) { echo $message['timesent2']; } else { echo $message['timesent3']; } ?> </td>
+                                                        <td class="hidden-xs"> <a href="/Messages/open/<?php echo $message['id']; ?>" title="Click to see message" /><?php $userId = NULL; if ($Show == _DISPLAY_SENT_) { $userId = $message['recipientid']; } else { $userId = $message['senderid']; } echo sqlRequest("SELECT CONCAT(namefirst, ' ', namelast) AS name FROM users WHERE id = {$userId}")[0]['name']; ?></a></td>
+                                                        <td classx="max-texts" style="max-width: 250px;"> <a href="/Messages/open/<?php echo $message['id']; ?>" title="Click to see message" /><?php if (!$message['viewed']) { ?><span class="label label-success m-r-10">New</span><?php } ?> <?php echo substr($message['message'], 0, 23); ?></td>
+                                                        <td class="hidden-xs"> <a href="/Messages/open/<?php echo $message['id']; ?>" title="Click to see message" /><?php if ($message['attachment'] ?? FALSE) { ?><i class="fa fa-paperclip"></i><?php } ?></a></td>
+                                                        <td class="text-right"> <a href="/Messages/open/<?php echo $message['id']; ?>" title="Click to see message" /> <?php if (date('M j', time()) == $message['timesent3']) { echo $message['timesent2']; } else { echo $message['timesent3']; } ?> </a></td>
                                                     </tr>
 <?php } } ?>
                                                 </tbody>

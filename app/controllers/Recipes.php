@@ -94,9 +94,6 @@ class Recipes extends Controller {
         // Get recipe Object
         $recipe = $this->recipeRepository->find($id);
 
-        //Get the ingredients
-        //$ingredients = $recipe->getIngredients();
-
         $this->view('recipe/edit', compact('recipe', 'foodItems', 'units'));
     }
 
