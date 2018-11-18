@@ -25,9 +25,11 @@ define('NUM_USERS_TO_LIST', 6);
 $houseHoldID  = $data['user']->getCurrHousehold()->getId();
 $numFoodItems = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipes   = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
-$numRecipesUsed = 0; // Based off of meals
-$numFoodCost    = 0; // Based off of meals (for month to date)
-$numFoodCostYear= 0; // Based off of meals (for year to date)
+$numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = 1")[0]['mealsEaten']; // Based off of meals
+$numRecipeCost  = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of recipes only (nothing consumed)
+$numFoodCost    = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (lifetime)
+$numFoodCostMon = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEAR(addedDate) = YEAR(CURDATE()) AND MONTH(addedDate) = MONTH(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for month to date)
+$numFoodCostYear= sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEAR(addedDate) = YEAR(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for year to date)
 $usersList = sqlRequest("SELECT * FROM users");
 ?>
 <?php require_once( __HEADER__ ); ?>
