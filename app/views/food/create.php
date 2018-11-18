@@ -105,7 +105,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputUnitsInContainer">Number of Units in Container</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="" name="unitsInContainer" value="<?php echo $data['session']->getOldInput('unitsInContainer'); ?>">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="inputUnitsInContainer" placeholder="" name="unitsInContainer" value="<?php echo ($data['session']->getOldInput('unitsInContainer'))? $data['session']->getOldInput('unitsInContainer') : '1.00'; ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -114,7 +114,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="" name="containerCost" value="<?php echo $data['session']->getOldInput('containerCost'); ?>">
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="" name="containerCost" value="<?php echo ($data['session']->getOldInput('containerCost'))? $data['session']->getOldInput('containerCost') : '0.00'; ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -123,7 +123,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputStock">Number of Units in Stock</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo $data['session']->getOldInput('stock'); ?>"> </div>
+                                                <input type="number" step="0.01" min="0" class="form-control" id="inputStock" placeholder="Enter current stock" name="stock" value="<?php echo ($data['session']->getOldInput('stock'))? $data['session']->getOldInput('stock') : '0.00'; ?>"> </div>
                                         </div>
 
 
