@@ -65,7 +65,7 @@ class App {
 
 		$this->parseUrl();
 
-		if(!isset($this->session) && ($this->url[0] != "Account")){
+		if(($this->session->get('user') === NULL) && ($this->url[0] != "Account")){
 			$controller = new \Base\Controllers\Account($this->dbh,new Session(),NULL);
 		}
 		else if(!empty($this->url[0])){		// otherwise use default
