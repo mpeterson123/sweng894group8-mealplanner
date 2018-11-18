@@ -142,11 +142,7 @@ class Recipes extends Controller {
                 $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
 
                 //Add the ingredients
-                if(!$this->addIngredients($input, $recipe)){
-                    $user = $this->session->get('user');
-                    $this->log->add($user->getId(), 'Error', 'Recipe - Unable to add '.ucfirst($recipe->getName()));
-                    $this->session->flashMessage('danger', 'Sorry, something went wrong. ' . ucfirst($recipe->getName()). ' was not added to your recipes.');
-                };
+                $this->addIngredients($input, $recipe);
             }
             else {
               $user = $this->session->get('user');
@@ -173,62 +169,57 @@ class Recipes extends Controller {
     private function addIngredients($in, $recipe) {
         $user = $this->session->get('user');
 
-        if(!isset($in['newFoodId'])) {
-            return false;
-        }
+        if(isset($in['newFoodId'])) {
 
-        // Iterate over all ingredients
-        for($i=0;$i<count($in['newFoodId']);$i++) {
+            // Iterate over all ingredients
+            for($i=0;$i<count($in['newFoodId']);$i++) {
 
-            //Create the ingredient array:
-            $ingredientInput = array("foodId" => $in['newFoodId'][$i],
-                                  "quantity" => $in['newQuantity'][$i],
-                                  "recipeId" => $recipe->getId(),
-                                  "unitId" => $in['newUnitId'][$i]);
+                //Create the ingredient array:
+                $ingredientInput = array("foodId" => $in['newFoodId'][$i],
+                                      "quantity" => $in['newQuantity'][$i],
+                                      "recipeId" => $recipe->getId(),
+                                      "unitId" => $in['newUnitId'][$i]);
 
-            //Create the ingredient object:
-            $ingredient = $this->ingredientFactory->make($ingredientInput);
+                //Create the ingredient object:
+                $ingredient = $this->ingredientFactory->make($ingredientInput);
 
-            // Check units are compatible
-            if($ingredient->getQuantity()->getUnit()->getBaseUnit()
-                != $ingredient->getFood()->getUnit()->getBaseUnit()){
+                // Check units are compatible
+                if($ingredient->getQuantity()->getUnit()->getBaseUnit()
+                    != $ingredient->getFood()->getUnit()->getBaseUnit()){
 
-                $this->log->add($user->getId(), 'Error',
-                    'Ingredients - Incompatible units. Unable to add '
-                    .ucfirst($ingredient->getFood()->getName()));
+                    $this->log->add($user->getId(), 'Error',
+                        'Ingredients - Incompatible units. Unable to add '
+                        .ucfirst($ingredient->getFood()->getName()));
+                    $this->session->flashMessage(
+                        'danger', 'Sorry, something went wrong. '
+                        . ucfirst($ingredient->getFood()->getName())
+                        . ' was not added to your ingredients because its units
+                        are incompatible with the food item\'s units');
 
-                $this->session->flashMessage(
-                    'danger', 'Sorry, something went wrong. '
-                    . ucfirst($ingredient->getFood()->getName())
-                    . ' was not added to your ingredients because its units
-                    are incompatible with the food item\'s units');
+                    return;
+                }
 
-                return false;
-            }
+                if($this->ingredientRepository->findIngredientByFoodId($ingredient->getFood()->getId(), $ingredient->getRecipeId()) == null) {
+                    //Save the ingredient in the database:
+                    if($this->ingredientRepository->save($ingredient)) {
 
-            if($this->ingredientRepository->findIngredientByFoodId($ingredient->getFood()->getId(), $ingredient->getRecipeId()) == null) {
-                //Save the ingredient in the database:
-                if($this->ingredientRepository->save($ingredient)) {
+                        //Add the ingredient to the recipe object:
+                        $recipe->addIngredient($ingredient);
 
-                    //Add the ingredient to the recipe object:
-                    $recipe->addIngredient($ingredient);
-
-                    // Flash success message
-                    $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+                        // Flash success message
+                        $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was added to your ingredients.');
+                    }
+                    else {
+                        $this->log->add($user->getId(), 'Error', 'Ingredients - Unable to add '.ucfirst($ingredient->getFood()->getName()));
+                        $this->session->flashMessage('danger', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
+                    }
                 }
                 else {
-                    $this->log->add($user->getId(), 'Error', 'Ingredients - Unable to add '.ucfirst($ingredient->getFood()->getName()));
-                    $this->session->flashMessage('danger', 'Sorry, something went wrong. ' . ucfirst($ingredient->getFood()->getName()). ' was not added to your ingredients.');
-                    return false;
+                  $this->log->add($user->getId(), 'Error', 'Ingredients - '.ucfirst($ingredient->getFood()->getName()).' already exists');
+                  $this->session->flashMessage('danger', 'Sorry, ' . ucfirst($ingredient->getFood()->getName()) . ' already exists in your ingredients.');
                 }
-            }
-            else {
-              $this->log->add($user->getId(), 'Error', 'Ingredients - '.ucfirst($ingredient->getFood()->getName()).' already exists');
-              $this->session->flashMessage('danger', 'Sorry, ' . ucfirst($ingredient->getFood()->getName()) . ' already exists in your ingredients.');
-              return false;
-            }
-        } //end for
-        return true;
+            } //end for
+        } //end if new items were returned
     }
 
     /**
