@@ -46,7 +46,7 @@ class Meal{
 	}
 
 	public function setCompletedOn($completedOn) {
-		if (\DateTime::createFromFormat('Y-m-d H:i:s', $completedOn) == FALSE) {
+		if ($completedOn && \DateTime::createFromFormat('Y-m-d H:i:s', $completedOn) == FALSE) {
 			throw new \Exception("CompletedOn is not valid date", 1);
 		}
 		$this->completedOn = $completedOn;
