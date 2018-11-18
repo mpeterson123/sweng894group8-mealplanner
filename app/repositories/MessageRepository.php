@@ -34,16 +34,15 @@ class MessageRepository extends Repository implements EditableModelRepository
         $query = $this->db->prepare('SELECT * FROM messages WHERE id = ?');
         $query->bind_param("s", $id);
 
-        // Execute query
-        $query->execute();
-
-        // Retrieve result
+        if(!$query->execute()){
+            return NULL;
+        }
         $result = $query->get_result();
 
-        // Acquire an associate array of the result
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
         $messageRow = $result->fetch_assoc();
-
-        // Instantiate a Message object using the information
         $message = $this->messageFactory->make($messageRow);
 
         return $message;
@@ -73,7 +72,7 @@ class MessageRepository extends Repository implements EditableModelRepository
      */
     public function allForRecipient($recipient)
     {
-        $query = $this->db->prepare('SELECT *, TIME_FORMAT(timesent, '%I:%m %p') AS timesent2, DATE_FORMAT(timesent, '%b %D') AS timesent3 FROM messages WHERE recipientid = ? ORDER by timesent');
+        $query = $this->db->prepare("SELECT *, TIME_FORMAT(timesent, '%I:%m %p') AS timesent2, DATE_FORMAT(timesent, '%b %D') AS timesent3 FROM messages WHERE recipientid = ? ORDER by timesent");
         @$query->bind_param("s", $recipient->getId());
 
         // Execute query
@@ -106,7 +105,7 @@ class MessageRepository extends Repository implements EditableModelRepository
      */
     public function lastFew($recipient)
     {
-        $query = $this->db->prepare('SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = ? ORDER by timesent LIMIT 5');
+        $query = $this->db->prepare("SELECT *, DATE_FORMAT(timesent, '%I %p') AS timesent2 FROM messages WHERE recipientid = ? ORDER by timesent LIMIT 5");
         @$query->bind_param("s", $recipient->getId());
 
         // Execute query

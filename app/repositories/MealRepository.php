@@ -24,11 +24,17 @@ class MealRepository extends Repository implements EditableModelRepository {
     public function find($id){
         $query = $this->db->prepare('SELECT * FROM meal WHERE id = ?');
         $query->bind_param("s", $id);
-        $query->execute();
+        if(!$query->execute()){
+            return NULL;
+        }
         $result = $query->get_result();
-        $mealRow = $result->fetch_assoc();
 
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
+        $mealRow = $result->fetch_assoc();
         $meal = $this->mealFactory->make($mealRow);
+
         return $meal;
     }
 

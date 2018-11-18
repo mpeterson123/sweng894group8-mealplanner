@@ -24,10 +24,15 @@ class UnitRepository extends Repository {
 
         $query = $this->db->prepare('SELECT * FROM units WHERE id = ? ORDER BY name');
         $query->bind_param("s", $id);
-        $query->execute();
+        if(!$query->execute()){
+            return NULL;
+        }
         $result = $query->get_result();
-        $unitRow = $result->fetch_assoc();
 
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
+        $unitRow = $result->fetch_assoc();
         $unit = $this->unitFactory->make($unitRow);
 
         return $unit;

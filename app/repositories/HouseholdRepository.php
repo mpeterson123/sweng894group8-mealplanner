@@ -21,8 +21,14 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
     public function find($id){
         $query = $this->db->prepare('SELECT * FROM household WHERE id = ?');
         $query->bind_param("s",$id);
-        $query->execute();
+        if(!$query->execute()){
+            return NULL;
+        }
         $result = $query->get_result();
+
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
         $householdRow = $result->fetch_assoc();
         $household = $this->householdFactory->make($householdRow);
 

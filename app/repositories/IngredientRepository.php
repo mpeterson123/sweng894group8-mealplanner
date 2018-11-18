@@ -29,24 +29,17 @@ class IngredientRepository extends Repository implements EditableModelRepository
 
         $query = $this->db->prepare('SELECT * FROM ingredients WHERE id = ?');
         $query->bind_param("s", $id);
-
-        if($query->execute()) {
-          $result = $query->get_result();
-          $ingredientRow = $result->fetch_assoc();
-
-          if($ingredientRow) {
-            $ingredient = $this->ingredientFactory->make($ingredientRow);
-          }
-          else {
-            $ingredient = null;
-          }
-
+        if(!$query->execute()){
+            return NULL;
         }
-        else {
-          $query->error;
-          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
-          $ingredient = null;
+        $result = $query->get_result();
+
+        if(!$result || !$result->num_rows){
+            return NULL;
         }
+        $ingredientRow = $result->fetch_assoc();
+        $ingredient = $this->ingredientFactory->make($ingredientRow);
+
         return $ingredient;
     }
 
@@ -60,26 +53,16 @@ class IngredientRepository extends Repository implements EditableModelRepository
 
         $query = $this->db->prepare('SELECT * FROM ingredients WHERE foodId = ? AND recipeId = ?');
         $query->bind_param("ss", $foodId, $recipeId);
-
-        if($query->execute()) {
-          $result = $query->get_result();
-
-          $ingredientRow = $result->fetch_assoc();
-
-          if($ingredientRow) {
-
-            $ingredient = $this->ingredientFactory->make($ingredientRow);
-          }
-          else {
-            $ingredient = null;
-          }
-
+        if(!$query->execute()){
+            return NULL;
         }
-        else {
-          $query->error;
-          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
-          $ingredient = null;
+        $result = $query->get_result();
+
+        if(!$result || !$result->num_rows){
+            return NULL;
         }
+        $ingredientRow = $result->fetch_assoc();
+        $ingredient = $this->ingredientFactory->make($ingredientRow);
 
         return $ingredient;
 

@@ -35,15 +35,17 @@ class UserRepository extends Repository implements EditableModelRepository {
     public function find($username){
         $query = $this->db->prepare('SELECT * FROM users WHERE username = ?');
         $query->bind_param("s",$username);
-        $query->execute();
-        $result = $query->get_result();
-        $userRow = $result->fetch_assoc();
-
-        if(!$userRow){
+        if(!$query->execute()){
             return NULL;
         }
+        $result = $query->get_result();
 
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
+        $userRow = $result->fetch_assoc();
         $user = $this->userFactory->make($userRow);
+
         return $user;
     }
 

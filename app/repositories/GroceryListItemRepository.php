@@ -29,14 +29,17 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
 
         $query = $this->db->prepare('SELECT * FROM groceryListItems WHERE id = ?');
         $query->bind_param("s", $id);
-        $query->execute();
+        if(!$query->execute()){
+            return NULL;
+        }
         $result = $query->get_result();
-        if(!$result->num_rows){
+
+        if(!$result || !$result->num_rows){
             return NULL;
         }
         $groceryListItemRow = $result->fetch_assoc();
-
         $groceryListItem = $this->groceryListItemFactory->make($groceryListItemRow);
+
         return $groceryListItem;
     }
 
@@ -48,14 +51,17 @@ class GroceryListItemRepository extends Repository implements EditableModelRepos
     public function findByFoodId($id){
         $query = $this->db->prepare('SELECT * FROM groceryListItems WHERE foodItemId = ?');
         $query->bind_param("i", $id);
-        $query->execute();
+        if(!$query->execute()){
+            return NULL;
+        }
         $result = $query->get_result();
-        if(!$result->num_rows){
+
+        if(!$result || !$result->num_rows){
             return NULL;
         }
         $groceryListItemRow = $result->fetch_assoc();
-
         $groceryListItem = $this->groceryListItemFactory->make($groceryListItemRow);
+
         return $groceryListItem;
     }
 

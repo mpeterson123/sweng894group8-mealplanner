@@ -24,10 +24,16 @@ class CategoryRepository extends Repository {
 
         $query = $this->db->prepare('SELECT * FROM categories WHERE id = ? ORDER BY name');
         $query->bind_param("s", $id);
-        $query->execute();
-        $result = $query->get_result();
-        $categoryRow = $result->fetch_assoc();
 
+        if(!$query->execute()){
+            return NULL;
+        }
+        $result = $query->get_result();
+
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
+        $categoryRow = $result->fetch_assoc();
         $category = $this->categoryFactory->make($categoryRow);
 
         return $category;

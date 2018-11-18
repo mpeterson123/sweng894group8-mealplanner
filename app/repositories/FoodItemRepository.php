@@ -29,22 +29,16 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
         $query = $this->db->prepare('SELECT * FROM foods WHERE id = ?');
         $query->bind_param("s", $id);
 
-        if($query->execute()) {
-          $result = $query->get_result();
-
-          if( $result != null) {
-            $foodItemRow = $result->fetch_assoc();
-
-            $foodItem = $this->foodItemFactory->make($foodItemRow);
-          }
-          else {
-            $foodItem = null;
-          }
-
+        if(!$query->execute()){
+            return NULL;
         }
-        else {
-          $foodItem = null;
+        $result = $query->get_result();
+
+        if(!$result || !$result->num_rows){
+            return NULL;
         }
+        $foodItemRow = $result->fetch_assoc();
+        $foodItem = $this->foodItemFactory->make($foodItemRow);
 
         return $foodItem;
     }
@@ -58,48 +52,37 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
 
         $query = $this->db->prepare('SELECT * FROM foods WHERE name = ?');
         $query->bind_param("s", $name);
-        $bool = $query->execute();
 
-        if($bool) {
-          $result = $query->get_result();
-
-          $foodItemRow = $result->fetch_assoc();
-
-          if($foodItemRow) {
-
-            $foodItem = $this->foodItemFactory->make($foodItemRow);
-            return $foodItem;
-
-          }
-          else {
-            return null;
-          }
+        if(!$query->execute()){
+            return NULL;
         }
-        else return null;
+        $result = $query->get_result();
+
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
+        $foodItemRow = $result->fetch_assoc();
+        $foodItem = $this->foodItemFactory->make($foodItemRow);
+
+        return $foodItem;
 
     }
     public function findHouseholdFoodItemByName($name,$hhId){
 
         $query = $this->db->prepare('SELECT * FROM foods WHERE name = ? and householdId = ?');
         $query->bind_param("ss", $name,$hhId);
-        $bool = $query->execute();
-
-        if($bool) {
-          $result = $query->get_result();
-
-          $foodItemRow = $result->fetch_assoc();
-
-          if($foodItemRow) {
-
-            $foodItem = $this->foodItemFactory->make($foodItemRow);
-            return $foodItem;
-
-          }
-          else {
-            return null;
-          }
+        if(!$query->execute()){
+            return NULL;
         }
-        else return null;
+        $result = $query->get_result();
+
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
+        $foodItemRow = $result->fetch_assoc();
+        $foodItem = $this->foodItemFactory->make($foodItemRow);
+
+        return $foodItem;
 
     }
 
@@ -210,7 +193,7 @@ class FoodItemRepository extends Repository implements EditableModelRepository {
                 (name, stock, unitId, categoryId, unitsInContainer, containerCost, unitCost, householdId)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ');
-          
+
         // @ operator to suppress bind_param asking for variables by reference
         // See: https://stackoverflow.com/questions/13794976/mysqli-prepared-statement-complains-that-only-variables-should-be-passed-by-ref
         @$query->bind_param("sdiidddi",

@@ -25,19 +25,18 @@ class RecipeRepository extends Repository implements EditableModelRepository {
 
         $query = $this->db->prepare('SELECT * FROM recipes WHERE id = ?');
         $query->bind_param("s", $id);
-        if($query->execute()) {
-          $result = $query->get_result();
-          $recipeRow = $result->fetch_assoc();
-
-          $recipe = $this->recipeFactory->make($recipeRow);
-          return $recipe;
+        if(!$query->execute()){
+            return NULL;
         }
-        else {
-          $error = $query->error;
-          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
-          return null;
-        }
+        $result = $query->get_result();
 
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
+        $recipeRow = $result->fetch_assoc();
+        $recipe = $this->recipeFactory->make($recipeRow);
+
+        return $recipe;
     }
 
     /**
@@ -50,26 +49,17 @@ class RecipeRepository extends Repository implements EditableModelRepository {
 
         $query = $this->db->prepare('SELECT * FROM recipes WHERE name = ?');
         $query->bind_param("s", $name);
-
-        if($query->execute()) {
-          $result = $query->get_result();
-
-          $recipeRow = $result->fetch_assoc();
-
-          if($recipeRow) {
-
-            $recipe = $this->recipeFactory->make($recipeRow);
-          }
-          else {
-            $recipe = null;
-          }
-
+        if(!$query->execute()){
+            return NULL;
         }
-        else {
-          $error = $query->error;
-          echo "\n" . __CLASS__ . "::" . __FUNCTION__ . ":" . $error . "\n";
-          $recipe = null;
+        $result = $query->get_result();
+
+        if(!$result || !$result->num_rows){
+            return NULL;
         }
+        $recipeRow = $result->fetch_assoc();
+        $recipe = $this->recipeFactory->make($recipeRow);
+
         return $recipe;
     }
 
