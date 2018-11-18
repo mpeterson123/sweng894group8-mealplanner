@@ -220,9 +220,6 @@ function writeTime($total)
 <?php } ?>                                        
                                     </ul>
                                 </div>
-                                <div class="task-loadmore">
-                                    <a href="javascript:void(0);" class="btn btn-default btn-outline btn-rounded">Load More</a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -285,29 +282,26 @@ function writeTime($total)
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-md-4 col-sm-6">
                         <div class="white-box bg-primary color-box">
                             <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span><br /><br /></h1>
                             <div class="ct-revenue chart-pos"$<?php echo number_format($numFoodCost, 2); ?></div>
-                            <br/>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-md-4 col-sm-6">
                         <div class="white-box bg-success color-box">
                             <h1 class="text-white font-light m-b-0"><?php echo $numFoods; ?></h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">current groceries</p>
                             <h6 class="text-white font-semibold"><?php echo $numStock; ?> <span class="font-light"># of stock</span></h6>
-                            <br/>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-md-4 col-sm-6">
                         <div class="white-box bg-danger color-box">
                             <h1 class="text-white font-light m-b-0"><?php echo round(($numMealsEatenPercentage * 100), 2); ?>%</h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">Finished Meals</p>
                             <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
-                            <br/>
                         </div>
                     </div>
                 </div>
