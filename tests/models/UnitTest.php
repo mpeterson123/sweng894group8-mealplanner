@@ -35,9 +35,9 @@ class UnitTest extends TestCase {
             'Object must be instance of Unit');
     }
 
-    ////////
+	////////////////////////////////////////////////////////////////////////////
     // Id //
-    ////////
+	////////////////////////////////////////////////////////////////////////////
     public function testSetAndGetId(){
         $id = 1;
         $this->unit->setId($id);
@@ -55,17 +55,23 @@ class UnitTest extends TestCase {
         $this->assertInternalType('integer', $this->unit->getId());
     }
 
-    public function testNonIntIdsAreRejected(){
-        $nonIntId = '123';
+    public function testIdCannotBeNegative(){
+        $negativeId = -1;
         $this->expectException(\Exception::class);
-        $this->unit->setId($nonIntId);
+        $this->unit->setId($negativeId);
     }
 
-    //////////
-    // Name //
-    //////////
+    public function testIdCannotBeZero(){
+        $zeroId = 0;
+        $this->expectException(\Exception::class);
+        $this->unit->setId($zeroId);
+    }
 
-    public function testSetAndGetName(){
+	////////////////////////////////////////////////////////////////////////////
+    // Name //
+	////////////////////////////////////////////////////////////////////////////
+
+    public function testGetName(){
         $this->unit->setName('mililiter(s)');
         $this->assertEquals($this->unit->getName(), 'mililiter(s)');
     }
@@ -97,12 +103,17 @@ class UnitTest extends TestCase {
         $this->unit->setName($invalidName);
     }
 
-    //////////////////
+	////////////////////////////////////////////////////////////////////////////
     // Abbreviation //
-    //////////////////
+	////////////////////////////////////////////////////////////////////////////
     public function testSetAndGetAbbreviation(){
         $this->unit->setAbbreviation('mL');
         $this->assertEquals($this->unit->getAbbreviation(), 'mL');
+    }
+
+    public function testSetAndGetTwoWordAbbreviation(){
+        $this->unit->setAbbreviation('fl oz');
+        $this->assertEquals($this->unit->getAbbreviation(), 'fl oz');
     }
 
     public function testAbbreviationCannotBeEmpty(){
@@ -110,8 +121,13 @@ class UnitTest extends TestCase {
         $this->unit->setAbbreviation('');
     }
 
-    public function testAbbreviationCannotBeLongerThan4Chars(){
-        $longAbbreviation = '12345';
+    public function testAbbreviationCannotBeNull(){
+        $this->expectException(\Exception::class);
+        $this->unit->setAbbreviation(NULL);
+    }
+
+    public function testAbbreviationCannotBeLongerThan5Chars(){
+        $longAbbreviation = 'abcdef';
         $this->expectException(\Exception::class);
         $this->unit->setAbbreviation($longAbbreviation);
     }
@@ -132,9 +148,9 @@ class UnitTest extends TestCase {
         $this->unit->setAbbreviation($invalidAbbreviation);
     }
 
-    ///////////////
+	////////////////////////////////////////////////////////////////////////////
     // Base Unit //
-    ///////////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testSetAndGetBaseUnit(){
         $baseUnit = 'mL';
@@ -142,13 +158,18 @@ class UnitTest extends TestCase {
         $this->assertEquals($this->unit->getBaseUnit(), $baseUnit);
     }
 
+    public function testSetAndGetTwoWordBaseUnit(){
+        $this->unit->setAbbreviation('fl oz');
+        $this->assertEquals($this->unit->getAbbreviation(), 'fl oz');
+    }
+
     public function testBaseUnitCannotBeEmpty(){
         $this->expectException(\Exception::class);
         $this->unit->setBaseUnit('');
     }
 
-    public function testBaseUnitCannotBeLongerThan4Chars(){
-        $longBaseUnit = 'abcde';
+    public function testBaseUnitCannotBeLongerThan5Chars(){
+        $longBaseUnit = 'abcdef';
         $this->expectException(\Exception::class);
         $this->unit->setBaseUnit($longBaseUnit);
     }
@@ -170,9 +191,9 @@ class UnitTest extends TestCase {
     }
 
 
-    //////////////
+	////////////////////////////////////////////////////////////////////////////
     // Base Eqv //
-    //////////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testSetAndGetBaseEqv(){
         $baseEqv = 12345.12345678;
@@ -186,6 +207,13 @@ class UnitTest extends TestCase {
         $this->assertInternalType('double', $this->unit->getBaseEqv());
     }
 
+    public function testBaseEqvIsStoredAsFloat(){
+        $baseEqv = '12345.12345678';
+        $this->unit->setBaseEqv($baseEqv);
+        $this->assertInternalType('float', $this->unit->getBaseEqv());
+        $this->assertEquals($this->unit->getBaseEqv(), 12345.12345678);
+    }
+
     public function testBaseEqvCannotBeNegative(){
         $negativeBaseEqv = -12345.6789;
         $this->expectException(\Exception::class);
@@ -197,13 +225,4 @@ class UnitTest extends TestCase {
         $this->expectException(\Exception::class);
         $this->unit->setBaseEqv($negativeBaseEqv);
     }
-    //
-    // public function testBaseEqvCannotHaveExtraWhitespace(){
-    //     $abbreviationWithWhitespace = '       mL   ';
-    //     $expectedBaseEqv =  'mL';
-    //     $this->unit->setBaseEqv($abbreviationWithWhitespace);
-    //
-    //     $this->assertEquals($this->unit->getBaseEqv(), $expectedAbbreviation,
-    //         'Abbreviation must be trimmed.');
-    // }
 }

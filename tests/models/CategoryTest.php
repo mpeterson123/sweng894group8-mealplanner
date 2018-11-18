@@ -34,9 +34,9 @@ class CategoryTest extends TestCase {
             'Object must be instance of Category');
     }
 
-    /////////
+	////////////////////////////////////////////////////////////////////////////
     // Id  //
-    /////////
+	////////////////////////////////////////////////////////////////////////////
     public function testSetAndGetId(){
         $id = 1;
         $this->category->setId($id);
@@ -54,15 +54,21 @@ class CategoryTest extends TestCase {
         $this->assertInternalType('integer', $this->category->getId());
     }
 
-    public function testNonIntIdsAreRejected(){
-        $nonIntId = '123';
+    public function testIdCannotBeNegative(){
+        $negativeId = -1;
         $this->expectException(\Exception::class);
-        $this->category->setId($nonIntId);
+        $this->category->setId($negativeId);
     }
 
-    //////////
+    public function testIdCannotBeZero(){
+        $zeroId = 0;
+        $this->expectException(\Exception::class);
+        $this->category->setId($zeroId);
+    }
+
+	////////////////////////////////////////////////////////////////////////////
     // Name //
-    //////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testSetName(){
         $name = 'My Category';
@@ -90,12 +96,15 @@ class CategoryTest extends TestCase {
             'Name must be trimmed.');
     }
 
-    // public function testNameIsString(){
-    //     $name = 'Category';
-    //     $expectedName =  'My Category';
-    //     $this->category->setName($name);
-    //
-    //     $this->assertEquals($this->category->getName(), $expectedName,
-    //         'Name must be trimmed.');
-    // }
+    public function testNameIsString(){
+        $stringName = 'Apple';
+        $this->category->setName($stringName);
+        $this->assertInternalType('string', $stringName);
+    }
+
+    public function testNonStringNamesAreRejected(){
+        $nonStringName = 0;
+        $this->expectException(\Exception::class);
+        $this->category->setName($nonStringName);
+    }
 }

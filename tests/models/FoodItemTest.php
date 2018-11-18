@@ -36,9 +36,9 @@ class FoodItemTest extends TestCase {
             'Object must be instance of FoodItem');
     }
 
-    /////////
+	////////////////////////////////////////////////////////////////////////////
     // Id  //
-    /////////
+	////////////////////////////////////////////////////////////////////////////
     public function testSetAndGetId(){
         $id = 1;
         $this->foodItem->setId($id);
@@ -56,15 +56,21 @@ class FoodItemTest extends TestCase {
         $this->assertInternalType('integer', $this->foodItem->getId());
     }
 
-    public function testNonIntIdIsRejected(){
-        $nonIntId = '123';
+    public function testIdCannotBeNegative(){
+        $negativeId = -1;
         $this->expectException(\Exception::class);
-        $this->foodItem->setId($nonIntId);
+        $this->foodItem->setId($negativeId);
     }
 
-    //////////
+    public function testIdCannotBeZero(){
+        $zeroId = 0;
+        $this->expectException(\Exception::class);
+        $this->foodItem->setId($zeroId);
+    }
+
+	////////////////////////////////////////////////////////////////////////////
     // Name //
-    //////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testSetName(){
         $name = 'Apple';
@@ -101,12 +107,12 @@ class FoodItemTest extends TestCase {
     public function testNonStringNamesAreRejected(){
         $nonStringName = 0;
         $this->expectException(\Exception::class);
-        $this->foodItem->setId($nonStringName);
+        $this->foodItem->setName($nonStringName);
     }
 
-    ///////////
+	////////////////////////////////////////////////////////////////////////////
     // Stock //
-    ///////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testGetStock(){
         $stock = 3;
@@ -126,9 +132,9 @@ class FoodItemTest extends TestCase {
         $this->assertInternalType('float', $this->foodItem->getStock());
     }
 
-    //////////
+	////////////////////////////////////////////////////////////////////////////
     // Unit //
-    //////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testGetUnit(){
         $unit = $this->createMock(Unit::class);
@@ -147,9 +153,9 @@ class FoodItemTest extends TestCase {
             'Object must be instance of Unit');
     }
 
-    //////////////
+	////////////////////////////////////////////////////////////////////////////
     // Category //
-    //////////////
+	////////////////////////////////////////////////////////////////////////////
     public function testGetCategory(){
         $category = $this->createMock(Category::class);
         $this->foodItem->setCategory($category);
@@ -167,9 +173,9 @@ class FoodItemTest extends TestCase {
             'Object must be instance of Category');
     }
 
-    //////////////////////
+	////////////////////////////////////////////////////////////////////////////
     // UnitsInContainer //
-    //////////////////////
+	////////////////////////////////////////////////////////////////////////////
     public function testGetUnitsInContainer(){
         $unitsInContainer = 34.28;
         $this->foodItem->setUnitsInContainer($unitsInContainer);
@@ -246,9 +252,9 @@ class FoodItemTest extends TestCase {
         $this->foodItem->setUnitsInContainer($unitsInContainer);
     }
 
-    ////////////////////
+	////////////////////////////////////////////////////////////////////////////
     // Container Cost //
-    ////////////////////
+	////////////////////////////////////////////////////////////////////////////
     public function testGetContainerCost(){
         $containerCost = 5.00;
         $this->foodItem->setContainerCost($containerCost);
@@ -325,9 +331,9 @@ class FoodItemTest extends TestCase {
         $this->foodItem->setContainerCost($containerCost);
     }
 
-    ///////////////
+	////////////////////////////////////////////////////////////////////////////
     // Unit Cost //
-    ///////////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testGetUnitCost(){
         $unitsInContainer = 100.00;

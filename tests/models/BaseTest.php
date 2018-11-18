@@ -30,16 +30,16 @@ class NameOfTheClassYouAreTestingTest extends TestCase {
     /**
      * Failing sample test method
      */
-    public function testFailingExample(){
-      $falseVar = false;
-      $this->assertTrue($falseVar, 'Variable should return true.');
-    }
+    // public function testFailingExample(){
+    //   $falseVar = false;
+    //   $this->assertTrue($falseVar, 'Variable should return true.');
+    // }
 
     /**
      * Passing sample test method
      */
-    public function testPassingExample(){
-      $trueVar = true;
-      $this->assertTrue($trueVar, 'Variable should return true.');
-    }
+    // public function testPassingExample(){
+    //   $trueVar = true;
+    //   $this->assertTrue($trueVar, 'Variable should return true.');
+    // }
 }

@@ -27,9 +27,9 @@ class UserTest extends TestCase {
       unset($this->user);
     }
 
-	///////////////////
+	////////////////////////////////////////////////////////////////////////////
 	// Instatiation //
-	//////////////////
+	////////////////////////////////////////////////////////////////////////////
 
 	public function testCreateUser(){
     	$this->assertInstanceOf(
@@ -38,18 +38,18 @@ class UserTest extends TestCase {
             'Object must be an instance of User');
     }
 
-	////////
+	////////////////////////////////////////////////////////////////////////////
 	// Id //
-	////////
+	////////////////////////////////////////////////////////////////////////////
 	public function testSetId(){
 		$id = 1;
         $this->user->setId($id);
         $this->assertEquals($this->user->getId(), $id);
     }
 
-    ///////////////
+	////////////////////////////////////////////////////////////////////////////
     // Username //
-    //////////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testSetUsername(){
         $this->user->setUsername('anotherusername');
@@ -61,8 +61,8 @@ class UserTest extends TestCase {
         $this->user->setUsername('');
     }
 
-    public function testUsernameCannotBeLongerThan20Chars(){
-        $longUsername = 'ThisIsAVeryLongUsername';
+    public function testUsernameCannotBeLongerThan32Chars(){
+        $longUsername = 'ThisIsAVeryLongUsernameWithTooManyCharacters';
         $this->expectException(\Exception::class);
         $this->user->setUsername($longUsername);
     }
@@ -82,9 +82,9 @@ class UserTest extends TestCase {
         $this->user->setUsername($invalidUsername);
 	}
 
-	///////////
+	////////////////////////////////////////////////////////////////////////////
 	// Name //
-	///////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testSetFirstName(){
         $this->user->setFirstName('Samwise');
@@ -118,9 +118,9 @@ class UserTest extends TestCase {
         $this->user->setFirstName($invalidFirstName);
 	}
 
-	///////////////
+	////////////////////////////////////////////////////////////////////////////
 	// Password //
-	///////////////
+	////////////////////////////////////////////////////////////////////////////
 
     public function testSetPassword(){
 		$password = 'P4$$w0rd';
@@ -146,9 +146,9 @@ class UserTest extends TestCase {
 	// }
 
 
-	////////////
+	////////////////////////////////////////////////////////////////////////////
 	// Email //
-	////////////
+	////////////////////////////////////////////////////////////////////////////
 
 	public function testSetEmail(){
 		$email = 'example@example.com';
@@ -166,38 +166,28 @@ class UserTest extends TestCase {
 	// Actions
 	////////////////////////////////////////////////////////////////////////////
 
-	public function testRegisterUser(){
-		$this->user->register('John','Smith','test@domain.com','jsmith','password123');
-		$this->assertEquals($this->user->getFirstUsername(),'John', 'Username must be John');
-		$this->assertEquals($this->user->getEmail(),'test@domain.com', 'Email must be test@domain.com');
-	}
 
-	public function testDeleteUser(){
-		$this->user->delete();
-		$this->assertNull($this->user->getFirstUsername(), 'User cannot exist.');
-	}
-
-	/////////////
+	////////////////////////////////////////////////////////////////////////////
 	// Joined //
-	/////////////
+	////////////////////////////////////////////////////////////////////////////
 	public function testSetJoined(){
 		$joined = '2018-08-27 19:38:35';
         $this->user->setJoined($joined);
         $this->assertEquals($this->user->getJoined(), $joined);
     }
 
-	///////////////
+	////////////////////////////////////////////////////////////////////////////
 	// Activated //
-	//////////////
+	////////////////////////////////////////////////////////////////////////////
 	public function testSetActivated(){
 		$activated = 1;
         $this->user->setActivated($activated);
         $this->assertEquals($this->user->getActivated(), $activated);
     }
 
-	///////////////
+	////////////////////////////////////////////////////////////////////////////
 	// PassTemp //
-	//////////////
+	////////////////////////////////////////////////////////////////////////////
 	public function testSetPassTemp(){
 		$passTemp = '1234567890';
         $this->user->setPassTemp($passTemp);

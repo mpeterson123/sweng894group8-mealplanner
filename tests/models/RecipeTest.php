@@ -35,51 +35,155 @@ class RecipeTest extends TestCase {
       unset($this->recipe);
     }
 
-    public function testAddIngredient(){
-      $this->recipe->addIngredient($this->ingredient);
-      $this->assertSame($this->ingredient, $this->recipe->getIngredientByName('flour'));
+	////////////////////////////////////////////////////////////////////////////
+    // Instatiation //
+	////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////
+    // Id //
+	////////////////////////////////////////////////////////////////////////////
+
+    public function testSetAndGetId(){
+        $id = 1;
+        $this->recipe->setId($id);
+        $this->assertEquals($this->recipe->getId(), $id);
     }
 
-     public function testEditIngredient(){
-  	$this->recipe->getIngredientByName('flour')->setQuantity('5');
-  	$this->assertEquals($this->recipe->getIngredientByName('flour')->getQuantity(), 5);
-     }
+    public function testIdCannotBeEmpty(){
+        $this->expectException(\Exception::class);
+        $this->recipe->setId(NULL);
+    }
+
+    public function testIdIsAnInteger(){
+        $intId = 123;
+        $this->recipe->setId($intId);
+        $this->assertInternalType('integer', $this->recipe->getId());
+    }
+
+    public function testIdCannotBeNegative(){
+        $negativeId = -1;
+        $this->expectException(\Exception::class);
+        $this->recipe->setId($negativeId);
+    }
+
+    public function testIdCannotBeZero(){
+        $zeroId = 0;
+        $this->expectException(\Exception::class);
+        $this->recipe->setId($zeroId);
+    }
+
+
+	////////////////////////////////////////////////////////////////////////////
+    // Directions //
+	////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////
+    // Directions //
+	////////////////////////////////////////////////////////////////////////////
 
     public function testSetDirections(){
-      $dirs = 'Meatloaf Directions';
-      $this->recipe->setDirections($dirs);
-      $this->assertEquals($dirs, $this->recipe->getDirections());
+        $variable = 'My Directions';
+        $this->recipe->setDirections($variable);
+        $this->assertEquals($this->recipe->getDirections(), $variable);
     }
 
-    public function testSetName(){
-      $name = 'Meatloaf';
-      $this->recipe->setName($name);
-      $this->assertEquals($name, $this->recipe->getName());
+    public function testDirectionsCannotBeLongerThan65535Chars(){
+        $longDirections ='';
+        for($i = 0; $i<65636; $i++){
+            $longDirections.='a';
+        }
+
+        $this->expectException(\Exception::class);
+        $this->recipe->setDirections($longDirections);
     }
 
-    public function testSetServings(){
+    public function testDirectionsCannotHaveExtraWhitespace(){
+        $variableWithWhitespace = ' My Directions   ';
+        $expectedDirections =  'My Directions';
+        $this->recipe->setDirections($variableWithWhitespace);
+
+        $this->assertEquals($this->recipe->getDirections(), $expectedDirections,
+            'Directions must be trimmed.');
+    }
+
+    public function testDirectionsIsString(){
+        $stringDirections = 'Directions';
+        $this->recipe->setDirections($stringDirections);
+        $this->assertInternalType('string', $stringDirections);
+    }
+
+    public function testNonStringDirectionsAreRejected(){
+        $nonStringDirections = 0;
+        $this->expectException(\Exception::class);
+        $this->recipe->setDirections($nonStringDirections);
+    }
+
+	////////////////////////////////////////////////////////////////////////////
+    // Name //
+	////////////////////////////////////////////////////////////////////////////
+
+    public function testGetName(){
+        $name = 'Meatloaf';
+        $this->recipe->setName($name);
+        $this->assertEquals($name, $this->recipe->getName());
+    }
+
+	////////////////////////////////////////////////////////////////////////////
+    // Servings //
+	////////////////////////////////////////////////////////////////////////////
+
+    public function testGetServings(){
       $servings = 4;
       $this->recipe->setServings($servings);
       $this->assertEquals($servings, $this->recipe->getServings());
     }
 
-    public function testSetSource(){
-      $source = 'Allrecipes.com';
-      $this->recipe->setSource($source);
-      $this->assertEquals($source, $this->recipe->getSource());
+	////////////////////////////////////////////////////////////////////////////
+    // Source //
+	////////////////////////////////////////////////////////////////////////////
+
+    public function testGetSource(){
+        $source = 'Allrecipes.com';
+        $this->recipe->setSource($source);
+        $this->assertEquals($source, $this->recipe->getSource());
     }
 
-    public function testSetNotes(){
+	////////////////////////////////////////////////////////////////////////////
+    // Notes //
+	////////////////////////////////////////////////////////////////////////////
+
+    public function testGetNotes(){
       $notes = 'This is a note.';
       $this->recipe->setNotes($notes);
       $this->assertEquals($notes, $this->recipe->getNotes());
     }
 
-    public function testGetIngredients() {
-      //THere is currently one ingredient in the array
-      $actual = $this->recipe->getIngredients();
-      $this->assertEquals($this->ingredient, $actual[0], '');
+	////////////////////////////////////////////////////////////////////////////
+    // Ingredients //
+	////////////////////////////////////////////////////////////////////////////
+
+    public function testGetIngredients(){
+        $this->recipe->addIngredient($this->ingredient);
+        $this->assertInternalType('array', $this->recipe->getIngredients());
+        $this->assertEquals($this->recipe->getIngredients()[0], $this->ingredient);
+        $this->assertInstanceOf(
+            'Base\Models\Ingredient',
+            $this->recipe->getIngredients()[0],
+            'Object must be instance of Ingredient');
+    }
+
+
+	////////////////////////////////////////////////////////////////////////////
+    // AddIngredient //
+	////////////////////////////////////////////////////////////////////////////
+
+    public function testAddIngredient(){
+      $this->recipe->addIngredient($this->ingredient);
+      $this->assertSame($this->ingredient, $this->recipe->getIngredientByName('flour'));
+    }
+
+    public function testEditIngredient(){
+  	    $this->recipe->getIngredientByName('flour')->setQuantity('5');
+  	    $this->assertEquals($this->recipe->getIngredientByName('flour')->getQuantity(), 5);
     }
 }
-?>
->>>>>>> e5f8b178da8c943428c7fffce9fca3aeb71e9e0a

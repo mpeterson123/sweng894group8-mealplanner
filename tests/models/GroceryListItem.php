@@ -36,9 +36,9 @@ class GroceryListItemTest extends TestCase {
             'Object must be instance of GroceryListItem');
     }
 
-    /////////
+	////////////////////////////////////////////////////////////////////////////
     // Id  //
-    /////////
+	////////////////////////////////////////////////////////////////////////////
     public function testSetAndGetId(){
         $id = 1;
         $this->groceryListItem->setId($id);
@@ -63,9 +63,9 @@ class GroceryListItemTest extends TestCase {
     }
 
 
-    //////////////
+	////////////////////////////////////////////////////////////////////////////
     // FoodItem //
-    //////////////
+	////////////////////////////////////////////////////////////////////////////
     public function testGetFoodItem(){
         $foodItem = $this->createMock(FoodItem::class);
         $this->groceryListItem->setFoodItem($foodItem);
@@ -83,10 +83,10 @@ class GroceryListItemTest extends TestCase {
             'Object must be instance of FoodItem');
     }
 
-    /////////////
+	////////////////////////////////////////////////////////////////////////////
     // Amount //
-    ////////////
-    public function testGetAmount(){
+	////////////////////////////////////////////////////////////////////////////
+    public function testGetAmount() {
         $amount = 34.28;
         $this->groceryListItem->setAmount($amount);
         $this->assertEquals($this->groceryListItem->getAmount(), $amount);
