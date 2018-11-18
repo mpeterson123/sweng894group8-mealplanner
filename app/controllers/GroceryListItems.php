@@ -68,13 +68,15 @@ class GroceryListItems extends Controller {
     /**
      * Lists all grocery list items belonging to a user
      */
-    public function index():void {
+    public function index($param = ''):void {
 
         $household = $this->session->get('user')->getCurrHousehold();
         $foodItemCount = $this->foodItemRepository->countForHousehold($household);
         $groceryListItems = $this->groceryListItemRepository->allForHousehold($household);
+        $showLow = FALSE;
+        if($param == 'showLow') $showLow = TRUE;
 
-        $this->view('groceryListItem/index', compact('groceryListItems', 'foodItemCount'));
+        $this->view('groceryListItem/index', compact('groceryListItems', 'foodItemCount', 'showLow'));
     }
 
     /**
