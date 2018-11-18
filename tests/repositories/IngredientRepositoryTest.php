@@ -104,10 +104,18 @@ class IngredientRepositoryTest extends TestCase {
 
     $this->expectedIngredientArray[] = new Ingredient($this->food, $this->quantity, 1, $this->foodUnit);
 
+/*
     $this->host = getenv("HTTP_dbLocalHost");
     $this->dbName   = getenv("HTTP_dbName");
     $this->user = getenv("HTTP_dbLocalUser");
     $this->pass = getenv("HTTP_dbPass");
+    $this->charset = 'utf8';
+    */
+
+    $this->host = 'localhost';
+    $this->dbName = 'capstone';
+    $this->user = 'capstone';
+    $this->pass = 'CmklPrew!';
     $this->charset = 'utf8';
 
     //private static $instance = NULL;
@@ -400,9 +408,9 @@ class IngredientRepositoryTest extends TestCase {
     public function testFindIngredientByFoodId() {
       if($this->insert() ) {
 
-        $bool = $this->ingredientRepository->findIngredientByFoodId($this->expectedIngredientArray[0]->getFood()->getId(), $this->expectedIngredientArray[0]->getRecipeId());
+        $actualIngred = $this->ingredientRepository->findIngredientByFoodId($this->expectedIngredientArray[0]->getFood()->getId(), $this->expectedIngredientArray[0]->getRecipeId());
 
-        $this->assertEquals(true, $bool);
+        $this->assertEquals($actualIngred, $this->expectedIngredientArray[0]);
       }
     }
 }

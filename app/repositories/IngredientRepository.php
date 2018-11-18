@@ -47,7 +47,7 @@ class IngredientRepository extends Repository implements EditableModelRepository
      * Find a single ingredient by food ID for a specific recipe
      * @param  integer $foodId the ID of the food item
      * @param integer $recipeId the ID of the recipe
-     * @return boolean       if ingredient was found
+     * @return object       Ingredient object or null
      */
     public function findIngredientByFoodId($foodId, $recipeId){
 
