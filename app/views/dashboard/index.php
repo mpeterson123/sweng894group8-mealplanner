@@ -36,7 +36,7 @@ $numFoodCostYear= sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantit
 $numFoods       = sqlRequest("SELECT COUNT(id) AS numFoods FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numFoods'];
 $numStock       = sqlRequest("SELECT SUM(stock) AS numStock FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numStock'];
 $usersList      = sqlRequest("SELECT * FROM users");
-$lastFewMeals   = sqlRequest("SELECT meal.*, recipes.name AS name FROM meal, recipes WHERE meal.recipeid = recipes.id AND householdid = {$houseHoldID} ORDER BY addedDate DESC LIMIT 5");
+$lastFewMeals   = sqlRequest("SELECT meal.*, recipes.name AS name FROM meal, recipes WHERE meal.recipeid = recipes.id AND recipes.householdid = {$houseHoldID} ORDER BY addedDate DESC LIMIT 5");
 
 function writeTime($total)
 {
@@ -289,26 +289,26 @@ function writeTime($total)
                         <div class="white-box bg-primary color-box">
                             <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span><br /><br /></h1>
                             <div class="ct-revenue chart-pos"$<?php echo number_format($numFoodCost, 2); ?></div>
+                            <br/>
                         </div>
-                        <br/>
                     </div>
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-4 col-sm-12">
                         <div class="white-box bg-success color-box">
                             <h1 class="text-white font-light m-b-0"><?php echo $numFoods; ?></h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">current groceries</p>
                             <h6 class="text-white font-semibold"><?php echo $numStock; ?> <span class="font-light"># of stock</span></h6>
+                            <br/>
                         </div>
-                        <br/>
                     </div>
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-4 col-sm-12">
                         <div class="white-box bg-danger color-box">
                             <h1 class="text-white font-light m-b-0"><?php echo round(($numMealsEatenPercentage * 100), 2); ?>%</h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">Finished Meals</p>
                             <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
+                            <br/>
                         </div>
-                        <br/>
                     </div>
                 </div>
                 <div class="row">
