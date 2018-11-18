@@ -30,6 +30,8 @@ $numRecipeCost  = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantit
 $numFoodCost    = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (lifetime)
 $numFoodCostMon = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEAR(addedDate) = YEAR(CURDATE()) AND MONTH(addedDate) = MONTH(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for month to date)
 $numFoodCostYear= sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEAR(addedDate) = YEAR(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for year to date)
+$numFoods       = sqlRequest("SELECT COUNT(id) AS numFoods FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numFoods'];
+$numStock       = sqlRequest("SELECT SUM(stock) AS numStock FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numStock'];
 $usersList = sqlRequest("SELECT * FROM users");
 ?>
 <?php require_once( __HEADER__ ); ?>
@@ -242,15 +244,15 @@ $usersList = sqlRequest("SELECT * FROM users");
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box bg-primary color-box">
                             <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span><br /><br /></h1>
-                            <div class="ct-revenue chart-pos"></div>
+                            <div class="ct-revenue chart-pos"$<?php echo $numFoodCost; ?></div>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="white-box bg-success color-box">
-                            <h1 class="text-white font-light m-b-0">0</h1>
+                            <h1 class="text-white font-light m-b-0"><?php echo $numFoods; ?></h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">current groceries</p>
-                            <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
+                            <h6 class="text-white font-semibold"><?php echo $numStock; ?> <span class="font-light"># of stock</span></h6>
                             <div class="chart">
                                 <div class="ct-visit chart-pos"></div>
                             </div>
