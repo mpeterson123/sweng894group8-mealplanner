@@ -36,7 +36,7 @@ $numFoodCostYear= sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantit
 $numFoods       = sqlRequest("SELECT COUNT(id) AS numFoods FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numFoods'];
 $numStock       = sqlRequest("SELECT SUM(stock) AS numStock FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numStock'];
 $usersList      = sqlRequest("SELECT * FROM users");
-$lastFewMeals   = sqlRequest("SELECT * FROM meal WHERE householdid = {$houseHoldID} ORDER BY addedDate DESC LIMIT 5");
+$lastFewMeals   = sqlRequest("SELECT meal.*, recipes.name AS name FROM meal, recipes WHERE meal.recipeid = recipes.id AND householdid = {$houseHoldID} ORDER BY addedDate DESC LIMIT 5");
 
 function writeTime($total)
 {
@@ -61,7 +61,7 @@ function writeTime($total)
         return FALSE;
 
     if ($total < 1)
-        return 'a fraction of a second ';
+        return 'a fraction of a second';
 
     if ($total >= $secsYear)
     {
@@ -95,13 +95,13 @@ function writeTime($total)
     }
     $seconds = $total;
 
-    if ($years)  { $result = $years.' years'; }
-    if ($months) { $result = $months.' months'; }
-    if ($weeks) { $result = $weeks.' weeks'; }
-    if ($days) { $result = $days.' days'; }
-    if ($hours) { $result = $hours.' hours'; }
-    if ($minutes) { $result = $minutes.' minutes'; }
-    if ($seconds) { $result = $seconds.' seconds'; }
+    if ($years)   { $result = $years.' year';     if ($years > 1)   { $result .= 's'; } }
+    if ($months)  { $result = $months.' month';   if ($months > 1)  { $result .= 's'; } }
+    if ($weeks)   { $result = $weeks.' week';     if ($weeks > 1)   { $result .= 's'; } }
+    if ($days)    { $result = $days.' day';       if ($days > 1)    { $result .= 's'; } }
+    if ($hours)   { $result = $hours.' hour';     if ($hours > 1)   { $result .= 's'; } }
+    if ($minutes) { $result = $minutes.' minute'; if ($minutes > 1) { $result .= 's'; } }
+    if ($seconds) { $result = $seconds.' second'; if ($seconds > 1) { $result .= 's'; } }
 
     return $result;
 }
@@ -212,9 +212,9 @@ function writeTime($total)
                                             <div class="checkbox checkbox-success">
                                                 <input id="c<?php echo $i; ?>" type="checkbox" checked>
                                                 <label for="c<?php echo $i; ?>">
-                                                    <span class="font-16">New meal added <?php echo writeTime(time() - strtotime($meal['addedDate'])); ?>ago.</span>
+                                                    <span class="font-16">New meal <?php echo $meal['name']; ?></span>
                                                 </label>
-                                                <h6 class="p-l-30 font-bold"><?php echo $meal['addedDate']; ?></h6>
+                                                <h6 class="p-l-30 font-bold">added <?php echo writeTime(time() - strtotime($meal['addedDate'])); ?> ago.</h6>
                                             </div>
                                         </li>
 <?php } ?>                                        
