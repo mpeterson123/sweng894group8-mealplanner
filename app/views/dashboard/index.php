@@ -232,11 +232,11 @@ function writeTime($total)
                                 <div class="task-content font-16 t-a-c">
                                     <div class="col-sm-6 b-r">
                                         Meals Planned
-                                        <h1 class="text-primary"><?php echo $numMeals; ?><span class="font-16 text-muted">Meals</span></h1>
+                                        <h1 class="text-primary"><?php echo $numMeals; ?></h1>
                                     </div>
                                     <div class="col-sm-6">
-                                        Recipes Eaten
-                                        <h1 class="text-primary"><?php echo number_format($numMealsEaten); ?> <span class="font-16 text-muted">Meals</span></h1>
+                                        Meals Devoured
+                                        <h1 class="text-primary"><?php echo number_format($numMealsEaten); ?></h1>
                                     </div>
                                 </div>
                                 <div class="task-assign font-16">
@@ -285,8 +285,9 @@ function writeTime($total)
                 <div class="row">
                     <div class="col-md-4 col-lg-4 col-sm-12">
                         <div class="white-box bg-primary color-box">
-                            <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span></h1>
-                            <div class="ct-revenue chart-pos">$<?php echo number_format($numFoodCost, 2); ?></div>
+                            <h1 class="text-white font-light m-b-0"><?php echo number_format($numFoodCost, 2); ?></h1>
+                            <span class="hr-line"></span>
+                            <p class="cb-text">Lifetime Food Cost</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-lg-4 col-sm-12">
