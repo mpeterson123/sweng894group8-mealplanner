@@ -173,7 +173,8 @@ class MealRepository extends Repository implements EditableModelRepository {
                         addedDate = ?,
                         isComplete = ?,
                         recipeId = ?,
-                        scaleFactor = ?
+                        scaleFactor = ?,
+                        completedOn = ?
                     WHERE id = ?
                 ');
 
@@ -184,12 +185,13 @@ class MealRepository extends Repository implements EditableModelRepository {
             }
 
             @$query->bind_param(
-                "ssiidi",
+                "ssiidsi",
                 $meal->getDate(),
                 $meal->getAddedDate(),
                 $tempCompleteInt,
                 $meal->getRecipeId(),
                 $meal->getScaleFactor(),
+                $meal->getCompletedOn(),
                 $meal->getId()
             );
 

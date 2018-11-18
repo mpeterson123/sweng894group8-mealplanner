@@ -9,6 +9,7 @@ class Meal{
 	private $isComplete;
 	private $addedDate;
 	private $scaleFactor;
+	private $completedOn;
 
 	public function setScaleFactor($newScale){
 		$newScale = floatval($newScale);
@@ -41,13 +42,22 @@ class Meal{
 		// if ($this->isComplete == FALSE){
 		// 	$this->recipe->updateStockAfterCreation($this->scaleFactor);
 		// }
-
+		$this->completedOn = date('Y-m-d H:i:s');
 		$this->isComplete = TRUE;
 	}
 
-	//public function markIncomplete(){
-	//	$this->isComplete = false;
-	//}
+	public function setCompletedOn($completedOn) {
+		$this->completedOn = $completedOn;
+	}
+
+	public function getCompletedOn($formatted = false) {
+		if($formatted){
+			return date('m/d/Y', strtotime($this->completedOn));
+		}
+		return $this->completedOn;
+	}
+
+
 
 	public function getIngredientQuantity($anIngredientName){
 		return $this->recipe->getIngredientByName($anIngredientName)->getQuantity() * $this->scaleFactor;
@@ -89,14 +99,14 @@ class Meal{
 
 	public function getDate($formatted = false){
 		if($formatted){
-			return date('m/d/Y', strtotime($this->getDate()));
+			return date('m/d/Y', strtotime($this->date));
 		}
 		return $this->date;
 	}
 
 	public function getAddedDate($formatted = false){
 		if($formatted){
-			return date('m/d/Y, h:i A', strtotime($this->getAddedDate()));
+			return date('m/d/Y, h:i A', strtotime($this->addedDate));
 		}
 		return $this->addedDate;
 	}

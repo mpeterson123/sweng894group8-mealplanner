@@ -34,7 +34,13 @@ class MealFactory extends Factory {
         if(isset($mealArray['id'])){
             $meal->setId($mealArray['id']);
             $meal->setIsComplete($mealArray['isComplete']);
-    		$meal->setAddedDate($mealArray['addedDate']);
+            $meal->setAddedDate($mealArray['addedDate']);
+            if($meal->isComplete()){
+                $meal->setCompletedOn($mealArray['completedOn']);
+            }
+            else{
+                $meal->setCompletedOn(NULL);
+            }
         }
         else {
             $meal->setIsComplete(false);

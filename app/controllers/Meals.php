@@ -381,7 +381,7 @@ class Meals extends Controller {
 
             $meal->complete();
             if(!$this->mealRepository->save($meal)){
-                throw new \Exception("Unable to update stock for ".$foodItem->getName().' in DB', 1);
+                throw new \Exception("Unable to update meal in DB", 1);
             };
 
             // Commit here
@@ -399,8 +399,11 @@ class Meals extends Controller {
             $this->dbh->getDB()->rollback();
 
             $user = $this->session->get('user');
-            $this->log->add($user->getId(), 'Error', 'Meal Complete - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
-            $this->session->flashMessage('Uh oh. An error occurred. The meal you are tying to add doesn\'t belong to your current household.');
+            $this->log->add($user->getId(), 'Error', 'The meal was not completed');
+            $this->session->flashMessage('danger','Uh oh. An error occurred. Your meal could not be completed.');
+
+            Redirect::toControllerMethod('Meals', 'index');
+            return;
         }
     }
 
