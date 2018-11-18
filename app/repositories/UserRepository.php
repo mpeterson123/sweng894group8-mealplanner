@@ -146,7 +146,7 @@ class UserRepository extends Repository implements EditableModelRepository {
             $user->getFirstName(),
             $user->getLastName()
         );
-        $query->execute();
+        return $query->execute();
     }
 
     public function update($user){
@@ -165,7 +165,7 @@ class UserRepository extends Repository implements EditableModelRepository {
             $user->getFirstName(),
             $user->getLastName(),
         ));
-        $query->execute();
+        return $query->execute();
     }
     public function selectHousehold($user,$hhId){
       $query = $this->db->prepare('UPDATE users set currHouseholdId=? where id=?');

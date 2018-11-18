@@ -80,7 +80,10 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
 
         // Assign to user
         $user = (new Session())->get('user');
-        $this->connect($user->getId(), $this->db->insert_id);
+        if($this->connect($user->getId(), $this->db->insert_id)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -89,14 +92,14 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
      * @param  integer $hhId   Id of household to connect
      */
     public function connect($userId,$hhId):void{
-      $query = $this->db->prepare('INSERT INTO usersHouseholds
-              (userId,householdId)
-              VALUES(?,?)');
-      $query->bind_param(
+        $query = $this->db->prepare('INSERT INTO usersHouseholds
+            (userId,householdId)
+            VALUES(?,?)');
+        $query->bind_param(
           "ii",
           $userId,
           $hhId);
-      $query->execute();
+        $query->execute();
     }
 
     /**
@@ -113,8 +116,12 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
       $query->execute();
     }
 
-    // Not Implemented yet
+    // TODO Not Implemented yet
     public function update($object){
+
+        // !!!!!!!!!!
+        return false;
+
         $query = $this->db
             ->prepare('UPDATE food
                 SET name = ?, unitcost =?)
@@ -123,6 +130,6 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
             'name' => $food->name,
             'name' => $food->unitCost,
         ));
-        $query->execute();
+        return $query->execute();
     }
 }
