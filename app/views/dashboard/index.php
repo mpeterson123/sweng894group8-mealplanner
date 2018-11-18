@@ -19,6 +19,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
 
 // Dashboard Settings
 define('NUM_USERS_TO_LIST', 6);
+date_default_timezone_set("UTC");
 
 // Dashboard Statistics
 
@@ -35,6 +36,7 @@ $numFoodCostYear= sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantit
 $numFoods       = sqlRequest("SELECT COUNT(id) AS numFoods FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numFoods'];
 $numStock       = sqlRequest("SELECT SUM(stock) AS numStock FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numStock'];
 $usersList      = sqlRequest("SELECT * FROM users");
+$lastFewMeals   = sqlRequest("SELECT * FROM meal WHERE householdid = {$houseHoldID} ORDER BY addedDate DESC LIMIT 5");
 
 function writeTime($total)
 {
@@ -205,7 +207,7 @@ function writeTime($total)
                                 </div>
                                 <div class="task-list">
                                     <ul class="list-group">
-<?php $LastFewMeals = sqlRequest("SELECT * FROM meal WHERE householdid = {$houseHoldID} ORDER BY addedDate DESC LIMIT 5"); $i = 0; foreach ($LastFewMeals as $meal) { $i++; ?>
+<?php $i = 0; foreach ($lastFewMeals as $meal) { $i++; ?>
                                         <li class="list-group-item bl-info">
                                             <div class="checkbox checkbox-success">
                                                 <input id="c<?php echo $i; ?>" type="checkbox" checked>
@@ -216,35 +218,6 @@ function writeTime($total)
                                             </div>
                                         </li>
 <?php } ?>                                        
-                                        <!--
-                                        <li class="list-group-item bl-warning">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="c8" type="checkbox" checked>
-                                                <label for="c8">
-                                                    <span class="font-16">Send daughter to pickup <strong>50 onions</strong> on 23 May to <a href="javascript:void(0);" class="text-link">Daniel Kristeen</a> for the friend onion fest.</span>
-                                                </label>
-                                                <h6 class="p-l-30 font-bold">03:00 PM</h6>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item bl-danger">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="c9" type="checkbox">
-                                                <label for="c9">
-                                                    <span class="font-16">It is a long established fact that a reader will be distracted by the readable.</span>
-                                                </label>
-                                                <h6 class="p-l-30 font-bold">04:45 PM</h6>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item bl-success">
-                                            <div class="checkbox checkbox-success">
-                                                <input id="c10" type="checkbox">
-                                                <label for="c10">
-                                                    <span class="font-16">It is a long established fact that a reader will be distracted by the readable.</span>
-                                                </label>
-                                                <h6 class="p-l-30 font-bold">05:30 PM</h6>
-                                            </div>
-                                        </li>
--->
                                     </ul>
                                 </div>
                                 <div class="task-loadmore">
