@@ -4,6 +4,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Sidebar Module
 ///////////////////////////////////////////////////////////////////////////////
+
+$sidebarNumUnread  = $NumUnread ?? NULL;
+$sidebarNumFoods   = sqlRequest("SELECT * FROM foods WHERE houseHoldId = {$data['user']->getId()}");
+$sidebarNumMeals   = sqlRequest("SELECT * FROM meal WHERE houseHoldId = {$data['user']->getId()}");
+$sidebarNumRecipes = sqlRequest("SELECT * FROM recipes WHERE houseHoldId = {$data['user']->getId()}");
 ?>
         <!-- ===== Left-Sidebar ===== -->
         <aside class="sidebar">
@@ -36,21 +41,21 @@
                             <a class="waves-effect" href="/Account/dashboard/"><i class="icon-screen-desktop fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-cup fa-fw"></i> <span class="hide-menu"> Food</span></a>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-cup fa-fw"></i> <span class="hide-menu"> Food<span class="label label-rounded label-<?php if ($sidebarNumFoods ?? 0) { echo 'success'; } else { echo 'info'; } ?> pull-right"><?php echo number_format($sidebarNumFoods ?? 0); ?></span></span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/FoodItems/index">Food List</a></li>
                                 <li><a href="/FoodItems/create">Add Food Item</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-note fa-fw"></i> <span class="hide-menu"> Recipes</span></a>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-note fa-fw"></i> <span class="hide-menu"> Recipes<span class="label label-rounded label-<?php if ($sidebarNumRecipes ?? 0) { echo 'success'; } else { echo 'info'; } ?> pull-right"><?php echo number_format($sidebarNumRecipes ?? 0); ?></span></span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/Recipes/index">Recipe List</a></li>
                                 <li><a href="/Recipes/create">Add Recipe</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Meals</span></a>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-book-open fa-fw"></i> <span class="hide-menu"> Meals<span class="label label-rounded label-<?php if ($sidebarNumMeals ?? 0) { echo 'success'; } else { echo 'info'; } ?> pull-right"><?php echo number_format($sidebarNumMeals ?? 0); ?></span></span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/Meals/index">Meal Plan</a></li>
                                 <li><a href="/Meals/create">Schedule Meal</a></li>
@@ -65,7 +70,7 @@
                         </li>
                         <li>
                             <a class="waves-effect" href="javascript:void(0);" aria-
-expanded="false"><i class="icon-envelope-letter fa-fw"></i> <span class="hide-menu"> Messages<span class="label label-rounded label-<?php if ($NumUnread ?? 0) { echo 'success'; } else { echo 'info'; } ?> pull-right"><?php echo number_format($NumUnread ?? 0); ?></span></span></a>
+expanded="false"><i class="icon-envelope-letter fa-fw"></i> <span class="hide-menu"> Messages<span class="label label-rounded label-<?php if ($sidebarNumUnread ?? 0) { echo 'success'; } else { echo 'info'; } ?> pull-right"><?php echo number_format($sidebarNumUnread ?? 0); ?></span></span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/Messages/inbox/">Inbox</a></li>
                                 <li><a href="/Messages/outbox/">Sent</a></li>
