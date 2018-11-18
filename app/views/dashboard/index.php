@@ -22,10 +22,10 @@ define('NUM_USERS_TO_LIST', 6);
 
 // Dashboard Statistics
 
-$houseHoldID  = $data['user']->getCurrHousehold()->getId();
-$numFoodItems = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
-$numRecipes   = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
-$numMeals     = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = 1")[0]['numMeals']; 
+$houseHoldID    = $data['user']->getCurrHousehold()->getId();
+$numFoodItems   = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
+$numRecipes     = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
+$numMeals       = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = 1")[0]['numMeals']; 
 $numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = 1")[0]['mealsEaten']; // Based off of meals
 $numMealsEatenPercentage = ($numMealsEaten / $numMeals);
 $numRecipeCost  = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of recipes only (nothing consumed)
@@ -34,7 +34,7 @@ $numFoodCostMon = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantit
 $numFoodCostYear= sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEAR(addedDate) = YEAR(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for year to date)
 $numFoods       = sqlRequest("SELECT COUNT(id) AS numFoods FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numFoods'];
 $numStock       = sqlRequest("SELECT SUM(stock) AS numStock FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numStock'];
-$usersList = sqlRequest("SELECT * FROM users");
+$usersList      = sqlRequest("SELECT * FROM users");
 
 function writeTime($total)
 {
@@ -205,11 +205,11 @@ function writeTime($total)
                                 </div>
                                 <div class="task-list">
                                     <ul class="list-group">
-<?php $LastFewMeals = sqlRequest("SELECT * FROM meal WHERE householdid = {$houseHoldID} ORDER BY addedDate DESC LIMIT 5"); foreach ($LastFewMeals as $meal) { ?>
+<?php $LastFewMeals = sqlRequest("SELECT * FROM meal WHERE householdid = {$houseHoldID} ORDER BY addedDate DESC LIMIT 5"); $i = 0; foreach ($LastFewMeals as $meal) { $i++; ?>
                                         <li class="list-group-item bl-info">
                                             <div class="checkbox checkbox-success">
-                                                <input id="c7" type="checkbox">
-                                                <label for="c7">
+                                                <input id="c<?php echo $i; ?>" type="checkbox" checked>
+                                                <label for="c<?php echo $i; ?>">
                                                     <span class="font-16">New meal added <?php echo writeTime(time() - strtotime($meal['addedDate'])); ?>ago.</span>
                                                 </label>
                                                 <h6 class="p-l-30 font-bold"><?php echo $meal['addedDate']; ?></h6>
@@ -317,6 +317,7 @@ function writeTime($total)
                             <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span><br /><br /></h1>
                             <div class="ct-revenue chart-pos"$<?php echo number_format($numFoodCost, 2); ?></div>
                         </div>
+                        <br/>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="white-box bg-success color-box">
@@ -325,6 +326,7 @@ function writeTime($total)
                             <p class="cb-text">current groceries</p>
                             <h6 class="text-white font-semibold"><?php echo $numStock; ?> <span class="font-light"># of stock</span></h6>
                         </div>
+                        <br/>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="white-box bg-danger color-box">
@@ -333,169 +335,7 @@ function writeTime($total)
                             <p class="cb-text">Finished Meals</p>
                             <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
                         </div>
-                    </div>
-                </div>
-                <div class="row" style="display:none;">
-                    <div class="col-md-12">
-                        <div class="white-box user-table">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <h4 class="box-title">Table Format/User Data</h4>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ul class="list-inline">
-                                        <li>
-                                            <a href="javascript:void(0);" class="btn btn-default btn-outline font-16"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" class="btn btn-default btn-outline font-16"><i class="fa fa-commenting" aria-hidden="true"></i></a>
-                                        </li>
-                                    </ul>
-                                    <select class="custom-select">
-                                        <option selected>Sort by</option>
-                                        <option value="1">Name</option>
-                                        <option value="2">Location</option>
-                                        <option value="3">Type</option>
-                                        <option value="4">Role</option>
-                                        <option value="5">Action</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="c1" type="checkbox">
-                                                    <label for="c1"></label>
-                                                </div>
-                                            </th>
-                                            <th>Name</th>
-                                            <th>Location</th>
-                                            <th>Type</th>
-                                            <th>Role</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="c2" type="checkbox">
-                                                    <label for="c2"></label>
-                                                </div>
-                                            </td>
-                                            <td><a href="javascript:void(0);" class="text-link">Daniel Kristeen</a></td>
-                                            <td>Texas, US</td>
-                                            <td>Recipes 564</td>
-                                            <td><span class="label label-success">Admin</span></td>
-                                            <td>
-                                                <select class="custom-select">
-                                                    <option value="1">Modulator</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Staff</option>
-                                                    <option value="4">User</option>
-                                                    <option value="5">General</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="c3" type="checkbox">
-                                                    <label for="c3"></label>
-                                                </div>
-                                            </td>
-                                            <td><a href="javascript:void(0);" class="text-link">Prof. Sangwan</a></td>
-                                            <td>Los Angeles, US</td>
-                                            <td>Recipes 451</td>
-                                            <td><span class="label label-info">Staff</span> </td>
-                                            <td>
-                                                <select class="custom-select">
-                                                    <option value="1">Modulator</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Staff</option>
-                                                    <option value="4">User</option>
-                                                    <option value="5">General</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="c4" type="checkbox">
-                                                    <label for="c4"></label>
-                                                </div>
-                                            </td>
-                                            <td><a href="javascript:void(0);" class="text-link">Jeffery Brown</a></td>
-                                            <td>Houston, US</td>
-                                            <td>Recipes 978</td>
-                                            <td><span class="label label-danger">User</span> </td>
-                                            <td>
-                                                <select class="custom-select">
-                                                    <option value="1">Modulator</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Staff</option>
-                                                    <option value="4">User</option>
-                                                    <option value="5">General</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="c5" type="checkbox">
-                                                    <label for="c5"></label>
-                                                </div>
-                                            </td>
-                                            <td><a href="javascript:void(0);" class="text-link">Elliot Dugteren</a></td>
-                                            <td>San Antonio, US</td>
-                                            <td>Recipes 34</td>
-                                            <td><span class="label label-warning">General</span> </td>
-                                            <td>
-                                                <select class="custom-select">
-                                                    <option value="1">Modulator</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Staff</option>
-                                                    <option value="4">User</option>
-                                                    <option value="5">General</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="c6" type="checkbox">
-                                                    <label for="c6"></label>
-                                                </div>
-                                            </td>
-                                            <td><a href="javascript:void(0);" class="text-link">Sergio Milardovich</a></td>
-                                            <td>Jacksonville, US</td>
-                                            <td>Recipes 31</td>
-                                            <td><span class="label label-primary">Partial</span> </td>
-                                            <td>
-                                                <select class="custom-select">
-                                                    <option value="1">Modulator</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Staff</option>
-                                                    <option value="4">User</option>
-                                                    <option value="5">General</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <ul class="pagination">
-                                <li class="disabled"> <a href="#">1</a> </li>
-                                <li class="active"> <a href="#">2</a> </li>
-                                <li> <a href="#">3</a> </li>
-                                <li> <a href="#">4</a> </li>
-                                <li> <a href="#">5</a> </li>
-                            </ul>
-                            <a href="javascript:void(0);" class="btn btn-success pull-right m-t-10 font-20">+</a>
-                        </div>
+                        <br/>
                     </div>
                 </div>
                 <div class="row">
@@ -522,52 +362,6 @@ function writeTime($total)
                                     </ul>
                                 </div>
                                 <div class="stat chart-pos"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4" style="display:none;">
-                        <div class="white-box chat-widget">
-                            <a href="javascript:void(0);" class="pull-right"><i class="icon-settings"></i></a>
-                            <h4 class="box-title">Chat</h4>
-                            <ul class="chat-list slimscroll" style="overflow: hidden;" tabindex="5005">
-                                <li>
-                                    <div class="chat-image"> <img alt="male" src="/images/users/avatar2.jpg"> </div>
-                                    <div class="chat-body">
-                                        <div class="chat-text">
-                                            <p><span class="font-semibold">Prof. Sangwan</span> Hey Daniel, This is just a sample chat. </p>
-                                        </div>
-                                        <span>2 Min ago</span>
-                                    </div>
-                                </li>
-                                <li class="odd">
-                                    <div class="chat-body">
-                                        <div class="chat-text">
-                                            <p> buddy </p>
-                                        </div>
-                                        <span>2 Min ago</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="chat-image"> <img alt="male" src="/images/users/avatar2.jpg"> </div>
-                                    <div class="chat-body">
-                                        <div class="chat-text">
-                                            <p><span class="font-semibold">Prof. Sangwan</span> Bye now. </p>
-                                        </div>
-                                        <span>1 Min ago</span>
-                                    </div>
-                                </li>
-                                <li class="odd">
-                                    <div class="chat-body">
-                                        <div class="chat-text">
-                                            <p> We have been busy all the day to make your website proposal and finally came with the super excited offer. </p>
-                                        </div>
-                                        <span>5 Sec ago</span>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="chat-send">
-                                <input type="text" class="form-control" placeholder="Write your message">
-                                <i class="fa fa-camera"></i>
                             </div>
                         </div>
                     </div>
