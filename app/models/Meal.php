@@ -36,11 +36,11 @@ class Meal{
 		$this->isComplete = $isComplete;
 	}
 
-	public function complete(){
-
-		if ($this->isComplete == FALSE){
-			$this->recipe->updateStockAfterCreation($this->scaleFactor);
-		}
+	public function complete() {
+		// TODO Remove this, alongside pdateStockAfterCreation in Recipe.php
+		// if ($this->isComplete == FALSE){
+		// 	$this->recipe->updateStockAfterCreation($this->scaleFactor);
+		// }
 
 		$this->isComplete = TRUE;
 	}

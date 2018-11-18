@@ -133,33 +133,33 @@ class Recipe{
 
 	}
 
-	/**
-	 * Update the stock of user's food items after a recipe is executed with a given scaleFactor
-	 * @param integer $scale scale of the recipe to subtract
-	 */
-	public function updateStockAfterCreation($scale){
-		// Default stock to 1 if none is given
-		if ($scale == NULL){
-			$scale = 1.0;
-		}
-
-		for($i=0;$i<count($this->ingredients);$i++){
-			// Get Food of Ingredient
-
-			$ingredientFood = $this->ingredients[$i]->getFood();
-
-			//Get Current Stock of food
-			$currentStock = $ingredientFood->getStock();
-
-			// Get how much the ingredient requires in the recipe
-			$this->ingredients[$i]->getQuantity()->convertTo($ingredientFood->getUnit());
-			$ingredientQty = $this->ingredients[$i]->getQuantity()->getValue();
-			// Set the stock of the user's food. This will be the current stock
-			$ingredientFood->setStock($currentStock - ($scale * $ingredientQty));
-
-			//Save food item
-			// DONE IN MEALS CONTROLLER
-		}
-	}
+	// /**
+	//  * Update the stock of user's food items after a recipe is executed with a given scaleFactor
+	//  * @param integer $scale scale of the recipe to subtract
+	//  */
+	// public function updateStockAfterCreation($scale){
+	// 	// Default stock to 1 if none is given
+	// 	if ($scale == NULL){
+	// 		$scale = 1.0;
+	// 	}
+	//
+	// 	for($i=0;$i<count($this->ingredients);$i++){
+	// 		// Get Food of Ingredient
+	//
+	// 		$ingredientFood = $this->ingredients[$i]->getFood();
+	//
+	// 		//Get Current Stock of food
+	// 		$currentStock = $ingredientFood->getStock();
+	//
+	// 		// Get how much the ingredient requires in the recipe
+	// 		$this->ingredients[$i]->getQuantity()->convertTo($ingredientFood->getUnit());
+	// 		$ingredientQty = $this->ingredients[$i]->getQuantity()->getValue();
+	// 		// Set the stock of the user's food. This will be the current stock
+	// 		$ingredientFood->setStock($currentStock - ($scale * $ingredientQty));
+	//
+	// 		//Save food item
+	// 		// DONE IN MEALS CONTROLLER
+	// 	}
+	// }
 }
 ?>

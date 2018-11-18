@@ -45,7 +45,8 @@ class Meals extends Controller {
         $mealFactory,
         $recipeRepository,
         $groceryListItemFactory,
-        $groceryListItemRepository;
+        $groceryListItemRepository,
+        $foodItemRepository;
 
     public function __construct(DatabaseHandler $dbh, Session $session, $request){
   		$this->dbh = $dbh;
@@ -61,9 +62,9 @@ class Meals extends Controller {
         $unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
 
         $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
-        $foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
+        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
 
-        $ingredientFactory = new IngredientFactory($foodItemRepository, $unitRepository);
+        $ingredientFactory = new IngredientFactory($this->foodItemRepository, $unitRepository);
         $ingredientRepository = new IngredientRepository($this->dbh->getDB(), $ingredientFactory);
 
         $recipeFactory = new RecipeFactory($ingredientRepository);
@@ -73,7 +74,7 @@ class Meals extends Controller {
         $this->mealRepository = new MealRepository($this->dbh->getDB(), $this->mealFactory);
 
 
-        $this->groceryListItemFactory = new GroceryListItemFactory($foodItemRepository);
+        $this->groceryListItemFactory = new GroceryListItemFactory($this->foodItemRepository);
         $this->groceryListItemRepository = new GroceryListItemRepository($this->dbh->getDB(), $this->groceryListItemFactory);
 
     }
@@ -346,36 +347,60 @@ class Meals extends Controller {
      * Complete a meal
      * @param integer $id Meal id
      */
-    public function complete($id):void{
-        $meal = $this->mealRepository->find($id);
-        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+    public function complete($id):void {
+        $this->dbh->getDB()->begin_transaction();
+        try {
+            $meal = $this->mealRepository->find($id);
+            $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
-        if( $this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
-        {
-          // Update Meal
-          $meal->complete();
-          $this->mealRepository->save($meal);
+            if(!$this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
+            {
+                throw new \Exception("Meal doesn't belong to household", 1);
+            }
 
-          // Update Food items from ingredients from recipe from meal
-          $ingredientList = $meal->getRecipe()->getIngredients();
-          for($i=0;$i<count($ingredientList);$i++){
-      			$foodItem = $ingredientList[$i]->getFood();
-      			$this->foodItemRepository->save($foodItem);
-      		}
+            // Update Food items from ingredients from recipe from meal
+            foreach($meal->getRecipe()->getIngredients() as $ingredient) {
+            	$foodItem = $ingredient->getFood();
 
-          // Flash success message
-          $this->session->flashMessage('success: meal with date of ', ucfirst($meal->getDate()).' was completed.');
+                // Convert to food item's unit
+                $ingredient->getQuantity()->convertTo($foodItem->getUnit());
 
-          // Redirect back with errors
-          Redirect::toControllerMethod('Meals', $method, $params);
-          return;
+                // Reduce stock by recipe ingredient quantity * scale factor
+                $newStock = $foodItem->getStock() - ($ingredient->getQuantity()->getValue() * $meal->getScaleFactor());
+
+                if($newStock < 0){
+                    $newStock = 0;
+                }
+
+                // Save new stock and completed meal
+                $foodItem->setStock($newStock);
+                if(!$this->foodItemRepository->save($foodItem)){
+                    throw new \Exception("Unable to update stock for ".$foodItem->getName().' in DB', 1);
+                };
+            }
+
+            $meal->complete();
+            if(!$this->mealRepository->save($meal)){
+                throw new \Exception("Unable to update stock for ".$foodItem->getName().' in DB', 1);
+            };
+
+            // Commit here
+            $this->dbh->getDB()->commit();
+
+            // Flash success message
+            $this->session->flashMessage('success','Your '.ucfirst($meal->getRecipe()->getName()).' meal with date of '.$meal->getDate().' was completed. Your food items\' stock have also been updated.');
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('Meals', 'index');
+            return;
         }
-        else
-        {
-          //not in household
-          $user = $this->session->get('user');
-          $this->log->add($user->getId(), 'Error', 'Meal Complete - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
-          $this->session->flashMessage('Uh oh. An error occurred. The meal you are tying to add doesn\'t belong to your current household.');
+        catch (\Exception $e){
+            // Rollback changes
+            $this->dbh->getDB()->rollback();
+
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Meal Complete - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
+            $this->session->flashMessage('Uh oh. An error occurred. The meal you are tying to add doesn\'t belong to your current household.');
         }
     }
 
