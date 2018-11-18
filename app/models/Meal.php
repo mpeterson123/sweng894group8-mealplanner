@@ -13,13 +13,12 @@ class Meal{
 
 	public function setScaleFactor($newScale){
 		$newScale = floatval($newScale);
-		if(!$newScale)
+		if(!$newScale || $newScale < 0.01 || !is_numeric($newScale))
 		{
 			$newScale = 1.0;
 		}
-
-		if(gettype($newScale) !== 'double' AND gettype($newScale) !== 'integer' AND gettype($newScale) !== 'float'){
-				throw new \Exception("Scale must be a number", 1);
+		if($newScale > 500){
+			$newScale = 500.0;
 		}
 
 		$this->scaleFactor = $newScale;
@@ -47,12 +46,15 @@ class Meal{
 	}
 
 	public function setCompletedOn($completedOn) {
+		if (\DateTime::createFromFormat('Y-m-d H:i:s', $completedOn) == FALSE) {
+			throw new \Exception("CompletedOn is not valid date", 1);
+		}
 		$this->completedOn = $completedOn;
 	}
 
 	public function getCompletedOn($formatted = false) {
 		if($formatted){
-			return date('m/d/Y', strtotime($this->completedOn));
+			return date('m/d/Y, h:i A', strtotime($this->completedOn));
 		}
 		return $this->completedOn;
 	}
@@ -85,16 +87,17 @@ class Meal{
 
 	public function setId($id)
 	{
-			if(!$id)
-			{
-					throw new \Exception("Id cannot be empty", 1);
-			}
+		if(!$id)
+		{
+			throw new \Exception("Id cannot be empty", 1);
+		}
 
-			if(gettype($id) !== 'integer'){
-					throw new \Exception("Id must be an integer", 1);
-			}
+		$id = intval($id);
+        if($id < 1){
+            throw new \Exception("Id must be greater than 0", 1);
+        }
 
-			$this->id = $id;
+		$this->id = $id;
 	}
 
 	public function getDate($formatted = false){
@@ -102,6 +105,15 @@ class Meal{
 			return date('m/d/Y', strtotime($this->date));
 		}
 		return $this->date;
+	}
+
+	public function setDate($newDate)
+	{
+		if (\DateTime::createFromFormat('Y-m-d', $newDate) == FALSE) {
+			throw new \Exception("Date is not valid date", 1);
+		}
+
+		$this->date = $newDate;
 	}
 
 	public function getAddedDate($formatted = false){
@@ -112,20 +124,11 @@ class Meal{
 	}
 
 	public function setAddedDate($addedDate){
+		if (\DateTime::createFromFormat('Y-m-d H:i:s', $addedDate) == FALSE) {
+			throw new \Exception("AddedDate is not valid date", 1);
+		}
+
 		$this->addedDate = $addedDate;
-	}
-
-	public function setDate($newDate)
-	{
-			if(!$newDate)
-			{
-					throw new \Exception("Date cannot be empty", 1);
-			}
-			if(!strtotime($newDate)){
-					throw new \Exception("Date must be a timestamp", 1);
-			}
-
-			$this->date = $newDate;
 	}
 }
 ?>

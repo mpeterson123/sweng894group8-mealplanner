@@ -20,8 +20,9 @@ class GroceryListItem {
             throw new \Exception("Id cannot be empty", 1);
         }
 
-        if(gettype($id) !== 'integer'){
-            throw new \Exception("Id must be an integer", 1);
+        $id = intval($id);
+        if($id < 1){
+            throw new \Exception("Id must be greater than 0", 1);
         }
 
         $this->id = $id;

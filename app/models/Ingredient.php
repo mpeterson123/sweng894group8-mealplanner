@@ -34,15 +34,35 @@ class Ingredient {
     }
 
     public function setRecipeId($recipeId) {
-      $this->recipeId = $recipeId;
+        if(!$recipeId)
+        {
+            throw new \Exception("RecipeId cannot be empty", 1);
+        }
+
+        $recipeId = intval($recipeId);
+        if($recipeId < 1){
+            throw new \Exception("RecipeId must be greater than 0", 1);
+        }
+
+        $this->recipeId = $recipeId;
     }
 
     public function getRecipeId() {
       return $this->recipeId;
     }
 
-    public function setId($ingrId) {
-      $this->id = $ingrId;
+    public function setId($id) {
+        if(!$id)
+        {
+            throw new \Exception("Id cannot be empty", 1);
+        }
+
+        $id = intval($id);
+        if($id < 1){
+            throw new \Exception("Id must be greater than 0", 1);
+        }
+
+        $this->id = $id;
     }
 
     public function getId() {

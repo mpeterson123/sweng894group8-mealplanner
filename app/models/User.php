@@ -50,12 +50,12 @@ class User{
 			throw new \Exception("Username cannot be empty", 1);
 		}
 
-		if(strlen($username) > 20){
-			throw new \Exception("Username cannot be longer than 20 characters", 1);
+		if(strlen($username) > 32){
+			throw new \Exception("Username cannot be longer than 32 characters", 1);
 		}
 
 		if(!preg_match('/^[a-z0-9]+$/i', $username)){
-			throw new \Exception("First Name cannot be longer than 20 characters", 1);
+			throw new \Exception("Username cannot be longer than 32 characters", 1);
 		}
 	    $this->username = $username;
     }

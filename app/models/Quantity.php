@@ -34,8 +34,14 @@ class Quantity
         return $this->value;
     }
 
-    public function setValue($v)  {
-        $this->value = $v;
+    public function setValue($value)  {
+        $value = floatval($value);
+		if(!$value || $value < 0.01 || !is_numeric($value))
+		{
+			throw new \Exception("Value must be number >= 0.01", 1);
+		}
+
+		$this->value = $value;
     }
 
     public function getUnit()  {
@@ -43,7 +49,11 @@ class Quantity
     }
 
     public function setUnit($u)  {
-        $this->unit = $u;
+        if(!$u instanceof Unit)
+		{
+			throw new \Exception("Quantity must reference a Unit");
+		}
+		$this->unit = $u;
     }
 }
 

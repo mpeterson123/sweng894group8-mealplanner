@@ -15,8 +15,9 @@ class Household {
             throw new \Exception("Id cannot be empty", 1);
         }
 
-        if(gettype($id) !== 'integer'){
-            throw new \Exception("Id must be an integer", 1);
+        $id = intval($id);
+        if($id < 1){
+            throw new \Exception("Id must be greater than 0", 1);
         }
 
         $this->id = $id;
@@ -56,12 +57,22 @@ class Household {
     public function getOwner(){
       return $this->owner;
     }
-    public function setOwner($newOwner){
-      if(!$newOwner)
-      {
-          throw new \Exception("Owner cannot be empty", 1);
-      }
-      $this->owner = $newOwner;
+
+    public function setOwner($owner){
+		$owner = trim($owner);
+
+		if($owner == ''){
+			throw new \Exception("Owner cannot be empty", 1);
+		}
+
+		if(strlen($owner) > 32){
+			throw new \Exception("Owner cannot be longer than 32 characters", 1);
+		}
+
+		if(!preg_match('/^[a-z0-9]+$/i', $owner)){
+			throw new \Exception("Owner cannot be longer than 32 characters", 1);
+		}
+	    $this->owner = $owner;
     }
 
     public function genInviteCode(){

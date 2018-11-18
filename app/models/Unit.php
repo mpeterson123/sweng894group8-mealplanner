@@ -21,8 +21,9 @@ class Unit
             throw new \Exception("Id cannot be empty", 1);
         }
 
-        if(gettype($id) !== 'integer'){
-            throw new \Exception("Id must be an integer", 1);
+        $id = intval($id);
+        if($id < 1){
+            throw new \Exception("Id must be greater than 0", 1);
         }
 
         $this->id = $id;
@@ -65,19 +66,17 @@ class Unit
     public function setAbbreviation($abbreviation){
         $abbreviation = trim($abbreviation);
 
-        if($abbreviation == ''){
-            throw new \Exception(
-                "Food Item abbreviation cannot be empty", 1);
-        }
+        /*
+         * Regex rules:
+         * - Only letters
+         * - Case insensitive
+         * - From 1-4 characters
+         */
+        $regex = '/^[a-z ]{1,5}$/i';
 
-        if(strlen($abbreviation) > 4){
+        if(!preg_match_all($regex, $abbreviation, $matches)){
             throw new \Exception(
-                "Food Item abbreviation cannot be longer than 4 characters", 1);
-        }
-
-        if(!preg_match_all('/^[a-z]+$/i', $abbreviation, $matches)){
-            throw new \Exception(
-                "Food Item abbreviation must be alphabetical", 1);
+                "Base unit must alphabetical, and must be 1-5 characters in length", 1);
         }
 
         $this->abbreviation = $abbreviation;
@@ -100,11 +99,11 @@ class Unit
          * - Case insensitive
          * - From 1-4 characters
          */
-        $regex = '/^[a-z]{1,4}$/i';
+        $regex = '/^[a-z ]{1,5}$/i';
 
         if(!preg_match_all($regex, $baseUnit, $matches)){
             throw new \Exception(
-                "Base unit must alphabetical, and must be 1-4 characters in length", 1);
+                "Base unit must alphabetical, and must be 1-5 characters in length", 1);
         }
 
         $this->baseUnit = $baseUnit;
@@ -121,6 +120,7 @@ class Unit
 
     public function setBaseEqv($eqv)
     {
+        $eqv = floatval($eqv);
         if($eqv <= 0){
             throw new \Exception("Base Equivalence must be greater than 0", 1);
         }

@@ -83,21 +83,43 @@ class Recipe{
 		return $this->getIngredientByName($anIngredientName)->getQuantity();
 	}
 
-	public function setDirections($dirs){
-		$this->directions = $dirs;
+	public function setDirections($directions){
+		if(gettype($directions) !== 'string' || strlen($directions) > 65535){
+			throw new \Exception("Directions must be a string 65535 characters or shorter", 1);
+		}
+
+		$this->directions = trim($directions);
 	}
 
 	public function setId($id)
 	{
-			$this->id = $id;
+		if(!$id)
+		{
+			throw new \Exception("Id cannot be empty", 1);
+		}
+
+		$id = intval($id);
+        if($id < 1){
+            throw new \Exception("Id must be greater than 0", 1);
+        }
+
+		$this->id = $id;
 	}
 
 	public function setName($name){
-		$this->name = $name;
+		if(gettype($name) !== 'string' || strlen($name) > 128){
+			throw new \Exception("Notes must be a string from 1-128 characters", 1);
+		}
+
+		$this->name = trim($name);
 	}
 
 	public function setNotes($notes){
-		$this->notes = $notes;
+		if(gettype($notes) !== 'string' || strlen($notes) > 128){
+			throw new \Exception("Notes must be a string 128 characters or shorter", 1);
+		}
+
+		$this->notes = trim($notes);
 	}
 
 	public function setServings($servings){
@@ -105,7 +127,16 @@ class Recipe{
 	}
 
 	public function setSource($source){
-		$this->source = $source;
+		if(gettype($source) !== 'string'){
+			throw new \Exception("Source must be a string", 1);
+		}
+
+		if(strlen($source) > 64){
+			throw new \Exception(
+				"Source cannot be longer than 64 characters", 1);
+		}
+
+		$this->source = trim($source);
 	}
 
 	public function getIngredients() {
