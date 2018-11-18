@@ -28,14 +28,20 @@ class App {
 		unset($request['url']);
 
 		// Sanitize Input
-		/*
-		foreach($request as $k => $v){
-			if($v !== NULL)
-				$request[$k] = htmlspecialchars(addslashes(trim($v)));
-		}
-		*/
-		$this->request = $request;
+		$this->request = $this->sanitizeArray($request);
 
+	}
+	public function sanitizeArray($array){
+		foreach($array as $k => $v){
+			if(is_array($v))
+				$array[$k] = $this->sanitizeArray($v);
+			else if($v !== NULL)
+				$array[$k] = $this->sanitizeString($v);
+		}
+		return $array;
+	}
+	public function sanitizeString($string){
+		return htmlspecialchars(addslashes(trim($string)));
 	}
 
 	/**
