@@ -90,7 +90,7 @@ $usersList = sqlRequest("SELECT * FROM users");
                             <span class="icoleaf bg-primary text-white"><i class="mdi mdi-coin"></i></span>
                         </div>
                         <div class="media-body">
-                            <h3 class="info-count text-blue">&#36;<?php $numFoodCost = $numFoodCost ?? 0; echo number_format($numFoodCost); ?></h3>
+                            <h3 class="info-count text-blue">&#36;<?php $numFoodCostMonth = $numFoodCostMonth ?? 0; echo number_format($numFoodCostMonth, 2); ?></h3>
                             <p class="info-text font-12">Food Cost</p>
                             <span class="hr-line"></span>
                             <p class="info-ot font-15">Year : <span class="text-blue font-semibold">&#36;<?php $numFoodCostYear = $numFoodCostYear ?? 0; echo number_format($numFoodCostYear); ?></span></p>
@@ -246,7 +246,7 @@ $usersList = sqlRequest("SELECT * FROM users");
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box bg-primary color-box">
                             <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span><br /><br /></h1>
-                            <div class="ct-revenue chart-pos"$<?php echo $numFoodCost; ?></div>
+                            <div class="ct-revenue chart-pos"$<?php echo number_format($numFoodCost, 2); ?></div>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6">
@@ -266,11 +266,9 @@ $usersList = sqlRequest("SELECT * FROM users");
                             <span class="hr-line"></span>
                             <p class="cb-text">Finished Meals</p>
                             <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
-                            <!--
                             <div class="chart">
                                 <input class="knob" data-min="0" data-max="100" data-bgColor="#f86b4a" data-fgColor="#ffffff" data-displayInput=false data-width="96" data-height="96" data-thickness=".1" value="25" readonly>
                             </div>
--->
                         </div>
                     </div>
                 </div>
