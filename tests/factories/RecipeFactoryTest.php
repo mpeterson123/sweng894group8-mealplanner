@@ -22,9 +22,9 @@ class RecipeFactoryTest extends TestCase {
      */
     public function setUp(){
 
-        ///////////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Stub ingredientRepositoryStub //
-        ///////////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->ingredientRepositoryStub = $this
             ->createMock(IngredientRepository::class);
 
@@ -38,9 +38,9 @@ class RecipeFactoryTest extends TestCase {
         $this->ingredientRepositoryStub->method('allForRecipe')
             ->will($this->returnValue($ingredientsArray));
 
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Create instance //
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->recipeFactory = new RecipeFactory(
             $this->ingredientRepositoryStub
         );

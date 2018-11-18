@@ -20,9 +20,9 @@ class GroceryListItemFactoryTest extends TestCase {
      * Create instances or whatever you need to reuse in several tests here
      */
     public function setUp(){
-        /////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Stub foodItemRepositoryStub //
-        /////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->foodItemRepositoryStub = $this
             ->createMock(FoodItemRepository::class);
 
@@ -32,9 +32,9 @@ class GroceryListItemFactoryTest extends TestCase {
             ->will($this->returnValue($foodItemStub));
 
 
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Create instance //
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->groceryListItemFactory = new GroceryListItemFactory(
             $this->foodItemRepositoryStub
         );

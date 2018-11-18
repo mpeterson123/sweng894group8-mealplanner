@@ -21,9 +21,9 @@ class MealFactoryTest extends TestCase {
      * Create instances or whatever you need to reuse in several tests here
      */
     public function setUp(){
-        /////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Stub recipeRepositoryStub //
-        /////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->recipeRepositoryStub = $this
             ->createMock(RecipeRepository::class);
 
@@ -31,9 +31,9 @@ class MealFactoryTest extends TestCase {
         $this->recipeRepositoryStub->method('find')
              ->will($this->returnCallback([$this,'makeRecipeStub']));
 
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Create instance //
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->mealFactory = new MealFactory(
             $this->recipeRepositoryStub
         );
@@ -61,7 +61,7 @@ class MealFactoryTest extends TestCase {
             'recipeId' => 1,
             'scaleFactor' => 5.02,
             'addedDate' => date('Y-m-d H:i:s'),
-            'date' => '2018-01-01 12:00:00',
+            'date' => '2018-01-01',
             'isComplete' => true,
             'completedOn' => '2018-01-01 12:00:00',
 
@@ -93,7 +93,7 @@ class MealFactoryTest extends TestCase {
             'recipeId' => 1,
             'scaleFactor' => 5.02,
             'addedDate' => date('Y-m-d H:i:s'),
-            'date' => '2018-01-01 12:00:00',
+            'date' => '2018-01-01',
             'isComplete' => false,
             'completedOn' => '2018-01-01 12:00:00',
         );
@@ -122,7 +122,7 @@ class MealFactoryTest extends TestCase {
             'recipeId' => 1,
             'scaleFactor' => 5.02,
             'addedDate' => date('Y-m-d H:i:s'),
-            'date' => '2018-01-01 12:00:00',
+            'date' => '2018-01-01',
             'isComplete' => true,
             'completedOn' => '2018-01-01 12:00:00',
 

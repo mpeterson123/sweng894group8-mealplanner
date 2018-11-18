@@ -21,9 +21,9 @@ class HouseholdFactoryTest extends TestCase {
      * Create instances or whatever you need to reuse in several tests here
      */
      public function setUp(){
-        /////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Stub userRepositoryStub //
-        /////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->userRepositoryStub = $this
             ->createMock(UserRepository::class);
 
@@ -33,9 +33,9 @@ class HouseholdFactoryTest extends TestCase {
             ->will($this->returnValue($userStub));
 
 
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Create instance //
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->householdFactory = new HouseholdFactory(
             $this->userRepositoryStub
         );

@@ -24,9 +24,9 @@ class FoodItemFactoryTest extends TestCase {
      * Create instances or whatever you need to reuse in several tests here
      */
     public function setUp(){
-        /////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Stub categoryRepositoryStub //
-        /////////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->categoryRepositoryStub = $this
             ->createMock(CategoryRepository::class);
 
@@ -35,9 +35,9 @@ class FoodItemFactoryTest extends TestCase {
         $this->categoryRepositoryStub->method('find')
             ->will($this->returnValue($categoryStub));
 
-        /////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Stub unitRepositoryStub //
-        /////////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->unitRepositoryStub = $this->createMock(UnitRepository::class);
 
         // Configure the stub.
@@ -46,9 +46,9 @@ class FoodItemFactoryTest extends TestCase {
             ->will($this->returnValue($unitStub));
 
 
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         // Create instance //
-        /////////////////////
+    	////////////////////////////////////////////////////////////////////////
         $this->foodItemFactory = new FoodItemFactory(
             $this->categoryRepositoryStub,
             $this->unitRepositoryStub
