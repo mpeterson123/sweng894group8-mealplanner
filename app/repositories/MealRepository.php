@@ -46,7 +46,6 @@ class MealRepository extends Repository implements EditableModelRepository {
     public function save($meal){
 
         $success = false;
-
         if($meal->getId() && $this->find($meal->getId()))
         {
             $success = $this->update($meal);

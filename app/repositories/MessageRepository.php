@@ -55,14 +55,15 @@ class MessageRepository extends Repository implements EditableModelRepository
      */
     public function save($message)
     {
-        if ($message->getID() && $this->find($message->getID()))
+        $success = false;
+        if($message->getId() && $this->find($message->getId()))
         {
-            $this->update($message);
+            $success = $this->update($message);
         }
-        else
-        {
-            $this->insert($message);
+        else {
+            $success = $this->insert($message);
         }
+        return $success;
     }
 
     /**

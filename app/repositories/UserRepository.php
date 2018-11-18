@@ -77,13 +77,15 @@ class UserRepository extends Repository implements EditableModelRepository {
     }
 
     public function save($user){
-        if($user->getId() && $this->find($user->getUsername()))
+        $success = false;
+        if($user->getId() && $this->find($user->getId()))
         {
-            $this->update($user);
+            $success = $this->update($user);
         }
         else {
-            $this->insert($user);
+            $success = $this->insert($user);
         }
+        return $success;
     }
     public function all(){
         return $this->db->query('SELECT * FROM users')->fetch_all();

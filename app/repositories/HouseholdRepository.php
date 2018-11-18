@@ -49,13 +49,15 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
     }
 
     public function save($household){
-        if(isset($this->id) && $this->find($household->id))
+        $success = false;
+        if($household->getId() && $this->find($household->getId()))
         {
-            $this->update($household);
+            $success = $this->update($household);
         }
         else {
-            return $this->insert($household);
+            $success = $this->insert($household);
         }
+        return $success;
     }
 
     public function all(){
