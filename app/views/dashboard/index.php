@@ -166,7 +166,8 @@ function writeTime($total)
                         <div class="media-body">
                             <br/>
                             <h3 class="info-count text-blue">&#36;<?php $numFoodCostMon = $numFoodCostMon ?? 0; echo number_format($numFoodCostMon, 2); ?></h3>
-                            <p class="info-text font-12">Food Costs (<?php echo date('F'); ?>)</p>
+                            <p class="info-text font-12">Food Costs (<?php echo date('M'); ?>)</p>
+                            <span class="hr-line"></span>
                             <p class="info-ot font-15">Year to Date: <span class="text-blue font-semibold">&#36;<?php $numFoodCostYear = $numFoodCostYear ?? 0; echo number_format($numFoodCostYear); ?></span></p>
                         </div>
                     </div>
@@ -282,13 +283,13 @@ function writeTime($total)
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-4 col-lg-4 col-sm-12">
                         <div class="white-box bg-primary color-box">
-                            <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span><br /><br /></h1>
-                            <div class="ct-revenue chart-pos"$<?php echo number_format($numFoodCost, 2); ?></div>
+                            <h1 class="text-white font-light">&#36;0 <span class="font-14">Lifetime Food Cost</span></h1>
+                            <div class="ct-revenue chart-pos">$<?php echo number_format($numFoodCost, 2); ?></div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-4 col-lg-4 col-sm-12">
                         <div class="white-box bg-success color-box">
                             <h1 class="text-white font-light m-b-0"><?php echo $numFoods; ?></h1>
                             <span class="hr-line"></span>
@@ -296,7 +297,7 @@ function writeTime($total)
                             <h6 class="text-white font-semibold"><?php echo $numStock; ?> <span class="font-light"># of stock</span></h6>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-4 col-lg-4 col-sm-12">
                         <div class="white-box bg-danger color-box">
                             <h1 class="text-white font-light m-b-0"><?php echo round(($numMealsEatenPercentage * 100), 2); ?>%</h1>
                             <span class="hr-line"></span>
