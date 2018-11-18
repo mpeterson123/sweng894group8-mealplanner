@@ -311,7 +311,7 @@ function writeTime($total)
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="display:none;">
                     <div class="col-md-8 col-sm-12">
                         <div class="white-box stat-widget">
                             <div class="row">
