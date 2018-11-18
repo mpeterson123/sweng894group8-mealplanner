@@ -205,7 +205,7 @@ function writeTime($total)
                                 </div>
                                 <div class="task-list">
                                     <ul class="list-group">
-<?php $LastFewMeals = sqlRequest("SELECT * FROM meal WHERE householdid = {$householdid} ORDER BY addedDate DESC LIMIT 5"); foreach ($LastFewMeals as $meal) { ?>
+<?php $LastFewMeals = sqlRequest("SELECT * FROM meal WHERE householdid = {$houseHoldID} ORDER BY addedDate DESC LIMIT 5"); foreach ($LastFewMeals as $meal) { ?>
                                         <li class="list-group-item bl-info">
                                             <div class="checkbox checkbox-success">
                                                 <input id="c7" type="checkbox">
