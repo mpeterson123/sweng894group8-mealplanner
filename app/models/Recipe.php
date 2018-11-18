@@ -28,7 +28,7 @@ class Recipe{
 
 	public function removeIngredient($anIngredientName){
 		for($i=0;$i<count($this->ingredients);$i++){
-			if($this->ingredients[$i]->getName() == $anIngredientName)
+			if($this->ingredients[$i]->getFood()->getName() == $anIngredientName)
 				unset($this->ingredients[$i]);
 		}
 	}

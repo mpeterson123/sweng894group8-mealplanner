@@ -95,9 +95,9 @@ class Recipes extends Controller {
         $recipe = $this->recipeRepository->find($id);
 
         //Get the ingredients
-        $ingredients = $recipe->getIngredients();
+        //$ingredients = $recipe->getIngredients();
 
-        $this->view('recipe/edit', compact('recipe', 'ingredients', 'foodItems', 'units'));
+        $this->view('recipe/edit', compact('recipe', 'foodItems', 'units'));
     }
 
     /**
@@ -169,9 +169,14 @@ class Recipes extends Controller {
     private function addIngredients($in, $recipe) {
       $user = $this->session->get('user');
 
+
         if(isset($in['newFoodId'])) {
 
+          echo "\ncount(newFoodId) = " . count($in['newFoodId']) . "\n";
+
             for($i=0;$i<count($in['newFoodId']);$i++) {
+
+                echo "\nnewFoodId = " . $in['newFoodId'][$i];
 
                 //Create the ingredient array:
                 $ingredientInput = array("foodId" => $in['newFoodId'][$i],
@@ -340,11 +345,6 @@ class Recipes extends Controller {
             //Update the ingredient in the recipe object
             $rec->updateIngredient($ingredient);
 
-/*
-            //Add the new ingredient to the recipe object:
-            $rec->addIngredient($ingredient);
-*/
-
             // Flash success message
             $this->session->flashMessage('success', ucfirst($ingredient->getFood()->getName()).' was updated.');
           }
@@ -355,14 +355,14 @@ class Recipes extends Controller {
         }
       } //end if isset($in['ingredientIds'])
       else {
-        //No existing ingredienets were returned from the view.
+        //No existing ingredients were returned from the view.
         //If there are ingredients associated with the recipe, they need to be removed:
         if($currentIngreds) {
           for($i=0;$i<count($currentIngreds);$i++) {
             $this->ingredientRepository->remove($currentIngreds[$i]->getId());
 
             //Also remove them from the recipe object
-            $rec->removeIngredient($ingredient->getFood()->getName());
+            $rec->removeIngredient($currentIngreds[$i]->getFood()->getName());
           }
         }
       }
