@@ -26,6 +26,7 @@ date_default_timezone_set("UTC");
 $houseHoldID    = $data['user']->getCurrHousehold()->getId();
 $numFoodItems   = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipes     = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
+$numRecipesUsed = 0;
 $numMeals       = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = 1")[0]['numMeals']; 
 $numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = 1")[0]['mealsEaten']; // Based off of meals
 $numMealsEatenPercentage = ($numMealsEaten / $numMeals);
@@ -153,7 +154,7 @@ function writeTime($total)
                             <h3 class="info-count text-blue"><?php $numRecipes = $numRecipes ?? 0; if ($numRecipes) { echo number_format($numRecipes); } else { echo 'None!'; } ?></h3>
                             <p class="info-text font-12">Recipes</p>
                             <span class="hr-line"></span>
-                            <p class="info-ot font-15">Total Used<span class="label label-rounded label-danger">0</span></p>
+                            <p class="info-ot font-15">Total Used<span class="label label-rounded label-danger"><?php echo $numRecipesUsed; ?></span></p>
                         </div>
                     </div>
                 </div>
@@ -164,10 +165,10 @@ function writeTime($total)
                         </div>
                         <div class="media-body">
                             <br/>
-                            <h3 class="info-count text-blue">&#36;<?php $numFoodCostMonth = $numFoodCostMonth ?? 0; echo number_format($numFoodCostMonth, 2); ?></h3>
-                            <p class="info-text font-12">Food Cost</p>
+                            <h3 class="info-count text-blue">&#36;<?php $numFoodCostMon = $numFoodCostMon ?? 0; echo number_format($numFoodCostMon, 2); ?></h3>
+                            <p class="info-text font-12">Food Cost (<?php echo date('F'); ?>)</p>
                             <span class="hr-line"></span>
-                            <p class="info-ot font-15">Year : <span class="text-blue font-semibold">&#36;<?php $numFoodCostYear = $numFoodCostYear ?? 0; echo number_format($numFoodCostYear); ?></span></p>
+                            <p class="info-ot font-15">Year to Date: <span class="text-blue font-semibold">&#36;<?php $numFoodCostYear = $numFoodCostYear ?? 0; echo number_format($numFoodCostYear); ?></span></p>
                         </div>
                     </div>
                 </div>
@@ -203,7 +204,7 @@ function writeTime($total)
                                     </div>
                                 </div>
                                 <div class="task-total">
-                                    <p class="font-16 m-b-0"><strong>0</strong> for <a href="javascript:void(0);" class="text-link"><?php echo $user->getFirstName(); ?></a></p>
+                                    <p class="font-16 m-b-0"><strong><?php if (count($lastFewMeals)) { echo count($lastFewMeals); } else { echo 'None'; } ?></strong> for <a href="javascript:void(0);" class="text-link"><?php echo $user->getFirstName(); ?></a></p>
                                 </div>
                                 <div class="task-list">
                                     <ul class="list-group">
