@@ -198,11 +198,12 @@ function writeTime($total)
                     <div class="media">
                         <div class="media-body">
                             <br/>
-                            <h2 class="text-blue font-22 m-t-0">Statistics</h2>
+                            <h2 class="text-blue font-22 m-t-0">Weekly Meal Average</h2>
                             <ul class="p-0 m-b-20">
-                                <li><i class="fa fa-circle m-r-5 text-primary"></i><?php echo round(($numMealsEatenPercentage * 100), 2); ?>% Recipes Used</li>
-                                <li><i class="fa fa-circle m-r-5 text-info"></i><?php echo $avgWeeklyMeals ?? 'N/A'; ?> Weekly Meal Avg.</li>
+                                <li><i class="fa fa-circle m-r-5 text-info"></i><?php if ($avgWeeklyMeals) { echo $avgWeeklyMeals; } else { echo 'N/A';} ?> (based on all previous weeks)</li>
                             </ul>
+                            <br/>
+                            <br/>
                         </div>
                     </div>
                 </div>
