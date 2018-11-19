@@ -135,6 +135,7 @@ class Meals extends Controller {
      * Save a new meal to the DB
      */
     public function store():void{
+
         $currentHousehold = $this->session->get('user')->getCurrHousehold();
         $this->checkHasRecipes($currentHousehold);
 
@@ -202,7 +203,7 @@ class Meals extends Controller {
         if($this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
         {
           $this->mealRepository->remove($meal);
-          $this->session->flashMessage('success: meal with date of ', $meal->getDate().' was removed.');
+          $this->session->flashMessage('success', $meal->getRecipe()->getName().' meal with date of ', $meal->getDate().' was removed.');
         }
         else
         {
@@ -222,6 +223,7 @@ class Meals extends Controller {
     public function update($id):void{
         $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
+        $this->dbh->getDB()->begin_transaction();
         try {
             if(!$this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
             {
@@ -240,9 +242,8 @@ class Meals extends Controller {
             $recipe = $this->recipeRepository->find($input['recipeId']);
             $meal->setRecipe($recipe);
 
-            if(!$this->mealRepository->save($meal)){
-                throw new \Exception("Error saving meal to DB", 1);
-            };
+            $this->saveMealAndUpdateGroceryList($meal);
+            $this->dbh->getDB()->commit();
 
             // Flash success message
             $this->session->flashMessage('success', 'Your '.$meal->getRecipe()->getName().' meal for '.$meal->getDate(true).' was updated.');
@@ -252,6 +253,8 @@ class Meals extends Controller {
             return;
         }
         catch(\Exception $e){
+            $this->dbh->getDB()->rollback();
+
             $user = $this->session->get('user');
             $this->log->add($user->getId(), 'Error', 'Meal Update -'.$e->getMessage());
             $this->session->flashMessage('danger', 'Uh oh. Your meal could not be updated.');
@@ -425,7 +428,7 @@ class Meals extends Controller {
                 $amountToAdd = $ingredientQuantity - $ingredient->getFood()->getStock();
 
                 // If item is not overstocked (if quantity to add is more than the quantity in stock)
-                if($amountToAdd > 0){
+                if($amountToAdd > 0.01){
                     $newGroceryListItemData = array(
                         'foodItemId' => $ingredient->getFood()->getId(),
                         'amount' => $amountToAdd

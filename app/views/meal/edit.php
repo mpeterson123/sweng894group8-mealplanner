@@ -31,7 +31,7 @@ $SUBTITLE = "Edit meal for {$data['meal']->getRecipe()->getName()}";
                     <h4 class="modal-title" id="myModalLabel">Confirm Meal Deletion</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this meal? Doing so will <strong>remove it from all of your meal plans</strong>. This cannot be undone.</p>
+                    <p>Are you sure you want to delete this meal? This cannot be undone.</p>
                 </div>
                 <div class="modal-footer">
                     <form class="" action="/Meals/delete/<?php echo $data['meal']->getId();?>" method="post">
