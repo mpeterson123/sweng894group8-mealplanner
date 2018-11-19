@@ -74,8 +74,6 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
     }
 
     public function insert($household){
-      //echo "HERE ".$household->getName()." ".$household->getOwner();
-
         // Insert into household
         $newHouseholdQuery = $this->db->prepare('INSERT INTO household
                 (name,owner,ownerId)
