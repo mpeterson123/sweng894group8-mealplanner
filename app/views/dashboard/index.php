@@ -202,6 +202,7 @@ function writeTime($total)
                             <ul class="p-0 m-b-20">
                                 <li><i class="fa fa-circle m-r-5 text-info"></i><?php if ($avgWeeklyMeals) { echo $avgWeeklyMeals; } else { echo 'N/A';} ?> </li>
                                 <li><i>based on all previous weeks</i></li>
+                                <li>&nbsp;</li>
                             </ul>
                         </div>
                     </div>
@@ -319,7 +320,7 @@ function writeTime($total)
                             <h1 class="text-white font-light m-b-0"><?php echo round(($numMealsEatenPercentage * 100), 2); ?>%</h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">Finished Meals</p>
-                            <h6 class="text-white font-semibold"><?php if ($numMealsEatenIncreasePercentage > 0) { echo '+'; } echo $numMealsEatenIncreasePercentage; ?>% <span class="font-light">Last Week</span></h6>
+                            <h6 class="text-white font-semibold"><?php if ($numMealsEatenIncreasePercentage > 0) { echo '+'; } echo $numMealsEatenIncreasePercentage; ?>% <span class="font-light">From Last Week</span></h6>
                         </div>
                     </div>
                 </div>
