@@ -187,7 +187,7 @@ function writeTime($total)
                             <h3 class="info-count text-blue"><?php $numRecipes = $numRecipes ?? 0; if ($numRecipes) { echo number_format($numRecipes); } else { echo 'None!'; } ?></h3>
                             <p class="info-text font-12">Recipes</p>
                             <span class="hr-line"></span>
-                            <br/>
+                            <br/><br/>
                         </div>
                     </div>
                 </div>
