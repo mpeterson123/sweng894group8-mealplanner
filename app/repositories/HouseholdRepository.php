@@ -71,11 +71,13 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
     }
 
     public function insert($household){
+      //echo "HERE ".$household->getName()." ".$household->getOwner();
+
         // Insert into household
         $newHouseholdQuery = $this->db->prepare('INSERT INTO household
-                (name,owner)
-                VALUES(?,?)');
-        @$newHouseholdQuery->bind_param("ss",$household->getName(),$household->getOwner());
+                (name,owner,ownerId)
+                VALUES(?,?,?)');
+        @$newHouseholdQuery->bind_param("sss",$household->getName(),$household->getOwner(),(new Session())->get('user')->getId());
         $newHouseholdQuery->execute();
 
         // Assign to user
