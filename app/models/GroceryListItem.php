@@ -59,8 +59,8 @@ class GroceryListItem {
             throw new \Exception("Amount must be numeric", 1);
         }
 
-        if($amount <= 0 || $amount > 9999.99){
-            throw new \Exception('Amount must be a positive number below 9999.99', 1);
+        if($amount <= 0 || $amount > 100000){
+            throw new \Exception('Amount must be a positive number below 10000', 1);
         }
         $this->amount = floatval($amount);
     }

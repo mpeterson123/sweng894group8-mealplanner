@@ -130,7 +130,7 @@ class GroceryListItemTest extends TestCase {
     /**
      * @dataProvider tooHighAmountProvider
      */
-    public function testAmountCannotBeOver9999Point99($amount){
+    public function testAmountCannotBeOver100000($amount){
         $this->expectException(\Exception::class);
         $this->groceryListItem->setAmount($amount);
     }
@@ -138,10 +138,10 @@ class GroceryListItemTest extends TestCase {
     public function tooHighAmountProvider()
     {
         return [
-            'Too high by one thousandth' => [9999.991],
-            '10000' => [10000],
+            'Too high by one thousandth' => [100000.01],
+            '100001' => [100001],
             'Too high integer' => [10000000000000000000000000000],
-            'Too high decimal' => [100000.5325]
+            'Too high decimal' => [100000000.5325]
         ];
     }
 

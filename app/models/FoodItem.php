@@ -126,8 +126,8 @@ class FoodItem {
             throw new \Exception("UnitsInContainer must be numeric", 1);
         }
 
-        if($unitsInContainer <= 0 || $unitsInContainer > 999.99){
-            throw new \Exception('Units in container must be a positive number below 999.99', 1);
+        if($unitsInContainer <= 0 || $unitsInContainer > 100000){
+            throw new \Exception('Units in container must be a positive number below 100000', 1);
         }
         $this->unitsInContainer = floatval($unitsInContainer);
     }
