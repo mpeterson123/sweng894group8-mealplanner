@@ -247,16 +247,16 @@ class GroceryListItems extends Controller {
                 ['foodItemId']
             ],
             'integer' => [
-                ['foodItemId'],
+                ['foodItemId']
             ],
             'regex' => [
                 ['amount', $twoSigDigFloatRegex]
             ],
             'min' => [
-                ['amount', 0.01],
+                ['amount', 0.01]
             ],
             'max' => [
-                ['amount', 9999.99]
+                ['amount', 100000]
             ]
         ];
         $validator->rules($rules);
@@ -294,16 +294,16 @@ class GroceryListItems extends Controller {
         $safeStringRegex = '/^[0-9a-z #\/\(\)-]+$/i';
         $rules = [
             'required' => [
-                ['amount'],
+                ['amount']
             ],
             'regex' => [
                 ['amount', $twoSigDigFloatRegex]
             ],
             'min' => [
-                ['amount', 0.01],
+                ['amount', 0.01]
             ],
             'max' => [
-                ['amount', 9999.99]
+                ['amount', 100000]
             ]
         ];
         $validator->rules($rules);

@@ -262,6 +262,17 @@ class FoodItems extends Controller {
                 ['unitsInContainer', $twoSigDigFloatRegex],
                 ['containerCost', $twoSigDigFloatRegex],
                 ['stock', $twoSigDigFloatRegex]
+            ],
+            'min' => [
+                ['unitId', 1],
+                ['unitsInContainer', 0.01],
+                ['containerCost', 0],
+                ['stock', 0]
+            ],
+            'max' => [
+                ['unitsInContainer', 100000],
+                ['containerCost', 100000],
+                ['stock', 100000]
             ]
         ];
         $validator->rules($rules);

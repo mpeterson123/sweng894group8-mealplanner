@@ -399,10 +399,10 @@ class Account extends Controller{
         $rules = [
             'required' => [
 				['login_username'],
-                ['login_password'],
+                ['login_password']
             ],
             'slug' => [
-                ['login_username'],
+                ['login_username']
             ],
 			'lengthMin' => [
 				['login_username', 5],
@@ -457,14 +457,14 @@ class Account extends Controller{
                 ['reg_password2', 'reg_password']
             ],
 			'email' => [
-                ['reg_email'],
+                ['reg_email']
             ],
 			'regex' => [
 				['reg_namefirst', $nameRegex],
                 ['reg_namelast', $nameRegex]
             ],
 			'slug' => [
-                ['reg_username'],
+                ['reg_username']
             ],
 			'lengthMin' => [
 				['reg_username', 5],
@@ -523,14 +523,14 @@ class Account extends Controller{
             'required' => [
 				['firstName'],
 				['lastName'],
-				['email'],
+				['email']
             ],
             'equals' => [
 				['password', 'confirmPassword'],
                 ['confirmPassword', 'password']
             ],
 			'email' => [
-                ['email'],
+                ['email']
             ],
 			'regex' => [
 				['firstName', $nameRegex],

@@ -283,11 +283,20 @@ class Meals extends Controller {
                 ['date'],
                 ['scaleFactor']
             ],
+            'integer' => [
+                ['recipeId']
+            ],
             'dateFormat' => [
                 ['date', 'm/d/Y']
             ],
             'regex' => [
                 ['scaleFactor', $twoSigDigFloatRegex]
+            ],
+            'min' => [
+                ['scaleFactor', 0.01]
+            ],
+            'max' => [
+                ['scaleFactor', 500]
             ]
         ];
         $validator->rules($rules);
@@ -328,11 +337,27 @@ class Meals extends Controller {
                 ['date'],
                 ['scaleFactor']
             ],
+            'integer' => [
+                ['recipeId']
+            ],
+            'dateFormat' => [
+                ['date', 'm/d/Y']
+            ],
             'regex' => [
                 ['scaleFactor', $twoSigDigFloatRegex]
+            ],
+            'min' => [
+                ['scaleFactor', 0.01]
+            ],
+            'max' => [
+                ['scaleFactor', 500]
             ]
         ];
         $validator->rules($rules);
+        $validator->labels(array(
+            'scaleFactor' => 'Scale Factor',
+            'recipeId' => 'Recipe'
+        ));
 
         if(!$validator->validate()) {
 
