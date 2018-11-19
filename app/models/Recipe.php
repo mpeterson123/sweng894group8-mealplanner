@@ -49,7 +49,7 @@ class Recipe{
 
 	public function getIngredientById($anIngredientId) {
 
-		for($i=0;$i<count($this->ingredients);$i++) {
+		for($i = 0; $i < count($this->ingredients);$i++) {
 			if($this->ingredients[$i]->getId() == $anIngredientId)
 				return $this->ingredients[$i];
 		}
