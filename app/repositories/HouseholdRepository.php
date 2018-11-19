@@ -120,15 +120,19 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
      * @param  Household $hh    Household object to update in DB
      */
     public function update($hh){
-        $query = $this->db
-            ->prepare('UPDATE household
-                SET name = ?, ownerId =?)
-                VALUES(?,?)');
-        $query->bind_param(array(
-             'ss',
+      $query = $this->db
+            ->prepare('UPDATE household SET
+                            name = ?,
+                            owner =?,
+                            ownerId=?
+                            WHERE id = ?');
+        @$query->bind_param(
+             'ssii',
              $hh->getName(),
-             $hh->getOwner()->getId()
-        ));
+             $hh->getOwner(),
+             (new Session())->get('user')->getId(),
+             $hh->getId()
+        );
         return $query->execute();
     }
 }
