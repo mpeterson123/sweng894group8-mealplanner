@@ -2,6 +2,9 @@
 namespace Base\Helpers;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * Formats text
+ */
 class Format{
 
     public static function validatorErrors($errors){

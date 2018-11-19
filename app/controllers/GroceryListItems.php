@@ -330,7 +330,7 @@ class GroceryListItems extends Controller {
      * @param string $method    Method to redirect to
      * @param array $params     Parameters for the redirection method
      */
-     public function purchase($id):void{
+    public function purchase($id):void{
          //$this->session->flashOldInput($input);
 
          $currentHousehold = $this->session->get('user')->getCurrHousehold();

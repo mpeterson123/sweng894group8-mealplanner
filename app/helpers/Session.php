@@ -3,6 +3,9 @@
 namespace Base\Helpers;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * Wrapper for PHP session variable and for rendering temp messages
+ */
 class Session{
 
     /**

@@ -13,6 +13,10 @@ class FoodItem {
         $containerCost,
         $unitCost;
 
+    /**
+     * Set food item id
+     * @param integer $id Food item id
+     */
     public function setId($id)
     {
         if(!$id)
@@ -28,6 +32,10 @@ class FoodItem {
         $this->id = $id;
     }
 
+    /**
+     * Get food item idea
+     * @return integer Food item id
+     */
     public function getId()
     {
         return $this->id;

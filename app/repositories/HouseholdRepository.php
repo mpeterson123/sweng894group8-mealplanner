@@ -9,6 +9,9 @@ use Base\Helpers\Session;
 use Base\Factories\HouseholdFactory;
 use Base\Factories\UserFactory;
 
+/**
+ * SQL command wrapper for households
+ */
 class HouseholdRepository extends Repository implements EditableModelRepository {
     private $db,
         $householdFactory;

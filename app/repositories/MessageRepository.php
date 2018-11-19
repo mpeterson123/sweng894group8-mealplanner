@@ -12,6 +12,9 @@ use Base\Helpers\Session;
 // File-specific classes
 use Base\Factories\MessageFactory;
 
+/**
+ * SQL command wrapper for messages
+ */
 class MessageRepository extends Repository implements EditableModelRepository
 {
     private $db;

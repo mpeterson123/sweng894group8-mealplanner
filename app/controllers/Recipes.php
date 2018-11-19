@@ -31,6 +31,9 @@ use Base\Factories\UnitFactory;
 use Base\Repositories\CategoryRepository;
 use Base\Helpers\Log;
 
+/**
+ * Handles recipe creation and management
+ */
 class Recipes extends Controller {
 
     protected $dbh,

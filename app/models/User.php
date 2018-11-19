@@ -2,6 +2,9 @@
 namespace Base\Models;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * An application user
+ */
 class User{
 	private $username,
 					$password,

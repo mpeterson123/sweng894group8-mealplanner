@@ -7,6 +7,9 @@ use Base\Helpers\Session;
 use Base\Factories\MealFactory;
 use Base\Factories\RecipeFactory;
 
+/**
+ * SQL command wrapper for meals
+ */
 class MealRepository extends Repository implements EditableModelRepository {
     private $db,
         $mealFactory;

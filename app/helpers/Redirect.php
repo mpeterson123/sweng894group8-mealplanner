@@ -2,6 +2,9 @@
 namespace Base\Helpers;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * Redirects from one controller to another
+ */
 class Redirect{
 
     /**

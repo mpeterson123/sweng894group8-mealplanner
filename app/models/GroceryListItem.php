@@ -13,7 +13,11 @@ class GroceryListItem {
         $containerCost,
         $unitCost;
 
-    public function setId($id)
+    /**
+     * Set grocery list item id
+     * @param integer $id Grocery list item id
+     */
+    public function setId($id):void
     {
         if(!$id)
         {
@@ -28,6 +32,10 @@ class GroceryListItem {
         $this->id = $id;
     }
 
+    /**
+     * Set grocery list item id
+     * @return integer Grocery list item id
+     */
     public function getId()
     {
         return $this->id;

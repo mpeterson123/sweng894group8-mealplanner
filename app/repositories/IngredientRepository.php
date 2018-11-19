@@ -11,6 +11,9 @@ use Base\Factories\UnitFactory;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\CategoryRepository;
 
+/**
+ * SQL command wrapper for ingredients
+ */
 class IngredientRepository extends Repository implements EditableModelRepository {
     private $db,
         $ingredientFactory;
