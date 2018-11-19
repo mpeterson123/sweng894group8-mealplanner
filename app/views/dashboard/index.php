@@ -198,11 +198,10 @@ function writeTime($total)
                     <div class="media">
                         <div class="media-body">
                             <br/>
-                            <h2 class="text-blue font-22 m-t-0">Projections</h2>
+                            <h2 class="text-blue font-22 m-t-0">Statistics</h2>
                             <ul class="p-0 m-b-20">
                                 <li><i class="fa fa-circle m-r-5 text-primary"></i><?php echo round(($numMealsEatenPercentage * 100), 2); ?>% Recipes Used</li>
-                                <li><i class="fa fa-circle m-r-5 text-primary"></i>0% </li>
-                                <li><i class="fa fa-circle m-r-5 text-info"></i><?php echo $numMealIncrease ?? 0; ?>% Meal Increase</li>
+                                <li><i class="fa fa-circle m-r-5 text-info"></i><?php echo $avgWeeklyMeals ?? 'N/A'; ?> Weekly Meal Avg.</li>
                             </ul>
                         </div>
                     </div>
