@@ -32,8 +32,19 @@ $numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isC
 $numMealsEatenLastWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK)) AND householdid = {$houseHoldID}")[0]['mealsEaten']; // Based off of meals
 $numMealsEatenThisWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(NOW()) AND householdid = {$houseHoldID}")[0]['mealsEaten']; // Based off of meals
 $numMealsEatenIncrease   = (($numMealsEatenThisWeek ?? 0) - ($numMealsEatenLastWeek ?? 0));
-$numMealsEatenIncreasePercentage = (@($numMealsEatenIncrease / $numMealsEatenLastWeek) * 100);
-$numMealsEatenPercentage = ($numMealsEaten / $numMeals);
+$numMealsEatenIncreasePercentage = 0;
+if ($numMealsEatenIncrease != 0)
+{
+    if ($numMealsEatenLastWeek != 0)
+    {
+        $numMealsEatenIncreasePercentage = (@($numMealsEatenIncrease / $numMealsEatenLastWeek) * 100);
+    }
+    else
+    {
+        $numMealsEatenIncreasePercentage = $numMealsEatenIncrease * 100;
+    }
+}
+$numMealsEatenPercentage = @($numMealsEaten / $numMeals);
 $numRecipeCost  = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of recipes only (nothing consumed)
 $numFoodCost    = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (lifetime)
 $numFoodCostMon = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEAR(addedDate) = YEAR(CURDATE()) AND MONTH(addedDate) = MONTH(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for month to date)
