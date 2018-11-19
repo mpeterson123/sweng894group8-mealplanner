@@ -27,10 +27,10 @@ $houseHoldID    = $data['user']->getCurrHousehold()->getId();
 $numFoodItems   = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipes     = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipesUsed = 0; // TODO
-$numMeals       = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = 1")[0]['numMeals']; 
-$numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = 1")[0]['mealsEaten']; // Based off of meals
-$numMealsEatenLastWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK) AND householdid = 1")[0]['mealsEaten']; // Based off of meals
-$numMealsEatenThisWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(NOW()) AND householdid = 1")[0]['mealsEaten']; // Based off of meals
+$numMeals       = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = {$houseHoldID}")[0]['numMeals']; 
+$numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = {$houseHoldID}")[0]['mealsEaten']; // Based off of meals
+$numMealsEatenLastWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK) AND householdid = {$houseHoldID}")[0]['mealsEaten']; // Based off of meals
+$numMealsEatenThisWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(NOW()) AND householdid = {$houseHoldID}")[0]['mealsEaten']; // Based off of meals
 $numMealsEatenIncrease   = (($numMealsEatenThisWeek ?? 0) - ($numMealsEatenLastWeek ?? 0));
 $numMealsEatenIncreasePercentage = (@($numMealsEatenIncrease / $numMealsEatenLastWeek) * 100);
 $numMealsEatenPercentage = ($numMealsEaten / $numMeals);
