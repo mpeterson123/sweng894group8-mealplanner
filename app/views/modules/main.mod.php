@@ -40,4 +40,7 @@ require_once( __CRYPT__ );           // Should precede SQL module
 require_once( __SQL__ );             // Should precede Sessions module
 require_once( __SESSIONS__ );        // Requires SQL module prior
 require_once( __PHPUNIT__ );         // Requires SQL module prior
+
+// Superfluous PHP notice suppression
+error_reporting(E_ERROR);
 ?>
