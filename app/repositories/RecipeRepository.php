@@ -6,7 +6,9 @@ use Base\Repositories\Repository;
 use Base\Helpers\Session;
 use Base\Factories\RecipeFactory;
 
-
+/**
+ * SQL command wrapper for recipes
+ */
 class RecipeRepository extends Repository implements EditableModelRepository {
     private $db,
         $recipeFactory;

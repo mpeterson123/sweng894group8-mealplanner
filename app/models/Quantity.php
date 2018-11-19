@@ -10,6 +10,9 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 use Base\Models\Unit;
 
+/**
+ * Represents an ingredient's quantity
+ */
 class Quantity
 {
     private

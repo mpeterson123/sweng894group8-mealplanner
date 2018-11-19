@@ -3,7 +3,7 @@ namespace Base\Helpers;
 require_once __DIR__.'/../../vendor/autoload.php';
 
 /**
- * Sends emails to users
+ * Logs server errors
  */
 class Log{
 

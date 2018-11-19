@@ -40,6 +40,9 @@ define('_DISPLAY_SENT_',    6);
 ///////////////////////////////////////////////////////////////////////////////
 // Messaging
 ///////////////////////////////////////////////////////////////////////////////
+/**
+ * Handles messaging between users
+ */
 class Messages extends Controller
 {
     protected $dph;
@@ -76,7 +79,11 @@ class Messages extends Controller
     ///////////////////////////////////////////////////////////////////////////
     // Returns: -
     ///////////////////////////////////////////////////////////////////////////
-    public function inbox()
+
+    /**
+     * Displays the messaging inbox
+     */
+    public function inbox():void
     {
         $this->view('message/inbox');
     }
@@ -88,7 +95,11 @@ class Messages extends Controller
     ///////////////////////////////////////////////////////////////////////////
     // Returns: -
     ///////////////////////////////////////////////////////////////////////////
-    public function starred()
+
+    /**
+     * Shows starred messages
+     */
+    public function starred():void
     {
         $displayType = _DISPLAY_STARS_;
         $this->view('message/inbox', compact('displayType'));
@@ -101,7 +112,10 @@ class Messages extends Controller
     ///////////////////////////////////////////////////////////////////////////
     // Returns: -
     ///////////////////////////////////////////////////////////////////////////
-    public function read()
+    /**
+     * Shows read messages
+     */
+    public function read():void
     {
         $displayType = _DISPLAY_READ_;
         $this->view('message/inbox', compact('displayType'));
@@ -114,7 +128,10 @@ class Messages extends Controller
     ///////////////////////////////////////////////////////////////////////////
     // Returns: -
     ///////////////////////////////////////////////////////////////////////////
-    public function unread()
+    /**
+     * Shows unread messages
+     */
+    public function unread():void
     {
         $displayType = _DISPLAY_NEW_;
         $this->view('message/inbox', compact('displayType'));
@@ -127,7 +144,10 @@ class Messages extends Controller
     ///////////////////////////////////////////////////////////////////////////
     // Returns: -
     ///////////////////////////////////////////////////////////////////////////
-    public function trash()
+    /**
+     * Shows trashes messages
+     */
+    public function trash():void
     {
         $displayType = _DISPLAY_TRASH_;
         $this->view('message/inbox', compact('displayType'));
@@ -140,7 +160,11 @@ class Messages extends Controller
     ///////////////////////////////////////////////////////////////////////////
     // Returns: -
     ///////////////////////////////////////////////////////////////////////////
-    public function open($messageID)
+    /**
+     * Opens a message
+     * @param  integer $messageID Message to openlog
+     */
+    public function open($messageID):void
     {
         $this->view('message/open', compact('messageID'));
     }
@@ -156,7 +180,10 @@ class Messages extends Controller
     ///////////////////////////////////////////////////////////////////////////
     // Returns: -
     ///////////////////////////////////////////////////////////////////////////
-    public function outbox()
+    /**
+     * Displays sent messages
+     */
+    public function outbox():void
     {
         $displayType = _DISPLAY_SENT_;
         $this->view('message/inbox', compact('displayType'));
@@ -169,7 +196,11 @@ class Messages extends Controller
     ///////////////////////////////////////////////////////////////////////////
     // Returns: -
     ///////////////////////////////////////////////////////////////////////////
-    public function compose($targetID = NULL)
+    /**
+     * Allows user to compose a message
+     * @param  integer $targetID Message target
+     */
+    public function compose($targetID = NULL):void
     {
         $this->view('message/compose', compact('targetID'));
     }

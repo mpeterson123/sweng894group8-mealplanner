@@ -7,6 +7,9 @@
 namespace Base\Models;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * A measurement unit for food items
+ */
 class Unit
 {
     private

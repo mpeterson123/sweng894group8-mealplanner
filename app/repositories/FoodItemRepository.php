@@ -9,7 +9,9 @@ use Base\Helpers\Session;
 // File-specific classes
 use Base\Factories\FoodItemFactory;
 
-
+/**
+ * SQL command wrapper for food items
+ */
 class FoodItemRepository extends Repository implements EditableModelRepository {
     private $db,
         $foodItemFactory;

@@ -9,6 +9,9 @@ require_once __DIR__.'/../../vendor/autoload.php';
 define('MAX_MESSAGE_SIZE',   2048);
 define('MAX_INT_SIZE', 2147483647);
 
+/**
+ * Represents a message between users
+ */
 class Message
 {
     private $id;
@@ -201,10 +204,10 @@ class Message
     /////////////////////////////////////////////////////////////////
     // Sender and Recipient IDs
     /////////////////////////////////////////////////////////////////
-    public function getTimeSent()
-    {
-        return $this->timeSent;
-    }
+    // public function getTimeSent()
+    // {
+    //     return $this->timeSent;
+    // }
     public function getSenderID()
     {
         return $this->senderID;

@@ -2,13 +2,20 @@
 namespace Base\Models;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * Represents a user's household
+ */
 class Household {
     private
         $id,
         $name,
         $owner;
 
-    public function setId($id)
+    /**
+     * Set household id
+     * @param integer  $id Household id
+     */
+    public function setId($id):void
     {
         if(!$id)
         {
@@ -23,6 +30,10 @@ class Household {
         $this->id = $id;
     }
 
+    /**
+     * Get household id
+     * @return [type] [description]
+     */
     public function getId()
     {
         return $this->id;

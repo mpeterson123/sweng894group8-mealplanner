@@ -34,6 +34,9 @@ use Base\Factories\FoodItemFactory;
 use Base\Factories\GroceryListItemFactory;
 use Base\Helpers\Log;
 
+/**
+ * Handles everything related to meals scheduling, listing and updating
+ */
 class Meals extends Controller {
 
     protected $dbh,
@@ -79,6 +82,9 @@ class Meals extends Controller {
 
     }
 
+    /**
+     * Shows a list of meals the user has scheduled
+     */
     public function index():void{
         $household = $this->session->get('user')->getCurrHousehold();
         $recipeCount = $this->recipeRepository->countForHousehold($household);

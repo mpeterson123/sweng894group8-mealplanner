@@ -2,6 +2,9 @@
 namespace Base\Models;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * Represents a recipe that has been scheduled as a meal
+ */
 class Meal{
 	private $id;
 	private $recipe;

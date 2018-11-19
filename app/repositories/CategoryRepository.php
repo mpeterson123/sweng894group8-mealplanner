@@ -5,7 +5,9 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use Base\Repositories\Repository;
 use Base\Factories\CategoryFactory;
 
-
+/**
+ * SQL command wrapper for categories
+ */
 class CategoryRepository extends Repository {
     private $db,
         $categoryFactory;

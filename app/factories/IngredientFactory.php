@@ -7,6 +7,9 @@ use Base\Models\Quantity;
 use Base\Repositories\FoodItemRepository;
 use Base\Repositories\UnitRepository;
 
+/**
+ * Handles ingredient creation
+ */
 class IngredientFactory extends Factory {
 
     private $foodItemRepository,
@@ -17,6 +20,11 @@ class IngredientFactory extends Factory {
         $this->unitRepository= $unitRepository;
     }
 
+    /**
+     * Creates a new instance of Ingredient model
+     * @param  array    $ingredientArray A ingredient's properties
+     * @return Ingredient                A ingredient object
+     */
     public function make($ingredientArray)
     {
         $foodItem = $this->foodItemRepository->find($ingredientArray['foodId']);

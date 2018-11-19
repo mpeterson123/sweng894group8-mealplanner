@@ -7,6 +7,9 @@
 namespace Base\Models;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * Represents a food item category
+ */
 class Category
 {
     private

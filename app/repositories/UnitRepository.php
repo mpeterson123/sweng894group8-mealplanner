@@ -5,7 +5,9 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use Base\Factories\UnitFactory;
 use Base\Repositories\Repository;
 
-
+/**
+ * SQL command wrapper for units
+ */
 class UnitRepository extends Repository {
     private $db,
         $unitFactory;

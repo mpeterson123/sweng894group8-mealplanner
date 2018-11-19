@@ -3,6 +3,9 @@
 namespace Base\Models;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * Represents a recipes's ingredient
+ */
 class Ingredient {
   private $id,
     $food,

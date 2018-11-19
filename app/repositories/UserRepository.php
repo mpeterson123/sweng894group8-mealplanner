@@ -7,6 +7,9 @@ use Base\Repositories\Repository;
 // File-specific classes
 use Base\Factories\UserFactory;
 
+/**
+ * SQL command wrapper for users
+ */
 class UserRepository extends Repository implements EditableModelRepository {
     private $db,
     $userFactory;

@@ -2,6 +2,9 @@
 namespace Base\Models;
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * A user's recipe
+ */
 class Recipe{
 	private $id;
 	private $name;

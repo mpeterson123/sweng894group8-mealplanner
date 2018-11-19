@@ -10,7 +10,9 @@ use Base\Helpers\Session;
 use Base\Factories\GroceryListItemFactory;
 use Base\Models\FoodItem;
 
-
+/**
+ * SQL command wrapper for grocery list items
+ */
 class GroceryListItemRepository extends Repository implements EditableModelRepository {
     private $db,
         $groceryListItemFactory;
