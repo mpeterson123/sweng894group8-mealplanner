@@ -6,8 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 $sidebarNumUnread  = $NumUnread ?? NULL;
-//$houseHoldID       = $data['user']->getCurrHousehold();
-$houseHoldID       = 1;
+$houseHoldID       = $data['user']->getCurrHousehold()->getId();
+//$houseHoldID       = 1;
 $sidebarNumFoods   = sqlRequest("SELECT COUNT(id) AS theTotal FROM foods WHERE houseHoldId = {$houseHoldID}")[0]['theTotal'];
 $sidebarNumMeals   = sqlRequest("SELECT COUNT(id) AS theTotal FROM meal WHERE houseHoldId = {$houseHoldID}")[0]['theTotal'];
 $sidebarNumRecipes = sqlRequest("SELECT COUNT(id) AS theTotal FROM recipes WHERE houseHoldId = {$houseHoldID}")[0]['theTotal'];
