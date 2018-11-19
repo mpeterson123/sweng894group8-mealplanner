@@ -169,7 +169,7 @@ function writeTime($total)
                         </div>
                         <div class="media-body">
                             <br/>
-                            <h3 class="info-count text-blue">&#36;<?php $numFoodCostMon = $numFoodCostMon ?? 0; echo number_format($numFoodCostMon, 2); ?></h3>
+                            <h3 class="info-count text-blue">&#36;<?php $numFoodCostMon = $numFoodCostMon ?? 0; if (($numFoodCostMon) < 100) { echo number_format($numFoodCostMon, 2); } else { echo number_format($numFoodCostMon); } ?></h3>
                             <p class="info-text font-12">Food Costs (<?php echo date('M'); ?>)</p>
                             <span class="hr-line"></span>
                             <p class="info-ot font-15">Year to Date: <span class="text-blue font-semibold">&#36;<?php $numFoodCostYear = $numFoodCostYear ?? 0; echo number_format($numFoodCostYear); ?></span></p>
@@ -203,7 +203,7 @@ function writeTime($total)
                                         <h2 class="font-light text-white m-b-0"><?php echo date('D jS, F'); ?></h2>
                                         <h4 class="font-normal text-white m-t-5">Your moments for today</h4>
                                     </div>
-                                    <div class="task-add-btn">
+                                    <div class="task-add-btn" style="display: none;">
                                         <a href="javascript:void(0);" class="btn btn-success">+</a>
                                     </div>
                                 </div>
@@ -246,11 +246,6 @@ function writeTime($total)
                                 <div class="task-assign font-16">
                                     Meal Planners
                                     <ul class="list-inline">
-                                        <!--
-                                        <li class="p-l-0">
-                                            <img src="/images/users/avatar1.jpg" alt="user" data-toggle="tooltip" data-placement="top" title="" data-original-title="Steave">
-                                        </li>
--->
 <?php $numListed = 0; foreach ($usersList as $aUser) { if ($numListed == NUM_USERS_TO_LIST) { break; } $numListed++; ?>
                                         <li>
                                             <img src="/images/users/<?php if ($aUser['profilePic'] ?? NULL)
@@ -299,7 +294,7 @@ function writeTime($total)
                             <h1 class="text-white font-light m-b-0"><?php echo $numFoods; ?></h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">current groceries</p>
-                            <h6 class="text-white font-semibold"><?php echo $numStock; ?> <span class="font-light"># of stock</span></h6>
+                            <h6 class="text-white font-semibold"><?php echo number_format($numStock); ?> <span class="font-light"># of stock</span></h6>
                         </div>
                     </div>
                     <div class="col-md-4 col-lg-4 col-sm-12">
@@ -307,7 +302,7 @@ function writeTime($total)
                             <h1 class="text-white font-light m-b-0"><?php echo round(($numMealsEatenPercentage * 100), 2); ?>%</h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">Finished Meals</p>
-                            <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
+                            <h6 class="text-white font-semibold"><?php if ($numMealsEatenIncreasePercentage > 0) { echo '+'; } echo $numMealsEatenIncreasePercentage; ?>% <span class="font-light">Last Week</span></h6>
                         </div>
                     </div>
                 </div>
