@@ -21,17 +21,28 @@ $PLUGIN_SIDEBARMENU= TRUE;
 define('NUM_USERS_TO_LIST', 6);
 date_default_timezone_set("UTC");
 
-// Dashboard Statistics
+// Operations
+function deconstructWeeks($array)
+{
+    $deconstructedWeeks = array();
 
+    foreach($array as $association)
+    {
+        $deconstructedWeeks[] = $association['numWeeks'];
+    }
+
+    return $deconstructedWeeks;
+}
+
+// Dashboard Statistics
 $houseHoldID    = $data['user']->getCurrHousehold()->getId();
 $numFoodItems   = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipes     = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
-$numRecipesUsed = 0; // TODO
 $numSetWeeks    = sqlRequest("SELECT COUNT(id) as numWeeks FROM meal WHERE meal.householdid = {$houseHoldID} GROUP BY YEARWEEK(addedDate)");
 $avgWeeklyMeals = 0;
 if ($numSetWeeks ?? NULL)
 {
-    $avgWeeklyMeals = (array_sum($numSetWeeks) / count($numSetWeeks));
+    $avgWeeklyMeals = (array_sum(deconstructWeeks($numSetWeeks)) / count($numSetWeeks));
 }
 $numMeals       = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = {$houseHoldID}")[0]['numMeals'];
 $numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = {$houseHoldID}")[0]['mealsEaten']; // Based off of meals
