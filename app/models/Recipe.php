@@ -27,9 +27,10 @@ class Recipe{
 	}
 
 	public function removeIngredient($anIngredientName){
-		for($i=0;$i<count($this->ingredients);$i++){
-			if($this->ingredients[$i]->getFood()->getName() == $anIngredientName)
-				unset($this->ingredients[$i]);
+		foreach ($this->ingredients as $index => $ingredient) {
+			if($ingredient->getFood()->getName() == $anIngredientName){
+				unset($this->ingredients[$index]);
+			}
 		}
 	}
 
@@ -48,10 +49,10 @@ class Recipe{
 	}
 
 	public function getIngredientById($anIngredientId) {
-
-		for($i = 0; $i < count($this->ingredients);$i++) {
-			if($this->ingredients[$i]->getId() == $anIngredientId)
-				return $this->ingredients[$i];
+		foreach ($this->ingredients as $index => $ingredient) {
+			if($ingredient->getId() == $anIngredientId){
+				return $ingredient;
+			}
 		}
 
 		return null;
