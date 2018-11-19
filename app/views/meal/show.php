@@ -40,7 +40,7 @@ require_once( __HEADER__ ); ?>
             </div>
         </div>
     </div>
-    
+
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
         <div class="preloader">
@@ -127,7 +127,7 @@ require_once( __HEADER__ ); ?>
 
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
 
