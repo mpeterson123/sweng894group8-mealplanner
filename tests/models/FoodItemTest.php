@@ -214,7 +214,7 @@ class FoodItemTest extends TestCase {
     /**
      * @dataProvider tooHighUnitsInContainerProvider
      */
-    public function testUnitsInContainerCannotBeOver9999Point99($containerCost){
+    public function testUnitsInContainerCannotBeOver100000($containerCost){
         $this->expectException(\Exception::class);
         $this->foodItem->setUnitsInContainer($containerCost);
     }
@@ -222,10 +222,10 @@ class FoodItemTest extends TestCase {
     public function tooHighUnitsInContainerProvider()
     {
         return [
-            'Too high by one thousandth' => [999.991],
-            '1000' => [1000],
+            'Too high by one thousandth' => [100000.01],
+            '100001' => [100001],
             'Too high integer' => [10000000000000000000000000000],
-            'Too high decimal' => [100000.5325]
+            'Too high decimal' => [100000000.5325]
         ];
     }
 

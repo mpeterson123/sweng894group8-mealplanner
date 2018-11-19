@@ -68,6 +68,16 @@ $PLUGIN_EXPORT      = TRUE;
       document.getElementById("overlay").style.display = "none";
     }
   }
+  function popupRename(open){
+    if(open>0){
+      document.getElementById("nameBox").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+    else{
+      document.getElementById("nameBox").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  }
 </script>
 
 <body class="mini-sidebar">
@@ -92,7 +102,7 @@ $PLUGIN_EXPORT      = TRUE;
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="white-box">
-                          <h3 class="box-title m-b-0"><?php echo $data['name']; ?></h3>
+                          <h3 class="box-title m-b-0"><?php echo $data['name']; if($data['isOwner']){?> <a href="javascript:void(0);" onclick="popupRename(1)" style="font-size:10px">Rename</a><?php } ?></h3>
                           <div class="table-responsive">
                                 <table class="display nowrap" cellspacing="0" width="100%">
                                     <thead>
@@ -150,6 +160,17 @@ $PLUGIN_EXPORT      = TRUE;
                       <br><p><h3>Are you sure you want to leave this household?</h3><p>
                       <a href="/Household/leave/<?php echo $data['hhId']; ?>">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <a href="javascript:void(0);"  onclick="popupLeave(0)">No</a>
+                  </div>
+                </div>
+                <div id="nameBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
+                  <div class="selectBox" style="line-height:25px;width:420px;">
+                    <form action="/Household/rename/<?php echo $data['hhId'];?>" method="POST">
+                      Set Household Name:<br>
+                      <input type="text" name="name" value="<?php echo $data['name']; ?>"/><br>
+                      <input type="submit" name="submit" value="Update" />
+                    </form>
+                    <p><br>
+                    <a href="javascript:void(0);"  onclick="popupName(0)">or go back</a>
                   </div>
                 </div>
 

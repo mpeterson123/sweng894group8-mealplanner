@@ -27,15 +27,33 @@ $houseHoldID    = $data['user']->getCurrHousehold()->getId();
 $numFoodItems   = sqlRequest("SELECT COUNT(id) AS totalnum FROM foods WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipes     = sqlRequest("SELECT COUNT(id) AS totalnum FROM recipes WHERE householdId = {$houseHoldID}")[0]['totalnum'];
 $numRecipesUsed = 0; // TODO
-$numMeals       = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = 1")[0]['numMeals']; 
-$numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = 1")[0]['mealsEaten']; // Based off of meals
-$numMealsEatenLastWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK) AND householdid = 1")[0]['mealsEaten']; // Based off of meals
-$numMealsEatenThisWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(NOW()) AND householdid = 1")[0]['mealsEaten']; // Based off of meals
+$numSetWeeks    = sqlRequest("SELECT COUNT(id) as numWeeks FROM meal WHERE meal.householdid = {$houseHoldID} GROUP BY YEARWEEK(addedDate)");
+$avgWeeklyMeals = 0;
+if ($numSetWeeks ?? NULL)
+{
+    $avgWeeklyMeals = (array_sum($numSetWeeks) / count($numSetWeeks));
+}
+$numMeals       = sqlRequest("SELECT COUNT(id) AS numMeals FROM meal WHERE householdid = {$houseHoldID}")[0]['numMeals'];
+$numMealsEaten  = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND householdid = {$houseHoldID}")[0]['mealsEaten']; // Based off of meals
+$numMealsEatenLastWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK)) AND householdid = {$houseHoldID}")[0]['mealsEaten']; // Based off of meals
+$numMealsEatenThisWeek   = sqlRequest("SELECT COUNT(id) AS mealsEaten FROM meal WHERE isComplete = TRUE AND YEAR(addedDate) = YEAR(NOW()) AND WEEK(addedDate) = WEEK(NOW()) AND householdid = {$houseHoldID}")[0]['mealsEaten']; // Based off of meals
 $numMealsEatenIncrease   = (($numMealsEatenThisWeek ?? 0) - ($numMealsEatenLastWeek ?? 0));
-$numMealsEatenIncreasePercentage = (@($numMealsEatenIncrease / $numMealsEatenLastWeek) * 100);
-$numMealsEatenPercentage = ($numMealsEaten / $numMeals);
+$numMealsEatenIncreasePercentage = 0;
+if ($numMealsEatenIncrease != 0)
+{
+    if ($numMealsEatenLastWeek != 0)
+    {
+        $numMealsEatenIncreasePercentage = (@($numMealsEatenIncrease / $numMealsEatenLastWeek) * 100);
+    }
+    else
+    {
+        $numMealsEatenIncreasePercentage = $numMealsEatenIncrease * 100;
+    }
+}
+$numMealsEatenPercentage = @($numMealsEaten / $numMeals);
 $numRecipeCost  = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of recipes only (nothing consumed)
 $numFoodCost    = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (lifetime)
+$numFoodCostWeek= sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEARWEEK(addedDate) = YEARWEEK(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for month to date)
 $numFoodCostMon = sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEAR(addedDate) = YEAR(CURDATE()) AND MONTH(addedDate) = MONTH(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for month to date)
 $numFoodCostYear= sqlRequest("SELECT recipes.householdid, SUM(unitCost * quantity * servings) AS totalCost FROM ingredients, recipes, foods, meal WHERE recipes.id = ingredients.recipeid AND ingredients.foodid = foods.id AND meal.recipeid = recipes.id AND YEAR(addedDate) = YEAR(CURDATE()) AND recipes.householdid = {$houseHoldID}")[0]['totalCost']; // Based off of meals (for year to date)
 $numFoods       = sqlRequest("SELECT COUNT(id) AS numFoods FROM foods WHERE stock > 0 AND householdid = {$houseHoldID}")[0]['numFoods'];
@@ -169,7 +187,7 @@ function writeTime($total)
                         </div>
                         <div class="media-body">
                             <br/>
-                            <h3 class="info-count text-blue">&#36;<?php $numFoodCostMon = $numFoodCostMon ?? 0; echo number_format($numFoodCostMon, 2); ?></h3>
+                            <h3 class="info-count text-blue">&#36;<?php $numFoodCostMon = $numFoodCostMon ?? 0; if (($numFoodCostMon) < 100) { echo number_format($numFoodCostMon, 2); } else { echo number_format($numFoodCostMon); } ?></h3>
                             <p class="info-text font-12">Food Costs (<?php echo date('M'); ?>)</p>
                             <span class="hr-line"></span>
                             <p class="info-ot font-15">Year to Date: <span class="text-blue font-semibold">&#36;<?php $numFoodCostYear = $numFoodCostYear ?? 0; echo number_format($numFoodCostYear); ?></span></p>
@@ -180,11 +198,11 @@ function writeTime($total)
                     <div class="media">
                         <div class="media-body">
                             <br/>
-                            <h2 class="text-blue font-22 m-t-0">Averages</h2>
+                            <h2 class="text-blue font-22 m-t-0">Weekly Meal Average</h2>
                             <ul class="p-0 m-b-20">
-                                <li><i class="fa fa-circle m-r-5 text-primary"></i><?php echo round(($numMealsEatenPercentage * 100), 2); ?>% Recipes Used</li>
-                                <li><i class="fa fa-circle m-r-5 text-primary"></i>0% </li>
-                                <li><i class="fa fa-circle m-r-5 text-info"></i><?php echo $numMealIncrease ?? 0; ?>% Meal Increase</li>
+                                <li><i class="fa fa-circle m-r-5 text-info"></i><?php if ($avgWeeklyMeals) { echo $avgWeeklyMeals; } else { echo 'N/A';} ?> </li>
+                                <li><i>based on all previous weeks</i></li>
+                                <li>&nbsp;</li>
                             </ul>
                         </div>
                     </div>
@@ -203,7 +221,7 @@ function writeTime($total)
                                         <h2 class="font-light text-white m-b-0"><?php echo date('D jS, F'); ?></h2>
                                         <h4 class="font-normal text-white m-t-5">Your moments for today</h4>
                                     </div>
-                                    <div class="task-add-btn">
+                                    <div class="task-add-btn" style="display: none;">
                                         <a href="javascript:void(0);" class="btn btn-success">+</a>
                                     </div>
                                 </div>
@@ -222,7 +240,7 @@ function writeTime($total)
                                                 <h6 class="p-l-30 font-bold">added <?php echo writeTime(time() - strtotime($meal['addedDate'])); ?> ago.</h6>
                                             </div>
                                         </li>
-<?php } ?>                                        
+<?php } ?>
                                     </ul>
                                 </div>
                             </div>
@@ -246,11 +264,6 @@ function writeTime($total)
                                 <div class="task-assign font-16">
                                     Meal Planners
                                     <ul class="list-inline">
-                                        <!--
-                                        <li class="p-l-0">
-                                            <img src="/images/users/avatar1.jpg" alt="user" data-toggle="tooltip" data-placement="top" title="" data-original-title="Steave">
-                                        </li>
--->
 <?php $numListed = 0; foreach ($usersList as $aUser) { if ($numListed == NUM_USERS_TO_LIST) { break; } $numListed++; ?>
                                         <li>
                                             <img src="/images/users/<?php if ($aUser['profilePic'] ?? NULL)
@@ -299,7 +312,7 @@ function writeTime($total)
                             <h1 class="text-white font-light m-b-0"><?php echo $numFoods; ?></h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">current groceries</p>
-                            <h6 class="text-white font-semibold"><?php echo $numStock; ?> <span class="font-light"># of stock</span></h6>
+                            <h6 class="text-white font-semibold"><?php echo number_format($numStock); ?> <span class="font-light"># of stock</span></h6>
                         </div>
                     </div>
                     <div class="col-md-4 col-lg-4 col-sm-12">
@@ -307,35 +320,7 @@ function writeTime($total)
                             <h1 class="text-white font-light m-b-0"><?php echo round(($numMealsEatenPercentage * 100), 2); ?>%</h1>
                             <span class="hr-line"></span>
                             <p class="cb-text">Finished Meals</p>
-                            <h6 class="text-white font-semibold">+0% <span class="font-light">Last Week</span></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="display:none;">
-                    <div class="col-md-8 col-sm-12">
-                        <div class="white-box stat-widget">
-                            <div class="row">
-                                <div class="col-md-3 col-sm-3">
-                                    <h4 class="box-title">Statistics</h4>
-                                </div>
-                                <div class="col-md-9 col-sm-9">
-                                    <select class="custom-select">
-                                        <option selected value="0">Oct - Nov</option>
-                                        <option value="1">Sep - Oct</option>
-                                        <option value="2">Aug - Sep</option>
-                                        <option value="3">Jul - Aug</option>
-                                    </select>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>New Groceries</h6>
-                                        </li>
-                                        <li>
-                                            <h6 class="font-15"><i class="fa fa-circle m-r-5 text-primary"></i>Existing Groceries</h6>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="stat chart-pos"></div>
-                            </div>
+                            <h6 class="text-white font-semibold"><?php if ($numMealsEatenIncreasePercentage > 0) { echo '+'; } echo $numMealsEatenIncreasePercentage; ?>% <span class="font-light">From Last Week</span></h6>
                         </div>
                     </div>
                 </div>

@@ -56,10 +56,16 @@ class GroceryListItemTest extends TestCase {
         $this->assertInternalType('integer', $this->groceryListItem->getId());
     }
 
-    public function testNonIntIdIsRejected(){
-        $nonIntId = '123';
+    public function testIdCannotBeNegative(){
+        $negativeId = -1;
         $this->expectException(\Exception::class);
-        $this->groceryListItem->setId($nonIntId);
+        $this->groceryListItem->setId($negativeId);
+    }
+
+    public function testIdCannotBeZero(){
+        $zeroId = 0;
+        $this->expectException(\Exception::class);
+        $this->groceryListItem->setId($zeroId);
     }
 
 
@@ -124,7 +130,7 @@ class GroceryListItemTest extends TestCase {
     /**
      * @dataProvider tooHighAmountProvider
      */
-    public function testAmountCannotBeOver9999Point99($amount){
+    public function testAmountCannotBeOver100000($amount){
         $this->expectException(\Exception::class);
         $this->groceryListItem->setAmount($amount);
     }
@@ -132,17 +138,17 @@ class GroceryListItemTest extends TestCase {
     public function tooHighAmountProvider()
     {
         return [
-            'Too high by one thousandth' => [999.991],
-            '1000' => [1000],
+            'Too high by one thousandth' => [100000.01],
+            '100001' => [100001],
             'Too high integer' => [10000000000000000000000000000],
-            'Too high decimal' => [100000.5325]
+            'Too high decimal' => [100000000.5325]
         ];
     }
 
     /**
      * @dataProvider inRangeAmountProvider
      */
-    public function testAmountIsBetween0AndBelowOrEqualTo999Point99($amount){
+    public function testAmountIsBetween0AndBelowOrEqualTo9999Point99($amount){
         $this->groceryListItem->setAmount($amount);
         $this->assertEquals($this->groceryListItem->getAmount(), $amount);
     }

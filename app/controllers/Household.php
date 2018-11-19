@@ -245,5 +245,26 @@ class Household extends Controller{
 		// Redirect to list
 		Redirect::toControllerMethod('Household', 'list');
 	}
+	/**
+	 * Rename household
+	 * @param integer $hhId Household id
+	 */
+	public function rename($hhId):void{
+		$user = $this->session->get('user');
+
+		// Rename household
+		$newHouseholdName = $this->request['name'];
+		$household = $this->householdRepository->find($hhId);
+		$household->setName($newHouseholdName);
+		$this->householdRepository->save($household);
+
+		// Update user in the session
+		$updatedUser = $this->userRepository->find($user->getUsername());
+		$this->session->add('user', $updatedUser);
+
+		// Display message and redirect
+		$this->session->flashMessage('success', $household->getName().' was renamed');
+		Redirect::toControllerMethod('Household', 'detail', array($hhId));
+	}
 }
 ?>

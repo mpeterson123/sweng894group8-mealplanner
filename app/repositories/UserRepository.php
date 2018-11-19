@@ -78,7 +78,7 @@ class UserRepository extends Repository implements EditableModelRepository {
 
     public function save($user){
         $success = false;
-        if($user->getId() && $this->find($user->getId()))
+        if($user->getId() && $this->get('id',$user->getId()))
         {
             $success = $this->update($user);
         }
@@ -156,15 +156,17 @@ class UserRepository extends Repository implements EditableModelRepository {
                 email = ?,
                 namefirst = ?,
                 namelast = ?
+                WHERE id = ?
             ');
 
-        $query->bind_param(array(
-            'ssss',
+        @$query->bind_param(
+            'ssssi',
             $user->getPassword(),
             $user->getEmail(),
             $user->getFirstName(),
             $user->getLastName(),
-        ));
+            $user->getId()
+        );
         return $query->execute();
     }
     public function selectHousehold($user,$hhId){
