@@ -35,12 +35,12 @@ $PLUGIN_SIDEBARMENU= FALSE;
                     <?php $data['session']->renderMessage(); ?>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" name="reg_username" required="" placeholder="Username" value="<?php echo $data['session']->getOldInput('reg_username'); ?>">
-                            <input class="form-control" type="text" name="reg_namefirst" required="" placeholder="First Name" value="<?php echo $data['session']->getOldInput('reg_namefirst'); ?>">
-                            <input class="form-control" type="text" name="reg_namelast" required="" placeholder="Last Name" value="<?php echo $data['session']->getOldInput('reg_namelast'); ?>">
-                            <input class="form-control" type="email" name="reg_email" required="" placeholder="Email" value="<?php echo $data['session']->getOldInput('reg_email'); ?>">
-                            <input class="form-control" type="password" name="reg_password" required="" placeholder="Password">
-                            <input class="form-control" type="password" name="reg_password2" required="" placeholder="Password Confirmation">
+                            <input class="form-control" type="text" name="username" required="" placeholder="Username" value="<?php echo $data['session']->getOldInput('reg_username'); ?>">
+                            <input class="form-control" type="text" name="namefirst" required="" placeholder="First Name" value="<?php echo $data['session']->getOldInput('reg_namefirst'); ?>">
+                            <input class="form-control" type="text" name="namelast" required="" placeholder="Last Name" value="<?php echo $data['session']->getOldInput('reg_namelast'); ?>">
+                            <input class="form-control" type="email" name="email" required="" placeholder="Email" value="<?php echo $data['session']->getOldInput('reg_email'); ?>">
+                            <input class="form-control" type="password" name="password" required="" placeholder="Password">
+                            <input class="form-control" type="password" name="password2" required="" placeholder="Password Confirmation">
 
                         </div>
                     </div>

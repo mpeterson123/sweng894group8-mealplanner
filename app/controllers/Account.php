@@ -52,18 +52,18 @@ class Account extends Controller{
 	 * Store a new user record in the DB
 	 */
 	public function store():void{
-		if(isset($this->request['reg_username'])){
+		if(isset($this->request['username'])){
 			$error = array();
 
 			$input = $this->request;
 
 			// Check if username is already in use
-			if($this->userRepository->get('username',$input['reg_username']) !== NULL){
+			if($this->userRepository->get('username',$input['username']) !== NULL){
 				$this->session->flashMessage('danger', 'This username is already in use.');
 				Redirect::toControllerMethod('Account', 'create');
 			}
 			// Check if email addr is already in use
-			if($this->userRepository->get('email',$input['reg_email']) !== NULL){
+			if($this->userRepository->get('email',$input['email']) !== NULL){
 				$this->session->flashMessage('danger', 'This email address is already in use.');
 				Redirect::toControllerMethod('Account', 'create');
 			}
@@ -445,52 +445,52 @@ class Account extends Controller{
         $validator = new Validator($input);
         $rules = [
             'required' => [
-				['reg_username'],
-				['reg_namefirst'],
-				['reg_namelast'],
-				['reg_email'],
-				['reg_password'],
-				['reg_password2']
+				['username'],
+				['namefirst'],
+				['namelast'],
+				['email'],
+				['password'],
+				['password2']
             ],
             'equals' => [
-				['reg_password', 'reg_password2'],
-                ['reg_password2', 'reg_password']
+				['password', 'password2'],
+                ['password2', 'password']
             ],
 			'email' => [
-                ['reg_email']
+                ['email']
             ],
 			'regex' => [
-				['reg_namefirst', $nameRegex],
-                ['reg_namelast', $nameRegex]
+				['namefirst', $nameRegex],
+                ['namelast', $nameRegex]
             ],
 			'slug' => [
-                ['reg_username']
+                ['username']
             ],
 			'lengthMin' => [
-				['reg_username', 5],
-				['reg_namefirst', 2],
-				['reg_namelast', 2],
-				['reg_email', 5],
-				['reg_password', 6],
-		        ['reg_password2', 6]
+				['username', 5],
+				['namefirst', 2],
+				['namelast', 2],
+				['email', 5],
+				['password', 6],
+		        ['password2', 6]
 		    ],
 			'lengthMax' => [
-				['reg_username', 32],
-				['reg_namefirst', 32],
-				['reg_namelast', 32],
-				['reg_email', 64],
-				['reg_password', 30],
-		        ['reg_password2', 30]
+				['username', 32],
+				['namefirst', 32],
+				['namelast', 32],
+				['email', 64],
+				['password', 30],
+		        ['password2', 30]
 		    ]
         ];
         $validator->rules($rules);
         $validator->labels(array(
-			'reg_username' => 'Username',
-			'reg_namefirst' => 'First Name',
-			'reg_namelast' => 'Last Name',
-			'reg_email' => 'Email Address',
-			'reg_password' => 'Password',
-			'reg_password2' => 'Password Confirmation'
+			'username' => 'Username',
+			'namefirst' => 'First Name',
+			'namelast' => 'Last Name',
+			'email' => 'Email Address',
+			'password' => 'Password',
+			'password2' => 'Password Confirmation'
         ));
 
         if(!$validator->validate()) {
