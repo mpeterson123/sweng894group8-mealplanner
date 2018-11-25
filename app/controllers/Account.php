@@ -34,18 +34,14 @@ class Account extends Controller{
 	private $userRepository,
 		$userFactory;
 
-	public function __construct(DatabaseHandler $dbh, Session $session, $request){
+	public function __construct(DatabaseHandler $dbh, Session $session, $request, $dependencies){
 		$this->dbh = $dbh;
 		$this->session = $session;
 		$this->request = $request;
 		$this->log = new Log($dbh);
 
-        // TODO Use dependency injection
-		$householdFactory = new HouseholdFactory();
-		$householdRepository = new HouseholdRepository($this->dbh->getDB(), $householdFactory);
-
-		$this->userFactory = new UserFactory($householdRepository);
-		$this->userRepository = new UserRepository($this->dbh->getDB(), $this->userFactory);
+		$this->userFactory = $dependencies['userFactory'];
+		$this->userRepository = $dependencies['userRepository'];
   	}
 
 	/**

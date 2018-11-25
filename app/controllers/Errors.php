@@ -27,7 +27,7 @@ class Errors extends Controller {
         $session,
         $request;
 
-    public function __construct(DatabaseHandler $dbh, Session $session, $request){
+    public function __construct(DatabaseHandler $dbh, Session $session, $request, $dependencies = NULL){
 		$this->dbh = $dbh;
 		$this->session = $session;
 		$this->request = $request;

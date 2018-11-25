@@ -39,17 +39,16 @@ class Household extends Controller{
 		$householdFactory,
 		$userFactory;
 
-	public function __construct(DatabaseHandler $dbh, Session $session, $request){
+	public function __construct(DatabaseHandler $dbh, Session $session, $request, $dependencies = NULL){
 		$this->dbh = $dbh;
 		$this->session = $session;
 		$this->request = $request;
 		$this->log = new Log($dbh);
 
-		// TODO Use dependency injection
-		$this->householdFactory = new HouseholdFactory();
-		$this->householdRepository = new HouseholdRepository($this->dbh->getDB(), $this->householdFactory);
-		$this->userFactory = new UserFactory($this->householdRepository);
-		$this->userRepository = new UserRepository($this->dbh->getDB(), $this->userFactory);
+		$this->householdFactory = $dependencies['householdFactory'];
+		$this->householdRepository = $dependencies['householdRepository'];
+		$this->userFactory = $dependencies['userFactory'];
+		$this->userRepository = $dependencies['userRepository'];
 
 
     }

@@ -45,26 +45,24 @@ define('_DISPLAY_SENT_',    6);
  */
 class Messages extends Controller
 {
-    protected $dph;
+    protected $dbh;
     protected $session;
     protected $request;
     protected $log;
 
+    // TODO Check why this isn't used
     private $messageRepository;
-    private $dbh;
 
     ///////////////////////////////////////////////////////////////////////////
     //                              Constructor                              //
     ///////////////////////////////////////////////////////////////////////////
 
-    public function __construct(DatabaseHandler $dbh, Session $session, $request)
+    public function __construct(DatabaseHandler $dbh, Session $session, $request, $dependencies = NULL)
     {
         $this->dbh     = $dbh;
         $this->session = $session;
         $this->request = $request;
         $this->log = new Log($dbh);
-
-        $this->dbh = DatabaseHandler::getInstance();
     }
 
     ///////////////////////////////////////////////////////////////////////////

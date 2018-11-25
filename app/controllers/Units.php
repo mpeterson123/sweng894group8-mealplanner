@@ -34,14 +34,13 @@ class Units extends Controller {
     private $unitRepository,
         $unitFactory;
 
-    public function __construct(DatabaseHandler $dbh, Session $session, $request){
+    public function __construct(DatabaseHandler $dbh, Session $session, $request, $dependencies){
         $this->dbh = $dbh;
         $this->session = $session;
         $this->request = $request;
 
-        // TODO Use dependency injection
-        $this->unitFactory = new UnitFactory();
-        $this->unitRepository = new UnitRepository($this->dbh->getDB(), $this->unitFactory);
+        $this->unitFactory = $dependencies['unitFactory'];
+        $this->unitRepository = $dependencies['unitRepository'];
     }
 
     /**
