@@ -20,16 +20,19 @@ class App {
 	protected $dbh;
 	protected $session;
 	protected $request;
+	protected $log;
 
-	public function __construct($dbh, $session, $request, $loader){
+	public function __construct($dbh, $session, $request, $log, $loader){
 		$this->dbh = $dbh;
 		$this->session = $session;
+		$this->log = $log;
 		$this->url = isset($request['url']) ? $request['url'] : '';
 		$this->loader = $loader;
 		unset($request['url']);
 
 		// Sanitize Input
 		$this->request = $this->sanitizeArray($request);
+
 
 	}
 	public function sanitizeArray($array){
@@ -76,15 +79,22 @@ class App {
 					$controllerName = $this->url[0];
 					unset($this->url[0]);
 
+					// Set shared dependencies
+					$sharedDependencies = array(
+						'dbh' => $this->dbh,
+						'session' => $this->session,
+						'request' => $this->request,
+						'log' => $this->log,
+					);
+
 					// Load dependencies for the controller
-					// Instantiate controller
 					$namespacedControllerDependencyLoader = "Base\Loaders\\".$controllerName.'Loader';
 					$controllerDependencyLoader = new $namespacedControllerDependencyLoader($this->loader);
-					$dependencies = $controllerDependencyLoader->loadDependencies();
+					$dependencies = array_merge($sharedDependencies, $controllerDependencyLoader->loadDependencies());
 
 					// Instantiate controller
 					$namespacedController = "Base\Controllers\\".$controllerName;
-					$controller = new $namespacedController($this->dbh, $this->session, $this->request, $dependencies);
+					$controller = new $namespacedController($dependencies);
 
 
 					// If methodName exists, set it and remove the name from the URL

@@ -25,12 +25,14 @@ class Errors extends Controller {
 
     protected $dbh,
         $session,
-        $request;
+        $request,
+        $log;
 
-    public function __construct(DatabaseHandler $dbh, Session $session, $request, $dependencies = NULL){
-		$this->dbh = $dbh;
-		$this->session = $session;
-		$this->request = $request;
+    public function __construct($dependencies){
+		$this->dbh = $dependencies['dbh'];
+		$this->session = $dependencies['session'];
+		$this->request = $dependencies['request'];
+		$this->log = $dependencies['log'];
     }
 
     /**

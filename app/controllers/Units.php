@@ -29,15 +29,17 @@ class Units extends Controller {
 
     protected $dbh,
         $session,
-        $request;
+        $request,
+        $log;
 
     private $unitRepository,
         $unitFactory;
 
-    public function __construct(DatabaseHandler $dbh, Session $session, $request, $dependencies){
-        $this->dbh = $dbh;
-        $this->session = $session;
-        $this->request = $request;
+    public function __construct($dependencies){
+		$this->dbh = $dependencies['dbh'];
+		$this->session = $dependencies['session'];
+		$this->request = $dependencies['request'];
+		$this->log = $dependencies['log'];
 
         $this->unitFactory = $dependencies['unitFactory'];
         $this->unitRepository = $dependencies['unitRepository'];

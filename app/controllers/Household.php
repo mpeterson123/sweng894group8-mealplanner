@@ -39,11 +39,11 @@ class Household extends Controller{
 		$householdFactory,
 		$userFactory;
 
-	public function __construct(DatabaseHandler $dbh, Session $session, $request, $dependencies = NULL){
-		$this->dbh = $dbh;
-		$this->session = $session;
-		$this->request = $request;
-		$this->log = new Log($dbh);
+	public function __construct($dependencies){
+		$this->dbh = $dependencies['dbh'];
+		$this->session = $dependencies['session'];
+		$this->request = $dependencies['request'];
+		$this->log = $dependencies['log'];
 
 		$this->householdFactory = $dependencies['householdFactory'];
 		$this->householdRepository = $dependencies['householdRepository'];
@@ -104,6 +104,7 @@ class Household extends Controller{
 			$hhs[] = array('id'=>$hh->getId(),'name'=>$hh->getName(),'code'=>$hh->genInviteCode());
 		}
 
+		// TODO Check this
 		$this->view('/auth/householdList',['message' => '','households'=>$hhs, 'currHH'=>$user->getCurrHousehold()]);
 	}
 	/*
@@ -113,7 +114,9 @@ class Household extends Controller{
 		$user = $this->session->get('user');
 		// Get household id
 		$inviteCode = trim($this->request['invite_code']);
+
 		$household = new HH();
+
 		$hhId = $household->reverseCode($inviteCode);
 		// Add user to household
 		$this->householdRepository->connect($user->getId(),$hhId);
