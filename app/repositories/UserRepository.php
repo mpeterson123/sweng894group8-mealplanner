@@ -62,6 +62,30 @@ class UserRepository extends Repository implements EditableModelRepository {
       return $row;
     }
 
+    public function findBy($field, $value){
+        // Reject field value if it's not alphabetical
+        if(!preg_match_all('/^[a-zA-Z]+$/' , $field)){
+            return NULL;
+        }
+
+        $query = $this->db->prepare('SELECT * FROM users WHERE '.$field.' = ?');
+        $query->bind_param(
+            "s",
+            $value);
+        if(!$query->execute()){
+            return NULL;
+        }
+        $result = $query->get_result();
+
+        if(!$result || !$result->num_rows){
+            return NULL;
+        }
+        $userRow = $result->fetch_assoc();
+        $user = $this->userFactory->make($userRow);
+
+        return $user;
+    }
+
     public function confirmEmail($email){
       $query = $this->db->prepare('UPDATE users SET activated = 1 WHERE email = ?');
 			$query->bind_param("s",$email);

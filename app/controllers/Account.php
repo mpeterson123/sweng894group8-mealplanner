@@ -142,15 +142,16 @@ class Account extends Controller{
 		$email = addslashes(trim($this->request['email']));
 
 		// Check if email exists in db
-		$u = $this->userRepository->get('email',$email);
+		$user = $this->userRepository->findBy('email', $email);
 
-		if($email == ''){
+		if(is_null($email) || $email == ''){
 			$this->log->add(NULL, 'Error', 'Forgot Password - Email Address not supplied');
-			$this->session->flashMessage('success', 'No email has been supplied.');
+			$this->session->flashMessage('danger', 'No email has been supplied.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
-		else if(!$u){
-			$this->session->flashMessage('success', 'Check your email for instructions to reset your password.');
+		// If user doesn't exist, show success message anyway (seucurity reasons)
+		else if(!$user){
+			$this->session->flashMessage('success', 'If your email is associated with an account, you will receive an email with instructions to reset your password.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		else {
@@ -160,7 +161,7 @@ class Account extends Controller{
 			$emailHandler->sendPasswordReset($email,$code);
 
 			// Redirect to login
-			$this->session->flashMessage('success', 'Check your email for instructions to reset your password.');
+			$this->session->flashMessage('success', 'If your email is associated with an account, you will receive an email with instructions to reset your password.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 	}
