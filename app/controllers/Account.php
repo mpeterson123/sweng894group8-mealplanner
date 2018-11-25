@@ -173,23 +173,24 @@ class Account extends Controller{
 	 */
 	public function resetPassword($email,$code){
 		// Check if email exists in db
-		$u = $this->userRepository->get('email',$email);
-		if(!$u){
+		$user = $this->userRepository->findBy('email', $email);
+
+		if(!$user){
 			// Email doesn't exist
-			$this->log->add($u->getId(), 'Error', 'Reset Password - Email Address "'.addslashes($email).'" doens\'t exist');
-			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
+			$this->log->add(NULL, 'Error', 'Reset Password - Email Address "'.addslashes($email).'" doens\'t exist');
+			$this->session->flashMessage('danger', 'An error has occured. Your reset link is invalid.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		// Check if reset code has been set
-		else if($u['passTemp'] == ''){
-			$this->log->add($u->getId(), 'Error', 'Reset Password - Reset Code not sent');
-			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
+		else if($user->getPassTemp() == ''){
+			$this->log->add($user->getId(), 'Error', 'Reset Password - Reset Code not sent; potential malicious attempt');
+			$this->session->flashMessage('danger', 'An error has occured. Your reset link is invalid.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		// Check if code matches db
-		else if($u['passTemp'] != $code){
-			$this->log->add($u->getId(), 'Error', 'Reset Password - Reset Code doesn\'t match');
-			$this->session->flashMessage('danger', 'An error has occured. Please try again.');
+		else if($user->getPassTemp() != $code){
+			$this->log->add($user->getId(), 'Error', 'Reset Password - Provided reset Code doesn\'t match stored code');
+			$this->session->flashMessage('danger', 'An error has occured. Your reset link is invalid.');
 			Redirect::toControllerMethod('Account', 'showLogin');
 		}
 		else{
@@ -198,10 +199,10 @@ class Account extends Controller{
 				// Reset password
 				$this->userRepository->setValue('password',$this->pass_hash($this->request['rst_password']),'email',$email);
 				// Reset temp pass
-				// TODO Check this: why does it use email?
+				// TODO Change set value to something else, preferrably using the $user object
 				$this->userRepository->setValue('passTemp','','email',$email);
 				// Redirect to login
-				$this->session->flashMessage('success', 'Password has been reset. Please login.');
+				$this->session->flashMessage('success', 'Your password has been reset. Please log in.');
 				Redirect::toControllerMethod('Account', 'showLogin');
 			}
 			else{
