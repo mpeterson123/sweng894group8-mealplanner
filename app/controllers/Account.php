@@ -200,7 +200,7 @@ class Account extends Controller{
 				// TODO Check this: why does it use email?
 				$this->userRepository->setValue('passTemp','','email',$email);
 				// Redirect to login
-				$this->session->flashMessage('danger', 'Password has been reset. Please login.');
+				$this->session->flashMessage('success', 'Password has been reset. Please login.');
 				Redirect::toControllerMethod('Account', 'showLogin');
 			}
 			else{
