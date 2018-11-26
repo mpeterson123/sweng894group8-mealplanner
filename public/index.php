@@ -22,6 +22,8 @@ $dbh = DatabaseHandler::getInstance();
 $session = new Session();
 $request = $_REQUEST;
 
+//
+
 // Run app
 $app = new App($dbh, $session, $request);
 $app->run();
