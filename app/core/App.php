@@ -20,15 +20,19 @@ class App {
 	protected $dbh;
 	protected $session;
 	protected $request;
+	protected $log;
 
-	public function __construct($dbh, $session, $request){
+	public function __construct($dbh, $session, $request, $log, $loader){
 		$this->dbh = $dbh;
 		$this->session = $session;
+		$this->log = $log;
 		$this->url = isset($request['url']) ? $request['url'] : '';
+		$this->loader = $loader;
 		unset($request['url']);
 
 		// Sanitize Input
 		$this->request = $this->sanitizeArray($request);
+
 
 	}
 	public function sanitizeArray($array){
@@ -66,7 +70,7 @@ class App {
 		$this->parseUrl();
 
 		if(($this->session->get('user') === NULL) && ($this->url[0] != "Account")){
-			$controller = new \Base\Controllers\Account($this->dbh,new Session(),NULL);
+			$controller = new \Base\Controllers\Account($this->dbh,new Session(),NULL, NULL);
 		}
 		else if(!empty($this->url[0])){		// otherwise use default
 			try{
@@ -75,9 +79,23 @@ class App {
 					$controllerName = $this->url[0];
 					unset($this->url[0]);
 
+					// Set shared dependencies
+					$sharedDependencies = array(
+						'dbh' => $this->dbh,
+						'session' => $this->session,
+						'request' => $this->request,
+						'log' => $this->log,
+					);
+
+					// Load dependencies for the controller
+					$namespacedControllerDependencyLoader = "Base\Loaders\\".$controllerName.'Loader';
+					$controllerDependencyLoader = new $namespacedControllerDependencyLoader($this->loader);
+					$dependencies = array_merge($sharedDependencies, $controllerDependencyLoader->loadDependencies());
+
 					// Instantiate controller
 					$namespacedController = "Base\Controllers\\".$controllerName;
-					$controller = new $namespacedController($this->dbh, $this->session, $this->request);
+					$controller = new $namespacedController($dependencies);
+
 
 					// If methodName exists, set it and remove the name from the URL
 					if(isset($this->url[1]) && method_exists($controller,$this->url[1]))

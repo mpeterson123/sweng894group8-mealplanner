@@ -44,24 +44,15 @@ class GroceryListItems extends Controller {
         $groceryListItemRepository,
         $groceryListItemFactory;
 
-    public function __construct(DatabaseHandler $dbh, Session $session, $request){
-    		$this->dbh = $dbh;
-    		$this->session = $session;
-    		$this->request = $request;
-        $this->log = new Log($dbh);
+    public function __construct($dependencies){
+		$this->dbh = $dependencies['dbh'];
+		$this->session = $dependencies['session'];
+		$this->request = $dependencies['request'];
+		$this->log = $dependencies['log'];
 
-        // TODO Use dependency injection
-        $categoryFactory = new CategoryFactory($this->dbh->getDB());
-        $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
-
-        $unitFactory = new UnitFactory($this->dbh->getDB());
-        $unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
-
-        $foodItemFactory = new FoodItemFactory($categoryRepository, $unitRepository);
-        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
-
-        $this->groceryListItemFactory = new GroceryListItemFactory($this->foodItemRepository);
-        $this->groceryListItemRepository = new GroceryListItemRepository($this->dbh->getDB(), $this->groceryListItemFactory);
+        $this->foodItemRepository = $dependencies['foodItemRepository'];
+        $this->groceryListItemFactory = $dependencies['groceryListItemFactory'];
+        $this->groceryListItemRepository = $dependencies['groceryListItemRepository'];
 
     }
 

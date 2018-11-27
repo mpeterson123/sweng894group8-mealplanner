@@ -48,27 +48,18 @@ class Recipes extends Controller {
         $ingredientFactory,
         $ingredientRepository;
 
-    public function __construct(DatabaseHandler $dbh, Session $session, $request){
-  		$this->dbh = $dbh;
-  		$this->session = $session;
-  		$this->request = $request;
-      $this->log = new Log($dbh);
+    public function __construct($dependencies){
+		$this->dbh = $dependencies['dbh'];
+		$this->session = $dependencies['session'];
+		$this->request = $dependencies['request'];
+		$this->log = $dependencies['log'];
 
-        // TODO Use dependency injection
-        $categoryFactory = new CategoryFactory($this->dbh->getDB());
-        $categoryRepository = new CategoryRepository($this->dbh->getDB(), $categoryFactory);
-
-        $unitFactory = new UnitFactory($this->dbh->getDB());
-        $this->unitRepository = new UnitRepository($this->dbh->getDB(), $unitFactory);
-
-        $foodItemFactory = new FoodItemFactory($categoryRepository, $this->unitRepository);
-        $this->foodItemRepository = new FoodItemRepository($this->dbh->getDB(), $foodItemFactory);
-
-        $this->ingredientFactory = new IngredientFactory($this->foodItemRepository, $this->unitRepository);
-        $this->ingredientRepository = new IngredientRepository($this->dbh->getDB(), $this->ingredientFactory);
-
-        $this->recipeFactory = new RecipeFactory($this->ingredientRepository);
-        $this->recipeRepository = new RecipeRepository($this->dbh->getDB(), $this->recipeFactory);
+        $this->unitRepository = $dependencies['unitRepository'];
+        $this->foodItemRepository = $dependencies['foodItemRepository'];
+        $this->ingredientFactory = $dependencies['ingredientFactory'];
+        $this->ingredientRepository = $dependencies['ingredientRepository'];
+        $this->recipeFactory = $dependencies['recipeFactory'];
+        $this->recipeRepository = $dependencies['recipeRepository'];
 
     }
 

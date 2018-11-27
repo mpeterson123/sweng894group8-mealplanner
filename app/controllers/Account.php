@@ -26,26 +26,23 @@ use Base\Factories\UserFactory;
 use Base\Factories\HouseholdFactory;
 
 class Account extends Controller{
-	protected $dbh,
+	protected
+		$dbh,
         $session,
-				$request,
-				$log;
+		$request,
+		$log;
 
 	private $userRepository,
 		$userFactory;
 
-	public function __construct(DatabaseHandler $dbh, Session $session, $request){
-		$this->dbh = $dbh;
-		$this->session = $session;
-		$this->request = $request;
-		$this->log = new Log($dbh);
+	public function __construct($dependencies){
+		$this->dbh = $dependencies['dbh'];
+		$this->session = $dependencies['session'];
+		$this->request = $dependencies['request'];
+		$this->log = $dependencies['log'];
 
-        // TODO Use dependency injection
-		$householdFactory = new HouseholdFactory();
-		$householdRepository = new HouseholdRepository($this->dbh->getDB(), $householdFactory);
-
-		$this->userFactory = new UserFactory($householdRepository);
-		$this->userRepository = new UserRepository($this->dbh->getDB(), $this->userFactory);
+		$this->userFactory = $dependencies['userFactory'];
+		$this->userRepository = $dependencies['userRepository'];
   	}
 
 	/**
