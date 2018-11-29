@@ -10,12 +10,12 @@ require_once(__DIR__ . '/../modules/main.mod.php' );
 use Base\Helpers\Session;
 
 // Sub Title
-$SUBTITLE = 'Register';
+$SUBTITLE = 'Account Settings';
 
 // Plugins
-$PLUGIN_SLIMSCROLL = FALSE;
-$PLUGIN_WAVES      = FALSE;
-$PLUGIN_SIDEBARMENU= FALSE;
+$PLUGIN_SLIMSCROLL = TRUE;
+$PLUGIN_WAVES      = TRUE;
+$PLUGIN_SIDEBARMENU= TRUE;
 ?>
 <?php require_once( __HEADER__ ); ?>
 
@@ -50,7 +50,7 @@ $PLUGIN_SIDEBARMENU= FALSE;
         <div class="login-box">
             <div class="white-box">
                 <form class="" id="" action="/Account/update" method="POST">
-                    <h3 class="box-title m-b-20">Account</h3>
+                    <h3 class="box-title m-b-20"><?php echo $SUBTITLE;?></h3>
 
                     <?php $data['session']->renderMessage(); ?>
 
