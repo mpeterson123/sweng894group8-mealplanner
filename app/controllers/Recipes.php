@@ -29,6 +29,9 @@ use Base\Factories\FoodItemFactory;
 use Base\Factories\CategoryFactory;
 use Base\Factories\UnitFactory;
 use Base\Repositories\CategoryRepository;
+use Base\Repositories\GroceryListItemRepository;
+use Base\Factories\GroceryListItemFactory;
+use Base\Repositories\MealRepository;
 use Base\Helpers\Log;
 
 /**
@@ -46,13 +49,16 @@ class Recipes extends Controller {
         $recipeRepository,
         $foodItemRepository,
         $ingredientFactory,
-        $ingredientRepository;
+        $ingredientRepository,
+        $groceryListItemFactory,
+        $groceryListItemRepository,
+        $mealRepository;
 
     public function __construct($dependencies){
-		$this->dbh = $dependencies['dbh'];
-		$this->session = $dependencies['session'];
-		$this->request = $dependencies['request'];
-		$this->log = $dependencies['log'];
+    		$this->dbh = $dependencies['dbh'];
+    		$this->session = $dependencies['session'];
+    		$this->request = $dependencies['request'];
+    		$this->log = $dependencies['log'];
 
         $this->unitRepository = $dependencies['unitRepository'];
         $this->foodItemRepository = $dependencies['foodItemRepository'];
@@ -60,6 +66,9 @@ class Recipes extends Controller {
         $this->ingredientRepository = $dependencies['ingredientRepository'];
         $this->recipeFactory = $dependencies['recipeFactory'];
         $this->recipeRepository = $dependencies['recipeRepository'];
+        $this->groceryListItemRepository = $dependencies['groceryListItemRepository'];
+        $this->groceryListItemFactory = $dependencies['groceryListItemFactory'];
+        $this->mealRepository = $dependencies['mealRepository'];
 
     }
 
@@ -306,6 +315,10 @@ class Recipes extends Controller {
 
                 // Commit
                 $this->dbh->getDB()->commit();
+
+                // Update Grocery List after ingredient update
+                $this->reconcileGroceryList($recipe);
+
                 $this->session->flashMessage('success', ucfirst($recipe->getName()).' was updated.');
 
             }
@@ -501,6 +514,65 @@ class Recipes extends Controller {
                 "You must create a food item before adding recipes.");
             Redirect::toControllerMethod('FoodItems', 'create');
             return;
+        }
+    }
+
+    /**
+     * Update grocery list in the DB
+     * @param $recipeToUpdate $recipe being updated to update in grocery list
+     */
+    private function reconcileGroceryList($recipeToUpdate):void {
+        foreach ($recipeToUpdate->getIngredients() as $ingredient) {
+            // Convert unit
+            $ingredient->getQuantity()->convertTo($ingredient->getFood()->getUnit());
+
+            if ($ingredient->getQuantity()->getValue() != $this->ingredientRepository->find($ingredient->getId())->getQuantity()->getValue()) {
+              // New quantity and old quantity match. Do not update.
+            }
+            else
+            {
+                // Get item's current qty to purchase from grocery list
+                $groceryListItem = $this->groceryListItemRepository->findByFoodId($ingredient->getFood()->getId());
+
+                // Find all meals using affceted recipe, then the count
+                $mealUpdateList = $this->mealRepository->findMealsByRecipeId($recipeToUpdate->getId());
+                $mealCount = count($mealUpdateList);
+                $amountToAdd = 0;
+
+                foreach($mealUpdateList as $meal){
+
+                  // Set original recipe quantity converted to food item's unit, times scale factor
+                  $ingredientQuantity = $ingredient->getQuantity()->getValue() * $meal->getScaleFactor();
+                  $amountToAdd = $amountToAdd + $ingredientQuantity - $ingredient->getFood()->getStock();
+
+                }
+
+                // If the grocery list item does not exist, simply add the scaled ingredient quantity minus the current stock to grocery list
+                if(!$groceryListItem){
+                    // If item is not overstocked (if quantity to add is more than the quantity in stock)
+                    if($amountToAdd > 0.01){
+                        $newGroceryListItemData = array(
+                            'foodItemId' => $ingredient->getFood()->getId(),
+                            'amount' => $amountToAdd
+                        );
+                        $groceryListItem = $this->groceryListItemFactory->make($newGroceryListItemData);
+
+                        if(!$this->groceryListItemRepository->save($groceryListItem)){
+                            throw new \Exception("Unable to add '{$ingredient->getFood()->getName()}' to grocery list", 1);
+                        };
+                    }
+                }
+                // Otherwise, get new grocery list quantity
+                else {
+                    $groceryListItem->setAmount($amountToAdd);
+
+                    if(!$this->groceryListItemRepository->save($groceryListItem)){
+                        $user = $this->session->get('user');
+                        $this->log->add($user->getId(), 'Error', 'Save Meal - Unable to update grocery list');
+                        throw new \Exception("Unable to update '{$ingredient->getFood()->getName()}' in grocery list", 2);
+                    }
+                }
+            }
         }
     }
 }

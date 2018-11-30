@@ -231,4 +231,24 @@ class MealRepository extends Repository implements EditableModelRepository {
         return false;
     }
 
+    /**
+     * Check if meal is editable by the current household
+     * @param  integer $mealId          Meal's id
+     * @param  integer $recipeId     RecipeId
+     * @return bool                     Whether the meal is in the user's household
+     */
+    public function findMealsByRecipeId($recipeId)
+    {
+      try
+      {
+        $query = $this->db->prepare('SELECT * FROM meal WHERE recipeId = ?');
+        @$query->bind_param("i", $recipeId);
+
+        return $query->execute();
+      }
+      catch (\Exception $e) {
+        return false;
+      }
+    }
+
 }
