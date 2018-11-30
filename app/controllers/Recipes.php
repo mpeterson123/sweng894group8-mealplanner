@@ -526,11 +526,8 @@ class Recipes extends Controller {
             // Convert unit
             $ingredient->getQuantity()->convertTo($ingredient->getFood()->getUnit());
 
+            // If ingredient value has changed
             if ($ingredient->getQuantity()->getValue() != $this->ingredientRepository->find($ingredient->getId())->getQuantity()->getValue()) {
-              // New quantity and old quantity match. Do not update.
-            }
-            else
-            {
                 // Get item's current qty to purchase from grocery list
                 $groceryListItem = $this->groceryListItemRepository->findByFoodId($ingredient->getFood()->getId());
 
@@ -572,6 +569,10 @@ class Recipes extends Controller {
                         throw new \Exception("Unable to update '{$ingredient->getFood()->getName()}' in grocery list", 2);
                     }
                 }
+            }
+            else
+            {
+              // New quantity and old quantity match. Do not update.
             }
         }
     }
