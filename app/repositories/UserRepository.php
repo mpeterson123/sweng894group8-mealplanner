@@ -198,7 +198,7 @@ class UserRepository extends Repository implements EditableModelRepository {
     }
     public function selectHousehold($user,$hhId){
       $query = $this->db->prepare('UPDATE users set currHouseholdId=? where id=?');
-      $query->bind_param(
+      @$query->bind_param(
           "ii",
           $hhId,
           $user->getId()

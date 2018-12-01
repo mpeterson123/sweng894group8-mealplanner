@@ -201,34 +201,40 @@ class Household extends Controller{
 	 * @param  integer $hhId Household id
 	 */
 	public function delete($hhId){
-				// Delete Household
-		$this->householdRepository->remove($hhId);
-
-		// Create default household if only household was deleted
-		$user = $this->session->get('user');
-		$this->log->add($user->getId(), 'Delete', 'A household ('.$hhId.') has been deleted');
-		$households = 	$this->householdRepository->allForUser($user);
-		if(empty($households)){
-			// Generate household name, and create household with that, and current user as owner
-			$householdName = $user->getLastName().' Household';
-			$household = $this->householdFactory->make(array('name' => $householdName, 'owner' => $user->getUsername()));
-			$this->householdRepository->save($household);
-			// Update user in the session
-			$updatedUser = $this->userRepository->find($user->getUsername());
-			$this->session->add('user', $updatedUser);
-			// Display message and redirect
-			$this->session->flashMessage('success', 'This household was deleted. Since this was your only household, an empty default household was created for you.');
+		// Delete Household
+		if(!$this->householdRepository->remove($hhId)){
+			$this->session->flashMessage('danger', 'An error occurred deleting this household. Please reload the page and try again.');
 		}
-		// If selected household is deleted toggle to first household in list
-		if($user->getCurrHousehold()->getId() == $hhId){
-			  $user = $this->session->get('user');
-				$households = 	$this->householdRepository->allForUser($user);
-				$this->userRepository->selectHousehold($user,$households[0]->getId());
+		else{
+			// Create default household if only household was deleted
+			$user = $this->session->get('user');
+			$this->log->add($user->getId(), 'Delete', 'A household ('.$hhId.') has been deleted');
+			$households = 	$this->householdRepository->allForUser($user);
+
+			$this->session->flashMessage('success', 'The selected household was deleted.');
+
+			if(empty($households)){
+				// Generate household name, and create household with that, and current user as owner
+				$householdName = $user->getLastName().' Household';
+				$household = $this->householdFactory->make(array('name' => $householdName, 'owner' => $user->getUsername()));
+				$this->householdRepository->save($household);
 				// Update user in the session
 				$updatedUser = $this->userRepository->find($user->getUsername());
 				$this->session->add('user', $updatedUser);
-		}
+				// Display message and redirect
+				$this->session->flashMessage('success', 'The selected household was deleted. Since it was your only household, an empty default household was created for you.');
+			}
+			// If selected household is deleted toggle to first household in list
+			if($user->getCurrHousehold()->getId() == $hhId){
+				$user = $this->session->get('user');
+				$households = 	$this->householdRepository->allForUser($user);
+				$this->userRepository->selectHousehold($user,$households[0]->getId());
 
+				// Update user in the session
+				$updatedUser = $this->userRepository->find($user->getUsername());
+				$this->session->add('user', $updatedUser);
+			}
+		}
 		// Redirect to list
 		Redirect::toControllerMethod('Household', 'list');
 	}
