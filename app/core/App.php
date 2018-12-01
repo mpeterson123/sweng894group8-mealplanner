@@ -69,8 +69,24 @@ class App {
 
 		$this->parseUrl();
 
+
+		// Set shared dependencies
+		$sharedDependencies = array(
+			'dbh' => $this->dbh,
+			'session' => $this->session,
+			'request' => $this->request,
+			'log' => $this->log,
+		);
+
 		if(($this->session->get('user') === NULL) && ($this->url[0] != "Account")){
-			$controller = new \Base\Controllers\Account($this->dbh,new Session(),NULL, NULL);
+			// Load dependencies for the controller
+			$namespacedControllerDependencyLoader = "Base\Loaders\AccountLoader";
+			$controllerDependencyLoader = new $namespacedControllerDependencyLoader($this->loader);
+			$dependencies = array_merge($sharedDependencies, $controllerDependencyLoader->loadDependencies());
+
+			// Instantiate controller
+			$namespacedController = "Base\Controllers\\".$controllerName;
+			$controller = new $namespacedController($dependencies);
 		}
 		else if(!empty($this->url[0])){		// otherwise use default
 			try{
@@ -78,14 +94,6 @@ class App {
 				if(file_exists(__DIR__.'/../controllers/'.$this->url[0].'.php')){
 					$controllerName = $this->url[0];
 					unset($this->url[0]);
-
-					// Set shared dependencies
-					$sharedDependencies = array(
-						'dbh' => $this->dbh,
-						'session' => $this->session,
-						'request' => $this->request,
-						'log' => $this->log,
-					);
 
 					// Load dependencies for the controller
 					$namespacedControllerDependencyLoader = "Base\Loaders\\".$controllerName.'Loader';
