@@ -227,7 +227,7 @@ class Account extends Controller{
 		$this->validateEditInput($input, 'settings');
 
 		// Handle password update
-		if(isset($this->request['password']) && isset($this->request['confirmPassword'])){
+		if(isset($this->request['password']) && $this->request['password'] != '' && isset($this->request['confirmPassword'])){
 			$user->setPassword($this->pass_hash($input['password']));
 		}
 		// Handle name updated

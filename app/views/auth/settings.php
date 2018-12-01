@@ -78,7 +78,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                         <label for="inputEmail">Email</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                            <input type="email" required class="form-control" id="inputEmail" name="email" value="<?php echo ($data['session']->getOldInput('email') != NULL)? $data['session']->getOldInput('email') : $data['user']->getEmail(); ?>">
+                            <input type="email" required class="form-control" id="inputEmail" name="email" value="<?php echo $data['user']->getEmail(); ?>">
                         </div>
                     </div>
 
