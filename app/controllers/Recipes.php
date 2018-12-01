@@ -158,6 +158,10 @@ class Recipes extends Controller {
             $this->dbh->getDB()->commit();
             // Flash success message
             $this->session->flashMessage('success', ucfirst($recipe->getName()).' was added to your recipes.');
+
+            // Redirect back after creating
+            Redirect::toControllerMethod('Recipes', 'index');
+            return;
         }
         catch (\Exception $e){
             $this->dbh->getDB()->rollback();
@@ -170,12 +174,16 @@ class Recipes extends Controller {
                 $message = ' '.$e->getMessage();
             }
             $this->session->flashMessage('danger', 'Sorry, something went wrong. Your recipe could not be saved.'.$message);
+
+            // Redirect back after creating
+            Redirect::toControllerMethod('Recipes', 'create');
+            return;
         }
 
-
-        // Redirect back after updating
+        // Redirect back after creating
         Redirect::toControllerMethod('Recipes', 'create');
         return;
+
     }
 
     /**
