@@ -12,7 +12,8 @@ class AccountLoader implements ControllerDependencyLoaderInterface {
     public function loadDependencies():array {
         $dependencyList = array(
             'userFactory',
-            'userRepository'
+            'userRepository',
+            'householdRepository'
         );
         $dependencies = $this->loader->loadDependencies($dependencyList);
         return $dependencies;

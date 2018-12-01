@@ -43,6 +43,7 @@ class Account extends Controller{
 
 		$this->userFactory = $dependencies['userFactory'];
 		$this->userRepository = $dependencies['userRepository'];
+		$this->householdRepository = $dependencies['householdRepository'];
   	}
 
 	/**
@@ -315,10 +316,21 @@ class Account extends Controller{
 			return;
 		}
 
+		// If user has no households, let them create/join one.
 		if(empty($user->getHouseholds())){
 			$this->view('/auth/newHousehold');
 			return;
 		}
+
+		if(!$user->getCurrHousehold()){
+			$households = 	$this->householdRepository->allForUser($user);
+			$this->userRepository->selectHousehold($user,$households[0]->getId());
+
+			// Update user in the session
+			$updatedUser = $this->userRepository->find($user->getUsername());
+			$this->session->add('user', $updatedUser);
+		}
+
 		$this->view('/dashboard/index', ['username' => $user->getUsername(), 'name' => $user->getName(), 'profilePic' => $user->getProfilePic()]);
 	}
 
