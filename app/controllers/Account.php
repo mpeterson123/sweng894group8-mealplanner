@@ -323,7 +323,7 @@ class Account extends Controller{
 		}
 
 		if(!$user->getCurrHousehold()){
-			$households = 	$this->householdRepository->allForUser($user);
+			$households = $this->householdRepository->allForUser($user);
 			$this->userRepository->selectHousehold($user,$households[0]->getId());
 
 			// Update user in the session

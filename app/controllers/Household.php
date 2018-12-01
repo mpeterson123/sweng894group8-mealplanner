@@ -193,6 +193,15 @@ class Household extends Controller{
 		// disconnect
 		$this->householdRepository->disconnect($user->getId(),$hhId);
 
+		$updatedUser = $this->userRepository->find($user->getUsername());
+		$this->session->add('user', $updatedUser);
+
+		// If user has no current household after leaving, select one.
+		if(!$updatedUser->getCurrHousehold()){
+			$households = $this->householdRepository->allForUser($updatedUser);
+			$this->userRepository->selectHousehold($updatedUser,$households[0]->getId());
+		}
+
 		Redirect::toControllerMethod('Household', 'list');
 	}
 
@@ -233,6 +242,8 @@ class Household extends Controller{
 				// Update user in the session
 				$updatedUser = $this->userRepository->find($user->getUsername());
 				$this->session->add('user', $updatedUser);
+
+				$this->session->flashMessage('success', 'The selected household was deleted. Since it was your current household, a new one was assigned.');
 			}
 		}
 		// Redirect to list
@@ -247,9 +258,13 @@ class Household extends Controller{
 		// change selected household
 		$user = $this->session->get('user');
 		$this->userRepository->selectHousehold($user,$hhId);
+
 		// Update user in the session
 		$updatedUser = $this->userRepository->find($user->getUsername());
 		$this->session->add('user', $updatedUser);
+
+		$this->session->flashMessage('success', 'Your household switched to: '.$updatedUser->getCurrHousehold()->getName());
+
 		// Redirect to list
 		Redirect::toControllerMethod('Household', 'list');
 	}
