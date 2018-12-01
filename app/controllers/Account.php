@@ -590,12 +590,19 @@ class Account extends Controller{
 	 * Change user's profile picture
 	 */
 	public function changePicture():void{
+
 		// show form
 		if(($this->request['submit'] ?? NULL) == ''){
 			$this->view('/auth/changePic');
 		}
 		// upload
 		else{
+			if($_FILES["fileToUpload"]["error"]){
+				$this->session->flashMessage('danger', 'You must provide an image.');
+				$this->view('/auth/changePic');
+				return;
+			}
+
 			$user = $this->session->get('user');
 
 			$target_dir = __DIR__.'/../../public/images/users/';
