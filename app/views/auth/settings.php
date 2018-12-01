@@ -64,6 +64,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                             <div class="input-group-addon"><i class="fa fa-font"></i></div>
                             <input type="text" required class="form-control" id="inputFirstName" placeholder="" name="firstName" value="<?php echo ($data['session']->getOldInput('firstName') != NULL)? $data['session']->getOldInput('firstName') : $data['user']->getFirstName(); ?>">
                         </div>
+                        <p class="help-block">Only letters, spaces, dashes and periods</p>
                     </div>
                     <div class="form-group">
                         <label for="inputLastName">Last Name</label>
@@ -71,6 +72,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                             <div class="input-group-addon"><i class="fa fa-font"></i></div>
                             <input type="text" required class="form-control" id="inputLastName" name="lastName" value="<?php echo ($data['session']->getOldInput('lastName') != NULL)? $data['session']->getOldInput('lastName') : $data['user']->getLastName(); ?>">
                         </div>
+                        <p class="help-block">Only letters, spaces, dashes and periods</p>
                     </div>
                     <div class="form-group">
                         <label for="inputEmail">Email</label>
@@ -86,6 +88,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                             <div class="input-group-addon"><i class="fa fa-lock"></i></div>
                             <input type="password" class="form-control" id="readOnlyPassword" name="password" value="*****" readonly>
                         </div>
+                        <p class="help-block">At least 6 characters</p>
                         <a href="#" class="togglePasswordChange pull-right">Change</a><br>
                     </div>
 
