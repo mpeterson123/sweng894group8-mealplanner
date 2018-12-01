@@ -80,7 +80,7 @@ $PLUGIN_EXPORT      = TRUE;
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-3">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Options</h3>
                             <?php if($data['foodItemCount'] > 0){ ?>
