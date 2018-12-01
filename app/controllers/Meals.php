@@ -193,7 +193,7 @@ class Meals extends Controller {
         if($this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
         {
           $this->mealRepository->remove($meal);
-          $this->session->flashMessage('success', $meal->getRecipe()->getName().' meal with date of ', $meal->getDate().' was removed.');
+          $this->session->flashMessage('success', $meal->getRecipe()->getName().' meal with date of '.$meal->getDate().' was removed.');
         }
         else
         {
