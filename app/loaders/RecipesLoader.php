@@ -16,7 +16,10 @@ class RecipesLoader implements ControllerDependencyLoaderInterface {
             'ingredientFactory',
             'ingredientRepository',
             'recipeFactory',
-            'recipeRepository'
+            'recipeRepository',
+            'groceryListItemRepository',
+            'groceryListItemFactory',
+            'mealRepository'
         );
         $dependencies = $this->loader->loadDependencies($dependencyList);
         return $dependencies;

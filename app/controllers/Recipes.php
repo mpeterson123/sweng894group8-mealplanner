@@ -55,10 +55,10 @@ class Recipes extends Controller {
         $mealRepository;
 
     public function __construct($dependencies){
-    		$this->dbh = $dependencies['dbh'];
-    		$this->session = $dependencies['session'];
-    		$this->request = $dependencies['request'];
-    		$this->log = $dependencies['log'];
+		$this->dbh = $dependencies['dbh'];
+		$this->session = $dependencies['session'];
+		$this->request = $dependencies['request'];
+		$this->log = $dependencies['log'];
 
         $this->unitRepository = $dependencies['unitRepository'];
         $this->foodItemRepository = $dependencies['foodItemRepository'];
