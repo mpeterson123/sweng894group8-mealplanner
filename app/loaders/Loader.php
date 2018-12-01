@@ -31,6 +31,7 @@ use Base\Repositories\UserRepository;
 
 
 class Loader {
+    private $dependencies = array();
 
     public function __construct($db){
         $this->db = $db;
@@ -49,7 +50,12 @@ class Loader {
      * @return CategoryFactory A CategoryFactory instance
      */
     private function loadCategoryFactory():CategoryFactory{
-        return new CategoryFactory();
+        //---
+        if(!isset($this->dependencies['CategoryFactory'])){
+            $this->dependencies['CategoryFactory'] = new CategoryFactory();
+        }
+        return $this->dependencies['CategoryFactory'];
+        //---
     }
 
     /**
@@ -57,10 +63,15 @@ class Loader {
      * @return FoodItemFactory A FoodItemFactory instance
      */
     private function loadFoodItemFactory():FoodItemFactory{
-        return new FoodItemFactory(
-            $this->loadCategoryRepository(),
-            $this->loadUnitRepository()
-        );
+        //---
+        if(!isset($this->dependencies['FoodItemFactory'])){
+            $this->dependencies['FoodItemFactory'] = new FoodItemFactory(
+                $this->loadCategoryRepository(),
+                $this->loadUnitRepository()
+            );
+        }
+        return $this->dependencies['FoodItemFactory'];
+        //---
     }
 
     /**
@@ -68,7 +79,14 @@ class Loader {
      * @return GroceryListItemFactory A GroceryListItemFactory instance
      */
     private function loadGroceryListItemFactory():GroceryListItemFactory{
-        return new GroceryListItemFactory($this->loadFoodItemRepository());
+        //---
+        if(!isset($this->dependencies['GroceryListItemFactory'])){
+            $this->dependencies['GroceryListItemFactory'] = new GroceryListItemFactory(
+                $this->loadFoodItemRepository()
+            );
+        }
+        return $this->dependencies['GroceryListItemFactory'];
+        //---
     }
 
     /**
@@ -76,7 +94,12 @@ class Loader {
      * @return HouseholdFactory A HouseholdFactory instance
      */
     private function loadHouseholdFactory():HouseholdFactory{
-        return new HouseholdFactory();
+        //---
+        if(!isset($this->dependencies['HouseholdFactory'])){
+            $this->dependencies['HouseholdFactory'] = new HouseholdFactory();
+        }
+        return $this->dependencies['HouseholdFactory'];
+        //---
     }
 
     /**
@@ -84,10 +107,15 @@ class Loader {
      * @return IngredientFactory A IngredientFactory instance
      */
     private function loadIngredientFactory():IngredientFactory{
-        return new IngredientFactory(
-            $this->loadFoodItemRepository(),
-            $this->loadUnitRepository()
-        );
+        //---
+        if(!isset($this->dependencies['IngredientFactory'])){
+            $this->dependencies['IngredientFactory'] = new IngredientFactory(
+                $this->loadFoodItemRepository(),
+                $this->loadUnitRepository()
+            );
+        }
+        return $this->dependencies['IngredientFactory'];
+        //---
     }
 
     /**
@@ -95,7 +123,14 @@ class Loader {
      * @return MealFactory A MealFactory instance
      */
     private function loadMealFactory():MealFactory{
-        return new MealFactory($this->loadRecipeRepository());
+        //---
+        if(!isset($this->dependencies['MealFactory'])){
+            $this->dependencies['MealFactory'] = new MealFactory(
+                $this->loadRecipeRepository()
+            );
+        }
+        return $this->dependencies['MealFactory'];
+        //---
     }
 
 
@@ -104,7 +139,12 @@ class Loader {
      * @return MessageFactory A MessageFactory instance
      */
     private function loadMessageFactory():MessageFactory{
-        return new MessageFactory();
+        //---
+        if(!isset($this->dependencies['MessageFactory'])){
+            $this->dependencies['MessageFactory'] = new MessageFactory();
+        }
+        return $this->dependencies['MessageFactory'];
+        //---
     }
 
     /**
@@ -112,7 +152,14 @@ class Loader {
      * @return RecipeFactory A RecipeFactory instance
      */
     private function loadRecipeFactory():RecipeFactory{
-        return new RecipeFactory($this->loadIngredientRepository());
+        //---
+        if(!isset($this->dependencies['RecipeFactory'])){
+            $this->dependencies['RecipeFactory'] = new RecipeFactory(
+                $this->loadIngredientRepository()
+            );
+        }
+        return $this->dependencies['RecipeFactory'];
+        //---
     }
 
     /**
@@ -120,7 +167,12 @@ class Loader {
      * @return UnitFactory A UnitFactory instance
      */
     private function loadUnitFactory():UnitFactory{
-        return new UnitFactory();
+        //---
+        if(!isset($this->dependencies['UnitFactory'])){
+            $this->dependencies['UnitFactory'] = new UnitFactory();
+        }
+        return $this->dependencies['UnitFactory'];
+        //---
     }
 
     /**
@@ -128,7 +180,14 @@ class Loader {
      * @return UserFactory A UserFactory instance
      */
     private function loadUserFactory():UserFactory{
-        return new UserFactory($this->loadHouseholdRepository());
+        //---
+        if(!isset($this->dependencies['UserFactory'])){
+            $this->dependencies['UserFactory'] = new UserFactory(
+                $this->loadHouseholdRepository()
+            );
+        }
+        return $this->dependencies['UserFactory'];
+        //---
     }
 
 
