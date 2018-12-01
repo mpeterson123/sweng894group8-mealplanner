@@ -168,7 +168,9 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                                     <tr class="<?php if (!$message['viewed']) { ?>unread<?php } ?>">
                                                         <td class="hidden-xs" style="min-width: 30px; max-width: 50px;">
                                                             <div class="checkbox m-t-0 m-b-0">
+                                                                <!--
                                                                 <input type="checkbox" id="ch<?php echo $index; ?>">
+                                                                -->
                                                                 <label for="ch<?php echo $index; ?>"></label>
                                                             </div>
                                                         </td>
