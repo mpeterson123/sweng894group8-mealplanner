@@ -134,7 +134,7 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                     </div>
                                     <p><?php echo $Message['message']; ?></p>
                                     <hr>
-<?php if ($UserIsRecipient) { ?>
+<?php if ($UserIsRecipient && (!$Message['trash'] ?? NULL) ) { ?>
                                     <div class="b-all p-20">
                                         <p class="p-b-20">click here to <a href="/Messages/compose/<?php echo $Message['senderid']; ?>">Reply</a> </p>
                                     </div>
