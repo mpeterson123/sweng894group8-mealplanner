@@ -69,16 +69,17 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
 
     public function remove($id){
         $query = $this->db->prepare('DELETE FROM household WHERE id = ?');
-        $query->bind_param("s",$id);
-        $query->execute();
+        $query->bind_param("i",$id);
+        
+        return $query->execute();
     }
 
     public function insert($household){
         // Insert into household
         $newHouseholdQuery = $this->db->prepare('INSERT INTO household
-                (name,owner,ownerId)
-                VALUES(?,?,?)');
-        @$newHouseholdQuery->bind_param("sss",$household->getName(),$household->getOwner(),(new Session())->get('user')->getId());
+                (name,owner)
+                VALUES(?,?)');
+        @$newHouseholdQuery->bind_param("ss",$household->getName(),$household->getOwner());
         $newHouseholdQuery->execute();
 
         // Assign to user
@@ -127,13 +128,11 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
             ->prepare('UPDATE household SET
                             name = ?,
                             owner =?,
-                            ownerId=?
                             WHERE id = ?');
         @$query->bind_param(
-             'ssii',
+             'ssi',
              $hh->getName(),
              $hh->getOwner(),
-             (new Session())->get('user')->getId(),
              $hh->getId()
         );
         return $query->execute();
