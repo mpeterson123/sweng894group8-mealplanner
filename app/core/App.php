@@ -104,7 +104,6 @@ class App {
 					$namespacedController = "Base\Controllers\\".$controllerName;
 					$controller = new $namespacedController($dependencies);
 
-
 					// If methodName exists, set it and remove the name from the URL
 					if(isset($this->url[1]) && method_exists($controller,$this->url[1]))
 					{
@@ -122,16 +121,28 @@ class App {
 				}
 			}
 			catch(\Exception $e) {
+				// Load dependencies for the controller
+				$namespacedControllerDependencyLoader = "Base\Loaders\ErrorsLoader";
+				$controllerDependencyLoader = new $namespacedControllerDependencyLoader($this->loader);
+				$dependencies = array_merge($sharedDependencies, $controllerDependencyLoader->loadDependencies());
+
 				// Instantiate controller
 				$namespacedController = "Base\Controllers\\Errors";
-				$controller = new $namespacedController($this->dbh, $this->session, $this->request);
+				$controller = new $namespacedController($dependencies);
+
 				$methodName = 'show';
 				$params = array('errorCode'=>404);
 			}
 		}
 		else{
+			// Load dependencies for the controller
+			$namespacedControllerDependencyLoader = "Base\Loaders\\".$controllerName.'Loader';
+			$controllerDependencyLoader = new $namespacedControllerDependencyLoader($this->loader);
+			$dependencies = array_merge($sharedDependencies, $controllerDependencyLoader->loadDependencies());
+
+			// Instantiate controller
 			$namespacedController = "Base\Controllers\\".$controllerName;
-			$controller = new $namespacedController($this->dbh, $this->session, $this->request);
+			$controller = new $namespacedController($dependencies);
 		}
 
 		try {
@@ -139,10 +150,17 @@ class App {
 			call_user_func_array([$controller,$methodName],$params);
 		}
 		catch(\ArgumentCountError $ace){
+			// Load dependencies for the controller
+			$namespacedControllerDependencyLoader = "Base\Loaders\ErrorsLoader";
+			$controllerDependencyLoader = new $namespacedControllerDependencyLoader($this->loader);
+			$dependencies = array_merge($sharedDependencies, $controllerDependencyLoader->loadDependencies());
+
+			// Instantiate controller
 			$namespacedController = "Base\Controllers\\Errors";
-			$controller = new $namespacedController($this->dbh, $this->session, $this->request);
+			$controller = new $namespacedController($dependencies);
+
 			$methodName = 'show';
-			$params = array('errorCode'=>400);
+			$params = array('errorCode' => 400);
 			call_user_func_array([$controller,$methodName],$params);
 
 		}
