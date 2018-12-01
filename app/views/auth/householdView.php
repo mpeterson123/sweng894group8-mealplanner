@@ -170,7 +170,7 @@ $PLUGIN_EXPORT      = TRUE;
                       <input type="submit" name="submit" value="Update" />
                     </form>
                     <p><br>
-                    <a href="javascript:void(0);"  onclick="popupName(0)">or go back</a>
+                    <a href="javascript:void(0);"  onclick="popupRename(0)">or go back</a>
                   </div>
                 </div>
 
