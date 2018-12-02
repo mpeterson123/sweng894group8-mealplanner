@@ -10,7 +10,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php');
 use Base\Helpers\Session;
 
 // Sub Title
-$SUBTITLE = 'Household';
+$SUBTITLE = $data['name'];
 
 
 // Plugins
@@ -90,10 +90,13 @@ $PLUGIN_EXPORT      = true;
                     <div class="col-sm-4">
                         <div class="white-box">
                           <h3 class="box-title m-b-0"><?php echo $data['name']; if ($data['isOwner']) {
-    ?> <a href="javascript:void(0);" onclick="popupRename(1)" style="font-size:10px">Rename</a><?php
+    ?> <a href="javascript:void(0);" onclick="popupRename(1)" style="font-size:10px" class="btn btn-xs btn-info">Rename</a><?php
 } ?></h3>
+                            <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
+                            <a href="/Household/list">&laquo; Return to households</a>
+                            </p>
                           <div class="table-responsive">
-                                <table class="display nowrap" cellspacing="0" width="100%">
+                                <table class="display nowrap table table-condensed" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Members</th>
@@ -112,7 +115,10 @@ $PLUGIN_EXPORT      = true;
                                                         echo '<td style="color:gray;text-align:right;"><strong>Owner</strong></td>';
                                                     } elseif ($data['isOwner']) {
                                                         echo '<td style="text-align:right;"><a href="javascript:void(0);" onclick="popupUser('.$m['id'].')"><strong style="color:red;">x</strong></a></td>';
-                                                    } ?>
+                                                    }
+                                                    else{
+                                                        echo '<td></td>';
+                                                    }?>
                                                 </tr>
                                                 <?php
                                                 }
@@ -121,12 +127,11 @@ $PLUGIN_EXPORT      = true;
                                     </tbody>
                                 </table>
                             </div>
-                            <br><br>
                             <?php
                             if ($data['isOwner']) {
-                                echo '<a href="javascript:void(0);" onclick="popupDelete(1)">Delete Household</a>';
+                                echo '<a href="javascript:void(0);" onclick="popupDelete(1)" class="btn btn-xs btn-danger">Delete Household</a>';
                             } else {
-                                echo '<a href="javascript:void(0);" onclick="popupLeave(1)">Leave Household</a>';
+                                echo '<a href="javascript:void(0);" onclick="popupLeave(1)" class="btn btn-xs btn-danger">Leave Household</a>';
                             }
                             ?>
                         </div>

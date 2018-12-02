@@ -123,12 +123,15 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
             return false;
         }
 
-        $currHouseholdQuery = $this->db->prepare('UPDATE users SET currHouseholdId = NULL WHERE id = ?');
-        $currHouseholdQuery->bind_param("i", $userId);
+
+        $currHouseholdQuery = $this->db->prepare('UPDATE users SET currHouseholdId = NULL WHERE id = ? AND currHouseholdId = ?');
+        $currHouseholdQuery->bind_param("ii", $userId, $hhId);
 
         if (!$currHouseholdQuery->execute()){
             return false;
         }
+
+        return true;
     }
     /**
      * Update household

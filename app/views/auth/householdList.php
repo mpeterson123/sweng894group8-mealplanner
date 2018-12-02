@@ -47,7 +47,8 @@ $PLUGIN_EXPORT      = TRUE;
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="white-box">
-                          <h3 class="box-title m-b-0">Household</h3>
+                          <h3 class="box-title m-b-0">Households</h3>
+
                           <div class="table-responsive">
                                 <table class="display nowrap table table-condensed" cellspacing="0" width="100%">
                                     <thead>

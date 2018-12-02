@@ -204,6 +204,9 @@ class Household extends Controller{
 			$this->userRepository->selectHousehold($updatedUser,$households[0]->getId());
 		}
 
+		$updatedUser = $this->userRepository->find($user->getUsername());
+		$this->session->add('user', $updatedUser);
+
 		$this->session->flashMessage('success', 'You left a household.');
 
 		Redirect::toControllerMethod('Household', 'list');
