@@ -87,8 +87,8 @@ class Household extends Controller{
 		$this->session->add('user', $updatedUser);
 
 		// Display message and redirect
-		$this->session->flashMessage('success', $household->getName().' was created. Check the Household Settings page to see the invite code for other users.');
-		Redirect::toControllerMethod('Account', 'dashboard');
+		$this->session->flashMessage('success', $household->getName().' was created.');
+		Redirect::toControllerMethod('Household', 'list');
 
 	}
 	/*

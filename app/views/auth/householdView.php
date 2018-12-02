@@ -152,7 +152,7 @@ $PLUGIN_EXPORT      = true;
                 <div id="confirmDeleteBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
                   <div class="white-box" style="line-height:25px;width:420px;height:200px;">
                       <h4>Are you sure you want to delete this household?</h4>
-                      <p>This action cannot be undone.</p>
+                      <p>Associated food items, recipes, meals, and the grocery list will be deleted. This action cannot be undone.</p>
                       <div class="form-group pull-right">
                           <a class="btn btn-default" href="javascript:void(0);"  onclick="popupDelete(0)">Cancel</a>
                           <a class="btn btn-danger" href="/Household/delete/<?php echo $data['hhId']; ?>">Delete</a>
