@@ -126,8 +126,8 @@ class Household extends Controller{
 		$updatedUser = $this->userRepository->find($user->getUsername());
 		$this->session->add('user', $updatedUser);
 		// Diplay message and redirect
-		$this->session->flashMessage('success', 'You have joined a household.');
-		Redirect::toControllerMethod('Account', 'dashboard');
+		$this->session->flashMessage('success', 'You have joined a new household.');
+		Redirect::toControllerMethod('Household', 'list');
 	}
 
 	/**
@@ -179,6 +179,8 @@ class Household extends Controller{
 		// disconnect
 		$this->householdRepository->disconnect($userId,$hhId);
 
+		$this->session->flashMessage('success', 'The selected user has been removed from this household.');
+
 		Redirect::toControllerMethod('Household', 'detail', array($hhId));
 	}
 
@@ -201,6 +203,8 @@ class Household extends Controller{
 			$households = $this->householdRepository->allForUser($updatedUser);
 			$this->userRepository->selectHousehold($updatedUser,$households[0]->getId());
 		}
+
+		$this->session->flashMessage('success', 'You left a household.');
 
 		Redirect::toControllerMethod('Household', 'list');
 	}
