@@ -66,6 +66,9 @@ class Household extends Controller{
 	 */
 	public function create(){
 		$user = $this->session->get('user');
+
+		$this->validateNameInput($this->request, 'index');
+
 		// Generate household name, and create household with that, and current user as owner
 		$householdName = trim($this->request['name']);
 		$household = $this->householdFactory->make(array('name' => $householdName, 'owner' => $user->getUsername()));
@@ -115,13 +118,21 @@ class Household extends Controller{
 		// Get household id
 		$inviteCode = trim($this->request['invite_code']);
 
-		$household = new HH();
+		if(!preg_match('/^[a-zA-Z0-9]{1,}$/', $inviteCode)){
+			$this->session->flashMessage('danger', 'Your invitation code is invalid.');
+			Redirect::toControllerMethod('Household', 'index');
+			return;
+		}
 
+		$household = new HH();
 		$hhId = $household->reverseCode($inviteCode);
+
 		// Add user to household
 		$this->householdRepository->connect($user->getId(),$hhId);
+
 		// Toggle this household as current
 		$this->userRepository->selectHousehold($user,$hhId);
+
 		// Update user in the session
 		$updatedUser = $this->userRepository->find($user->getUsername());
 		$this->session->add('user', $updatedUser);
@@ -282,11 +293,33 @@ class Household extends Controller{
 	public function rename($hhId):void{
 		$user = $this->session->get('user');
 
-		// Rename household
+		// Validate input
+		$this->validateNameInput($this->request, 'detail', [$hhId]);
+
+		// Get household
 		$newHouseholdName = $this->request['name'];
 		$household = $this->householdRepository->find($hhId);
+
+		if(!$household){
+			$this->session->flashMessage('danger', 'Uh oh, the household is invalid.');
+			Redirect::toControllerMethod('Household', 'list');
+			return;
+		}
+
+		// Check if requester is the owner of the household
+		if($household->getOwner() != $user->getUsername()){
+			$this->session->flashMessage('danger', 'You are not the owner of this household');
+			Redirect::toControllerMethod('Household', 'detail', array($hhId));
+			return;
+		}
+
+		// Rename
 		$household->setName($newHouseholdName);
-		$this->householdRepository->save($household);
+		if(!$this->householdRepository->save($household)){
+			$this->session->flashMessage('danger', 'Uh oh, the household could not be renamed.');
+			Redirect::toControllerMethod('Household', 'detail', array($hhId));
+			return;
+		};
 
 		// Update user in the session
 		$updatedUser = $this->userRepository->find($user->getUsername());
@@ -296,5 +329,45 @@ class Household extends Controller{
 		$this->session->flashMessage('success', $household->getName().' was renamed');
 		Redirect::toControllerMethod('Household', 'detail', array($hhId));
 	}
+
+	/**
+     * Validates household name input from creation/renaming forms
+     * @param array $input      Household name input
+     * @param string $method    Method to redirect to
+     * @param array $params     Parameters for the redirection method
+     */
+    private function validateNameInput($input, $method, $params = NULL):void {
+        $this->session->flashOldInput($input);
+
+        // Validate input
+        $validator = new Validator($input);
+        $safeStringRegex = '/^[0-9a-z #\/\(\)-]+$/i';
+        $rules = [
+            'required' => [
+                ['name'],
+            ],
+            'regex' => [
+                ['name', $safeStringRegex]
+            ],
+            'lengthMin' => [
+                ['name', 1]
+            ],
+            'lengthMax' => [
+                ['name', 32]
+            ]
+        ];
+        $validator->rules($rules);
+
+        if(!$validator->validate()) {
+
+            $errorMessage = Format::validatorErrors($validator->errors());
+            // Flash danger message
+            $this->session->flashMessage('danger', $errorMessage);
+
+            // Redirect back with errors
+            Redirect::toControllerMethod('Household', $method, $params);
+            return;
+        }
+    }
 }
 ?>

@@ -49,9 +49,9 @@ class Household {
                 "Household name cannot be empty", 1);
         }
 
-        if(strlen($name) > 50){
+        if(strlen($name) > 32){
             throw new \Exception(
-                "Household name cannot be longer than 50 characters", 1);
+                "Household name cannot be longer than 32 characters", 1);
         }
 
         $this->name = trim($name);

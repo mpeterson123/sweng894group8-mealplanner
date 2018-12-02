@@ -83,8 +83,8 @@ class HouseholdTest extends TestCase {
 	    $this->household->setName('');
 	}
 
-	public function testNameCannotBeLongerThan50Chars(){
-	    $longName = '123456789012345678901234567890123456789012345678901';
+	public function testNameCannotBeLongerThan32Chars(){
+	    $longName = '123456789012345678901234567890123';
 	    $this->expectException(\Exception::class);
 	    $this->household->setName($longName);
 	}

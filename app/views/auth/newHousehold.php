@@ -43,6 +43,8 @@ $PLUGIN_SIDEBARMENU= TRUE;
     </div>
    <div style="top: 35%; left: 30%;position: absolute;">
         <div class="white-box" style="line-height:25px;width:420px;height:260px;">
+            <?php $data['session']->renderMessage(); ?>
+            
             <h3>To continue, create a new household, or join an existing one.</h3>
             <div class="form-group">
                 <a href="javascript:void(0);" onclick="popupName(1)" class="btn btn-success btn-lg btn-block">
