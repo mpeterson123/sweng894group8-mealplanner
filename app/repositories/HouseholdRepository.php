@@ -110,14 +110,25 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
      * Remove a user to a household
      * @param  integer $userId Id of user to connect
      * @param  integer $hhId   Id of household to connect
+     * @return bool    Whether query was successful
      */
-    public function disconnect($userId,$hhId):void{
-      $query = $this->db->prepare('Delete from usersHouseholds where userId=? AND householdId=?');
-      $query->bind_param(
-          "ii",
-          $userId,
-          $hhId);
-      $query->execute();
+    public function disconnect($userId,$hhId){
+        $query = $this->db->prepare('DELETE FROM usersHouseholds WHERE userId=? AND householdId=?');
+        $query->bind_param(
+            "ii",
+            $userId,
+            $hhId
+        );
+        if (!$query->execute()){
+            return false;
+        }
+
+        $currHouseholdQuery = $this->db->prepare('UPDATE users SET currHouseholdId = NULL WHERE id = ?');
+        $currHouseholdQuery->bind_param("i", $userId);
+
+        if (!$currHouseholdQuery->execute()){
+            return false;
+        }
     }
     /**
      * Update household
