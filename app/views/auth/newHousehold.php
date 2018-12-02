@@ -20,20 +20,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
   if(!empty($data['message']))
     echo $data['message'];
 ?>
-<style>
-  .selectBox{
-    width:200px;
-    height:150px;
-    border:1px solid black;
-    text-align:center;
-    line-height:150px;
-    float:left;
-    margin-left: 10px;
-    margin-right: 10px;
-    background-color: white;
-    border-radius: 10px;
-  }
-</style>
+
 <script type="text/javascript">
   function popup(open){
     if(open)
@@ -54,38 +41,49 @@ $PLUGIN_SIDEBARMENU= TRUE;
     <div class="preloader">
         <div class="cssload-speeding-wheel"></div>
     </div>
-   <div style="top: 35%; left: 30%;position: absolute; ">
-      <a href="javascript:void(0);" onclick="popupName(1)">
-        <div class="selectBox">
-          Start new Household
+   <div style="top: 35%; left: 30%;position: absolute;">
+        <div class="white-box" style="line-height:25px;width:420px;height:260px;">
+            <h3>To continue, create a new household, or join an existing one.</h3>
+            <div class="form-group">
+                <a href="javascript:void(0);" onclick="popupName(1)" class="btn btn-success btn-lg btn-block">
+                    Create Household
+                </a>
+            </div>
+            <div class="form-group">
+                <a href="javascript:void(0);" onclick="popup(1)" class="btn btn-success btn-lg btn-block">
+                    Join Household
+                </a>
+            </div>
         </div>
-      </a>
-      <a href="javascript:void(0);" onclick="popup(1)">
-        <div class="selectBox">
-          Join existing Household
-        </div>
-      </a>
     </div>
     <div id="inviteCodeBox" style="top: 35%; left: 30%;position: absolute;z=2;display:none; ">
-      <div class="selectBox" style="line-height:25px;width:420px;">
+      <div class="white-box" style="line-height:25px;width:420px;height:260px;">
         <form action="/Household/join" method="POST">
-          Enter invite code:<br>
-          <input type="text" name="invite_code" /><br>
-          <input type="submit" name="submit" value="Join" />
+            <h4>Enter the invitation code for the household you want to join.</h4>
+            <div class="form-group">
+                <label for="name" id="name">Invitation Code</label>
+                <input type="text" class="form-control" name="invite_code" />
+            </div>
+            <div class="form-group text-center">
+                <a href="javascript:void(0);"  onclick="popup(0)" class="btn btn-default">Back</a>
+                <input type="submit" name="submit" value="Join" class="btn btn-success"/>
+            </div>
         </form>
-        <p><br>
-        <a href="javascript:void(0);"  onclick="popup(0)">or go back</a>
       </div>
     </div>
     <div id="nameBox" style="top: 35%; left: 30%;position: absolute;z=2;display:none; ">
-      <div class="selectBox" style="line-height:25px;width:420px;">
+      <div class="white-box" style="line-height:25px;width:420px;height:260px;">
         <form action="/Household/create" method="POST">
-          Set Household Name:<br>
-          <input type="text" name="name" value="<?php echo $data['name']; ?> Household"/><br>
-          <input type="submit" name="submit" value="Create" />
+            <h4>Choose a name for your household.</h4>
+            <div class="form-group">
+                <label for="name" id="name">Household Name</label>
+                <input type="text" class="form-control" name="name" value="<?php echo $data['name']; ?> Household"/>
+            </div>
+            <div class="form-group text-center">
+                <a href="javascript:void(0);"  onclick="popupName(0)" class="btn btn-default">Back</a>
+                <input type="submit" name="submit" value="Create" class="btn btn-success" />
+            </div>
         </form>
-        <p><br>
-        <a href="javascript:void(0);"  onclick="popupName(0)">or go back</a>
       </div>
     </div>
 

@@ -5,7 +5,7 @@
 // Food (listing)
 ///////////////////////////////////////////////////////////////////////////////
 require_once __DIR__.'/../../../vendor/autoload.php';
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php' );
+require_once($_SERVER['DOCUMENT_ROOT'] . '/../app/views/modules/main.mod.php');
 
 use Base\Helpers\Session;
 
@@ -14,27 +14,14 @@ $SUBTITLE = 'Household';
 
 
 // Plugins
-$PLUGIN_SLIMSCROLL  = TRUE;
-$PLUGIN_WAVES       = TRUE;
-$PLUGIN_DATATABLES  = TRUE;
-$PLUGIN_SIDEBARMENU = TRUE;
-$PLUGIN_EXPORT      = TRUE;
+$PLUGIN_SLIMSCROLL  = true;
+$PLUGIN_WAVES       = true;
+$PLUGIN_DATATABLES  = true;
+$PLUGIN_SIDEBARMENU = true;
+$PLUGIN_EXPORT      = true;
 ?>
-<?php require_once( __HEADER__ ); ?>
-<style>
-  .selectBox{
-    width:200px;
-    height:150px;
-    border:1px solid black;
-    text-align:center;
-    line-height:150px;
-    float:left;
-    margin-left: 10px;
-    margin-right: 10px;
-    background-color: white;
-    border-radius: 10px;
-  }
-</style>
+<?php require_once(__HEADER__); ?>
+
 <script type="text/javascript">
   var selectedMemberId = 0;
   function popupUser(open){
@@ -87,9 +74,9 @@ $PLUGIN_EXPORT      = TRUE;
             <div class="cssload-speeding-wheel"></div>
         </div>
 
-<?php require_once( __NAVBAR__ ); ?>
+<?php require_once(__NAVBAR__); ?>
 
-<?php require_once( __SIDEBAR__ ); ?>
+<?php require_once(__SIDEBAR__); ?>
 
         <!-- ===== Page-Content ===== -->
         <div class="page-wrapper">
@@ -102,7 +89,9 @@ $PLUGIN_EXPORT      = TRUE;
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="white-box">
-                          <h3 class="box-title m-b-0"><?php echo $data['name']; if($data['isOwner']){?> <a href="javascript:void(0);" onclick="popupRename(1)" style="font-size:10px">Rename</a><?php } ?></h3>
+                          <h3 class="box-title m-b-0"><?php echo $data['name']; if ($data['isOwner']) {
+    ?> <a href="javascript:void(0);" onclick="popupRename(1)" style="font-size:10px">Rename</a><?php
+} ?></h3>
                           <div class="table-responsive">
                                 <table class="display nowrap" cellspacing="0" width="100%">
                                     <thead>
@@ -113,14 +102,17 @@ $PLUGIN_EXPORT      = TRUE;
                                     </thead>
                                     <tbody>
                                         <?php
-                                            if($data['members']){
-                                                foreach ($data['members'] as $m) { ?>
+                                            if ($data['members']) {
+                                                foreach ($data['members'] as $m) {
+                                                    ?>
                                                 <tr>
                                                     <td><?php echo $m['name']; ?></td>
                                                     <?php
-                                                    if($data['owner'] == $m['username'])  echo '<td style="color:gray;text-align:right;">Owner</td>';
-                                                    else if($data['isOwner']) echo '<td style="text-align:right;"><a href="javascript:void(0);" onclick="popupUser('.$m['id'].')" style="color:red;">x</a></td>';
-                                                    ?>
+                                                    if ($data['owner'] == $m['username']) {
+                                                        echo '<td style="color:gray;text-align:right;"><strong>Owner</strong></td>';
+                                                    } elseif ($data['isOwner']) {
+                                                        echo '<td style="text-align:right;"><a href="javascript:void(0);" onclick="popupUser('.$m['id'].')"><strong style="color:red;">x</strong></a></td>';
+                                                    } ?>
                                                 </tr>
                                                 <?php
                                                 }
@@ -131,10 +123,10 @@ $PLUGIN_EXPORT      = TRUE;
                             </div>
                             <br><br>
                             <?php
-                            if($data['isOwner'])
-                              echo '<a href="javascript:void(0);" onclick="popupDelete(1)">Delete Household</a>';
-                            else{
-                              echo '<a href="javascript:void(0);" onclick="popupLeave(1)">Leave Household</a>';
+                            if ($data['isOwner']) {
+                                echo '<a href="javascript:void(0);" onclick="popupDelete(1)">Delete Household</a>';
+                            } else {
+                                echo '<a href="javascript:void(0);" onclick="popupLeave(1)">Leave Household</a>';
                             }
                             ?>
                         </div>
@@ -142,40 +134,55 @@ $PLUGIN_EXPORT      = TRUE;
                 </div>
                 <div id="overlay" style="top: 0%; left: 0%;position: absolute;z=2;display:none; width:100%;height:100%;background-color: gray;opacity:0.5;"></div>
                 <div id="confirmUserBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
-                  <div class="selectBox" style="line-height:25px;width:420px;">
-                      <br><p><h3>Are you sure you want to remove this user?</h3><p>
-                      <a id="remUser" href="/Household/remove/">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <a href="javascript:void(0);"  onclick="popupUser(0)">No</a>
-                  </div>
+                    <div class="white-box" style="line-height:25px;width:420px;height:200px;">
+                      <h4>Are you sure you want to remove this user?</h4>
+                      <p>This action cannot be undone.</p>
+                      <div class="form-group pull-right">
+                          <a class="btn btn-default" href="javascript:void(0);"  onclick="popupUser(0)">Cancel</a>
+                          <a class="btn btn-danger" id="remUser" href="/Household/remove/">Remove</a>
+                      </div>
+                      <br>
+                    </div>
                 </div>
                 <div id="confirmDeleteBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
-                  <div class="selectBox" style="line-height:25px;width:420px;height:200px;">
-                      <br><p><h3>Are you sure you want to delete this household?</h3><br>This action cannot be undone!<p>
-                      <a href="/Household/delete/<?php echo $data['hhId']; ?>">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <a href="javascript:void(0);"  onclick="popupDelete(0)">No</a>
+                  <div class="white-box" style="line-height:25px;width:420px;height:200px;">
+                      <h4>Are you sure you want to delete this household?</h4>
+                      <p>This action cannot be undone.</p>
+                      <div class="form-group pull-right">
+                          <a class="btn btn-default" href="javascript:void(0);"  onclick="popupDelete(0)">Cancel</a>
+                          <a class="btn btn-danger" href="/Household/delete/<?php echo $data['hhId']; ?>">Delete</a>
+                      </div>
+                      <br>
                   </div>
                 </div>
                 <div id="confirmLeaveBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
-                  <div class="selectBox" style="line-height:25px;width:420px;">
-                      <br><p><h3>Are you sure you want to leave this household?</h3><p>
-                      <a href="/Household/leave/<?php echo $data['hhId']; ?>">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <a href="javascript:void(0);"  onclick="popupLeave(0)">No</a>
+                  <div class="white-box" style="line-height:25px;width:420px;">
+                      <h4>Are you sure you want to leave this household?</h4>
+                      <p>You can join again later with the owner's invite code.</p>
+                      <div class="form-group pull-right">
+                          <a class="btn btn-default" href="javascript:void(0);"  onclick="popupLeave(0)">Cancel</a>
+                          <a class="btn btn-danger" href="/Household/leave/<?php echo $data['hhId']; ?>">Leave</a>
+                      </div>
+                      <br>
                   </div>
                 </div>
                 <div id="nameBox" style="top: 35%; left: 30%;position: absolute;z=3;display:none; ">
-                  <div class="selectBox" style="line-height:25px;width:420px;">
+                  <div class="white-box" style="line-height:25px;width:420px;">
                     <form action="/Household/rename/<?php echo $data['hhId'];?>" method="POST">
-                      Set Household Name:<br>
-                      <input type="text" name="name" value="<?php echo $data['name']; ?>"/><br>
-                      <input type="submit" name="submit" value="Update" />
+                      <div class="form-group">
+                          <label for="name" id="name">Set Household Name</label>
+                          <input type="text" class="form-control" name="name" value="<?php echo $data['name']; ?>"/>
+                      </div>
+                      <div class="form-group text-center">
+                          <a href="javascript:void(0);"  onclick="popupRename(0)" class="btn btn-default">Cancel</a>
+                          <input type="submit" name="submit" value="Update" class="btn btn-success" />
+                      </div>
                     </form>
-                    <p><br>
-                    <a href="javascript:void(0);"  onclick="popupRename(0)">or go back</a>
                   </div>
                 </div>
 
 
-<?php require_once( __SPANEL__ ); ?>
+<?php require_once(__SPANEL__); ?>
 
             </div>
               <!-- ===== Page-Container-End ===== -->
@@ -189,7 +196,7 @@ $PLUGIN_EXPORT      = TRUE;
     </div>
     <!-- ===== Main-Wrapper-End ===== -->
 
-<?php require_once( __FOOTER__ ); ?>
+<?php require_once(__FOOTER__); ?>
 
 </body>
 </html>

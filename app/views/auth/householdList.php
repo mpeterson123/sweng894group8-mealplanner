@@ -49,7 +49,7 @@ $PLUGIN_EXPORT      = TRUE;
                         <div class="white-box">
                           <h3 class="box-title m-b-0">Household</h3>
                           <div class="table-responsive">
-                                <table class="display nowrap" cellspacing="0" width="100%">
+                                <table class="display nowrap table table-condensed" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -80,9 +80,7 @@ $PLUGIN_EXPORT      = TRUE;
                                     </tbody>
                                 </table>
                             </div>
-                            <hr>
-                            <br>
-                            <a href="/Household/index">+ Add Household</a>
+                            <a href="/Household/index" class="btn btn-success">Add Household</a>
                         </div>
                     </div>
                 </div>
