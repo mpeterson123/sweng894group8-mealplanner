@@ -70,7 +70,7 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
     public function remove($id){
         $query = $this->db->prepare('DELETE FROM household WHERE id = ?');
         $query->bind_param("i",$id);
-        
+
         return $query->execute();
     }
 
@@ -124,17 +124,19 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
      * @param  Household $hh    Household object to update in DB
      */
     public function update($hh){
-      $query = $this->db
+        $query = $this->db
             ->prepare('UPDATE household SET
-                            name = ?,
-                            owner =?,
-                            WHERE id = ?');
+                name = ?,
+                owner = ?
+                WHERE id = ?');
+
         @$query->bind_param(
              'ssi',
              $hh->getName(),
              $hh->getOwner(),
              $hh->getId()
         );
+
         return $query->execute();
     }
 }

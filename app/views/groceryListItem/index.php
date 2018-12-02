@@ -60,7 +60,7 @@ $PLUGIN_EXPORT      = TRUE;
                                     </thead>
                                     <tfoot>
                                         <tr class="column-search">
-                                            <th><select class="column-search-select form-control"><option value=""></option></select></th>
+                                            <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
                                             <th><input class="column-search-bar form-control" type="text" placeholder="Search"/></th>
                                         </tr>
                                     </tfoot>
