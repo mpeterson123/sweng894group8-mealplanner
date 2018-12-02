@@ -193,7 +193,10 @@ class User{
 		$this->profilePic = $profilePic;
 	}
 	public function getProfilePic(){
-			return $this->profilePic;
+		if(!$this->profilePic){
+			return 'avatar.png';
+		}
+		return $this->profilePic;
 	}
 }
 ?>
