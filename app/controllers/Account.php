@@ -296,7 +296,11 @@ class Account extends Controller{
 
 		$this->log->add($user->getId(), 'Delete', 'A user account ('.$user->getUsername().') has been deleted');
 
-		$this->userRepository->remove($user);
+		if(!$this->userRepository->remove($user)){
+			$this->session->flashMessage('danger', 'Uh oh, your account could not be deleted.');
+			Redirect::toControllerMethod('Account', 'showLogin');
+			return;
+		}
 		// Remove everything from session
 		$this->session->flush();
 

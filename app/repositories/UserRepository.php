@@ -157,7 +157,7 @@ class UserRepository extends Repository implements EditableModelRepository {
     public function remove($user){
         $query = $this->db->prepare('DELETE FROM users WHERE id = ?');
         $query->bind_param("i",$user->getId());
-        $query->execute();
+        return $query->execute();
     }
 
     public function insert($user){

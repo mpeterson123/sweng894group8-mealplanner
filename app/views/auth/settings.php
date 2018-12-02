@@ -34,7 +34,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                     <h4 class="modal-title" id="myModalLabel">Confirm Account Deletion</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete your account? If no other users belongs to your Household, all date will be deleted. This cannot be undone.</p>
+                    <p>Are you sure you want to delete your account? All data associated to it will be deleted. This cannot be undone.</p>
                 </div>
                 <div class="modal-footer">
                     <form class="" action="/Account/delete" method="post">
