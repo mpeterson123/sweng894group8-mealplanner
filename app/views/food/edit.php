@@ -63,7 +63,7 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0"><?php echo ($data['session']->getOldInput('name') != NULL)? $data['session']->getOldInput('name') : $data['food']->getName(); ?></h3>
+                            <h3 class="box-title m-b-0"><?php echo $data['food']->getName(); ?></h3>
 
                             <p class="text-muted m-b-30 font-13"> <?php echo $SUBTITLE; ?>
                             <a href="/FoodItems/index">&laquo; Return to foods</a>
@@ -127,7 +127,7 @@ $SUBTITLE = "Edit Food {$data['food']->getName()}";
                                             <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="1" name="containerCost" value="<?php echo ($data['session']->getOldInput('containerCost') != NULL)? $data['session']->getOldInput('containerCost') : $data['food']->getContainerCost(); ?>">
+                                                <input type="number" step="0.01" min="0.01" class="form-control" id="inputContainerCost" placeholder="1" name="containerCost" value="<?php echo ($data['session']->getOldInput('containerCost') != NULL)? $data['session']->getOldInput('containerCost') : $data['food']->getContainerCost(); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>

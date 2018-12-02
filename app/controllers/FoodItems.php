@@ -260,7 +260,7 @@ class FoodItems extends Controller {
             'min' => [
                 ['unitId', 1],
                 ['unitsInContainer', 0.01],
-                ['containerCost', 0],
+                ['containerCost', 0.01],
                 ['stock', 0]
             ],
             'max' => [

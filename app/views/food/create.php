@@ -114,7 +114,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputContainerCost">Container Cost</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="inputContainerCost" placeholder="" name="containerCost" value="<?php echo ($data['session']->getOldInput('containerCost'))? $data['session']->getOldInput('containerCost') : '0.00'; ?>">
+                                                <input type="number" step="0.01" min="0.01" class="form-control" id="inputContainerCost" placeholder="" name="containerCost" value="<?php echo ($data['session']->getOldInput('containerCost'))? $data['session']->getOldInput('containerCost') : '0.01'; ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
