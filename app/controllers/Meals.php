@@ -92,6 +92,11 @@ class Meals extends Controller {
 
         // Get meal by ID
         $meal = $this->mealRepository->find($id);
+        if(!$meal || !$this->mealRepository->mealBelongsToHousehold($id, $household->getId())) {
+            $this->session->flashMessage('danger', 'The meal you are trying to edit is invalid or does not belong to your current household.');
+            Redirect::toControllerMethod('Meals', 'index');
+            return;
+        }
 
         $this->view('meal/edit', compact('meal','recipes'));
     }
@@ -102,8 +107,17 @@ class Meals extends Controller {
      */
     public function show($id):void{
 
+        // Get all recipes in household, for edit dropdown recipe selection
+        $household = $this->session->get('user')->getCurrHousehold();
+        $recipes = $this->recipeRepository->allForHousehold($household);
+
         // Get meal by ID
         $meal = $this->mealRepository->find($id);
+        if(!$meal || !$this->mealRepository->mealBelongsToHousehold($id, $household->getId())) {
+            $this->session->flashMessage('danger', 'The meal you are trying to view is invalid or does not belong to your current household.');
+            Redirect::toControllerMethod('Meals', 'index');
+            return;
+        }
 
         $this->view('meal/show', compact('meal'));
     }
@@ -181,25 +195,18 @@ class Meals extends Controller {
         $meal = $this->mealRepository->find($id);
         $user = $this->session->get('user');
 
-        // If meal doesn't exist, load 404 error page
-        if(!$meal){
-            $this->log->add($user->getId(), 'Error', 'Meal Delete - Meal doesn\'t exist');
-            Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
+        $currentHousehold = $this->session->get('user')->getCurrHousehold();
+
+        // If meal doesn't exist or does not belong to current household
+        if(!$meal || !$this->mealRepository->mealBelongsToHousehold($id, $currentHousehold->getId())) {
+            $this->log->add($user->getId(), 'Error', 'Meal Delete - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
+            $this->session->flashMessage('danger', 'The meal you are trying to delete is invalid or does not belong to your current household.');
+            Redirect::toControllerMethod('Meals', 'index');
             return;
         }
 
-        $currentHousehold = $this->session->get('user')->getCurrHousehold();
-
-        if($this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
-        {
-          $this->mealRepository->remove($meal);
-          $this->session->flashMessage('success', $meal->getRecipe()->getName().' meal with date of '.$meal->getDate().' was removed.');
-        }
-        else
-        {
-          $this->log->add($user->getId(), 'Error', 'Meal Delete - Meal doesn\'t belong to this household (HH: '.$currentHousehold->getId().')');
-          $this->session->flashMessage('danger', 'Uh oh. The meal you selected does not belong to your household.');
-        }
+        $this->mealRepository->remove($meal);
+        $this->session->flashMessage('success', $meal->getRecipe()->getName().' meal with date of '.$meal->getDate().' was removed.');
 
         // Redirect to list after deleting
         Redirect::toControllerMethod('Meals', 'index');
