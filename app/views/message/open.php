@@ -128,7 +128,13 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12 mail_listing">
                                     <div class="media m-b-30 p-t-20">
                                         <hr>
-                                        <a class="pull-left" href="#"> <img class="media-object thumb-sm img-circle" src="/images/users/<?php echo $Message['senderid']; ?>.jpg" alt=""> </a>
+                                        <a class="pull-left" href="#"> <img class="media-object thumb-sm img-circle" src="/images/users/<?php
+                                            if($Message['profilePic']){
+                                                echo $Message['profilePic'];
+                                            }else {
+                                                echo 'avatar.png';
+                                            }
+                                        ?>" alt=""> </a>
                                         <div class="media-body"> <span class="media-meta pull-right"><?php echo $Message['timesent2']; ?></span><br/><span class="media-meta pull-right"><?php echo $Message['timesent']; ?></span>
                                             <h4 class="text-danger m-0">To: <?php echo sqlRequest("SELECT CONCAT(namefirst, ' ', namelast) AS name FROM users WHERE id = {$Message['recipientid']}")[0]['name']; ?></h4> <small class="text-muted">From: <?php echo sqlRequest("SELECT CONCAT(namefirst, ' ', namelast) AS name FROM users WHERE id = {$Message['senderid']}")[0]['name']; ?></small> </div>
                                     </div>

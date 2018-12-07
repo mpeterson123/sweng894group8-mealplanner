@@ -44,7 +44,13 @@ $messagesNumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM mes
 ?>
                                     <a href="/Messages/open/<?php echo $message['id']; ?>">
                                         <div class="user-img">
-                                            <img src="/images/users/<?php echo $messageSender['username']; ?>.jpg" alt="user" class="img-circle">
+                                            <img src="/images/users/<?php
+                                                if($messageSender['profilePic']){
+                                                    echo $messageSender['profilePic'];
+                                                }else {
+                                                    echo 'avatar.png';
+                                                }
+                                            ?>" alt="user" class="img-circle">
                                             <span class="profile-status online pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
