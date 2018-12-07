@@ -4,6 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Sidebar Module
 ///////////////////////////////////////////////////////////////////////////////
+$NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WHERE viewed IS FALSE AND recipientid = {$data['session']->get('user')->getId()}")[0]['totalnum'];
 
 $sidebarNumUnread  = $NumUnread ?? NULL;
 $houseHoldID       = $data['user']->getCurrHousehold()->getId();
