@@ -69,6 +69,11 @@ $PLUGIN_EXPORT      = TRUE;
 $Message = sqlRequestArrayByID('messages', $MessageID, "*, DATE_FORMAT(timesent, '%a, %b %D %I:%m %p') AS timesent2");
 
 ///////////////////////////////////////////////////////////////////////////////
+// Sender
+///////////////////////////////////////////////////////////////////////////////
+$Sender = sqlRequestArrayByID('users', $Message['senderid'], '*');
+
+///////////////////////////////////////////////////////////////////////////////
 // Set to Viewed (user has seen the message)
 ///////////////////////////////////////////////////////////////////////////////
 sqlQuery("UPDATE messages SET viewed = TRUE WHERE id = {$Message['id']}");
@@ -129,8 +134,8 @@ $NumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM messages WH
                                     <div class="media m-b-30 p-t-20">
                                         <hr>
                                         <a class="pull-left" href="#"> <img class="media-object thumb-sm img-circle" src="/images/users/<?php
-                                            if($Message['profilePic']){
-                                                echo $Message['profilePic'];
+                                            if($Sender['profilePic']){
+                                                echo $Sender['profilePic'];
                                             }else {
                                                 echo 'avatar.png';
                                             }
