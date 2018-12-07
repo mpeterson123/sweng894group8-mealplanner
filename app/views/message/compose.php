@@ -125,7 +125,7 @@ if ($Composed)
 <?php // Check for pre-selected recipient
       if ($Recipient) { ?>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="To: <?php echo sqlRequestByID('users', $Recipient, 'namefirst'); ?>" readonly="readonly"> </div>
+                                        <input class="form-control" placeholder="To: <?php echo sqlRequestByID('users', $Recipient, 'namefirst'); ?>" readonly="readonly" value="<?php echo $Recipient; ?>"> </div>
 <?php } else { ?>
                                     <div class="form-group">
                                         <select class="selectpicker m-b-20 m-r-10" data-style="btn-primary btn-outline" name="recipient">
