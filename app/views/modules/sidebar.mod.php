@@ -39,7 +39,10 @@ $sidebarNumRecipes = sqlRequest("SELECT COUNT(id) AS theTotal FROM recipes WHERE
                 <nav class="sidebar-nav">
                     <ul id="side-menu">
                         <li>
-                            <a class="waves-effect" href="/Account/dashboard/"><i class="icon-screen-desktop fa-fw"></i> Dashboard</a>
+                            <a class="waves-effect" href="/Account/dashboard/">
+                                <i class="icon-screen-desktop fa-fw"></i>
+                                <span class="hide-menu">Dashboard</span>
+                            </a>
                         </li>
                         <li>
                             <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-cup fa-fw"></i> <span class="hide-menu"> Food<span class="label label-rounded label-<?php if ($sidebarNumFoods ?? 0) { echo 'success'; } else { echo 'info'; } ?> pull-right"><?php echo number_format($sidebarNumFoods ?? 0); ?></span></span></a>
