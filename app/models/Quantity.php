@@ -26,7 +26,7 @@ class Quantity
 
     public function convertTo($newUnit){
         if($this->unit->getBaseUnit() != $newUnit->getBaseUnit()){
-            throw new \Exception("Units are incompatible", 1);
+            throw new \Exception("Check your ingredients are compatible with their food items", 1);
         }
         $baseEqvValue = $this->value*$this->unit->getBaseEqv();
         $this->value = $baseEqvValue/$newUnit->getBaseEqv();

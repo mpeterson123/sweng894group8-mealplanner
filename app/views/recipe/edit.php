@@ -84,14 +84,14 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Recipe" name="name" value="<?php echo $data['recipe']->getName(); ?>"> </div>
+                                                <input required type="text" class="form-control" id="inputName" maxlength="128" placeholder="Name of Recipe" name="name" value="<?php echo $data['recipe']->getName(); ?>"> </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputUnitsInContainer">Servings</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputServings" placeholder="1" name="servings" value="<?php echo $data['recipe']->getServings(); ?>">
+                                                <input required type="number" step="0.01" min="1" class="form-control" id="inputServings" placeholder="1" name="servings" value="<?php echo $data['recipe']->getServings(); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -100,7 +100,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <label for="inputSource">Source</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputSource" placeholder="" name="source" value="<?php echo $data['recipe']->getSource(); ?>">
+                                                <input type="text" class="form-control" id="inputSource" maxlength="64" placeholder="" name="source" value="<?php echo $data['recipe']->getSource(); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -109,7 +109,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                             <label for="inputName">Notes</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputNotes" placeholder="Notes" name="notes" value="<?php echo $data['recipe']->getNotes(); ?>"> </div>
+                                                <input type="text" class="form-control" id="inputNotes" maxlength="128" placeholder="Notes" name="notes" value="<?php echo $data['recipe']->getNotes(); ?>"> </div>
                                         </div>
 
 
@@ -182,7 +182,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                                           <div class="form-group">
                                               <label for="inputDirections">Directions</label>
                                               <div class="col-sm-12">
-                                                  <textarea class="form-control" rows="5" name="directions" maxlength="256"><?php echo $data['recipe']->getDirections(); ?></textarea>
+                                                  <textarea class="form-control" rows="5" name="directions" maxlength="65535"><?php echo $data['recipe']->getDirections(); ?></textarea>
                                               </div>
                                           </div>
 
@@ -251,7 +251,7 @@ $SUBTITLE = "Edit Recipe {$data['recipe']->getName()}";
                 </div>
 
                 <div class="col-sm-3">
-                          <input required class="form-control" type="number" step="0.05" min="0.05" placeholder="" name="newQuantity[]" value="0">
+                          <input required class="form-control" type="number" step="0.05" min="0.05" max="9999" placeholder="" name="newQuantity[]" value="0">
                 </div>
 
                 <div class="col-sm-4">
