@@ -63,7 +63,7 @@ $SUBTITLE = "Add Food Item";
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo $data['session']->getOldInput('name') ?>"> </div>
+                                                <input type="text" maxlength="50" class="form-control" id="inputName" placeholder="Name of Food or Grocery Item" name="name" value="<?php echo $data['session']->getOldInput('name') ?>"> </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputCategory">Category</label>
