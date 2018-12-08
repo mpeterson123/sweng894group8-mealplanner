@@ -228,8 +228,15 @@ class Household extends Controller{
 	 * @param  integer $hhId Household id
 	 */
 	public function delete($hhId){
+		$user = $this->session->get('user');
+
+		$household = $this->householdRepository->find($hhId);
+
+		if(!$household || $household->getOwner() != $user->getUsername()){
+			$this->session->flashMessage('danger', 'An error occurred deleting this household. You are not the owner.');
+		}
 		// Delete Household
-		if(!$this->householdRepository->remove($hhId)){
+		elseif(!$this->householdRepository->remove($hhId)){
 			$this->session->flashMessage('danger', 'An error occurred deleting this household. Please reload the page and try again.');
 		}
 		else{

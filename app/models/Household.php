@@ -81,7 +81,7 @@ class Household {
 		}
 
 		if(!preg_match('/^[a-z0-9]+$/i', $owner)){
-			throw new \Exception("Owner cannot be longer than 32 characters", 1);
+			throw new \Exception("Owner name must be alphanumeric", 1);
 		}
 	    $this->owner = $owner;
     }
