@@ -81,7 +81,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
                     </div>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" name="email" required="" placeholder="Email">
+                            <input class="form-control" type="email" name="email" required="" placeholder="Email">
                         </div>
                     </div>
                     <div class="form-group text-center m-t-20">
