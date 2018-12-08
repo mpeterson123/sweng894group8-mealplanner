@@ -42,9 +42,9 @@ $PLUGIN_SIDEBARMENU= TRUE;
         <div class="cssload-speeding-wheel"></div>
     </div>
    <div style="top: 35%; left: 30%;position: absolute;">
-        <div class="white-box" style="line-height:25px;width:420px;height:260px;">
+        <div class="white-box" style="line-height:25px;width:420px;height:400px;">
             <?php $data['session']->renderMessage(); ?>
-            
+
             <h3>To continue, create a new household, or join an existing one.</h3>
             <div class="form-group">
                 <a href="javascript:void(0);" onclick="popupName(1)" class="btn btn-success btn-lg btn-block">
@@ -59,7 +59,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
         </div>
     </div>
     <div id="inviteCodeBox" style="top: 35%; left: 30%;position: absolute;z=2;display:none; ">
-      <div class="white-box" style="line-height:25px;width:420px;height:260px;">
+      <div class="white-box" style="line-height:25px;width:420px;height:400px;">
         <form action="/Household/join" method="POST">
             <h4>Enter the invitation code for the household you want to join.</h4>
             <div class="form-group">
@@ -74,7 +74,7 @@ $PLUGIN_SIDEBARMENU= TRUE;
       </div>
     </div>
     <div id="nameBox" style="top: 35%; left: 30%;position: absolute;z=2;display:none; ">
-      <div class="white-box" style="line-height:25px;width:420px;height:260px;">
+      <div class="white-box" style="line-height:25px;width:420px;height:400px;">
         <form action="/Household/create" method="POST">
             <h4>Choose a name for your household.</h4>
             <div class="form-group">
