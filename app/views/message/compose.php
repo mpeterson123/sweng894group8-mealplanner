@@ -143,7 +143,6 @@ if ($Composed)
                                     </div>
                                     <hr>
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
-                                    <button class="btn btn-default" type="reset"><i class="fa fa-times"></i> Discard</button>
                                     </form>
                                 </div>
 
