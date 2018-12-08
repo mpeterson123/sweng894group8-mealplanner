@@ -63,14 +63,14 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputName">Name</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputName" placeholder="Enter the name of the recipe" name="name" value="<?php echo $data['session']->getOldInput('name') ?>"> </div>
+                                                <input required type="text" class="form-control" id="inputName" maxlength="128" placeholder="Enter the name of the recipe" name="name" value="<?php echo $data['session']->getOldInput('name') ?>"> </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputServings">Servings</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="inputServings" placeholder="" name="servings" value="<?php echo $data['session']->getOldInput('servings'); ?>">
+                                                <input required type="number" step="0.01" min="1" class="form-control" id="inputServings" placeholder="" name="servings" value="<?php echo $data['session']->getOldInput('servings'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -79,7 +79,7 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputSource">Source</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputSource" placeholder="Enter the source of the recipe" name="source" value="<?php echo $data['session']->getOldInput('source'); ?>">
+                                                <input type="text" class="form-control" id="inputSource" maxlength="64" placeholder="Enter the source of the recipe" name="source" value="<?php echo $data['session']->getOldInput('source'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -88,7 +88,7 @@ $SUBTITLE = "Add Recipe";
                                             <label for="inputSource">Notes</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-font"></i></div>
-                                                <input type="text" class="form-control" id="inputNotes" placeholder="Enter notes about the recipe" name="notes" value="<?php echo $data['session']->getOldInput('notes'); ?>">
+                                                <input type="text" class="form-control" id="inputNotes" maxlength="128" placeholder="Enter notes about the recipe" name="notes" value="<?php echo $data['session']->getOldInput('notes'); ?>">
                                             </div>
                                             <p class="help-block"></p>
                                         </div>
@@ -114,7 +114,7 @@ $SUBTITLE = "Add Recipe";
                                       <div class="form-group">
                                           <label for="inputDirections">Directions</label>
                                           <div class="col-sm-12">
-                                              <textarea class="form-control" rows="5" name="directions" placeholder="Enter the directions for the recipe" maxlength="256"></textarea>
+                                              <textarea class="form-control" rows="5" name="directions" placeholder="Enter the directions for the recipe" maxlength="65535"></textarea>
                                           </div>
                                       </div>
 
@@ -171,8 +171,8 @@ $SUBTITLE = "Add Recipe";
         </select>
         </div>
 
-        <div required class="col-sm-3">
-                <input class="form-control" type="number" step="0.05" min="0.05" placeholder="" name="newQuantity[]" value="0">
+        <div class="col-sm-3">
+                <input required class="form-control" type="number" step="0.05" min="0.05" max="9999" placeholder="" name="newQuantity[]" value="0">
         </div>
 
         <div class="col-sm-4">

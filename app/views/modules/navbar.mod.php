@@ -44,11 +44,17 @@ $messagesNumUnread  = sqlRequest("SELECT COUNT(messages.id) AS totalnum FROM mes
 ?>
                                     <a href="/Messages/open/<?php echo $message['id']; ?>">
                                         <div class="user-img">
-                                            <img src="/images/users/<?php echo $messageSender['username']; ?>.jpg" alt="user" class="img-circle">
+                                            <img src="/images/users/<?php
+                                                if($messageSender['profilePic']){
+                                                    echo $messageSender['profilePic'];
+                                                }else {
+                                                    echo 'avatar.png';
+                                                }
+                                            ?>" alt="user" class="img-circle">
                                             <span class="profile-status online pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
-                                            <h5><?php echo "{$messageSender['namefirst']} {$messageSender['namelast']}"; ?></h5>
+                                            <h5><?php if (!$message['viewed']) { echo '<strong>'; } echo "{$messageSender['namefirst']} {$messageSender['namelast']}"; if (!$message['viewed']) { echo '</strong>'; } ?></h5>
                                             <span class="mail-desc"><?php echo substr($message['message'], 0, 18); ?></span>
                                             <span class="time"><?php echo $message['timesent2']; ?></span>
                                         </div>

@@ -130,8 +130,6 @@ class Recipes extends Controller {
 
             $input = $this->request;
 
-            $this->session->flashOldInput($input);
-
             // Validate input
             $this->validateInput($input, 'create');
 
@@ -258,17 +256,11 @@ class Recipes extends Controller {
             //Remove the recipe from the recipes table:
             $recipe = $this->recipeRepository->find($id);
 
-            // If recipe doesn't exist, load 404 error page
-            if(!$recipe){
-                $this->log->add($user->getId(), 'Error', 'Recipe Delete - Recipe doesn\'t exist');
-                Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
-                return;
-            }
-
-            // If recipe doesn't belong to household, do not delete, and show error page
-            if(!$this->recipeRepository->recipeBelongsToHousehold($id, $household)){
-                $this->log->add($user->getId(), 'Error', 'Recipe Delete - Recipe doesn\'t belong to this household');
-                Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 403));
+            // If recipe doesn't exist, or if belong to household, do not delete
+            if(!$recipe || !$this->recipeRepository->recipeBelongsToHousehold($id, $household)){
+                $this->session->flashMessage('danger', 'The recipe could not be deleted. It does not belong to your household or does not exist.');
+                $this->log->add($user->getId(), 'Error', 'Recipe Delete - Recipe doesn\'t belong to this household or does not exist');
+                Redirect::toControllerMethod('Recipes', 'index');
                 return;
             }
 
@@ -444,12 +436,12 @@ class Recipes extends Controller {
         // Validate input
         $validator = new Validator($input);
         $twoSigDigFloatRegex = '/^[0-9]{1,4}(.[0-9]{1,2})?$/';
-        $safeStringRegex = '/^[0-9a-z \n\r.,!#\/\(\)-:]+$/i';
+        $safeStringRegex = '/^[0-9a-z\s\n\r.,!#\/\(\)-:]+$/i';
 
         $rules = [
             'required' => [
                 ['name'],
-                ['servings']
+                ['servings'],
             ],
 
             'optional' => [
@@ -482,12 +474,24 @@ class Recipes extends Controller {
             ],
 
             'min' => [
+              ['servings', 0.05],
               ['newFoodId.*', 1],
               ['newUnitId.*', 1],
-              ['newQuantity.*', .05],
-              ['quantity.*', .05]
-            ]
+              ['newQuantity.*', 0.05],
+              ['quantity.*', 0.05]
+            ],
+            'max' => [
+                ['servings', 9999],
+            ],
+            'lengthMax' => [
+                ['name', 128],
+                ['directions', 65535],
+                ['source', 64],
+                ['notes', 128]
+            ],
+
         ];
+
         $validator->rules($rules);
 
         $validator->labels(array(
@@ -569,12 +573,14 @@ class Recipes extends Controller {
                 }
                 // Otherwise, get new grocery list quantity
                 else {
-                    $groceryListItem->setAmount($amountToAdd);
+                    if($amountToAdd > 0.01){
+                        $groceryListItem->setAmount($amountToAdd);
 
-                    if(!$this->groceryListItemRepository->save($groceryListItem)){
-                        $user = $this->session->get('user');
-                        $this->log->add($user->getId(), 'Error', 'Save Meal - Unable to update grocery list');
-                        throw new \Exception("Unable to update '{$ingredient->getFood()->getName()}' in grocery list", 2);
+                        if(!$this->groceryListItemRepository->save($groceryListItem)){
+                            $user = $this->session->get('user');
+                            $this->log->add($user->getId(), 'Error', 'Save Meal - Unable to update grocery list');
+                            throw new \Exception("Unable to update '{$ingredient->getFood()->getName()}' in grocery list", 2);
+                        }
                     }
                 }
             }

@@ -126,6 +126,7 @@ if ($Composed)
       if ($Recipient) { ?>
                                     <div class="form-group">
                                         <input class="form-control" placeholder="To: <?php echo sqlRequestByID('users', $Recipient, 'namefirst'); ?>" readonly="readonly"> </div>
+                                        <input type="hidden" name="recipient" value="<?php echo $Recipient; ?>">
 <?php } else { ?>
                                     <div class="form-group">
                                         <select class="selectpicker m-b-20 m-r-10" data-style="btn-primary btn-outline" name="recipient">
