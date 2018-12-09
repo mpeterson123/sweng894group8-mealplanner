@@ -376,6 +376,10 @@ class Meals extends Controller {
         $this->dbh->getDB()->begin_transaction();
         try {
             $meal = $this->mealRepository->find($id);
+
+            if(!$meal){
+                throw new \Exception("Meal doesn't exist", 1);
+            }
             $currentHousehold = $this->session->get('user')->getCurrHousehold();
 
             if(!$this->mealRepository->mealBelongsToHousehold($id,$currentHousehold->getId()))
@@ -424,7 +428,7 @@ class Meals extends Controller {
             $this->dbh->getDB()->rollback();
 
             $user = $this->session->get('user');
-            $this->log->add($user->getId(), 'Error', 'The meal was not completed');
+            $this->log->add($user->getId(), 'Error', 'The meal was not completed.'.$e->getMessage());
             $this->session->flashMessage('danger','Uh oh. An error occurred. Your meal could not be completed.');
 
             Redirect::toControllerMethod('Meals', 'index');
