@@ -79,6 +79,17 @@ class GroceryListItems extends Controller {
         // Get groceryListItem details
         $groceryListItem = $this->groceryListItemRepository->find($id);
 
+        if(!$groceryListItem){
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Grocery List - Invalid item');
+            $this->session->flashMessage('danger',
+                'Uh oh! Something went wrong. The item does not exist.');
+
+            Redirect::toControllerMethod('GroceryListItems', 'index');
+        }
+
+        $this->checkGroceryListItemBelongsToHousehold($id);
+
         $this->view('groceryListItem/edit', compact('groceryListItem'));
     }
 
@@ -116,7 +127,7 @@ class GroceryListItems extends Controller {
                 ->foodItemRepository
                 ->isAddableToHouseholdGroceryList($input['foodItemId'],
                 $currentHousehold)) {
-                throw new \Exception("Invalid food item id", 1);
+                throw new \Exception("Invalid food item id or doesn't belong to household", 1);
             }
 
             // Make grocery list item
@@ -130,7 +141,7 @@ class GroceryListItems extends Controller {
         catch (\Exception $e){
             // Log error
             $user = $this->session->get('user');
-            $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to add item');
+            $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to add item. '.$e->getMessage());
             $this->session->flashMessage('danger',
                 'Uh oh! Something went wrong. The item was not added to your grocery list.');
 
@@ -139,7 +150,7 @@ class GroceryListItems extends Controller {
         catch (\Error $e){
             // Log error
             $user = $this->session->get('user');
-            $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to add item');
+            $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to add item. '.$e->getMessage());
             $this->session->flashMessage('danger',
                 'Uh oh! Something went wrong. The item was not added to your grocery list.');
 
@@ -166,7 +177,8 @@ class GroceryListItems extends Controller {
         if(!$groceryListItem){
             $user = $this->session->get('user');
             $this->log->add($user->getId(), 'Error', 'Grocery Delete - Item doesn\'t exist');
-            Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
+            $this->session->flashMessage('danger', 'An error occurred. Grocery list item does not exist');
+            Redirect::toControllerMethod('GroceryListItems', 'index');
             return;
         }
 
@@ -213,8 +225,9 @@ class GroceryListItems extends Controller {
         // If groceryListItem doesn't belong to household, show forbidden error
         if(!$this->groceryListItemRepository->groceryListItemBelongsToHousehold($groceryListItemId, $household)){
             $user = $this->session->get('user');
-            $this->log->add($user, 'Error', 'Check Grocery - Item doesn\'t belong to this household ('.$household->getId().')');
-            Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
+            $this->log->add($user->getId(), 'Error', 'Check Grocery - Item doesn\'t belong to this household ('.$household->getId().')');
+            $this->session->flashMessage('danger', 'An error occurred. The grocery list item does not belong to your household.');
+            Redirect::toControllerMethod('GroceryListItems', 'index');
             return;
         }
     }
@@ -329,6 +342,9 @@ class GroceryListItems extends Controller {
          $groceryListItem = $this->groceryListItemRepository->find($id);
 
          try {
+             if(!$groceryListItem){
+                 throw new \Exception("Item is invalid/does not exist", 1);
+             }
              // Set food stock as grocery list amount + current food stock
              $groceryListFoodItem = $groceryListItem->getFoodItem();
              $groceryListItemAmount = $groceryListItem->getAmount();
@@ -345,17 +361,17 @@ class GroceryListItems extends Controller {
          catch (\Exception $e){
            // Log error
              $user = $this->session->get('user');
-             $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
+             $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item. '. $e->getMessage());
              $this->session->flashMessage('danger',
-                 'Uh oh! Something went wrong. The item was not purchased from your grocery list.');
+                 'Uh oh! Something went wrong. The item was not marked as purchased from your grocery list.');
              Redirect::toControllerMethod('GroceryListItems', 'index');
          }
          catch (\Error $e){
              // Log error
              $user = $this->session->get('user');
-             $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item');
+             $this->log->add($user->getId(), 'Error', 'Grocery List - Unable to purchase item. '.$e->getMessage());
              $this->session->flashMessage('danger',
-                 'Uh oh!! Something went wrong. The item was not purchased from your grocery list.');
+                 'Uh oh! Something went wrong. The item was not marked as purchased from your grocery list.');
              Redirect::toControllerMethod('GroceryListItems', 'index');
          }
 
