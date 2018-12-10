@@ -59,7 +59,7 @@ class HouseholdFactoryTest extends TestCase {
         $householdArray = array(
             'id' => 1234,
             'name' => 'Doe Household',
-            'owner' => 1
+            'owner' => 'johndoe'
         );
 
         $household = $this->householdFactory->make($householdArray);
@@ -70,17 +70,13 @@ class HouseholdFactoryTest extends TestCase {
 
         $this->assertEquals($household->getId(), $householdArray['id']);
         $this->assertEquals($household->getName(), $householdArray['name']);
-        $this->assertInstanceOf(
-            'Base\Models\User',
-            $household->getOwner(),
-            'Owner must be an instance of User'
-        );
+        $this->assertEquals($household->getOwner(), $householdArray['owner']);
     }
 
     public function testMakeHouseholdWithoutId(){
         $householdArray = array(
             'name' => 'Doe Household',
-            'owner' => 1
+            'owner' => 'johndoe'
         );
 
         $household = $this->householdFactory->make($householdArray);
@@ -91,9 +87,6 @@ class HouseholdFactoryTest extends TestCase {
 
         $this->assertEquals($household->getId(), NULL);
         $this->assertEquals($household->getName(), $householdArray['name']);
-        $this->assertInstanceOf(
-            'Base\Models\User',
-            $household->getOwner(),
-            'Owner must be instance of User');
+        $this->assertEquals($household->getOwner(), $householdArray['owner']);
     }
 }
