@@ -32,23 +32,23 @@ class Message
     {
         if ($id === NULL)
         {
-            throw new Exception("ID # cannot be NULL.");
+            throw new \Exception("ID # cannot be NULL.");
         }
         if (!$id)
         {
-            throw new Exception("ID # cannot be empty.");
+            throw new \Exception("ID # cannot be empty.");
         }
         if (gettype($id) !== 'integer')
         {
-            throw new Exception("ID # must be type Int.");
+            throw new \Exception("ID # must be type Int.");
         }
         if ($id < 0)
         {
-            throw new Exception("ID # cannot be negative.");
+            throw new \Exception("ID # cannot be negative.");
         }
         if ($id >= MAX_INT_SIZE)
         {
-            throw new Exception("ID # cannot be maximum signed integer size.");
+            throw new \Exception("ID # cannot be maximum signed integer size.");
         }
 
         $this->id = $id;
@@ -65,7 +65,7 @@ class Message
     {
         if ($this->trashed)
         {
-            throw new Exception("Message is already set as trash.");
+            throw new \Exception("Message is already set as trash.");
         }
         $this->trashed = TRUE;
     }
@@ -73,7 +73,7 @@ class Message
     {
         if (!$this->trashed)
         {
-            throw new Exception("Message is not trash, and cannot be recovered.");
+            throw new \Exception("Message is not trash, and cannot be recovered.");
         }
         $this->trashed = FALSE;
     }
@@ -97,7 +97,7 @@ class Message
     {
         if ($this->viewed)
         {
-            throw new Exception("Message has already been viewed.");
+            throw new \Exception("Message has already been viewed.");
         }
         $this->viewed = TRUE;
     }
@@ -105,7 +105,7 @@ class Message
     {
         if (!$this->viewed)
         {
-            throw new Exception("Message has not been viewed yet.");
+            throw new \Exception("Message has not been viewed yet.");
         }
         $this->viewed = FALSE;
     }
@@ -120,7 +120,7 @@ class Message
     {
         if ($this->starred)
         {
-            throw new Exception("Message is already starred.");
+            throw new \Exception("Message is already starred.");
         }
         $this->starred = TRUE;
     }
@@ -128,7 +128,7 @@ class Message
     {
         if (!$this->starred)
         {
-            throw new Exception("Message is not starred.");
+            throw new \Exception("Message is not starred.");
         }
         $this->starred = FALSE;
     }
@@ -184,15 +184,15 @@ class Message
     {
         if ($message === NULL)
         {
-            throw new Exception("Message cannot be NULL.");
+            throw new \Exception("Message cannot be NULL.");
         }
         if ($message == '')
         {
-            throw new Exception("Message cannot be empty.");
+            throw new \Exception("Message cannot be empty.");
         }
         if (strlen($message) > MAX_MESSAGE_SIZE)
         {
-            throw new Exception("Message cannot exceed maximum size.");
+            throw new \Exception("Message cannot exceed maximum size.");
         }
         $this->message = $message;
     }
@@ -220,23 +220,23 @@ class Message
     {
         if ($id === NULL)
         {
-            throw new Exception("ID # cannot be NULL.");
+            throw new \Exception("ID # cannot be NULL.");
         }
         if (!$id)
         {
-            throw new Exception("ID # cannot be empty.");
+            throw new \Exception("ID # cannot be empty.");
         }
         if (gettype($id) !== 'integer')
         {
-            throw new Exception("ID # must be type Int.");
+            throw new \Exception("ID # must be type Int.");
         }
         if ($id < 0)
         {
-            throw new Exception("ID # cannot be negative.");
+            throw new \Exception("ID # cannot be negative.");
         }
         if ($id >= MAX_INT_SIZE)
         {
-            throw new Exception("ID # cannot be maximum signed integer size.");
+            throw new \Exception("ID # cannot be maximum signed integer size.");
         }
         /*
         if ($id == $this->getID())
@@ -251,23 +251,23 @@ class Message
     {
         if ($id === NULL)
         {
-            throw new Exception("ID # cannot be NULL.");
+            throw new \Exception("ID # cannot be NULL.");
         }
         if (!$id)
         {
-            throw new Exception("ID # cannot be empty.");
+            throw new \Exception("ID # cannot be empty.");
         }
         if (gettype($id) !== 'integer')
         {
-            throw new Exception("ID # must be type Int.");
+            throw new \Exception("ID # must be type Int.");
         }
         if ($id < 0)
         {
-            throw new Exception("ID # cannot be negative.");
+            throw new \Exception("ID # cannot be negative.");
         }
         if ($id >= MAX_INT_SIZE)
         {
-            throw new Exception("ID # cannot be maximum signed integer size.");
+            throw new \Exception("ID # cannot be maximum signed integer size.");
         }
 
         $this->id = $id;

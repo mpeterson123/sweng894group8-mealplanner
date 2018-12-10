@@ -19,7 +19,7 @@ class MessageTest extends TestCase
     //
     // Initialization
     //
-    public function init()
+    public function setUp()
     {
         $this->message = new Message();
     }
@@ -27,7 +27,7 @@ class MessageTest extends TestCase
     //
     // Reversion
     //
-    public function recycle()
+    public function tearDown()
     {
       unset($this->message);
     }
@@ -35,13 +35,14 @@ class MessageTest extends TestCase
     //
     // [#81] Star/Unstar Message
     //
-    public function testStarMessageInvalidID()
+    public function testStarStarredMessage()
     {
+        $this->message->star();
         $this->expectException(\Exception::class);
         $this->message->star();
     }
 
-    public function testUnStarMessageInvalidID()
+    public function testUnStarUnStarredMessage()
     {
         $this->expectException(\Exception::class);
         $this->message->unStar();
@@ -61,36 +62,15 @@ class MessageTest extends TestCase
     public function testComposeMessageMissingRecipient()
     {
         $this->expectException(\Exception::class);
-        $this->message(NULL, "This is a test message.");
+        $this->message->setRecipientID(NULL);
     }
 
-    public function testComposeMessageMissingMessage()
-    {
-        $this->expectException(\Exception::class);
-        $this->message(1, NULL);
-    }
 
-    public function testComposeMessageIsTooShort()
-    {
-        $this->expectException(\Exception::class);
-        $this->message(1, "!");
-    }
-
-    public function testComposeMessageIsTooLong()
-    {
-        $this->expectException(\Exception::class);
-        $maxChars = 2049;
-        $contents = '';
-
-        for ($i = 0; $i < $maxChars; $i++) { $contents .= '!'; }
-
-        $this->message(1, $contents);
-    }
 
     public function testComposeMessageInvalidRecipient()
     {
         $this->expectException(\Exception::class);
-        $this->message(0, "This is a test message.");
+        $this->message->setRecipientID(0);
     }
 
     //
@@ -99,13 +79,13 @@ class MessageTest extends TestCase
     public function testSendMessageMissingSender()
     {
         $this->expectException(\Exception::class);
-        $this->message->send(NULL);
+        $this->message->setSenderID(NULL);
     }
 
     public function testSendMessageInvalidSender()
     {
         $this->expectException(\Exception::class);
-        $this->message->send(0);
+        $this->message->setSenderID(0);
     }
 
     //
@@ -114,11 +94,15 @@ class MessageTest extends TestCase
     public function testTrashMessageAlreadyTrashed()
     {
         $this->expectException(\Exception::class);
+        $this->message->trash();
+        $this->message->trash();
     }
 
     public function testRecoverMessageNotTrashed()
     {
         $this->expectException(\Exception::class);
+        $this->message->recover();
+
     }
 
     //
@@ -127,13 +111,14 @@ class MessageTest extends TestCase
     public function testViewMessageAlreadyViewed()
     {
         $this->expectException(\Exception::class);
-        $this->message->setViewed();
+        $this->message->view();
+        $this->message->view();
     }
 
     public function testUnViewMessageNotViewed()
     {
         $this->expectException(\Exception::class);
-        $this->message->unsetViewed();
+        $this->message->unView();
     }
 
     //
