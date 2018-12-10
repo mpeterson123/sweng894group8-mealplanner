@@ -23,12 +23,16 @@ class FoodItemFactory extends Factory {
     /**
      * Creates a new instance of FoodItem model
      * @param  array    $foodItemArray A food item's properties
-     * @return FoodItem                A food item object
+     * @return FoodItem|NULL                A food item object
      */
-    public function make(array $foodItemArray):FoodItem
+    public function make(array $foodItemArray)
     {
         $category = $this->categoryRepository->find($foodItemArray['categoryId']);
         $unit = $this->unitRepository->find($foodItemArray['unitId']);
+
+        if(!$category || !$unit){
+            return;
+        }
 
         $foodItem = new FoodItem();
         if(isset($foodItemArray['id'])){

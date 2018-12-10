@@ -95,7 +95,7 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
      * @param  integer $userId Id of user to connect
      * @param  integer $hhId   Id of household to connect
      */
-    public function connect($userId,$hhId):void{
+    public function connect($userId,$hhId){
         $query = $this->db->prepare('INSERT INTO usersHouseholds
             (userId,householdId)
             VALUES(?,?)');
@@ -103,7 +103,7 @@ class HouseholdRepository extends Repository implements EditableModelRepository 
           "ii",
           $userId,
           $hhId);
-        $query->execute();
+        return $query->execute();
     }
 
     /**

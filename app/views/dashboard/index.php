@@ -301,7 +301,7 @@ function writeTime($total)
 <?php } ?>
                                         <?php if (count($usersList) > NUM_USERS_TO_LIST) { ?>
                                         <li class="p-r-0">
-                                            <a href="javascript:void(0);" class="btn btn-success font-16"><?php echo (count($usersList) - NUM_USERS_TO_LIST); ?>+</a>
+                                            <span class="btn btn-success font-16"><?php echo (count($usersList) - NUM_USERS_TO_LIST); ?>+</span>
                                         </li>
                                         <?php } ?>
                                     </ul>

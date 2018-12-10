@@ -28,7 +28,7 @@ $PLUGIN_SIDEBARMENU= FALSE;
                     <h3 class="box-title m-b-20">Reset Password</h3>
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" name="email" readonly required="" value="<?php echo $data['email']; ?>">
+                            <input class="form-control" type="email" name="email" readonly required="" value="<?php echo $data['email']; ?>">
                             <input class="form-control" type="password" name="rst_password" required="" placeholder="Password">
                             <input class="form-control" type="password" name="rst_password2" required="" placeholder="Confirm Password">
                         </div>

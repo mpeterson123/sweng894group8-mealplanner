@@ -130,7 +130,7 @@ if ($Composed)
 <?php } else { ?>
                                     <div class="form-group">
                                         <select class="selectpicker m-b-20 m-r-10" data-style="btn-primary btn-outline" name="recipient">
-                                            <option>Select a Recipient..</option>
+                                            <option>Select a Recipient</option>
 <?php     // Loop through list of users available to send messages to
           foreach ($Friends as $friend) { ?>
                                             <option value="<?php echo $friend['id']; ?>"><?php echo "{$friend['namefirst']} {$friend['namelast']}"; ?></option>
@@ -143,7 +143,6 @@ if ($Composed)
                                     </div>
                                     <hr>
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
-                                    <button class="btn btn-default" type="reset"><i class="fa fa-times"></i> Discard</button>
                                     </form>
                                 </div>
 

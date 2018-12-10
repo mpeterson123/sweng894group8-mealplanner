@@ -107,6 +107,14 @@ class FoodItems extends Controller {
         // Make food item
         $foodItem = $this->foodItemFactory->make($input);
 
+        if(!$foodItem){
+            $user = $this->session->get('user');
+            $this->log->add($user->getId(), 'Error', 'Food Store - Unable to create food item. Input data is invalid.');
+            $this->session->flashMessage('danger', 'Unable to create food item. Input data is invalid.');
+            Redirect::toControllerMethod('FoodItems', 'create');
+            return;
+        }
+
         $household = $this->session->get('user')->getCurrHousehold();
         if($this->foodItemRepository->findHouseholdFoodItemByName($foodItem->getName(), $household->getId()) == null) {
           // Save to DB
@@ -119,7 +127,7 @@ class FoodItems extends Controller {
         else {
           $user = $this->session->get('user');
           $this->log->add($user->getId(), 'Error', 'Food Store - '.ucfirst($foodItem->getName()) . ' already exists in this food list.');
-          $this->session->flashMessage('error', ucfirst($foodItem->getName()) . ' already exists in your food list.');
+          $this->session->flashMessage('danger', ucfirst($foodItem->getName()) . ' already exists in your food list.');
         }
 
         // Redirect back after updating
@@ -133,18 +141,24 @@ class FoodItems extends Controller {
      */
     public function delete($id):void{
         $foodItem = $this->foodItemRepository->find($id);
+        $user = $this->session->get('user');
 
         // If food doesn't exist, load 404 error page
         if(!$foodItem){
-            $user = $this->session->get('user');
             $this->log->add($user->getId(), 'Error', 'Food Delete - Item doesn\'t exist.');
-            Redirect::toControllerMethod('Errors', 'show', array('errorCode' => 404));
+            $this->session->flashMessage('danger', 'The food item could not be deleted because it does not exist');
+            Redirect::toControllerMethod('FoodItems', 'index');
             return;
         }
 
         $this->checkFoodBelongsToHousehold($id);
 
-        $this->foodItemRepository->remove($id);
+        if(!$this->foodItemRepository->remove($id)){
+            $this->log->add($user->getId(), 'Error', 'Food Delete - Could not delete from database.');
+            $this->session->flashMessage('danger', 'The food item could not be deleted.');
+            Redirect::toControllerMethod('FoodItems', 'edit', array('id'=>$id));
+            return;
+        }
 
         $this->session->flashMessage('success', $foodItem->getName().' was removed from your items.');
 
@@ -190,13 +204,13 @@ class FoodItems extends Controller {
             $foodItem->setUnitCost();
 
             if(!$this->foodItemRepository->save($foodItem)){
-                throw new \Exception("Food item could not be saved to the database", 1);
+                throw new \Exception("Food item could not be saved to the database.", 1);
             }
         }
         catch(\Exception $e){
             // TODO Log error. Use $e->getMessage() as error message.
 
-            $this->session->flashMessage('danger', 'Uh oh, something went wrong. The food item could not be updated.'. $e->getMessage());
+            $this->session->flashMessage('danger', 'Uh oh, something went wrong. The food item could not be updated. '. $e->getMessage());
             Redirect::toControllerMethod('FoodItems', 'edit', array('id' => $id));
         }
 
@@ -220,7 +234,8 @@ class FoodItems extends Controller {
         if(!$this->foodItemRepository->foodBelongsToHousehold($foodItemId, $household)){
             $user = $this->session->get('user');
             $this->log->add($user->getId(), 'Error', 'Check Food - Item doesn\'t belong to this household ('.$household->getId().').');
-            Redirect::toControllerMethod('Errors', 'show', array('errrorCode', '403'));
+            $this->session->flashMessage('danger', 'The selected item was not deleted because it does not belong to your household');
+            Redirect::toControllerMethod('FoodItems', 'index');
             return;
         }
     }
@@ -259,6 +274,7 @@ class FoodItems extends Controller {
             ],
             'min' => [
                 ['unitId', 1],
+                ['categoryId', 1],
                 ['unitsInContainer', 0.01],
                 ['containerCost', 0.01],
                 ['stock', 0]
@@ -267,6 +283,9 @@ class FoodItems extends Controller {
                 ['unitsInContainer', 100000],
                 ['containerCost', 100000],
                 ['stock', 100000]
+            ],
+            'lengthMax' => [
+                ['name', 50]
             ]
         ];
         $validator->rules($rules);

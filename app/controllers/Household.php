@@ -119,6 +119,7 @@ class Household extends Controller{
 		$inviteCode = trim($this->request['invite_code']);
 
 		if(!preg_match('/^[a-zA-Z0-9]{1,}$/', $inviteCode)){
+			$this->log->add($user->getId(), 'Error', 'Household Join - Invalid invite code '.$inviteCode.' fails regex test');
 			$this->session->flashMessage('danger', 'Your invitation code is invalid.');
 			Redirect::toControllerMethod('Household', 'index');
 			return;
@@ -128,7 +129,11 @@ class Household extends Controller{
 		$hhId = $household->reverseCode($inviteCode);
 
 		// Add user to household
-		$this->householdRepository->connect($user->getId(),$hhId);
+		if(!$this->householdRepository->connect($user->getId(),$hhId)){
+			$this->log->add($user->getId(), 'Error', 'Household Join - Invalid invite code '.$inviteCode);
+			$this->session->flashMessage('danger', 'Your invitation code is invalid.');
+			Redirect::toControllerMethod('Household', 'list');
+		};
 
 		// Toggle this household as current
 		$this->userRepository->selectHousehold($user,$hhId);
@@ -209,6 +214,14 @@ class Household extends Controller{
 		$updatedUser = $this->userRepository->find($user->getUsername());
 		$this->session->add('user', $updatedUser);
 
+		$households = $this->householdRepository->allForUser($updatedUser);
+
+		if(empty($households)){
+			$this->session->flashMessage('warning', 'You must create or join a household.');
+			Redirect::toControllerMethod('Account', 'dashboard');
+			return;
+		}
+
 		// If user has no current household after leaving, select one.
 		if(!$updatedUser->getCurrHousehold()){
 			$households = $this->householdRepository->allForUser($updatedUser);
@@ -228,8 +241,15 @@ class Household extends Controller{
 	 * @param  integer $hhId Household id
 	 */
 	public function delete($hhId){
+		$user = $this->session->get('user');
+
+		$household = $this->householdRepository->find($hhId);
+
+		if(!$household || $household->getOwner() != $user->getUsername()){
+			$this->session->flashMessage('danger', 'An error occurred deleting this household. You are not the owner.');
+		}
 		// Delete Household
-		if(!$this->householdRepository->remove($hhId)){
+		elseif(!$this->householdRepository->remove($hhId)){
 			$this->session->flashMessage('danger', 'An error occurred deleting this household. Please reload the page and try again.');
 		}
 		else{
