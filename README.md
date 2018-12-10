@@ -17,9 +17,14 @@ Please check the coding guidelines [here](CONTRIBUTING.md).
 
 This is intended to be the final project for Group 8's SWENG 894 class.
 
-Authors:
+_Authors_:
+
 Andrew Drake
+
 Camila Pérez
+
 Melissa Peterson
+
 Lawrence Sell
+
 Belisarius Smith
