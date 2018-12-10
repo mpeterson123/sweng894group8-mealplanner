@@ -16,7 +16,7 @@ use Base\Models\Ingredient;
 use Base\Models\Meal;
 use Base\Models\GroceryListItem;
 
-class IntegrationTest extends TestCase {
+class ModelsIntegrationTest extends TestCase {
     // Variables to be reused
     private $user,
             $household,

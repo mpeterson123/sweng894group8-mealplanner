@@ -20,7 +20,7 @@ use Base\Repositories\CategoryRepository;
 use Base\Factories\UnitFactory;
 use Base\Repositories\UnitRepository;
 
-class IngredientRepositoryTest extends TestCase {
+class CategoryRepositoryTest extends TestCase {
 //  use TestCaseTrait;
 
   // Variables to be reused
